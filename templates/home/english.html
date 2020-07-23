@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}english home{% endblock %}
+{% block sidenav %}
+    <a href="/home/english">Home</a>
+    <a href="#">About Us</a>
+    <a href="#">Claims</a>
+    <a href="#">My account</a>
+{% endblock %}
+{% block lang %}Eng{% endblock %}
+{% block navbarli %}
+    <li>
+        <a href="/home/english">Home</a>
+    </li>
+    <li>
+        <a href="#">About Us </a>
+    </li>
+    <li>
+        <a href="#">Claims</a>
+    </li>
+    <li class="pull-right">
+        <a href="#">My account</a>
+    </li>
+    <li class="pull-right">
+        <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
+        <div class="dropdown show">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Eng
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="/home/arabe">Ar</a>
+                <a class="dropdown-item" href="/home/french">Fr</a>
+                <a class="dropdown-item" href="/home/english">Eng</a>
+            </div>
+        </div>
+    </li>
+
+{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <h1>Your well being is our duty </h1>
+        <p>Instant everything. No brainer prices. Big heart. </p>
+        <a href="/signup/1/{{ lang }}">
+            <button class="btn btn-primary">Check our prices</button>
+        </a>
+    </div>
+{% endblock %}

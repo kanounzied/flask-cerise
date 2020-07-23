@@ -1,0 +1,106 @@
+{% extends 'sign.html' %}
+{% block nbr %}{{ nbr }}{% endblock %}
+{% block sidenav %}
+    {% if lang == "english" %}
+        <a href="/home/english">Home</a>
+        <a href="#">About Us</a>
+        <a href="#">Claims</a>
+        <a href="#">My account</a>
+    {% else %}{%if lang =="arabe" %}
+        <a href="/home/arabe">الرئيسية</a>
+        <a href="#">معلومات</a>
+        <a href="#">مطالب</a>
+        <a href="#">حسابي</a>
+    {% else %}{%if lang=="french" %}
+        <a href="/home/french">Acceuil</a>
+        <a href="#">Informations</a>
+        <a href="#">Réclamations</a>
+        <a href="#">Mon compte</a>
+    {% endif %}
+    {% endif %}
+    {% endif %}
+{% endblock %}
+{% block lang %}
+{% if lang == "english" %}Eng
+{% else %}{% if lang =="arabe" %}Ar
+{% else %}{% if lang=="french" %}Fr
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block body %}
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid">
+    <div class="content">
+        <h1 class="center-text">You need to enter your home address first!</h1>
+    </div>
+    <form class="second_form" method="post" action="/signup/3/{{lang}}">
+        <div class="row">
+            <div class="form-group col-md-7">
+                <input type="text" style="float: right;" class="form-control" name="adresse" id="adresse"
+                       placeholder="Street adress ,City ,State">
+            </div>
+            <div class="form-group col-md-5">
+                <input type="text" style="float: left" class="form-control" name="apt_unit" id="apt_unit" placeholder="APT/UNIT #">
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form2" class="btn btn-primary col-2">Next</button>
+            <!--            <a href="/signup/3/{{lang}}" class="btn btn-primary form-btn col-2">Next</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/signup/1/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}}{% if lang =="arabe" %}
+<div class="arab container-fluid">
+    <div class="content">
+        <h1 class="center-text">!اكتب ادريسة الدّار</h1>
+    </div>
+    <form class="second_form" method="post" action="/signup/3/{{lang}}">
+        <div class="row">
+            <div class="form-group col-md-7 ">
+                <input type="text" style="float: right;" class="form-control" name="adresse" id="adresse"
+                       placeholder="Street adress ,City ,State">
+            </div>
+            <div class="form-group col-md-5">
+                <input type="text" style="float: left" class="form-control" name="apt_unit" id="apt_unit" placeholder="APT/UNIT #">
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form2" class="btn btn-primary col-2">Next</button>
+            <!--            <a href="/signup/3/{{lang}}" class="btn btn-primary form-btn col-2">Next</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/signup/1/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+
+</div>
+{% else %}{% if lang=="french" %}
+<div class="french container-fluid">
+    <div class="content">
+        <h1 class="center-text">Vous devez mettre vôtre addresse à domicile!</h1>
+    </div>
+    <form class="second_form" method="post" action="/signup/3/{{lang}}">
+        <div class="row">
+            <div class="form-group col-md-7">
+                <input type="text" style="float: right;" class="form-control" name="adresse" id="adresse"
+                       placeholder="Adresse rue ,Ville ,Gouvernorat">
+            </div>
+            <div class="form-group col-md-5">
+                <input type="text" style="float: left" class="form-control" name="apt_unit" id="apt_unit" placeholder="APT/UNIT #">
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form2" class="btn btn-primary col-2">Next</button>
+            <!--            <a href="/signup/3/{{lang}}" class="btn btn-primary form-btn col-2">Next</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/signup/1/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}

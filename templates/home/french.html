@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}french home{% endblock %}
+{% block sidenav %}
+    <a href="/home/french">Acceuil</a>
+    <a href="#">Informations</a>
+    <a href="#">Réclamations</a>
+    <a href="#">Mon compte</a>
+{% endblock %}
+{% block lang %}Fr{% endblock %}
+{% block navbarli %}
+    <li >
+        <a  href="/home/french">Acceuil</a>
+    </li>
+    <li >
+        <a  href="#">Informations</a>
+    </li>
+    <li >
+        <a  href="#">Réclamations</a>
+    </li>
+    <li class="pull-right">
+        <a href="#">Mon compte</a>
+    </li>
+    <li class="pull-right">
+        <div class="dropdown show">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Fr
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="/home/arabe">Ar</a>
+                <a class="dropdown-item" href="/home/french">Fr</a>
+                <a class="dropdown-item" href="/home/english">Eng</a>
+            </div>
+        </div>
+    </li>
+{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <h1>Rassurez vous et soyez sécurisés </h1>
+        <p> Grand Coeur, Prix Imbattable, Courte Durée</p>
+        <a href="/signup/1/french">
+            <button class="btn btn-primary">calculer votre prix</button>
+        </a>
+    </div>
+{% endblock %}

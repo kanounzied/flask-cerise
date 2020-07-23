@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=unicode">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<title>{% block title %}{% endblock %}</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lateef&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../static/styles/stylesheet.css">
+<body>
+<nav class="navbar navbar-expand-sm " onscroll="myFunction()">
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        {% block sidenav %}
+            <a href="/home/english">Home</a>
+            <a href="#">About Us</a>
+            <a href="#">Claims</a>
+            <a href="#">My account</a>
+        {% endblock %}
+        <div class="dropright btn-group show">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                {% block lang %}{% endblock %}
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="/home/arabe">Ar</a>
+                <a class="dropdown-item" href="/home/french">Fr</a>
+                <a class="dropdown-item" href="/home/english">Eng</a>
+            </div>
+        </div>
+
+    </div>
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+    <!-- Brand/logo -->
+    <a style="margin-left: 15px" class="navbar-brand" href="#">
+        <img src="/static/images/cerise.png" alt="logo" class="image-cerise">
+    </a>
+    <ul class="navbar-nav">
+        {% block navbarli %}
+            <li>
+                <a href="/home/english">Home</a>
+            </li>
+            <li>
+                <a href="#">About Us </a>
+            </li>
+            <li>
+                <a href="#">Claims</a>
+            </li>
+            <li class="pull-right">
+                <a href="#">My account</a>
+            </li>
+            <li class="pull-right">
+                <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
+                <div class="dropdown show">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Eng
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/home/arabe">Ar</a>
+                        <a class="dropdown-item" href="/home/french">Fr</a>
+                        <a class="dropdown-item" href="/home/english">Eng</a>
+                    </div>
+                </div>
+            </li>
+        {% endblock %}
+    </ul>
+    <div class="brand-name" id="brand-name"><img width="200px" src="/static/images/cerise.gris.png" alt="">
+    </div>
+</nav>
+<div class=" wrapper">
+    <div class="clearfix">
+        <!--        <div class="box" style="background-image: url('../images/home_left.svg');background-position-x: -120px"></div>-->
+        <!--        <div class="box" style="background-image: url('../images/home_right.svg');background-position-x: 120px">-->
+        <!--        </div>-->
+        <div class="box" id="backgroung-merged"></div>
+    </div>
+    {% block body %}
+        <div class="container-fluid">
+            <h1>Your well being is our duty </h1>
+            <p>Instant everything. No brainer prices. Big heart. </p>
+            <a href="/signup/1">
+                <button class="btn btn-primary">Check our prices</button>
+            </a>
+        </div>
+    {% endblock %}
+</div>
+{% block scripts %}
+{% endblock %}
+<script>
+
+    window.onscroll = function () {
+        myFunction();
+    };
+
+
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function myFunction() {
+        if ($(window).width() > 751) {
+            if (document.documentElement.scrollTop >= 70 || document.documentElement.scrollTop >= 70) {
+                document.getElementById("brand-name").className = "brand-name brand-name-decrease";
+                document.querySelector(".navbar").style.height = "70px";
+                document.querySelector(".navbar").style.borderBottom = "1px gray solid";
+                document.querySelector(".navbar").style.marginBottom = "50px";
+                console.log($(window).width());
+
+            } else {
+
+                document.getElementById("brand-name").className = "brand-name";
+                document.querySelector("nav").style.height = "120px";
+                document.querySelector("nav").style.borderBottom = "1px white solid";
+                document.querySelector("nav").style.marginBottom = "0";
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
