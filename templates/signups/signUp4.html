@@ -29,12 +29,15 @@
     {% endif %}
 {% endblock %}
 {% block body %}
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
     {% if lang == "english" %}
         <div class="english container-fluid">
             <div class="content">
                 <h1 class="center-text">Do you rent or own it?</h1>
             </div>
-            <form class="fourth-form" method="post" action="#">
+            <form class="fourth-form" method="post" action="{{lang}}">
                 <div class="row">
                     <div  class="form-check col-md-6">
                         <label class="form-check-label with_img" for="rent">
@@ -44,7 +47,7 @@
                             </picture>
                             <h2>rent</h2>
                         </label>
-                        <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="rent" name="rentown">
+                        <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="rent" value="rent" name="rentown">
                         <label style="display: none" class="form-check-label without" for="rent">
                             rent
                         </label>
@@ -58,7 +61,7 @@
                             </picture>
                             <h2>own</h2>
                         </label>
-                        <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="own" name="rentown">
+                        <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="own" value="own" name="rentown">
                         <label style="display: none" class="form-check-label without" for="own">
                             own
                         </label>
@@ -66,7 +69,7 @@
                     </div>
                 </div>
                 <div class="row" >
-                    <a href="#" class="btn btn-primary form-btn col-2">Submit</a>
+                    <button type="submit" name="form4" class="btn btn-primary col-2">Next</button>
                 </div>
             </form>
             <div class="back"><a href="/signup/3/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
@@ -76,7 +79,7 @@
             <div class="content">
                 <h1 class="center-text">مِلْك ولّا كراء؟</h1>
             </div>
-            <form class="fourth-form" method="post" action="#">
+            <form class="fourth-form" method="post" action="/signup/4/{{lang}}">
                 <div class="row">
                     <div class="form-check col-md-6">
                         <label class="form-check-label with_img" for="rent">
@@ -89,7 +92,7 @@
                         <label style="display: none" class="form-check-label without" for="rent">
                             كراء
                         </label>
-                        <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="rent" name="rentown">
+                        <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="rent" value="rent" name="rentown">
                     </div>
                     <div class="form-check col-md-6">
                         <label class="form-check-label with_img" for="own">
@@ -102,11 +105,11 @@
                         <label style="display: none" class="form-check-label without" for="own">
                             مِلْك
                         </label>
-                        <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="own" name="rentown">
+                        <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="own" value="own" name="rentown">
                     </div>
                 </div>
                 <div class="row">
-                    <a href="#" class="btn btn-primary form-btn col-2 ">Submit</a>
+                    <button type="submit" name="form4" class="btn btn-primary col-2">Next</button>
                 </div>
             </form>
             <div class="back"><a href="/signup/3/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
@@ -116,7 +119,7 @@
             <div class="content">
                 <h1 class="center-text">Vous le possédez ou c'est loué ?</h1>
             </div>
-            <form class="fourth-form" method="post" action="#">
+            <form class="fourth-form" method="post" action="/signup/4/{{lang}}">
                 <div class="row">
                     <div class="form-check col-md-6">
                         <label class="form-check-label with_img" for="rent">
@@ -126,7 +129,7 @@
                             </picture>
                             <h2 id="h2fr1" >loué</h2>
                         </label>
-                        <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="rent" name="rentown">
+                        <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="rent" value="rent" name="rentown">
                         <label style="display: none" class="form-check-label without" for="rent">
                             loué
                         </label>
@@ -140,7 +143,7 @@
                             </picture>
                             <h2 id="h2fr2" >possédé</h2>
                         </label>
-                        <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="own" name="rentown">
+                        <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="own" value="own" name="rentown">
                         <label style="display: none" class="form-check-label without" for="own">
                             possédé
                         </label>
@@ -148,7 +151,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <a href="#" class="btn btn-primary form-btn col-2">Submit</a>
+                    <button type="submit" name="form4" class="btn btn-primary col-2">Next</button>
                 </div>
             </form>
             <div class="back"><a href="/signup/3/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>

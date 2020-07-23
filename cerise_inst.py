@@ -12,18 +12,6 @@ app.config.from_object(__name__)
 Session(app)
 
 
-# Categories.insert_one(
-#     {
-#         'libelle': "categ_1",
-#         'score': 9000
-#     }
-# )
-# print('done')
-
-#    session['key'] = 'value'
-#    session.get('key', 'not set')
-
-
 @app.route("/home/<lang>")
 def home(lang):
     return render_template("/home/" + lang + ".html", lang=lang)
@@ -32,7 +20,6 @@ def home(lang):
 @app.route("/clear")
 def clear():
     session.clear()
-    print(type(Adresse.find_one({"rue": 'taniour'})['proprietes']))
     return "<h1>session cleared"
 
 
@@ -78,15 +65,15 @@ def signup(nbr, lang):
             rue = tab[0].strip()
             ville = tab[1].strip()
             gouv = tab[2].strip()
-            adresse = Adresse.find_one(
+            adresseObj = Adresse.find_one(
                 {
                     'rue': rue,
                     'ville': ville,
                     'gouvernorat': gouv
                 }
             )
-            if adresse is not None:
-                adr_id = adresse['_id']
+            if adresseObj is not None:
+                adr_id = adresseObj['_id']
             else:
                 adr_insert = Adresse.insert_one(
                     {
@@ -142,7 +129,76 @@ def signup(nbr, lang):
                 {"$set": {'contrat': session.get('cont_id')}}
             )
             print("propriete updated")
-    return render_template("signups/signUp" + nbr + ".html", nbr=nbr, lang=lang)
+        if 'form3' in req:
+            adresse2 = req.get('adresse')
+            apt_unit2 = req.get('apt_unit')
+            adresse = Adresse.find_one({'_id': session['adr_id']})
+            joined = ",".join([adresse['rue'], adresse['ville'], adresse['gouvernorat']])
+            print(joined)
+            if adresse2 != joined or apt_unit2 != Propriete.find_one({'_id': session['apt_id']})['apt_unit']:
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="l'adresse ou le numero de l'appartement n'est pas le même!")
+            city = req.get('city')
+            state = req.get('state')
+            if city != adresse['ville'] or state != adresse['gouvernorat']:
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="la ville ou le gouvernorat n'est pas le même!")
+            code_postal = req.get('code_postal')
+            if code_postal == "":
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="code postal doit être rempli!")
+            Adresse.update_one(
+                {'_id': adresse['_id']},
+                {"$set": {'code_postal': code_postal}}
+            )
+            print("code postal added to adresse")
+            under_const = req.get('under_construction')
+            if under_const == "under_construction":
+                Propriete.update_one({'_id': session.get('apt_id')},
+                                     {"$set": {'under_construction': True}})
+            else:
+                Propriete.update_one({'_id': session.get('apt_id')},
+                                     {"$set": {'under_construction': False}})
+            print(under_const)
+        if 'form4' in req:
+            rentown = req.get('rentown')
+            print(rentown)
+            print(session['apt_id'])
+            Propriete.update_one({'_id': session['apt_id']},
+                                 {"$set": {'rentown': rentown}})
+
+    nom = ""
+    prenom = ""
+    adresse = ""
+    apt_unit = ""
+    city = ""
+    state = ""
+    code_postal = ""
+    if 'clid' in session:
+        pers = Client.find_one({'_id': session['clid']})
+        nom = pers['nom']
+        prenom = pers['prenom']
+        print("client already conneted")
+        if 'adr_id' in session:
+            adresse1 = Adresse.find_one({'_id': session['adr_id']})
+            adresse = ",".join([adresse1['rue'], adresse1['ville'], adresse1['gouvernorat']])
+            city = adresse1['ville']
+            state = adresse1['gouvernorat']
+            if 'code_postal' in adresse1:
+                code_postal = adresse1['code_postal']
+        if 'apt_id' in session:
+            apt_unit = Propriete.find_one({'_id': session['apt_id']})['apt_unit']
+    return render_template("signups/signUp" + nbr + ".html",
+                           nbr=nbr,
+                           lang=lang,
+                           nom=nom,
+                           prenom=prenom,
+                           adresse=adresse,
+                           apt_unit=apt_unit,
+                           city=city,
+                           state=state,
+                           code_postal=code_postal
+                           )
 
 
 @app.route("/sign-up", methods=["GET", "POST"])

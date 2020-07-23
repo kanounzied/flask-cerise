@@ -29,39 +29,44 @@
     {% endif %}
 {% endblock %}
 {% block body %}
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
     {% if lang == "english" %}
         <div class="english container-fluid">
             <div class="content">
                 <h1 class="center-text">We need more informations about your address!</h1>
             </div>
-            <form id="third-form" method="post" action="#">
+            <form id="third-form" method="post" action="/signup/4/{{lang}}">
                 <div class="row">
                     <div class="form-group col-md-9" id="street">
-                        <input type="text" style="float: right;" class="form-control" id="adresse" placeholder="Street adress ,City ,State">
+                        <input type="text" style="float: right;" class="form-control" name="adresse" id="adresse" value="{{adresse|string}}"
+                               placeholder="Street adress ,City ,State">
                     </div>
                     <div class="form-group col-md-3" id="unit">
-                        <input type="text" style="float: left" class="form-control" id="code postal" placeholder="APT/UNIT #">
+                        <input type="text" style="float: left" class="form-control" name="apt_unit" id="apt_unit" value="{{apt_unit|string}}"
+                               placeholder="APT/UNIT #">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-12" >
-                        <input type="text" class="form-control" id="city" placeholder="City">
+                        <input type="text" class="form-control" name="city" id="city" value="{{city|string}}" placeholder="City">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-5" >
-                        <input type="text" class="form-control" id="state" placeholder="State">
+                        <input type="text" class="form-control" name="state" id="state" value="{{state|string}}" placeholder="State">
                     </div>
                     <div class="form-group col-md-7" >
-                        <input type="text" class="form-control" id="zip_code" placeholder="Zip Code">
+                        <input type="text" class="form-control" name="code_postal" id="zip_code" value="{{code_postal|string}}" placeholder="Zip Code">
                     </div>
                 </div>
                 <div class="form-check" style="text-align: left">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <input type="checkbox" class="form-check-input" name="under_construction" id="exampleCheck1" value="under_construction">
                     <label class="form-check-label" for="exampleCheck1">This home is still under construction</label>
                 </div>
                 <div class="row" >
-                    <a href="/signup/4/{{lang}}" class="btn btn-primary form-btn col-2">Next</a>
+                    <button type="submit" name="form3" class="btn btn-primary col-2">Next</button>
                 </div>
             </form>
             <div class="back"><a href="/signup/2/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
@@ -72,26 +77,28 @@
             <div class="content">
                 <h1 class="center-text">نستحقو اكثر تفاصيل</h1>
             </div>
-            <form id="third_form" method="post" action="#">
+            <form id="third_form" method="post" action="/signup/4/{{lang}}">
                 <div class="row">
                     <div class="form-group col-md-9" id="street">
-                        <input type="text" style="float: right;" class="form-control" id="adresse" placeholder="طريق كم ، المدينة ،الولاية">
+                        <input type="text" style="float: right;" class="form-control" name="adresse" id="adresse" value="{{adresse|string}}"
+                               placeholder="طريق كم ، المدينة ،الولاية">
                     </div>
                     <div class="form-group col-md-3" id="unit">
-                        <input type="text" style="float: left" class="form-control" id="code postal" placeholder="رقم المنزل #">
+                        <input type="text" style="float: left" class="form-control" name="apt_unit" id="apt_unit" value="{{apt_unit|string}}"
+                               placeholder="رقم المنزل #">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-12" >
-                        <input type="text" class="form-control" id="city" placeholder="المدينة">
+                        <input type="text" class="form-control" name="city" id="city" placeholder="المدينة" value="{{city|string}}">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-5" >
-                        <input type="text" class="form-control" id="state" placeholder="الولاية">
+                        <input type="text" class="form-control" name="state" id="state" placeholder="الولاية" value="{{state|string}}">
                     </div>
                     <div class="form-group col-md-7" >
-                        <input type="text" class="form-control" id="zip_code" placeholder="الرقم البريدي">
+                        <input type="text" class="form-control" name="code_postal" id="zip_code" value="{{code_postal|string}}"placeholder="الرقم البريدي">
                     </div>
                 </div>
                 <div class="form-check" style="text-align: left">
@@ -99,7 +106,7 @@
                     <label class="form-check-label" for="exampleCheck1">هذا المنزل لا يزال قيد الإنشاء</label>
                 </div>
                 <div class="row" >
-                    <a href="/signup/4/{{lang}}" class="btn btn-primary form-btn col-2">Next</a>
+                    <button type="submit" name="form3" class="btn btn-primary col-2">Next</button>
                 </div>
             </form>
             <div class="back"><a href="/signup/2/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
@@ -109,26 +116,28 @@
             <div class="content">
                 <h1 class="center-text">On a besoin de plus d'informations sur vous!</h1>
             </div>
-            <form id="3rd_form" method="post" action="#">
+            <form id="3rd_form" method="post" action="/signup/4/{{lang}}">
                 <div class="row">
                     <div class="form-group col-md-9" id="street">
-                        <input type="text" style="float: right;" class="form-control" id="adresse" placeholder="Adresse rue ,Ville ,Gouvernorat">
+                        <input type="text" style="float: right;" class="form-control" name="adresse" id="adresse" value="{{asresse|string}}"
+                               placeholder="Adresse rue ,Ville ,Gouvernorat">
                     </div>
                     <div class="form-group col-md-3" id="unit">
-                        <input type="text" style="float: left" class="form-control" id="code postal" placeholder="APT/UNIT #">
+                        <input type="text" style="float: left" class="form-control" name="apt_unit" id="code postal" value="{{apt_unit|string}}"
+                               placeholder="APT/UNIT #">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-12" >
-                        <input type="text" class="form-control" id="city" placeholder="Ville">
+                        <input type="text" class="form-control" name="city" id="city" value="{{city|string}}" placeholder="Ville">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-5" >
-                        <input type="text" class="form-control" id="state" placeholder="Gouvernorat">
+                        <input type="text" class="form-control" name="state" id="state" value="{{state|string}}" placeholder="Gouvernorat">
                     </div>
                     <div class="form-group col-md-7" >
-                        <input type="text" class="form-control" id="zip_code" placeholder="Zip Code">
+                        <input type="text" class="form-control" name="code_postal" id="zip_code" value="{{code_postal|string}}" placeholder="Zip Code">
                     </div>
                 </div>
                 <div class="form-check" style="text-align: left">
@@ -136,7 +145,7 @@
                     <label class="form-check-label" for="exampleCheck1">Cette maison est encore en construction</label>
                 </div>
                 <div class="row">
-                    <a href="/signup/4/{{lang}}" class="btn btn-primary form-btn col-2">Next</a>
+                    <button type="submit" name="form3" class="btn btn-primary col-2">Next</button>
                 </div>
             </form>
             <div class="back"><a href="/signup/2/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
