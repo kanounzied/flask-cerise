@@ -51,6 +51,8 @@ def signup(nbr, lang):
                 clid = clid_ins.inserted_id
             session['clid'] = clid
             print('client created')
+        if session == {'_permanent': True} and int(nbr) > 1:  # if session vide
+            return redirect("/signup/1/" + lang)
         if 'form2' in req:
             adresse = req.get('adresse')
             apt_unit = req.get('apt_unit')
@@ -162,11 +164,31 @@ def signup(nbr, lang):
             print(under_const)
         if 'form4' in req:
             rentown = req.get('rentown')
+            if rentown is None:
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="vous devez choisir")
             print(rentown)
             print(session['apt_id'])
             Propriete.update_one({'_id': session['apt_id']},
                                  {"$set": {'rentown': rentown}})
+        if 'form5' in req:
+            env = req.get('env')
+            if env is None:
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="vous devez choisir")
+            print(env)
+            if 'alarm' in env:
+                Propriete.update_one({'_id': session['apt_id']},
+                                     {"$set": {'sys_alarm': True}})
+            if 'clim' in env:
+                Propriete.update_one({'_id': session['apt_id']},
+                                     {"$set": {'climatiseur': True}})
+            if 'chauf' in env:
+                Propriete.update_one({'_id': session['apt_id']},
+                                     {"$set": {'chauffage': True}})
 
+    if session == {'_permanent': True} and int(nbr) > 1:  # if session vide wenti moch fel page 1
+        return redirect("/signup/1/" + lang)
     nom = ""
     prenom = ""
     adresse = ""
