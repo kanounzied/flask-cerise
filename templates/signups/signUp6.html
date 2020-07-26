@@ -35,7 +35,7 @@
 {% if lang == "english" %}
 <div class="english container-fluid">
     <div class="content">
-        <h1 class="center-text">Do you rent or own it?</h1>
+        <h1 class="center-text">What's your home type?</h1>
     </div>
     <form class="fifth-form" method="post" action="/signup/7/{{lang}}">
         <div class="row">
@@ -91,114 +91,114 @@
 {% else %}{% if lang =="arabe" %}
 <div class="arab container-fluid">
     <div class="content">
-        <h1 class="center-text">مِلْك ولّا كراء؟</h1>
+        <h1 class="center-text">نوع المنزل</h1>
     </div>
-    <form class="fifth-form" method="post" action="/signup/6/{{lang}}">
+    <form class="fifth-form" method="post" action="/signup/7/{{lang}}">
         <div class="row">
             <div  class="form-check col-md-4">
-                <label class="form-check-label with_img" for="alarm">
+                <label class="form-check-label with_img" for="appart">
                     <picture>
-                        <source class="source _1" srcset="/static/images/alarm.png">
-                        <img style="width: 50px;margin-top: 30px;margin-bottom: 20px;" src="/static/images/alarm.png" alt="ownimage" >
+                        <source class="source _1" srcset="/static/images/appart.png">
+                        <img src="/static/images/appart.png" alt="appartimage" >
                     </picture>
-                    <h2>نظام إنذار</h2>
+                    <h2>شقة</h2>
                 </label>
-                <input onchange="hide('1','alarm')" type="checkbox" class="form-check-input with-gap" id="alarm" value="alarm" name="env">
-                <label style="display: none" class="form-check-label without" for="alarm">
-                    نظام إنذار
+                <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="appart" value="appartement" name="type">
+                <label style="display: none" class="form-check-label without" for="appart">
+                    شقة
                 </label>
 
             </div>
             <div class="form-check col-md-4">
-                <label class="form-check-label with_img" for="clim">
+                <label class="form-check-label with_img" for="house">
                     <picture>
-                        <source class="source _2" srcset="/static/images/clim.png">
-                        <img src="/static/images/clim.png" alt="ownimage" >
+                        <source class="source _2" srcset="/static/images/house.png">
+                        <img src="/static/images/house.png" alt="houseimage" >
                     </picture>
-                    <h2>مكيف الهواء</h2>
+                    <h2>دار</h2>
                 </label>
-                <input onchange="hide('2','clim')" type="checkbox" class="form-check-input with-gap" id="clim" value="clim" name="env">
-                <label style="display: none" class="form-check-label without" for="clim">
-                    مكيف الهواء
+                <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="house" value="maison" name="type">
+                <label style="display: none" class="form-check-label without" for="house">
+                    دار
                 </label>
 
             </div>
             <div class="form-check col-md-4">
-                <label class="form-check-label with_img" for="chauf">
+                <label class="form-check-label with_img" for="villa">
                     <picture>
-                        <source class="source _3" srcset="/static/images/chauf.png">
-                        <img src="/static/images/chauf.png" alt="ownimage" >
+                        <source class="source _3" srcset="/static/images/villa.png">
+                        <img src="/static/images/villa.png" alt="villaimage" >
                     </picture>
-                    <h2>مسخن</h2>
+                    <h2>فيلا</h2>
                 </label>
-                <input onchange="hide('3','chauf')" type="checkbox" class="form-check-input with-gap" id="chauf" value="chauf" name="env">
-                <label style="display: none" class="form-check-label without" for="chauf">
-                    مسخن
+                <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="villa" value="villa" name="type">
+                <label style="display: none" class="form-check-label without" for="villa">
+                    فيلا
                 </label>
 
             </div>
         </div>
         <div class="row" >
-            <button type="submit" name="form5" class="btn btn-primary col-2">Next</button>
+            <button type="submit" name="form6" class="btn btn-primary col-2">Next</button>
         </div>
     </form>
-    <div class="back"><a href="/signup/4/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+    <div class="back"><a href="/signup/5/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
 {% else %}{% if lang=="french" %}
 <div class="french container-fluid">
     <div class="content">
-        <h1 class="center-text">Vous le possédez ou c'est loué ?</h1>
+        <h1 class="center-text">De quel type est votre logement?</h1>
     </div>
-    <form class="fifth-form" method="post" action="/signup/6/{{lang}}">
+    <form class="fifth-form" method="post" action="/signup/7/{{lang}}">
         <div class="row">
             <div  class="form-check col-md-4">
-                <label class="form-check-label with_img" for="alarm">
+                <label class="form-check-label with_img" for="appart">
                     <picture>
-                        <source class="source _1" srcset="/static/images/alarm.png">
-                        <img style="width: 50px;margin-top: 30px;margin-bottom: 20px;" src="/static/images/alarm.png" alt="ownimage" >
+                        <source class="source _1" srcset="/static/images/appart.png">
+                        <img src="/static/images/appart.png" alt="appartimage" >
                     </picture>
-                    <h2>systéme d'alarme</h2>
+                    <h2>appartement</h2>
                 </label>
-                <input onchange="hide('1','alarm')" type="checkbox" class="form-check-input with-gap" id="alarm" value="alarm" name="env">
-                <label style="display: none" class="form-check-label without" for="alarm">
-                    systéme d'alarme
+                <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="appart" value="appartement" name="type">
+                <label style="display: none" class="form-check-label without" for="appart">
+                    appartement
                 </label>
 
             </div>
             <div class="form-check col-md-4">
-                <label class="form-check-label with_img" for="clim">
+                <label class="form-check-label with_img" for="house">
                     <picture>
-                        <source class="source _2" srcset="/static/images/clim.png">
-                        <img src="/static/images/clim.png" alt="climage" >
+                        <source class="source _2" srcset="/static/images/house.png">
+                        <img src="/static/images/house.png" alt="housemage" >
                     </picture>
-                    <h2>climatiseur</h2>
+                    <h2>maison</h2>
                 </label>
-                <input onchange="hide('2','clim')" type="checkbox" class="form-check-input with-gap" id="clim" value="clim" name="env">
-                <label style="display: none" class="form-check-label without" for="clim">
-                    climatiseur
+                <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="house" value="maison" name="type">
+                <label style="display: none" class="form-check-label without" for="house">
+                    maison
                 </label>
 
             </div>
             <div class="form-check col-md-4">
-                <label class="form-check-label with_img" for="chauf">
+                <label class="form-check-label with_img" for="villa">
                     <picture>
-                        <source class="source _3" srcset="/static/images/chauf.png">
-                        <img src="/static/images/chauf.png" alt="chaufimage" >
+                        <source class="source _3" srcset="/static/images/villa.png">
+                        <img src="/static/images/villa.png" alt="villaimage" >
                     </picture>
-                    <h2>chauffage</h2>
+                    <h2>villa</h2>
                 </label>
-                <input onchange="hide('3','chauf')" type="checkbox" class="form-check-input with-gap" id="chauf" value="chauf" name="env">
-                <label style="display: none" class="form-check-label without" for="chauf">
-                    chauffage
+                <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="villa" value="villa" name="type">
+                <label style="display: none" class="form-check-label without" for="villa">
+                    villa
                 </label>
 
             </div>
         </div>
         <div class="row" >
-            <button type="submit" name="form5" class="btn btn-primary col-2">Next</button>
+            <button type="submit" name="form6" class="btn btn-primary col-2">Next</button>
         </div>
     </form>
-    <div class="back"><a href="/signup/4/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+    <div class="back"><a href="/signup/5/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
 {% endif %}
 {% endif %}

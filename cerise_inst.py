@@ -167,26 +167,56 @@ def signup(nbr, lang):
             if rentown is None:
                 return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error="vous devez choisir")
-            print(rentown)
-            print(session['apt_id'])
+            if (rentown not in ['own', 'rent', None]):
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="bien joué lol!")
             Propriete.update_one({'_id': session['apt_id']},
                                  {"$set": {'rentown': rentown}})
         if 'form5' in req:
-            env = req.get('env')
-            if env is None:
+            env1 = req.get('alarm')
+            env2 = req.get('clim')
+            env3 = req.get('chauf')
+            if (env1 not in ['alarm', None]) or (env2 not in ['clim', None]) or (env3 not in ['chauf', None]):
                 return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
-                                       error="vous devez choisir")
-            print(env)
-            if 'alarm' in env:
+                                       error="hacker wallah!!")
+            if env1 == "alarm":
                 Propriete.update_one({'_id': session['apt_id']},
                                      {"$set": {'sys_alarm': True}})
-            if 'clim' in env:
+            elif env1 is None:
+                Propriete.update_one({'_id': session['apt_id']},
+                                     {"$set": {'sys_alarm': False}})
+            if env2 == 'clim':
                 Propriete.update_one({'_id': session['apt_id']},
                                      {"$set": {'climatiseur': True}})
-            if 'chauf' in env:
+            elif env2 is None:
+                Propriete.update_one({'_id': session['apt_id']},
+                                     {"$set": {'climatiseur': False}})
+            if env3 == 'chauf':
                 Propriete.update_one({'_id': session['apt_id']},
                                      {"$set": {'chauffage': True}})
-
+            elif env3 is None:
+                Propriete.update_one({'_id': session['apt_id']},
+                                     {"$set": {'chauffage': False}})
+        if 'form6' in req:
+            type_ = req.get('type')
+            if type_ not in ['maison', 'villa', 'appartement', None]:
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="al3ab b3id!")
+            if type_ is None:
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="vous devez choisir!")
+            Propriete.update_one({'_id': session['apt_id']},
+                                 {"$set": {'type': type_}})
+        if 'form7' in req:
+            room = req.get('room')
+            etage = req.get('etage')
+            if (int(room) not in list(range(50))) or (int(etage) not in list(range(100))):
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="vous devez choisir un entier positif")
+            Propriete.update_one({'_id': session['apt_id']},
+                                 {"$set": {'nbr_chambres': room}})
+            Propriete.update_one({'_id': session['apt_id']},
+                                 {"$set": {'etage': etage}})
     if session == {'_permanent': True} and int(nbr) > 1:  # if session vide wenti moch fel page 1
         return redirect("/signup/1/" + lang)
     nom = ""
