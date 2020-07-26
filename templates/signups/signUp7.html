@@ -1,0 +1,218 @@
+{% extends 'sign.html' %}
+{% block nbr %}{{ nbr }}{% endblock %}
+{% block style %}
+<style>
+    button:focus{
+        outline: 0;
+    }
+</style>
+{% endblock %}
+{% block sidenav %}
+{% if lang == "english" %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<a href="#">Claims</a>
+<a href="#">My account</a>
+{% else %}{% if lang =="arabe" %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="#">معلومات</a>
+<a href="#">مطالب</a>
+<a href="#">حسابي</a>
+{% else %}{% if lang=="french" %}
+<a href="/home/french">Acceuil</a>
+<a href="#">Informations</a>
+<a href="#">Réclamations</a>
+<a href="#">Mon compte</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block lang %}
+{% if lang == "english" %}Eng
+{% else %}{% if lang =="arabe" %}Ar
+{% else %}{% if lang=="french" %}Fr
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block body %}
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid">
+    <div class="content">
+        <h1 class="center-text">We need more information!</h1>
+    </div>
+    <form class="seventh fifth-form" method="post" action="/signup/8/{{lang}}">
+        <div class="row">
+            <div  class="form-check col-md-6">
+                <label class="form-check-label with_img" for="room">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/room.png">
+                        <img src="/static/images/room.png" alt="roomimage" >
+                    </picture>
+                    <h2>number of rooms</h2>
+                </label>
+                <label style="display: none" class="form-check-label without" for="room">
+                number of rooms
+            </label>
+                <div class="def-number-input number-input safari_only">
+                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus button"></button>
+                    <input id="room" class="quantity" min="0" name="room" value="1" type="number">
+                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus button"></button>
+                </div>
+
+
+            </div>
+            <div class="form-check col-md-6">
+                <label class="form-check-label with_img" for="etage">
+                    <picture>
+                        <source class="source _2" srcset="/static/images/etage.png">
+                        <img src="/static/images/etage.png" alt="etageimage" >
+                    </picture>
+                    <h2>floor level</h2>
+                </label>
+                <label style="display: none" class="form-check-label without" for="etage">
+                floor level
+            </label>
+                <div class="def-number-input number-input safari_only">
+                    <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus button"></button>
+                    <input id="etage" class="quantity" min="0" name="etage" value="0" type="number">
+                    <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus button"></button>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="row" >
+            <button type="submit" name="form7" class="btn btn-primary col-2">Next</button>
+        </div>
+    </form>
+    <div class="back"><a href="/signup/6/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang =="arabe" %}
+<div class="arab container-fluid">
+    <div class="content">
+        <h1 class="center-text">!نستحقو أكثر معلومات</h1>
+    </div>
+    <form class="seventh fifth-form" method="post" action="/signup/8/{{lang}}">
+        <div class="row">
+            <div class="form-check col-md-6">
+                <label class="form-check-label with_img" for="room">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/room.png">
+                        <img src="/static/images/room.png" alt="roomimage">
+                    </picture>
+                    <h2>عدد الغرف</h2>
+                </label>
+
+                <div class="def-number-input number-input safari_only">
+                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus button"></button>
+                    <input id="room" class="quantity" min="0" name="room" value="1" type="number">
+                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus button"></button>
+                </div>
+                <label style="display: none" class="form-check-label without" for="room">
+                عدد الغرف
+            </label>
+
+            </div>
+            <div class="form-check col-md-6">
+                <label class="form-check-label with_img" for="etage">
+                    <picture>
+                        <source class="source _2" srcset="/static/images/etage.png">
+                        <img src="/static/images/etage.png" alt="etageimage">
+                    </picture>
+                    <h2>الطابق</h2>
+                </label>
+
+                <div class="def-number-input number-input safari_only">
+                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus button"></button>
+                    <input id="etage" class="quantity" min="0" name="etage" value="0" type="number">
+                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus button"></button>
+                </div>
+                <label style="display: none" class="form-check-label without" for="etage">
+                الطابق
+            </label>
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form7" class="btn btn-primary col-2">Next</button>
+        </div>
+    </form>
+    <div class="back"><a href="/signup/6/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang=="french" %}
+<div class="french container-fluid">
+    <div class="content">
+        <h1 class="center-text">On a besoin d'autres informations!</h1>
+    </div>
+    <form class="seventh fifth-form" method="post" action="/signup/8/{{lang}}">
+        <div class="row">
+            <div class="form-check col-md-6">
+                <label class="form-check-label with_img" for="room">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/room.png">
+                        <img src="/static/images/room.png" alt="roomimage" >
+                    </picture>
+                    <h2 id="h2fr1" >nombre de chambres</h2>
+                </label>
+                <label style="display: none" class="form-check-label without" for="room">
+                nombre de chambres
+            </label>
+                <div class="def-number-input number-input safari_only">
+                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus button"></button>
+                    <input id="room" class="quantity" min="0" name="room" value="1" type="number">
+                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus button"></button>
+                </div>
+
+
+            </div>
+            <div class="form-check col-md-6">
+                <label class="form-check-label with_img" for="etage">
+                    <picture>
+                        <source class="source _2" srcset="/static/images/etage.png">
+                        <img src="/static/images/etage.png" alt="etageimage" >
+                    </picture>
+                    <h2 id="h2fr2" >etage</h2>
+                </label>
+                <label style="display: none" class="form-check-label without" for="etage">
+                etage
+            </label>
+                <div class="def-number-input number-input safari_only">
+                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus button"></button>
+                    <input id="etage" class="quantity" min="0" name="etage" value="0" type="number">
+                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus button"></button>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form7" class="btn btn-primary col-2">Next</button>
+        </div>
+    </form>
+    <div class="back"><a href="/signup/6/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    function hide(x) {
+        var subs=document.querySelector("._"+x).attributes[1].value;
+        var sources=document.querySelectorAll(".source")
+        for(var i=0;i<2;i++){
+            val=sources[i].attributes[1].value;
+            sources[i].attributes[1].value=val.replace("-colored","");
+        }
+        document.querySelector("._"+x).attributes[1].value=subs.replace(".png","")+"-colored"+".png";
+    }
+    $(".button").click(function(event)
+    {
+        event.preventDefault(); // cancel default behavior
+    });
+
+</script>
+{% endblock %}

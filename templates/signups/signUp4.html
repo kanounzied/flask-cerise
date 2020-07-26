@@ -1,175 +1,181 @@
 {% extends 'sign.html' %}
 {% block nbr %}{{ nbr }}{% endblock %}
 {% block sidenav %}
-    {% if lang == "english" %}
-        <a href="/home/english">Home</a>
-        <a href="#">About Us</a>
-        <a href="#">Claims</a>
-        <a href="#">My account</a>
-    {% else %}{% if lang =="arabe" %}
-        <a href="/home/arabe">الرئيسية</a>
-        <a href="#">معلومات</a>
-        <a href="#">مطالب</a>
-        <a href="#">حسابي</a>
-    {% else %}{% if lang=="french" %}
-        <a href="/home/french">Acceuil</a>
-        <a href="#">Informations</a>
-        <a href="#">Réclamations</a>
-        <a href="#">Mon compte</a>
-    {% endif %}
-    {% endif %}
-    {% endif %}
+{% if lang == "english" %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<a href="#">Claims</a>
+<a href="#">My account</a>
+{% else %}{% if lang =="arabe" %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="#">معلومات</a>
+<a href="#">مطالب</a>
+<a href="#">حسابي</a>
+{% else %}{% if lang=="french" %}
+<a href="/home/french">Acceuil</a>
+<a href="#">Informations</a>
+<a href="#">Réclamations</a>
+<a href="#">Mon compte</a>
+{% endif %}
+{% endif %}
+{% endif %}
 {% endblock %}
 {% block lang %}
-    {% if lang == "english" %}Eng
-    {% else %}{% if lang =="arabe" %}Ar
-    {% else %}{% if lang=="french" %}Fr
-    {% endif %}
-    {% endif %}
-    {% endif %}
+{% if lang == "english" %}Eng
+{% else %}{% if lang =="arabe" %}Ar
+{% else %}{% if lang=="french" %}Fr
+{% endif %}
+{% endif %}
+{% endif %}
 {% endblock %}
 {% block body %}
 {% if error %}
 <div class="alert alert-dark">{{error}}</div>
 {% endif %}
-    {% if lang == "english" %}
-        <div class="english container-fluid">
-            <div class="content">
-                <h1 class="center-text">Do you rent or own it?</h1>
+{% if lang == "english" %}
+<div class="english container-fluid">
+    <div class="content">
+        <h1 class="center-text">Do you  or own it?</h1>
+    </div>
+    <form class="fourth-form" method="post" action="/signup/5/{{lang}}">
+        <div class="row">
+            <div class="form-check col-md-6">
+                <label class="form-check-label with_img" for="rent">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/bagpack1.png">
+                        <img src="/static/images/bagpack1.png" alt="ownimage">
+                    </picture>
+                    <h2>rent</h2>
+                </label>
+                <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="rent" value="rent"
+                       name="rentown">
+                <label style="display: none" class="form-check-label without" for="rent">
+                    rent
+                </label>
+
             </div>
-            <form class="fourth-form" method="post" action="/signup/5/{{lang}}">
-                <div class="row">
-                    <div  class="form-check col-md-6">
-                        <label class="form-check-label with_img" for="rent">
-                            <picture>
-                                <source class="source _1" srcset="/static/images/bagpack1.png">
-                                <img src="/static/images/bagpack1.png" alt="ownimage" >
-                            </picture>
-                            <h2>rent</h2>
-                        </label>
-                        <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="rent" value="rent" name="rentown">
-                        <label style="display: none" class="form-check-label without" for="rent">
-                            rent
-                        </label>
+            <div class="form-check col-md-6">
+                <label class="form-check-label with_img" for="own">
+                    <picture>
+                        <source class="source _2" srcset="/static/images/bagpack2.png">
+                        <img src="/static/images/bagpack2.png" alt="ownimage">
+                    </picture>
+                    <h2>own</h2>
+                </label>
+                <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="own" value="own"
+                       name="rentown">
+                <label style="display: none" class="form-check-label without" for="own">
+                    own
+                </label>
 
-                    </div>
-                    <div class="form-check col-md-6">
-                        <label class="form-check-label with_img" for="own">
-                            <picture>
-                                <source class="source _2" srcset="/static/images/bagpack2.png">
-                                <img src="/static/images/bagpack2.png" alt="ownimage" >
-                            </picture>
-                            <h2>own</h2>
-                        </label>
-                        <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="own" value="own" name="rentown">
-                        <label style="display: none" class="form-check-label without" for="own">
-                            own
-                        </label>
-
-                    </div>
-                </div>
-                <div class="row" >
-                    <button type="submit" name="form4" class="btn btn-primary col-2">Next</button>
-                </div>
-            </form>
-            <div class="back"><a href="/signup/3/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
-        </div>
-    {% else %}{% if lang =="arabe" %}
-        <div class="arab container-fluid">
-            <div class="content">
-                <h1 class="center-text">مِلْك ولّا كراء؟</h1>
             </div>
-            <form class="fourth-form" method="post" action="/signup/5/{{lang}}">
-                <div class="row">
-                    <div class="form-check col-md-6">
-                        <label class="form-check-label with_img" for="rent">
-                            <picture>
-                                <source class="source _1" srcset="/static/images/bagpack1.png">
-                                <img src="/static/images/bagpack1.png" alt="ownimage">
-                            </picture>
-                            <h2>كراء</h2>
-                        </label>
-                        <label style="display: none" class="form-check-label without" for="rent">
-                            كراء
-                        </label>
-                        <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="rent" value="rent" name="rentown">
-                    </div>
-                    <div class="form-check col-md-6">
-                        <label class="form-check-label with_img" for="own">
-                            <picture>
-                                 <source class="source _2" srcset="/static/images/bagpack2.png">
-                                <img src="/static/images/bagpack2.png" alt="ownimage">
-                            </picture>
-                            <h2>مِلْك</h2>
-                        </label>
-                        <label style="display: none" class="form-check-label without" for="own">
-                            مِلْك
-                        </label>
-                        <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="own" value="own" name="rentown">
-                    </div>
-                </div>
-                <div class="row">
-                    <button type="submit" name="form4" class="btn btn-primary col-2">Next</button>
-                </div>
-            </form>
-            <div class="back"><a href="/signup/3/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
         </div>
-    {% else %}{% if lang=="french" %}
-        <div class="french container-fluid">
-            <div class="content">
-                <h1 class="center-text">Vous le possédez ou c'est loué ?</h1>
+        <div class="row">
+            <button type="submit" name="form4" class="btn btn-primary col-2">Next</button>
+        </div>
+    </form>
+    <div class="back"><a href="/signup/3/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang =="arabe" %}
+<div class="arab container-fluid">
+    <div class="content">
+        <h1 class="center-text">مِلْك ولّا كراء؟</h1>
+    </div>
+    <form class="fourth-form" method="post" action="/signup/5/{{lang}}">
+        <div class="row">
+            <div class="form-check col-md-6">
+                <label class="form-check-label with_img" for="rent">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/bagpack1.png">
+                        <img src="/static/images/bagpack1.png" alt="ownimage">
+                    </picture>
+                    <h2>كراء</h2>
+                </label>
+                <label style="display: none" class="form-check-label without" for="rent">
+                    كراء
+                </label>
+                <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="rent" value="rent"
+                       name="rentown">
             </div>
-            <form class="fourth-form" method="post" action="/signup/5/{{lang}}">
-                <div class="row">
-                    <div class="form-check col-md-6">
-                        <label class="form-check-label with_img" for="rent">
-                            <picture>
-                                <source class="source _1" srcset="/static/images/bagpack1.png">
-                                <img src="/static/images/bagpack1.png" alt="rentimage" >
-                            </picture>
-                            <h2 id="h2fr1" >loué</h2>
-                        </label>
-                        <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="rent" value="rent" name="rentown">
-                        <label style="display: none" class="form-check-label without" for="rent">
-                            loué
-                        </label>
-
-                    </div>
-                    <div class="form-check col-md-6">
-                        <label class="form-check-label with_img" for="own">
-                            <picture>
-                                <source class="source _2" srcset="/static/images/bagpack2.png">
-                                <img src="/static/images/bagpack2.png" alt="ownimage" >
-                            </picture>
-                            <h2 id="h2fr2" >possédé</h2>
-                        </label>
-                        <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="own" value="own" name="rentown">
-                        <label style="display: none" class="form-check-label without" for="own">
-                            possédé
-                        </label>
-
-                    </div>
-                </div>
-                <div class="row">
-                    <button type="submit" name="form4" class="btn btn-primary col-2">Next</button>
-                </div>
-            </form>
-            <div class="back"><a href="/signup/3/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+            <div class="form-check col-md-6">
+                <label class="form-check-label with_img" for="own">
+                    <picture>
+                        <source class="source _2" srcset="/static/images/bagpack2.png">
+                        <img src="/static/images/bagpack2.png" alt="ownimage">
+                    </picture>
+                    <h2>مِلْك</h2>
+                </label>
+                <label style="display: none" class="form-check-label without" for="own">
+                    مِلْك
+                </label>
+                <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="own" value="own"
+                       name="rentown">
+            </div>
         </div>
-    {% endif %}
-    {% endif %}
-    {% endif %}
+        <div class="row">
+            <button type="submit" name="form4" class="btn btn-primary col-2">Next</button>
+        </div>
+    </form>
+    <div class="back"><a href="/signup/3/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang=="french" %}
+<div class="french container-fluid">
+    <div class="content">
+        <h1 class="center-text">Vous le possédez ou c'est loué ?</h1>
+    </div>
+    <form class="fourth-form" method="post" action="/signup/5/{{lang}}">
+        <div class="row">
+            <div class="form-check col-md-6">
+                <label class="form-check-label with_img" for="rent">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/bagpack1.png">
+                        <img src="/static/images/bagpack1.png" alt="rentimage">
+                    </picture>
+                    <h2 id="h2fr1">loué</h2>
+                </label>
+                <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="rent" value="rent"
+                       name="rentown">
+                <label style="display: none" class="form-check-label without" for="rent">
+                    loué
+                </label>
+
+            </div>
+            <div class="form-check col-md-6">
+                <label class="form-check-label with_img" for="own">
+                    <picture>
+                        <source class="source _2" srcset="/static/images/bagpack2.png">
+                        <img src="/static/images/bagpack2.png" alt="ownimage">
+                    </picture>
+                    <h2 id="h2fr2">possédé</h2>
+                </label>
+                <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="own" value="own"
+                       name="rentown">
+                <label style="display: none" class="form-check-label without" for="own">
+                    possédé
+                </label>
+
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form4" class="btn btn-primary col-2">Next</button>
+        </div>
+    </form>
+    <div class="back"><a href="/signup/3/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
 {% endblock %}
 {% block scripts %}
 <script>
     function hide(x) {
-        var subs=document.querySelector("._"+x).attributes[1].value;
-        var sources=document.querySelectorAll(".source")
-        for(var i=0;i<2;i++){
-            val=sources[i].attributes[1].value;
-            sources[i].attributes[1].value=val.replace("-colored","");
+        var subs = document.querySelector("._" + x).attributes[1].value;
+        var sources = document.querySelectorAll(".source")
+        for (var i = 0; i < 2; i++) {
+            val = sources[i].attributes[1].value;
+            sources[i].attributes[1].value = val.replace("-colored", "");
         }
-        document.querySelector("._"+x).attributes[1].value=subs.replace(".png","")+"-colored"+".png";
+        document.querySelector("._" + x).attributes[1].value = subs.replace(".png", "") + "-colored" + ".png";
     }
 </script>
 {% endblock %}
