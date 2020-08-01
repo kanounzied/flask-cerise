@@ -107,15 +107,14 @@
                     <h2>عدد الغرف</h2>
                 </label>
 
+                <label style="display: none" class="form-check-label without" for="room">
+                عدد الغرف
+            </label>
                 <div class="def-number-input number-input safari_only">
                     <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus button"></button>
                     <input id="room" class="quantity" min="0" name="room" value="1" type="number">
                     <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus button"></button>
                 </div>
-                <label style="display: none" class="form-check-label without" for="room">
-                عدد الغرف
-            </label>
-
             </div>
             <div class="form-check col-md-6">
                 <label class="form-check-label with_img" for="etage">
@@ -126,14 +125,15 @@
                     <h2>الطابق</h2>
                 </label>
 
-                <div class="def-number-input number-input safari_only">
-                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus button"></button>
-                    <input id="etage" class="quantity" min="0" name="etage" value="0" type="number">
-                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus button"></button>
-                </div>
+
                 <label style="display: none" class="form-check-label without" for="etage">
                 الطابق
             </label>
+                <div class="def-number-input number-input safari_only">
+                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus button"></button>
+                <input id="etage" class="quantity" min="0" name="etage" value="0" type="number">
+                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus button"></button>
+            </div>
             </div>
         </div>
         <div class="row">
@@ -200,15 +200,6 @@
 {% endblock %}
 {% block scripts %}
 <script type="text/javascript">
-    function hide(x) {
-        var subs=document.querySelector("._"+x).attributes[1].value;
-        var sources=document.querySelectorAll(".source")
-        for(var i=0;i<2;i++){
-            val=sources[i].attributes[1].value;
-            sources[i].attributes[1].value=val.replace("-colored","");
-        }
-        document.querySelector("._"+x).attributes[1].value=subs.replace(".png","")+"-colored"+".png";
-    }
     $(".button").click(function(event)
     {
         event.preventDefault(); // cancel default behavior

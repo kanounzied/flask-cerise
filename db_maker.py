@@ -14,7 +14,4 @@ AutresBiens = db['AutresBiens']
 Categories = db['Categories']
 Contrat = db['Contrat']
 Propriete = db['Propriete']
-x = Client.find_one({'nom': 'kanoun'})
 
-# from db_maker import Client || Adresse || ...
-#print("done")

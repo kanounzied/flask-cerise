@@ -1,0 +1,228 @@
+{% extends 'sign.html' %}
+{% block nbr %}{{ nbr }}{% endblock %}
+{% block sidenav %}
+{% if lang == "english" %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<a href="#">Claims</a>
+<a href="#">My account</a>
+{% else %}{% if lang =="arabe" %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="#">معلومات</a>
+<a href="#">مطالب</a>
+<a href="#">حسابي</a>
+{% else %}{% if lang=="french" %}
+<a href="/home/french">Acceuil</a>
+<a href="#">Informations</a>
+<a href="#">Réclamations</a>
+<a href="#">Mon compte</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block lang %}
+{% if lang == "english" %}Eng
+{% else %}{% if lang =="arabe" %}Ar
+{% else %}{% if lang=="french" %}Fr
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block body %}
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid">
+    <div class="content">
+        <h1 class="center-text">Your property's area :</h1>
+    </div>
+    <form class="fifth-form" method="post" action="/signup/10/{{lang}}">
+        <div class="row">
+            <div  class="form-check col-md-4">
+                <label class="form-check-label with_img" for="range1">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/surface.jpg">
+                        <img style="margin-top: 60px;" src="/static/images/surface.jpg" alt="aurfaceimage" >
+                    </picture>
+                    <h2>small</h2>
+                    <span><200 m²</span>
+                </label>
+                <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="range1" value="range1" name="range">
+                <label style="display: none" class="form-check-label without" for="range1">
+                    small <span><200 m²</span>
+                </label>
+
+            </div>
+            <div class="form-check col-md-4">
+                <label class="form-check-label with_img" for="range2">
+                    <picture>
+                        <source class="source _2" srcset="/static/images/surface.jpg">
+                        <img style="width: 130px;margin-top: 30px" src="/static/images/surface.jpg" alt="surfaceimage" >
+                    </picture>
+                    <h2>normal</h2>
+                    <span>200 m²&#10877; . <300 m²</span>
+                </label>
+                <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="range2" value="range2" name="range">
+                <label style="display: none" class="form-check-label without" for="range2">
+                    normal <span>200 m²&#10877; . <300 m²</span>
+                </label>
+
+            </div>
+            <div class="form-check col-md-4">
+                <label class="form-check-label with_img" for="range3">
+                    <picture>
+                        <source class="source _3" srcset="/static/images/surface.jpg">
+                        <img style="width: 160px" src="/static/images/surface.jpg" alt="range3image" >
+                    </picture>
+                    <h2>big</h2>
+                    <span>&#10878;300 m²</span>
+                </label>
+                <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="range3" value="range3" name="range">
+                <label style="display: none" class="form-check-label without" for="range3">
+                    big <span>&#10878;300 m²</span>
+                </label>
+
+            </div>
+        </div>
+        <div class="row" >
+            <button type="submit" name="form9" class="btn btn-primary col-2">Next</button>
+        </div>
+    </form>
+    <div class="back"><a href="/signup/8/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang =="arabe" %}
+<div class="arab container-fluid">
+    <div class="content">
+        <h1 class="center-text">مساحة الملكية</h1>
+    </div>
+    <form class="fifth-form" method="post" action="/signup/10/{{lang}}">
+        <div class="row">
+            <div  class="form-check col-md-4">
+                <label class="form-check-label with_img" for="range1">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/surface.jpg">
+                        <img style="margin-top: 60px" src="/static/images/surface.jpg" alt="surfaceimage" >
+                    </picture>
+                    <h2>صغيرة</h2>
+                    <span><200 m²</span>
+                </label>
+                <label style="display: none" class="form-check-label without" for="range1">
+                    <span><200 m² </span>صغيرة
+                </label>
+                <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="range1" value="range1" name="range">
+
+            </div>
+            <div class="form-check col-md-4">
+                <label class="form-check-label with_img" for="range2">
+                    <picture>
+                        <source class="source _2" srcset="/static/images/surface.jpg">
+                        <img style="margin-top: 30px;width: 130px" src="/static/images/surface.jpg" alt="surfaceimage" >
+                    </picture>
+                    <h2>متوسطة</h2>
+                    <span>200 m²&#10877; . <300 m²</span>
+                </label>
+                <label style="display: none" class="form-check-label without" for="range2">
+                    <span>200 m²&#10877; . <300 m² </span>متوسطة
+                </label>
+                <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="range2" value="range2" name="range">
+
+            </div>
+            <div class="form-check col-md-4">
+                <label class="form-check-label with_img" for="range3">
+                    <picture>
+                        <source class="source _3" srcset="/static/images/surface.jpg">
+                        <img style="width: 160px" src="/static/images/surface.jpg" alt="surfaceimage" >
+                    </picture>
+                    <h2>كبيرة</h2>
+                    <span>&#10878;300 m²</span>
+                </label>
+                <label style="display: none" class="form-check-label without" for="range3">
+                    <span>&#10878;300 m²</span>كبيرة
+                </label>
+                <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="range3" value="range3" name="range">
+
+            </div>
+        </div>
+        <div class="row" >
+            <button type="submit" name="form9" class="btn btn-primary col-2">Next</button>
+        </div>
+    </form>
+    <div class="back"><a href="/signup/8/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang=="french" %}
+<div class="french container-fluid">
+    <div class="content">
+        <h1 class="center-text">Air de la propriété</h1>
+    </div>
+    <form class="fifth-form" method="post" action="/signup/10/{{lang}}">
+        <div class="row">
+            <div  class="form-check col-md-4">
+                <label class="form-check-label with_img" for="range1">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/surface.jpg">
+                        <img style="margin-top: 60px" src="/static/images/surface.jpg" alt="surfaceimage" >
+                    </picture>
+                    <h2>petit</h2>
+                    <span><200 m²</span>
+                </label>
+                <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="range1" value="range1" name="range">
+                <label style="display: none" class="form-check-label without" for="range1">
+                    petit <span><200 m²</span>
+                </label>
+
+            </div>
+            <div class="form-check col-md-4">
+                <label class="form-check-label with_img" for="range2">
+                    <picture>
+                        <source class="source _2" srcset="/static/images/surface.jpg">
+                        <img style="margin-top: 30px;width: 130px" src="/static/images/surface.jpg" alt="surfaceimage" >
+                    </picture>
+                    <h2>normal</h2>
+                    <span>200 m²&#10877; . <300 m²</span>
+                </label>
+                <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="range2" value="range2" name="range">
+                <label style="display: none" class="form-check-label without" for="range2">
+                    normal  <span>200 m²&#10877; . <300 m²</span>
+                </label>
+
+            </div>
+            <div class="form-check col-md-4">
+                <label class="form-check-label with_img" for="range3">
+                    <picture>
+                        <source class="source _3" srcset="/static/images/surface.jpg">
+                        <img style="width: 160px" src="/static/images/surface.jpg" alt="surfaceimage" >
+                    </picture>
+                    <h2>grand</h2>
+                    <span>&#10878;300 m²</span>
+                </label>
+                <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="range3" value="range3" name="range">
+                <label style="display: none" class="form-check-label without" for="range3">
+                    grand <span>&#10878;300 m²</span>
+                </label>
+
+            </div>
+        </div>
+        <div class="row" >
+            <button type="submit" name="form9" class="btn btn-primary col-2">Next</button>
+        </div>
+    </form>
+    <div class="back"><a href="/signup/8/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+    function hide(x) {
+        var subs=document.querySelector("._"+x).attributes[1].value;
+        var sources=document.querySelectorAll(".source")
+        for(var i=0;i<sources.length;i++){
+            val=sources[i].attributes[1].value;
+            sources[i].attributes[1].value=val.replace("-colored","");
+        }
+        document.querySelector("._"+x).attributes[1].value=subs.replace(".jpg","")+"-colored"+".jpg";
+    }
+</script>
+{% endblock %}

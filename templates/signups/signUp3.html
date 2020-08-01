@@ -102,8 +102,8 @@
                     </div>
                 </div>
                 <div class="form-check" style="text-align: left">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">هذا المنزل لا يزال قيد الإنشاء</label>
+                    <input type="checkbox" class="form-check-input" name="under_construction" value="under_construction" id="exampleCheck1">
+                    <label class="form-check-label"  for="exampleCheck1">هذا المنزل لا يزال قيد الإنشاء</label>
                 </div>
                 <div class="row" >
                     <button type="submit" name="form3" class="btn btn-primary col-2">Next</button>
@@ -141,7 +141,7 @@
                     </div>
                 </div>
                 <div class="form-check" style="text-align: left">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <input type="checkbox" class="form-check-input" value="under_construction" name="under_construction" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Cette maison est encore en construction</label>
                 </div>
                 <div class="row">
@@ -154,4 +154,15 @@
     {% endif %}
     {% endif %}
     {% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+    {% if alrt==True %}
+        msg = "voici une liste d'adresses ayant le méme code_postal que vous avez saisi :\n"
+        {% for ligne in code %}
+            msg += "\xa0\xa0\xa0\xa0"+{{ligne|tojson}}+"\n"
+        {% endfor %}
+        alert(msg)
+    {% endif %}
+</script>
 {% endblock %}
