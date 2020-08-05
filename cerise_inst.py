@@ -10,7 +10,6 @@ app.config['DEBUG'] = True
 SESSION_TYPE = 'mongodb'
 app.config.from_object(__name__)
 Session(app)
-SECURITY_PASSWORD_SALT = 'my_precious_two'
 
 
 @app.before_request
@@ -63,6 +62,7 @@ def signup(nbr, lang):
                 clid = clid_ins.inserted_id
             session['clid'] = clid
             print('client created')
+            session['form1'] = 'submitted'
         if 'form2' in req:
             adresse = req.get('adresse')
             apt_unit = req.get('apt_unit')
@@ -140,6 +140,7 @@ def signup(nbr, lang):
                 {"$set": {'contrat': session.get('cont_id')}}
             )
             print("propriete updated")
+            session['form2'] = 'submitted'
         if 'form3' in req:
             apt_unit2 = req.get('apt_unit')
             adresse = Adresse.find_one({'_id': session['adr_id']})
@@ -192,6 +193,7 @@ def signup(nbr, lang):
             if session['apt_id'] is not None:
                 Propriete.update_one({'_id': session.get('apt_id')},
                                      {"$set": {'rue': rue}})
+            session['form3'] = 'submitted'
         if 'form4' in req:
             rentown = req.get('rentown')
             if rentown is None:
@@ -202,6 +204,7 @@ def signup(nbr, lang):
                                        error="bien joué lol!")
             Propriete.update_one({'_id': session['apt_id']},
                                  {"$set": {'rentown': rentown}})
+            session['form4'] = 'submitted'
         if 'form5' in req:
             env1 = req.get('alarm')
             env2 = req.get('clim')
@@ -227,6 +230,7 @@ def signup(nbr, lang):
             elif env3 is None:
                 Propriete.update_one({'_id': session['apt_id']},
                                      {"$set": {'chauffage': False}})
+            session['form5'] = 'submitted'
         if 'form6' in req:
             type_ = req.get('type')
             if type_ not in ['maison', 'villa', 'appartement', None]:
@@ -237,6 +241,7 @@ def signup(nbr, lang):
                                        error="vous devez choisir!")
             Propriete.update_one({'_id': session['apt_id']},
                                  {"$set": {'type': type_}})
+            session['form6'] = 'submitted'
         if 'form7' in req:
             room = req.get('room')
             etage = req.get('etage')
@@ -247,6 +252,7 @@ def signup(nbr, lang):
                                  {"$set": {'nbr_chambres': room}})
             Propriete.update_one({'_id': session['apt_id']},
                                  {"$set": {'etage': etage}})
+            session['form7'] = 'submitted'
         if 'form8' in req:
             garden = req.get('garden')
             pool = req.get('pool')
@@ -265,11 +271,13 @@ def signup(nbr, lang):
             else:
                 Propriete.update_one({'_id': session['apt_id']},
                                      {"$set": {'pool': False}})
+            session['form8'] = 'submitted'
         if 'form9' in req:
             surface = req.get('range')
             if surface is None:
                 return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error="you must choose a range!")
+            session['form9'] = 'submitted'
         if 'form10' in req:
             print('aa')
             # client type_famille
@@ -281,6 +289,7 @@ def signup(nbr, lang):
                 return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error="You must choose a value!")
             Client.update_one({'_id': session['clid']}, {'$set': {'type_famille': famtype}})
+            session['form10'] = 'submitted'
         if 'form11' in req:
             yn = req.get('valuables')
             if yn not in ['yes', 'no', None]:
@@ -290,19 +299,37 @@ def signup(nbr, lang):
                 return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error="You must choose a value!")
             Propriete.update_one({'_id': session['apt_id']}, {'$set': {'valuables': yn}})
+            session['form11'] = 'submitted'
         if 'form12' in req:
             email = req.get('email')
+            if email == "":
+                print(email, 'none ')
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="champ vide !")
             a = Client.find_one({'email': email})
             if a is None:
+                print("d5al")
                 Client.update_one({'_id': session.get('clid')}, {'$set': {'email': email}})
             else:
                 print('deja mawjoud')
                 # lezem traitement mta3 newly created client
                 nbr = str(int(nbr) + 1)
-
+            session['form12'] = 'submitted'
+        if 'form13' in req:
+            birth = req.get('birth')
+            if birth == "":
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="champ vide !")
+            Client.update_one({'_id': session.get('clid')}, {'$set': {'date_de_naissance': birth}})
+            session['form13'] = 'submitted'
     if session == {'_permanent': True} and int(nbr) > 1:  # if session vide wenti moch fel page 1
         return redirect("/signup/1/" + lang)
-
+    if int(nbr) in range(2, 14) and ('form' + str(int(nbr) - 1) not in session):
+        form = ""
+        for i in range(2, 14):
+            if ('form' + str(i)) in session:
+                form = str(i)
+        return redirect("/signup/" + form + "/" + lang)
     nom = ""
     prenom = ""
     adresse = ""
