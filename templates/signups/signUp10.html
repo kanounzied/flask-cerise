@@ -35,170 +35,254 @@
 {% if lang == "english" %}
 <div class="english container-fluid">
     <div class="content">
-        <h1 class="center-text">What's your home type?</h1>
+        <h1 class="center-text">Who's in the house ?</h1>
     </div>
-    <form class="fifth-form" method="post" action="/signup/7/{{lang}}">
+    <form class="fifth-form" method="post" action="/signup/11/{{lang}}">
         <div class="row">
-            <div  class="form-check col-md-4">
-                <label class="form-check-label with_img" for="appart">
+            <div class="form-check col-lg-2 col-md-4">
+                <label class="form-check-label with_img" for="single">
                     <picture>
-                        <source class="source _1" srcset="/static/images/appart.png">
-                        <img src="/static/images/appart.png" alt="apartimage" >
+                        <source class="source _1" srcset="/static/images/single.png">
+                        <img src="/static/images/single.png" alt="singleimage" >
                     </picture>
-                    <h2>apartment</h2>
+                    <h2>single</h2>
                 </label>
-                <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="appart" value="appartement" name="type">
+                <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="single" value="single" name="family">
                 <label style="display: none" class="form-check-label without" for="appart">
-                    apartment
+                    single
                 </label>
 
             </div>
-            <div class="form-check col-md-4">
-                <label class="form-check-label with_img" for="house">
+            <div class="form-check col-lg-2 col-md-4">
+                <label class="form-check-label with_img" for="couple">
                     <picture>
-                        <source class="source _2" srcset="/static/images/house.png">
-                        <img src="/static/images/house.png" alt="houseimage" >
+                        <source class="source _2" srcset="/static/images/couple.png">
+                        <img src="/static/images/couple.png" alt="coupleimage" >
                     </picture>
-                    <h2>house</h2>
+                    <h2>couple</h2>
                 </label>
-                <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="house" value="maison" name="type">
-                <label style="display: none" class="form-check-label without" for="house">
-                    house
+                <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="couple" value="couple" name="family">
+                <label style="display: none" class="form-check-label without" for="couple">
+                    couple
                 </label>
 
             </div>
-            <div class="form-check col-md-4">
-                <label class="form-check-label with_img" for="villa">
+            <div class="form-check col-lg-2 col-md-4">
+                <label class="form-check-label with_img" for="family">
                     <picture>
-                        <source class="source _3" srcset="/static/images/villa.png">
-                        <img src="/static/images/villa.png" alt="villaimage" >
+                        <source class="source _3" srcset="/static/images/family.png">
+                        <img src="/static/images/family.png" alt="familyimage" >
                     </picture>
-                    <h2>villa</h2>
+                    <h2>family</h2>
                 </label>
-                <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="villa" value="villa" name="type">
-                <label style="display: none" class="form-check-label without" for="villa">
-                    villa
+                <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="family" value="family" name="family">
+                <label style="display: none" class="form-check-label without" for="family">
+                    family
+                </label>
+
+            </div>
+            <div class="form-check col-lg-2 col-md-6">
+                <label class="form-check-label with_img" for="single_parent">
+                    <picture>
+                        <source class="source _4" srcset="/static/images/father.png">
+                        <img src="/static/images/father.png" alt="fatherimage" >
+                    </picture>
+                    <h2>single parent</h2>
+                </label>
+                <input onchange="hide('4')" type="radio" class="form-check-input with-gap" id="single_parent" value="single_parent" name="family">
+                <label style="display: none" class="form-check-label without" for="single_parent">
+                    single parent
+                </label>
+
+            </div>
+            <div class="form-check col-lg-2 col-md-6">
+                <label class="form-check-label with_img" for="other">
+                    <picture>
+                        <source class="source _5" srcset="/static/images/other.png">
+                        <img src="/static/images/other.png" alt="otherimage" >
+                    </picture>
+                    <h2>other</h2>
+                </label>
+                <input onchange="hide('5')" type="radio" class="form-check-input with-gap" id="other" value="other" name="family">
+                <label style="display: none" class="form-check-label without" for="other">
+                    other
                 </label>
 
             </div>
         </div>
         <div class="row" >
-            <button type="submit" name="form6" class="btn btn-primary col-2">Next</button>
+            <button type="submit" name="form10" class="btn btn-primary col-2">Next</button>
         </div>
     </form>
-    <div class="back"><a href="/signup/5/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+    <div class="back"><a href="/signup/9/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
 {% else %}{% if lang =="arabe" %}
 <div class="arab container-fluid">
     <div class="content">
-        <h1 class="center-text">نوع المنزل</h1>
+        <h1 class="center-text">شكون معاك في الدّار</h1>
     </div>
-    <form class="fifth-form" method="post" action="/signup/7/{{lang}}">
+    <form class="fifth-form" method="post" action="/signup/11/{{lang}}">
         <div class="row">
-            <div  class="form-check col-md-4">
-                <label class="form-check-label with_img" for="appart">
+            <div class="form-check col-lg-2 col-md-4">
+                <label class="form-check-label with_img" for="single">
                     <picture>
-                        <source class="source _1" srcset="/static/images/appart.png">
-                        <img src="/static/images/appart.png" alt="appartimage" >
+                        <source class="source _1" srcset="/static/images/single.png">
+                        <img src="/static/images/single.png" alt="singleimage" >
                     </picture>
-                    <h2>شقة</h2>
+                    <h2>وحدك</h2>
                 </label>
-                <label style="display: none" class="form-check-label without" for="appart">
-                    شقة
+                <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="single" value="single" name="family">
+                <label style="display: none" class="form-check-label without" for="single">
+                    وحدك
                 </label>
-                <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="appart" value="appartement" name="type">
 
             </div>
-            <div class="form-check col-md-4">
-                <label class="form-check-label with_img" for="house">
+            <div class="form-check col-lg-2 col-md-4">
+                <label class="form-check-label with_img" for="couple">
                     <picture>
-                        <source class="source _2" srcset="/static/images/house.png">
-                        <img src="/static/images/house.png" alt="houseimage" >
+                        <source class="source _2" srcset="/static/images/couple.png">
+                        <img src="/static/images/couple.png" alt="coupleimage" >
                     </picture>
-                    <h2>دار</h2>
+                    <h2>en couple</h2>
                 </label>
-                <label style="display: none" class="form-check-label without" for="house">
-                    دار
+                <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="couple" value="couple" name="family">
+                <label style="display: none" class="form-check-label without" for="couple">
+                    en couple
                 </label>
-                <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="house" value="maison" name="type">
 
             </div>
-            <div class="form-check col-md-4">
-                <label class="form-check-label with_img" for="villa">
+            <div class="form-check col-lg-2 col-md-4">
+                <label class="form-check-label with_img" for="family">
                     <picture>
-                        <source class="source _3" srcset="/static/images/villa.png">
-                        <img src="/static/images/villa.png" alt="villaimage" >
+                        <source class="source _3" srcset="/static/images/family.png">
+                        <img src="/static/images/family.png" alt="familyimage" >
                     </picture>
-                    <h2>فيلا</h2>
+                    <h2>عائلة</h2>
                 </label>
-                <label style="display: none" class="form-check-label without" for="villa">
-                    فيلا
+                <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="family" value="family" name="family">
+                <label style="display: none" class="form-check-label without" for="family">
+                    عائلة
                 </label>
-                <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="villa" value="villa" name="type">
+
+            </div>
+            <div class="form-check col-lg-2 col-md-6">
+                <label class="form-check-label with_img" for="single_parent">
+                    <picture>
+                        <source class="source _4" srcset="/static/images/father.png">
+                        <img src="/static/images/father.png" alt="snglprtimage" >
+                    </picture>
+                    <h2>وليّ واحد</h2>
+                </label>
+                <input onchange="hide('4')" type="radio" class="form-check-input with-gap" id="single_parent" value="single_parent" name="family">
+                <label style="display: none" class="form-check-label without" for="single_parent">
+                    وليّ واحد
+                </label>
+
+            </div>
+            <div class="form-check col-lg-2 col-md-6">
+                <label class="form-check-label with_img" for="other">
+                    <picture>
+                        <source class="source _5" srcset="/static/images/other.png">
+                        <img src="/static/images/other.png" alt="otherimage" >
+                    </picture>
+                    <h2>آخر</h2>
+                </label>
+                <input onchange="hide('5')" type="radio" class="form-check-input with-gap" id="other" value="other" name="family">
+                <label style="display: none" class="form-check-label without" for="other">
+                    آخر
+                </label>
 
             </div>
         </div>
         <div class="row" >
-            <button type="submit" name="form6" class="btn btn-primary col-2">Next</button>
+            <button type="submit" name="form10" class="btn btn-primary col-2">Next</button>
         </div>
     </form>
-    <div class="back"><a href="/signup/5/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+    <div class="back"><a href="/signup/9/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
 {% else %}{% if lang=="french" %}
 <div class="french container-fluid">
     <div class="content">
-        <h1 class="center-text">De quel type est votre logement?</h1>
+        <h1 class="center-text">Qui est avec toi?</h1>
     </div>
-    <form class="fifth-form" method="post" action="/signup/7/{{lang}}">
+    <form class="fifth-form" method="post" action="/signup/11/{{lang}}">
         <div class="row">
-            <div  class="form-check col-md-4">
-                <label class="form-check-label with_img" for="appart">
+            <div class="form-check col-lg-2 col-md-4">
+                <label class="form-check-label with_img" for="single">
                     <picture>
-                        <source class="source _1" srcset="/static/images/appart.png">
-                        <img src="/static/images/appart.png" alt="appartimage" >
+                        <source class="source _1" srcset="/static/images/single.png">
+                        <img src="/static/images/single.png" alt="singleimage" >
                     </picture>
-                    <h2>appartement</h2>
+                    <h2>seul</h2>
                 </label>
-                <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="appart" value="appartement" name="type">
-                <label style="display: none" class="form-check-label without" for="appart">
-                    appartement
+                <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="single" value="single" name="family">
+                <label style="display: none" class="form-check-label without" for="single">
+                    seul
                 </label>
 
             </div>
-            <div class="form-check col-md-4">
-                <label class="form-check-label with_img" for="house">
+            <div class="form-check col-lg-2 col-md-4">
+                <label class="form-check-label with_img" for="couple">
                     <picture>
-                        <source class="source _2" srcset="/static/images/house.png">
-                        <img src="/static/images/house.png" alt="housemage" >
+                        <source class="source _2" srcset="/static/images/couple.png">
+                        <img src="/static/images/couple.png" alt="coupleimage" >
                     </picture>
-                    <h2>maison</h2>
+                    <h2>couple</h2>
                 </label>
-                <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="house" value="maison" name="type">
-                <label style="display: none" class="form-check-label without" for="house">
-                    maison
+                <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="couple" value="couple" name="family">
+                <label style="display: none" class="form-check-label without" for="couple">
+                    couple
                 </label>
 
             </div>
-            <div class="form-check col-md-4">
-                <label class="form-check-label with_img" for="villa">
+            <div class="form-check col-lg-2 col-md-4">
+                <label class="form-check-label with_img" for="family">
                     <picture>
-                        <source class="source _3" srcset="/static/images/villa.png">
-                        <img src="/static/images/villa.png" alt="villaimage" >
+                        <source class="source _3" srcset="/static/images/family.png">
+                        <img src="/static/images/family.png" alt="familyimage" >
                     </picture>
-                    <h2>villa</h2>
+                    <h2>famille</h2>
                 </label>
-                <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="villa" value="villa" name="type">
-                <label style="display: none" class="form-check-label without" for="villa">
-                    villa
+                <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="family" value="family" name="family">
+                <label style="display: none" class="form-check-label without" for="family">
+                    famille
+                </label>
+
+            </div>
+            <div class="form-check col-lg-2 col-md-6">
+                <label class="form-check-label with_img" for="single_parent">
+                    <picture>
+                        <source class="source _4" srcset="/static/images/father.png">
+                        <img src="/static/images/father.png" alt="snglprtimage" >
+                    </picture>
+                    <h2>seul parent</h2>
+                </label>
+                <input onchange="hide('4')" type="radio" class="form-check-input with-gap" id="single_parent" value="single_parent" name="family">
+                <label style="display: none" class="form-check-label without" for="single_parent">
+                    seul parent
+                </label>
+
+            </div>
+            <div class="form-check col-lg-2 col-md-6">
+                <label class="form-check-label with_img" for="other">
+                    <picture>
+                        <source class="source _5" srcset="/static/images/other.png">
+                        <img src="/static/images/other.png" alt="otherimage" >
+                    </picture>
+                    <h2>autre</h2>
+                </label>
+                <input onchange="hide('5')" type="radio" class="form-check-input with-gap" id="other" value="other" name="family">
+                <label style="display: none" class="form-check-label without" for="other">
+                    autre
                 </label>
 
             </div>
         </div>
         <div class="row" >
-            <button type="submit" name="form6" class="btn btn-primary col-2">Next</button>
+            <button type="submit" name="form10" class="btn btn-primary col-2">Next</button>
         </div>
     </form>
-    <div class="back"><a href="/signup/5/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+    <div class="back"><a href="/signup/9/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
 {% endif %}
 {% endif %}
@@ -208,7 +292,9 @@
 <script>
     function hide(x) {
         var subs=document.querySelector("._"+x).attributes[1].value;
+        var subs1=document.querySelector("._"+x);
         var sources=document.querySelectorAll(".source")
+        console.log(subs1,sources)
         for(var i=0;i<sources.length;i++){
             val=sources[i].attributes[1].value;
             sources[i].attributes[1].value=val.replace("-colored","");

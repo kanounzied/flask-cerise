@@ -5,14 +5,19 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+<script src="/static/styles/js/bootstrap-datepicker.min.js"></script>
+<script src="/static/styles/locales/bootstrap-datepicker.en-GB.min.js"></script>
+{% block head %}{% endblock %}
 <title>{% block title %}{% endblock %}</title>
-
+<link rel="stylesheet" href="/static/styles/css/bootstrap-datepicker3.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Lateef&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Lalezar&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../static/styles/stylesheet.css">
+
+<link rel="stylesheet" href="/static/styles/stylesheet.css">
 <body>
 <nav class="navbar navbar-expand-sm " onscroll="myFunction()">
     <div id="mySidenav" class="sidenav">
@@ -78,19 +83,17 @@
 </nav>
 <div class=" wrapper">
     <div class="clearfix">
-        <!--        <div class="box" style="background-image: url('../images/home_left.svg');background-position-x: -120px"></div>-->
-        <!--        <div class="box" style="background-image: url('../images/home_right.svg');background-position-x: 120px">-->
-        <!--        </div>-->
-        <div class="box" id="backgroung-merged"></div>
+        {% block bg_box %}<div class="box" id="backgroung-merged">
+    </div>{% endblock %}
     </div>
     {% block body %}
-        <div class="container-fluid">
-            <h1>Your well being is our duty </h1>
-            <p>Instant everything. No brainer prices. Big heart. </p>
-            <a href="/signup/1">
-                <button class="btn btn-primary">Check our prices</button>
-            </a>
-        </div>
+<!--        <div class="container-fluid">-->
+<!--            <h1>Your well being is our duty </h1>-->
+<!--            <p>Instant everything. No brainer prices. Big heart. </p>-->
+<!--            <a href="/signup/1">-->
+<!--                <button class="btn btn-primary">Check our prices</button>-->
+<!--            </a>-->
+<!--        </div>-->
     {% endblock %}
 </div>
 {% block scripts %}

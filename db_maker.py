@@ -6,7 +6,7 @@ app.config['DEBUG'] = True
 conc = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false"
 
 client = pymongo.MongoClient(conc)
-db = client.test1
+db = client.cerise_db
 Admin = db['Admin']
 Client = db['Client']
 Adresse = db['Adresse']

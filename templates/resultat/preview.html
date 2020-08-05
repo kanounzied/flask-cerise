@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}english home{% endblock %}
+{% block sidenav %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<a href="#">Claims</a>
+<a href="#">My account</a>
+{% endblock %}
+{% block lang %}{{lang}}{% endblock %}
+{% block navbarli %}
+<li>
+    <a href="/home/english">Home</a>
+</li>
+<li>
+    <a href="#">About Us </a>
+</li>
+<li>
+    <a href="#">Claims</a>
+</li>
+<li class="pull-right">
+    <a href="#">My account</a>
+</li>
+<li class="pull-right">
+    <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
+    <div class="dropdown show">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Eng
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="/home/arabe">Ar</a>
+            <a class="dropdown-item" href="/home/french">Fr</a>
+            <a class="dropdown-item" href="/home/english">Eng</a>
+        </div>
+    </div>
+</li>
+
+{% endblock %}
+{% block bg_box %}
+<div class="box" id="backgroung-merged2">
+    <div class="container-fluid" style="position: unset">
+        <h1>Cerise Home Insurance</h1>
+        <p>{{adresse}}</p>
+        <div class="monthan">
+            <div class="month" style="display: none"> MONTHLY
+            </div>
+            <div class="show">MONTHLY</div>
+            <div class="an">ANNUAL (-$12)</div>
+
+        </div>
+        <div class="shape">
+            <price>$12.59</price>
+            <small>per month</small>
+        </div>
+        <div class="calendar" id="sandbox-container">
+            <form id="final" class="form-group row" action="">
+                <label for="date" class="col-form-label">start date: </label>
+                <input style="max-width: 300px; margin-left: 15px" type="text" value="" class="form-control" id="date">
+            </form>
+        </div>
+        <br>
+        <a href="/signup/1/{{ lang }}">
+            <button class="btn btn-primary">Check our prices</button>
+        </a>
+    </div>
+</div>
+{% endblock %}
+{% block body %}
+
+{% endblock %}
+{% block scripts %}
+<script>
+    var fullDate = new Date()
+    var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+    var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+    $('#sandbox-container input').datepicker({
+        format: "dd/mm/yyyy",
+        startDate: currentDate,
+        orientation: "bottom right"
+    });
+    if (fullDate.getDate() < 10) {
+        currentDate = "0" + currentDate;
+    }
+    $('#sandbox-container input').val(currentDate)
+    var month = document.querySelector(".monthan .month");
+    var an = document.querySelector(".monthan .an");
+    var show = document.querySelector(".monthan .show");
+    month.addEventListener('click',function () {
+        month.style.display="none";
+        an.style.display="unset";
+        show.innerHTML="MONTHLY";
+        show.style.boxShadow="7px 0 8px -4px #733838";
+    })
+    an.addEventListener('click',function () {
+        an.style.display="none";
+        month.style.display="unset";
+        show.innerHTML="ANNUAL (-$12)";
+        show.style.boxShadow="-7px 0 8px -4px #733838";
+    })
+</script>
+{% endblock %}

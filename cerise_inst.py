@@ -1,4 +1,6 @@
-from flask import session, render_template, redirect, request
+from datetime import timedelta
+
+from flask import session, render_template, redirect, request, jsonify
 from flask_session import Session
 
 from db_maker import *
@@ -8,6 +10,18 @@ app.config['DEBUG'] = True
 SESSION_TYPE = 'mongodb'
 app.config.from_object(__name__)
 Session(app)
+SECURITY_PASSWORD_SALT = 'my_precious_two'
+
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=60)
+
+
+@app.route("/")
+def arab():
+    return redirect("/home/arabe")
 
 
 @app.route("/home/<lang>")
@@ -49,8 +63,6 @@ def signup(nbr, lang):
                 clid = clid_ins.inserted_id
             session['clid'] = clid
             print('client created')
-        if session == {'_permanent': True} and int(nbr) > 1:  # if session vide
-            return redirect("/signup/1/" + lang)
         if 'form2' in req:
             adresse = req.get('adresse')
             apt_unit = req.get('apt_unit')
@@ -68,9 +80,9 @@ def signup(nbr, lang):
                 return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        data=data,
                                        error="la forme de l'adresse doit etre comme suit : (rue, ville, gouvernorat)")
-            rue = tab[0].strip()
-            ville = tab[1].strip()
-            gouv = tab[2].strip()
+            # rue = tab[0].strip()
+            # ville = tab[1].strip()
+            # gouv = tab[2].strip()
             adresseObj = Adresse.find_one(
                 {
                     'adresse': adresse
@@ -129,31 +141,15 @@ def signup(nbr, lang):
             )
             print("propriete updated")
         if 'form3' in req:
-            adresse2 = req.get('adresse')
             apt_unit2 = req.get('apt_unit')
             adresse = Adresse.find_one({'_id': session['adr_id']})
-            print(adresse['adresse'], adresse2)
-            if adresse2 != adresse['adresse'] or apt_unit2 != Propriete.find_one({'_id': session['apt_id']})[
-                'apt_unit']:
-                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
-                                       adresse=adresse['adresse'],
-                                       error="l'adresse ou le numero de l'appartement n'est pas le même!")
-            city = req.get('city')
-            state = req.get('state')
-            tab = adresse2.split(',')
-            print(tab)
-            if city.strip() != tab[1].strip() or state.strip() != tab[0].strip():
-                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
-                                       error="la ville ou le gouvernorat n'est pas le même!")
+            print(adresse['adresse'])
             code_postal = req.get('code_postal')
-            if code_postal == "":
-                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
-                                       error="code postal doit être rempli!")
-            if code_postal != Adresse.find_one({'_id': adresse['_id']})['code_postal']:
+            if code_postal != adresse['code_postal']:
                 codes = Adresse.find({'code_postal': code_postal})
                 code_postal = list([])
                 for code in codes:
-                    code_postal.append(code['adresse']+" :"+str(code['code_postal']))
+                    code_postal.append(code['adresse'] + " :" + str(code['code_postal']))
                 print(code_postal)
                 adresse1 = Adresse.find_one({'_id': session['adr_id']})
                 adresse = adresse1['adresse']
@@ -167,6 +163,20 @@ def signup(nbr, lang):
                                        state=state,
                                        )
             print("code postal verifié")
+            if apt_unit2 != Propriete.find_one({'_id': session['apt_id']})['apt_unit']:
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       adresse=adresse['adresse'],
+                                       error="le numero de l'appartement n'est pas le même!")
+            city = req.get('city')
+            state = req.get('state')
+            tab = adresse['adresse'].split(',')
+            print(tab)
+            if city.strip() != tab[1].strip() or state.strip() != tab[0].strip():
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="la ville ou le gouvernorat n'est pas le même!")
+            if code_postal == "":
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="code postal doit être rempli!")
             under_const = req.get('under_construction')
             if under_const == "under_construction":
                 Propriete.update_one({'_id': session.get('apt_id')},
@@ -175,6 +185,13 @@ def signup(nbr, lang):
                 Propriete.update_one({'_id': session.get('apt_id')},
                                      {"$set": {'under_construction': False}})
             print(under_const)
+            rue = req.get('adresse')
+            if rue is None:
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="la rue doit être remplie!")
+            if session['apt_id'] is not None:
+                Propriete.update_one({'_id': session.get('apt_id')},
+                                     {"$set": {'rue': rue}})
         if 'form4' in req:
             rentown = req.get('rentown')
             if rentown is None:
@@ -253,9 +270,39 @@ def signup(nbr, lang):
             if surface is None:
                 return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error="you must choose a range!")
+        if 'form10' in req:
+            print('aa')
+            # client type_famille
+            famtype = req.get('family')
+            if famtype not in ['single', 'couple', 'family', 'single_parent', 'other', None]:
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="don' change values please!")
+            if famtype is None:
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="You must choose a value!")
+            Client.update_one({'_id': session['clid']}, {'$set': {'type_famille': famtype}})
+        if 'form11' in req:
+            yn = req.get('valuables')
+            if yn not in ['yes', 'no', None]:
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="don't change values please!")
+            if yn == None:
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="You must choose a value!")
+            Propriete.update_one({'_id': session['apt_id']}, {'$set': {'valuables': yn}})
+        if 'form12' in req:
+            email = req.get('email')
+            a = Client.find_one({'email': email})
+            if a is None:
+                Client.update_one({'_id': session.get('clid')}, {'$set': {'email': email}})
+            else:
+                print('deja mawjoud')
+                # lezem traitement mta3 newly created client
+                nbr = str(int(nbr) + 1)
 
     if session == {'_permanent': True} and int(nbr) > 1:  # if session vide wenti moch fel page 1
         return redirect("/signup/1/" + lang)
+
     nom = ""
     prenom = ""
     adresse = ""
@@ -264,10 +311,14 @@ def signup(nbr, lang):
     state = ""
     code_postal = ""
     data = list([])
+    email = ""
+    rue = ""
     if 'clid' in session:
         pers = Client.find_one({'_id': session['clid']})
         nom = pers['nom']
         prenom = pers['prenom']
+        if 'email' in pers:
+            email = pers['email']
         print("client already conneted")
         if 'adr_id' in session:
             adresse1 = Adresse.find_one({'_id': session['adr_id']})
@@ -276,11 +327,16 @@ def signup(nbr, lang):
             city = tab[1]
             state = tab[0]
             code_postal = adresse1['code_postal']
+            prop = Propriete.find_one({'_id': session.get('apt_id')})
+            if 'rue' in prop:
+                rue = prop['rue']
         if 'apt_id' in session:
             apt_unit = Propriete.find_one({'_id': session['apt_id']})['apt_unit']
     cursor = Adresse.find({})
     for doc in cursor:
         data.append(doc['adresse'])
+    if nbr == "14":
+        return render_template("resultat/preview.html", lang=lang, adresse=apt_unit + "," + rue + "  " + adresse)
     return render_template("signups/signUp" + nbr + ".html",
                            nbr=nbr,
                            lang=lang,
@@ -291,8 +347,24 @@ def signup(nbr, lang):
                            city=city,
                            state=state,
                            code_postal=code_postal,
-                           data=data
+                           data=data,
+                           email=email
                            )
+
+
+@app.route("/preview/<lang>")
+def preview(lang):
+    return render_template("")
+
+
+@app.route("/code_postal", methods=['POST'])
+def postal():
+    code = request.form['code']
+    codes = Adresse.find({'code_postal': code})
+    liste = list([])
+    for cod in codes:
+        liste.append(cod['adresse'] + " :" + str(cod['code_postal']))
+    return jsonify({'result': 'success', 'code': code, 'code_list': liste})
 
 
 if __name__ == '__main__':

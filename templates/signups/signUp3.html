@@ -1,4 +1,17 @@
 {% extends 'sign.html' %}
+{% block head %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+{% endblock %}
+{% block style %}
+<style>
+    .list-group-item{
+        border: 0px;
+        border-bottom: 1px solid rgba(0,0,0,.125);
+    }
+</style>
+{% endblock %}
 {% block nbr %}{{ nbr }}{% endblock %}
 {% block sidenav %}
     {% if lang == "english" %}
@@ -40,8 +53,8 @@
             <form id="third-form" method="post" action="/signup/4/{{lang}}">
                 <div class="row">
                     <div class="form-group col-md-9" id="street">
-                        <input type="text" style="float: right;" class="form-control" name="adresse" id="adresse" value="{{adresse|string}}"
-                               placeholder="Street adress ,City ,State">
+                        <input type="text" style="float: right;" class="form-control" name="adresse" id="adresse"
+                               placeholder="Street adress ">
                     </div>
                     <div class="form-group col-md-3" id="unit">
                         <input type="text" style="float: left" class="form-control" name="apt_unit" id="apt_unit" value="{{apt_unit|string}}"
@@ -53,13 +66,14 @@
                         <input type="text" class="form-control" name="city" id="city" value="{{city|string}}" placeholder="City">
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="position: relative">
                     <div class="form-group col-md-5" >
                         <input type="text" class="form-control" name="state" id="state" value="{{state|string}}" placeholder="State">
                     </div>
                     <div class="form-group col-md-7" >
                         <input type="text" class="form-control" name="code_postal" id="zip_code" value="{{code_postal|string}}" placeholder="Zip Code">
                     </div>
+                    <a href="#" style="display: none; z-index: 100" data-toggle="popover" id="clickme">click me</a>
                 </div>
                 <div class="form-check" style="text-align: left">
                     <input type="checkbox" class="form-check-input" name="under_construction" id="exampleCheck1" value="under_construction">
@@ -80,8 +94,8 @@
             <form id="third_form" method="post" action="/signup/4/{{lang}}">
                 <div class="row">
                     <div class="form-group col-md-9" id="street">
-                        <input type="text" style="float: right;" class="form-control" name="adresse" id="adresse" value="{{adresse|string}}"
-                               placeholder="طريق كم ، المدينة ،الولاية">
+                        <input type="text" style="float: right;" class="form-control" name="adresse" id="adresse"
+                               placeholder="الشّارع">
                     </div>
                     <div class="form-group col-md-3" id="unit">
                         <input type="text" style="float: left" class="form-control" name="apt_unit" id="apt_unit" value="{{apt_unit|string}}"
@@ -93,13 +107,14 @@
                         <input type="text" class="form-control" name="city" id="city" placeholder="المدينة" value="{{city|string}}">
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="position: relative">
                     <div class="form-group col-md-5" >
                         <input type="text" class="form-control" name="state" id="state" placeholder="الولاية" value="{{state|string}}">
                     </div>
                     <div class="form-group col-md-7" >
                         <input type="text" class="form-control" name="code_postal" id="zip_code" value="{{code_postal|string}}"placeholder="الرقم البريدي">
                     </div>
+                    <a href="#" style="display:none; z-index: 100" data-toggle="popover" id="clickme">click me</a>
                 </div>
                 <div class="form-check" style="text-align: left">
                     <input type="checkbox" class="form-check-input" name="under_construction" value="under_construction" id="exampleCheck1">
@@ -119,8 +134,8 @@
             <form id="3rd_form" method="post" action="/signup/4/{{lang}}">
                 <div class="row">
                     <div class="form-group col-md-9" id="street">
-                        <input type="text" style="float: right;" class="form-control" name="adresse" id="adresse" value="{{adresse|string}}"
-                               placeholder="Adresse rue ,Ville ,Gouvernorat">
+                        <input type="text" style="float: right;" class="form-control" name="adresse" id="adresse"
+                               placeholder="Adresse rue">
                     </div>
                     <div class="form-group col-md-3" id="unit">
                         <input type="text" style="float: left" class="form-control" name="apt_unit" id="code postal" value="{{apt_unit|string}}"
@@ -132,13 +147,14 @@
                         <input type="text" class="form-control" name="city" id="city" value="{{city|string}}" placeholder="Ville">
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="position: relative">
                     <div class="form-group col-md-5" >
                         <input type="text" class="form-control" name="state" id="state" value="{{state|string}}" placeholder="Gouvernorat">
                     </div>
                     <div class="form-group col-md-7" >
                         <input type="text" class="form-control" name="code_postal" id="zip_code" value="{{code_postal|string}}" placeholder="Zip Code">
                     </div>
+                    <a href="#" style="display: none; z-index: 100" data-toggle="popover" id="clickme">click me</a>
                 </div>
                 <div class="form-check" style="text-align: left">
                     <input type="checkbox" class="form-check-input" value="under_construction" name="under_construction" id="exampleCheck1">
@@ -154,6 +170,13 @@
     {% endif %}
     {% endif %}
     {% endif %}
+<div id="popover-content" style="display: none">
+    <ul class="list-group custom-popover">
+        <li class="list-group-item">Airport Pickup</li>
+        <li class="list-group-item">Food and Beverage</li>
+        <li class="list-group-item">Yoga Class</li>
+    </ul>
+</div>
 {% endblock %}
 {% block scripts %}
 <script>
@@ -164,5 +187,42 @@
         {% endfor %}
         alert(msg)
     {% endif %}
+    // normalement fi app.js
+    $(function () {
+        $('#zip_code').on('input',function(e){
+            if ($(this).val().length === 4){
+                req = $.ajax({
+                    url: '/code_postal',
+                    type: 'POST',
+                    data: {code: $(this).val()}
+                });
+
+                req.done(function (data) {
+                    var tab = data.code_list;
+                    $('#clickme').attr("data-original-title","liste des codes postaux")
+                        .attr("data-placement","top")
+                        .attr("data-trigger","focus");
+                    // create liste
+                    $('#popover-content').remove();
+                    $('.container-fluid').after($('<div id="popover-content" style="display: none"><ul class="list-group custom-popover"></ul></div>'));
+                    $.each(tab, function (index, value) {
+
+                        $('.custom-popover').append($('<li class="list-group-item">'+value+'</li>'))
+
+                    })
+                    document.querySelector('#clickme').style.display="unset";
+                    // create popup div
+
+                })
+            }
+        });
+        $('[data-toggle="popover"]').popover({
+            html: true,
+            // trigger: 'focus',
+            content: function() {
+                return $('#popover-content').html();
+            }
+        });
+    });
 </script>
 {% endblock %}

@@ -82,4 +82,3 @@ with open('adresse.csv', mode='a', encoding="utf-8", newline='') as csv_file:  #
                 }
                 writer.writerow(data)
     csv_file.close()
-x
