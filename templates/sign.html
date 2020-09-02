@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Sign Up {% block nbr %}{% endblock %}</title>
+    <title>{% block title %}Sign Up {% block nbr %}{% endblock %}{% endblock %}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -9,6 +9,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+<!--    <script src="https://www.google.com/recaptcha/api.js?render=6LeHfcMZAAAAAALvWGTh7j1F-B3XL_XCgoNAntlx"></script>-->
     <link rel="stylesheet" href="/static/styles/stylesheet.css">
     <style>
         .navbar {
@@ -26,22 +28,24 @@
         <a href="/home/english">Home</a>
         <a href="#">About Us</a>
         <a href="#">Claims</a>
-        <a href="#">My account</a>
+        <a href="/login/english">My account</a>
         {% endblock %}
+        {% block navlang %}
         <div class="dropright btn-group show">
             <a class="btn btn-secondary dropdown-toggle" href="#" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {% block lang %}Eng{% endblock %}
             </a>
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="/home/arabe">Ar</a>
-                <a class="dropdown-item" href="/home/french">Fr</a>
-                <a class="dropdown-item" href="/home/english">Eng</a>
+                <a class="dropdown-item" href="/signup/{{nbr}}/arabe">Ar</a>
+                <a class="dropdown-item" href="/signup/{{nbr}}/french">Fr</a>
+                <a class="dropdown-item" href="/signup/{{nbr}}/english">Eng</a>
             </div>
         </div>
+        {% endblock %}
 
     </div>
-    <span onclick="openNav()">&#9776;</span>
+    {% block span %}<span onclick="openNav()">&#9776;</span>{% endblock %}
     <!-- Brand/logo -->
     <a style="margin-left: 15px" class="navbar-brand" href="#">
         <img class="image-cerise" src="/static/images/cerise.png" alt="logo" >

@@ -3,12 +3,20 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!--<script type="text/javascript" src="{{ url_for('static', filename='/static/styles/js/app.js') }}"></script>-->
 {% endblock %}
 {% block style %}
 <style>
     .list-group-item{
         border: 0px;
         border-bottom: 1px solid rgba(0,0,0,.125);
+    }
+    .container-fluid{
+        padding-top: 0;
+    }
+    .form-check-label{
+        font-weight: 900;
+        background-color: white
     }
 </style>
 {% endblock %}
@@ -33,13 +41,16 @@
     {% endif %}
     {% endif %}
 {% endblock %}
+{% block dropdown %}
+<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item" href="/signup/{{nbr}}/arabe">Ar</a>
+    <a class="dropdown-item" href="/signup/{{nbr}}/french">Fr</a>
+    <a class="dropdown-item" href="/signup/{{nbr}}/english">Eng</a>
+</div>
+{% endblock %}
+
 {% block lang %}
-    {% if lang == "english" %}Eng
-    {% else %}{% if lang =="arabe" %}Ar
-    {% else %}{% if lang=="french" %}Fr
-    {% endif %}
-    {% endif %}
-    {% endif %}
+    {{lang}}
 {% endblock %}
 {% block body %}
 {% if error %}
@@ -57,18 +68,18 @@
                                placeholder="Street adress ">
                     </div>
                     <div class="form-group col-md-3" id="unit">
-                        <input type="text" style="float: left" class="form-control" name="apt_unit" id="apt_unit" value="{{apt_unit|string}}"
+                        <input type="text" style="float: left" class="form-control" name="apt_unit" disabled id="apt_unit" value="{{apt_unit|string}}"
                                placeholder="APT/UNIT #">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-12" >
-                        <input type="text" class="form-control" name="city" id="city" value="{{city|string}}" placeholder="City">
+                        <input type="text" class="form-control" name="city" id="city" value="{{city|string}}" disabled placeholder="City">
                     </div>
                 </div>
                 <div class="row" style="position: relative">
                     <div class="form-group col-md-5" >
-                        <input type="text" class="form-control" name="state" id="state" value="{{state|string}}" placeholder="State">
+                        <input type="text" class="form-control" name="state" id="state" value="{{state|string}}" disabled placeholder="State">
                     </div>
                     <div class="form-group col-md-7" >
                         <input type="text" class="form-control" name="code_postal" id="zip_code" value="{{code_postal|string}}" placeholder="Zip Code">
@@ -98,18 +109,18 @@
                                placeholder="الشّارع">
                     </div>
                     <div class="form-group col-md-3" id="unit">
-                        <input type="text" style="float: left" class="form-control" name="apt_unit" id="apt_unit" value="{{apt_unit|string}}"
+                        <input type="text" style="float: left" class="form-control" disabled name="apt_unit" id="apt_unit" value="{{apt_unit|string}}"
                                placeholder="رقم المنزل #">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-12" >
-                        <input type="text" class="form-control" name="city" id="city" placeholder="المدينة" value="{{city|string}}">
+                        <input type="text" class="form-control" name="city" id="city" disabled placeholder="المدينة" value="{{city|string}}">
                     </div>
                 </div>
                 <div class="row" style="position: relative">
                     <div class="form-group col-md-5" >
-                        <input type="text" class="form-control" name="state" id="state" placeholder="الولاية" value="{{state|string}}">
+                        <input type="text" class="form-control" name="state" id="state" disabled placeholder="الولاية" value="{{state|string}}">
                     </div>
                     <div class="form-group col-md-7" >
                         <input type="text" class="form-control" name="code_postal" id="zip_code" value="{{code_postal|string}}"placeholder="الرقم البريدي">
@@ -138,18 +149,18 @@
                                placeholder="Adresse rue">
                     </div>
                     <div class="form-group col-md-3" id="unit">
-                        <input type="text" style="float: left" class="form-control" name="apt_unit" id="code postal" value="{{apt_unit|string}}"
+                        <input type="text" style="float: left" class="form-control" disabled name="apt_unit" id="code postal" value="{{apt_unit|string}}"
                                placeholder="APT/UNIT #">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-12" >
-                        <input type="text" class="form-control" name="city" id="city" value="{{city|string}}" placeholder="Ville">
+                        <input type="text" class="form-control" name="city" disabled id="city" value="{{city|string}}" placeholder="Ville">
                     </div>
                 </div>
                 <div class="row" style="position: relative">
                     <div class="form-group col-md-5" >
-                        <input type="text" class="form-control" name="state" id="state" value="{{state|string}}" placeholder="Gouvernorat">
+                        <input type="text" class="form-control" name="state" disabled id="state" value="{{state|string}}" placeholder="Gouvernorat">
                     </div>
                     <div class="form-group col-md-7" >
                         <input type="text" class="form-control" name="code_postal" id="zip_code" value="{{code_postal|string}}" placeholder="Zip Code">
@@ -180,13 +191,6 @@
 {% endblock %}
 {% block scripts %}
 <script>
-    {% if alrt==True %}
-        msg = "voici une liste d'adresses ayant le méme code_postal que vous avez saisi :\n"
-        {% for ligne in code %}
-            msg += "\xa0\xa0\xa0\xa0"+{{ligne|tojson}}+"\n"
-        {% endfor %}
-        alert(msg)
-    {% endif %}
     // normalement fi app.js
     $(function () {
         $('#zip_code').on('input',function(e){

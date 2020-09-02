@@ -5,7 +5,14 @@
     <a href="/home/english">Home</a>
     <a href="#">About Us</a>
     <a href="#">Claims</a>
-    <a href="#">My account</a>
+    <a href="/login/english">My account</a>
+{% endblock %}
+{% block style %}
+<style>
+    .container-fluid{
+        padding-top: 50px;
+    }
+</style>
 {% endblock %}
 {% block lang %}Eng{% endblock %}
 {% block navbarli %}
@@ -19,7 +26,7 @@
         <a href="#">Claims</a>
     </li>
     <li class="pull-right">
-        <a href="#">My account</a>
+        <a href="/login/english">My account</a>
     </li>
     <li class="pull-right">
         <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
@@ -36,11 +43,15 @@
             </div>
         </div>
     </li>
+    <li class="pull-right">
+        <button class="insurence-btn">Cars Insurence</button>
+    </li>
 
 {% endblock %}
 {% block body %}
     <div class="container-fluid">
-        <h1>Your well being is our duty </h1>
+        <h1>Forget Everything You </h1>
+		<h1>Know About Insurance </h1>
         <p>Instant everything. No brainer prices. Big heart. </p>
         <a href="/signup/1/{{ lang }}">
             <button class="btn btn-primary">Check our prices</button>

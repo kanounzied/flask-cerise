@@ -1,0 +1,79 @@
+{% extends 'sign.html' %}
+{% block nbr %}{{ nbr }}{% endblock %}
+{% block sidenav %}
+{% if lang == "english" %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<a href="#">Claims</a>
+<a href="#">My account</a>
+{% else %}{%if lang =="arabe" %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="#">معلومات</a>
+<a href="#">مطالب</a>
+<a href="#">حسابي</a>
+{% else %}{%if lang=="french" %}
+<a href="/home/french">Acceuil</a>
+<a href="#">Informations</a>
+<a href="#">Réclamations</a>
+<a href="#">Mon compte</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block navlang %}
+<div class="dropright btn-group show">
+    <a class="btn btn-secondary dropdown-toggle" href="#" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {% block lang %}{{lang}}{% endblock %}
+    </a>
+
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <a class="dropdown-item" href="/preview/arabe">Ar</a>
+        <a class="dropdown-item" href="/preview/french">Fr</a>
+        <a class="dropdown-item" href="/preview/english">Eng</a>
+    </div>
+</div>
+{% endblock %}
+{% block body %}
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid">
+    <div class="content" style="text-align: center">
+        <h3 style="margin-bottom: 50px">Choose one of your properties :</h3>
+        <dl class="contract-list">
+            {% for contrat in contrats %}
+            <dt><a href="/preview/english/{{loop.index}}">{{contrat}}</a></dt>
+            {% endfor %}
+        </dl>
+    </div>
+
+</div>
+{% else %}{% if lang =="arabe" %}
+<div class="arab container-fluid">
+    <div class="content" style="text-align: center">
+        <h3 style="margin-bottom: 50px">Choose one of your properties :</h3>
+        <dl class="contract-list">
+            {% for contrat in contrats %}
+            <dt><a href="/preview/arabe/{{loop.index}}">{{contrat}}</a></dt>
+            {% endfor %}
+        </dl>
+    </div>
+
+</div>
+{% else %}{% if lang=="french" %}
+<div class="french container-fluid">
+    <div class="content" style="text-align: center">
+        <h3 style="margin-bottom: 50px">Choose one of your properties :</h3>
+        <dl class="contract-list">
+            {% for contrat in contrats %}
+            <dt><a href="/preview/french/{{loop.index}}">{{contrat}}</a></dt>
+            {% endfor %}
+        </dl>
+    </div>
+
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}

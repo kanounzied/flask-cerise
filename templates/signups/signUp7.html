@@ -28,12 +28,7 @@
 {% endif %}
 {% endblock %}
 {% block lang %}
-{% if lang == "english" %}Eng
-{% else %}{% if lang =="arabe" %}Ar
-{% else %}{% if lang=="french" %}Fr
-{% endif %}
-{% endif %}
-{% endif %}
+{{lang}}
 {% endblock %}
 {% block body %}
 {% if error %}
@@ -59,7 +54,7 @@
             </label>
                 <div class="def-number-input number-input safari_only">
                     <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus button"></button>
-                    <input id="room" class="quantity" min="0" name="room" value="1" type="number">
+                    <input id="room" class="quantity" min="0" max="30" name="room" value="1" type="number">
                     <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus button"></button>
                 </div>
 
@@ -78,7 +73,7 @@
             </label>
                 <div class="def-number-input number-input safari_only">
                     <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus button"></button>
-                    <input id="etage" class="quantity" min="0" name="etage" value="0" type="number">
+                    <input id="etage" class="quantity" min="0" max="50" name="etage" value="0" type="number">
                     <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus button"></button>
                 </div>
 
@@ -112,7 +107,7 @@
             </label>
                 <div class="def-number-input number-input safari_only">
                     <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus button"></button>
-                    <input id="room" class="quantity" min="0" name="room" value="1" type="number">
+                    <input id="room" class="quantity" min="0" max="30" name="room" value="1" type="number">
                     <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus button"></button>
                 </div>
             </div>
@@ -131,7 +126,7 @@
             </label>
                 <div class="def-number-input number-input safari_only">
                 <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus button"></button>
-                <input id="etage" class="quantity" min="0" name="etage" value="0" type="number">
+                <input id="etage" class="quantity" min="0" max="50" name="etage" value="0" type="number">
                 <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus button"></button>
             </div>
             </div>
@@ -162,7 +157,7 @@
             </label>
                 <div class="def-number-input number-input safari_only">
                     <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus button"></button>
-                    <input id="room" class="quantity" min="0" name="room" value="1" type="number">
+                    <input id="room" class="quantity" min="0" max="30" name="room" value="1" type="number">
                     <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus button"></button>
                 </div>
 
@@ -181,7 +176,7 @@
             </label>
                 <div class="def-number-input number-input safari_only">
                     <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus button"></button>
-                    <input id="etage" class="quantity" min="0" name="etage" value="0" type="number">
+                    <input id="etage" class="quantity" min="0" max="50" name="etage" value="0" type="number">
                     <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus button"></button>
                 </div>
 

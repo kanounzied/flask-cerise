@@ -5,7 +5,14 @@
     <a href="/home/french">Acceuil</a>
     <a href="#">Informations</a>
     <a href="#">Réclamations</a>
-    <a href="#">Mon compte</a>
+    <a href="/login/french">Mon compte</a>
+{% endblock %}
+{% block style %}
+<style>
+    .container-fluid{
+        padding-top: 50px;
+    }
+</style>
 {% endblock %}
 {% block lang %}Fr{% endblock %}
 {% block navbarli %}
@@ -19,7 +26,7 @@
         <a  href="#">Réclamations</a>
     </li>
     <li class="pull-right">
-        <a href="#">Mon compte</a>
+        <a href="/login/french">Mon compte</a>
     </li>
     <li class="pull-right">
         <div class="dropdown show">
@@ -33,6 +40,9 @@
                 <a class="dropdown-item" href="/home/english">Eng</a>
             </div>
         </div>
+    </li>
+    <li class="pull-right">
+        <button class="insurence-btn">Cars Insurence</button>
     </li>
 {% endblock %}
 {% block body %}

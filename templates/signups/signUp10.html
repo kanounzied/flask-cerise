@@ -21,12 +21,7 @@
 {% endif %}
 {% endblock %}
 {% block lang %}
-{% if lang == "english" %}Eng
-{% else %}{% if lang =="arabe" %}Ar
-{% else %}{% if lang=="french" %}Fr
-{% endif %}
-{% endif %}
-{% endif %}
+{{lang}}
 {% endblock %}
 {% block body %}
 {% if error %}
@@ -203,7 +198,7 @@
 {% else %}{% if lang=="french" %}
 <div class="french container-fluid">
     <div class="content">
-        <h1 class="center-text">Qui est avec toi?</h1>
+        <h1 class="center-text">Qui habite avec toi?</h1>
     </div>
     <form class="fifth-form" method="post" action="/signup/11/{{lang}}">
         <div class="row">

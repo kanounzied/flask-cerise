@@ -1,0 +1,306 @@
+{% extends 'sign.html' %}
+{% block nbr %}{{ nbr }}{% endblock %}
+{% block sidenav %}
+{% if lang == "english" %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<a href="#">Claims</a>
+<a href="#">My account</a>
+{% else %}{%if lang =="arabe" %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="#">معلومات</a>
+<a href="#">مطالب</a>
+<a href="#">حسابي</a>
+{% else %}{%if lang=="french" %}
+<a href="/home/french">Acceuil</a>
+<a href="#">Informations</a>
+<a href="#">Réclamations</a>
+<a href="#">Mon compte</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block navlang %}
+<div class="dropright btn-group show">
+    <a class="btn btn-secondary dropdown-toggle" href="#" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {% block lang %}{{lang}}{% endblock %}
+    </a>
+
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <a class="dropdown-item" href="/login/arabe">Ar</a>
+        <a class="dropdown-item" href="/login/french">Fr</a>
+        <a class="dropdown-item" href="/login/english">Eng</a>
+    </div>
+</div>
+{% endblock %}
+{% block body %}
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid">
+    <div class="content">
+
+    </div>
+    <div class="pop_pres">
+
+        <form action="/forgot/pwd/{{lang}}" method="post">
+            <button type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="content">
+                <h4 style="margin-top: 30px;font-size: 1rem">We have sent you a mail with a code <br> please retype it
+                    here:</h4>
+            </div>
+            <div class="text-center" style="width: 100%; margin: 30px 0">
+                <input style="width: 30px" class="num _1" name="one" type="text">&nbsp;-
+                <input style="width: 30px" class="num _2" name="two" type="text">&nbsp;-
+                <input style="width: 30px" class="num _3" name="three" type="text">&nbsp;-
+                <input style="width: 30px" class="num _4" name="four" type="text">&nbsp;-
+                <input style="width: 30px" class="num _5" name="five" type="text">
+            </div>
+
+            <button type="submit" name="code_form" class="btn">Send</button>
+        </form>
+    </div>
+    <form class="first_form" method="post" action="/login/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="email" class="form-control" name="email" id="email"
+                       placeholder="Email">
+            </div>
+        </div>
+        <div class="row" style="position: relative">
+            <div class="form-group col-12 ">
+                <input type="password" class="form-control" name="password" id="password"
+                       placeholder="Password">
+            </div>
+            <a href="#" data-toggle="modal" data-target="#fill_email" style="
+                        position: absolute;
+                        right: 20px;
+                        bottom: -7px;
+                        font-size: 13px;">forgot your password ?</a>
+        </div>
+        <div class="row" style="padding-top: 15px">
+            <div class="g-recaptcha" data-sitekey="6LfBg8MZAAAAANGW1yEb9v12b-qbpmMvgSmOd_Tj" data-action='submit'></div>
+        </div>
+        <div class="row">
+            <button type="submit" name="login" class="btn btn-primary col-2">Connect</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+</div>
+<div class="modal fade" id="fill_email" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body ">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="/static/images/fpwd.png" alt="">
+                <h4>Please enter your email:</h4>
+            </div>
+            <form action="" style="width: 100%">
+                <div class="text-center" style="width: 100%"><input type="email" placeholder="Email"></div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" class="btn">Send</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+{% else %}{% if lang =="arabe" %}
+<div class="arab container-fluid">
+    <div class="content">
+    </div>
+    <div class="pop_pres">
+
+        <form action="/forgot/pwd/{{lang}}" method="post">
+            <button type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="content">
+                <h4 style="margin-top: 30px;font-size: 1rem"> لقد أرسلنا لك بريدًا بأرقام مشفرة <br>يجب إعادة كتابته
+                    هنا:</h4>
+            </div>
+            <div class="text-center" style="width: 100%; margin: 30px 0">
+                <input style="width: 30px" class="num _1" name="one" type="text">&nbsp;-
+                <input style="width: 30px" class="num _2" name="two" type="text">&nbsp;-
+                <input style="width: 30px" class="num _3" name="three" type="text">&nbsp;-
+                <input style="width: 30px" class="num _4" name="four" type="text">&nbsp;-
+                <input style="width: 30px" class="num _5" name="five" type="text">
+            </div>
+
+            <button type="submit" name="code_form" class="btn">Send</button>
+        </form>
+    </div>
+    <form class="first_form" method="post" action="/login/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="email" class="form-control" name="email" id="email"
+                       placeholder="البريد الإلكتروني">
+            </div>
+        </div>
+        <div class="row" style="position: relative">
+            <div class="form-group col-12 ">
+                <input type="password" class="form-control" name="password" id="password"
+                       placeholder="كلمه المرور">
+            </div>
+            <a href="#" data-toggle="modal" data-target="#fill_email" style="
+                        position: absolute;
+                        right: 20px;
+                        bottom: -7px;
+                        font-size: 13px;">نسيت كلمة المرور الخاصة بك ؟</a>
+        </div>
+        <div class="row" style="padding-top: 15px">
+            <div class="g-recaptcha" data-sitekey="6LfBg8MZAAAAANGW1yEb9v12b-qbpmMvgSmOd_Tj" data-action='submit'></div>
+        </div>
+        <div class="row">
+            <button type="submit" name="login" class="btn btn-primary col-2">Connect</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+</div>
+<div class="modal fade" id="fill_email" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body ">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="/static/images/fpwd.png" alt="">
+                <h4>الرجاء إدخال بريدك الإلكتروني:</h4>
+            </div>
+            <form action="" style="width: 100%">
+                <div class="text-center" style="width: 100%"><input type="email" placeholder="Email"></div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" class="btn">Send</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+{% else %}{% if lang=="french" %}
+<div class="french container-fluid">
+    <div class="content">
+    </div>
+    <div class="pop_pres">
+
+        <form action="/forgot/pwd/{{lang}}" method="post">
+            <button type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="content">
+                <h4 style="margin-top: 30px;font-size: 1rem">Nous vous avons envoyé un email avec un code<br>
+                ecrivez le ici:</h4>
+            </div>
+            <div class="text-center" style="width: 100%; margin: 30px 0">
+                <input style="width: 30px" class="num _1" name="one" type="text">&nbsp;-
+                <input style="width: 30px" class="num _2" name="two" type="text">&nbsp;-
+                <input style="width: 30px" class="num _3" name="three" type="text">&nbsp;-
+                <input style="width: 30px" class="num _4" name="four" type="text">&nbsp;-
+                <input style="width: 30px" class="num _5" name="five" type="text">
+            </div>
+
+            <button type="submit" name="code_form" class="btn">Send</button>
+        </form>
+    </div>
+    <form class="first_form" method="post" action="/login/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="email" class="form-control" name="email" id="email"
+                       placeholder="Email">
+            </div>
+        </div>
+        <div class="row" style="position: relative">
+            <div class="form-group col-12 ">
+                <input type="password" class="form-control" name="password" id="password"
+                       placeholder="Mot de passe">
+            </div>
+            <a href="#" data-toggle="modal" data-target="#fill_email" style="
+                        position: absolute;
+                        right: 20px;
+                        bottom: -7px;
+                        font-size: 13px;">mot de passe oublié ?</a>
+        </div>
+        <div class="row" style="padding-top: 15px">
+            <div class="g-recaptcha" data-sitekey="6LfBg8MZAAAAANGW1yEb9v12b-qbpmMvgSmOd_Tj" data-action='submit'></div>
+        </div>
+        <div class="row">
+            <button type="submit" name="login" class="btn btn-primary col-2">Connect</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+</div>
+<div class="modal fade" id="fill_email" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body ">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="/static/images/fpwd.png" alt="">
+                <h4>Ecrivez votre email:</h4>
+            </div>
+            <form action="" style="width: 100%">
+                <div class="text-center" style="width: 100%"><input type="email" placeholder="Email"></div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" class="btn">Envoyer</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+
+{% endblock %}
+{% block scripts %}
+<!--<script>-->
+<!--    function onSubmit(token) {-->
+<!--        document.getElementById("demo-form").submit();-->
+<!--    }-->
+<!--    function onClick(e) {-->
+<!--        e.preventDefault();-->
+<!--        grecaptcha.ready(function() {-->
+<!--            grecaptcha.execute('reCAPTCHA_6LecNMMZAAAAAAt800_4zqo2zEtYkYO323eNleAD', {action: 'submit'}).then(function(token) {-->
+<!--                // Add your logic to submit to your backend server here.-->
+<!--            });-->
+<!--        });-->
+<!--    }-->
+<!--</script>-->
+<script>
+    $(function () {
+        $('.num').keydown(function (event) {
+            if (parseInt($(this).val()) < 10) {
+                // event.preventDefault();
+                if (event.which !== 8) {
+                    $(this).next('.num').focus();
+                }
+            }
+        });
+        $('.modal button[type="submit"]').on('click', function () {
+            var testEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+            email = $('.modal input').val()
+            if (testEmail.test(email)) {
+                $('.pop_pres').css('display', 'flex');
+                req = $.ajax({
+                    url: "/forgot/pwd/{{lang}}",
+                    type: 'POST',
+                    data:{
+                        'email': email,
+                        'gen_code': true
+                    }
+                })
+            }
+        })
+        $('.pop_pres .close').on('click', function () {
+            $('.pop_pres').css('display', 'none');
+        })
+    })
+</script>
+{% endblock %}

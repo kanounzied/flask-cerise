@@ -14,4 +14,3 @@ AutresBiens = db['AutresBiens']
 Categories = db['Categories']
 Contrat = db['Contrat']
 Propriete = db['Propriete']
-

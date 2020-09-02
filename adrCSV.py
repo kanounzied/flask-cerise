@@ -1,4 +1,5 @@
 import csv
+import random
 import urllib.error as urllib1
 import urllib.request as urllib2
 
@@ -18,7 +19,8 @@ def fonc(url, classe):
         'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
         'Accept-Encoding': 'none',
         'Accept-Language': 'en-US,en;q=0.8',
-        'Connection': 'keep-alive'}
+        'Connection': 'keep-alive'
+    }
 
     req = urllib2.Request(base_site, headers=hdr)
 
@@ -61,13 +63,14 @@ def fonc(url, classe):
 tableau = fonc("https://www.codepostalmonde.com/tunisia/", 'col-md-6 mb-2')
 states = tableau[0]
 with open('adresse.csv', mode='a', encoding="utf-8", newline='') as csv_file:  # enregistrement du dict dans adresse.csv
-    fieldnames = ['adresse', 'code_postal']
+    fieldnames = ['adresse', 'code_postal', 'score']
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames, delimiter=';')
 
     writer.writeheader()
     for url, state, i in zip(tableau[1], states, range(24)):  # parcour sur les gouvernorats
         tab2 = fonc(url, 'col-md-4 mb-2')
         adresse = state
+        score = random.randint(60, 100)
         print(adresse)
         for tab, link in zip(tab2[0], tab2[1]):  # parcour sur chaque ville du gouvernorat
             adresse1 = adresse + ', ' + tab
@@ -78,7 +81,8 @@ with open('adresse.csv', mode='a', encoding="utf-8", newline='') as csv_file:  #
                 adresse2 = adresse1 + ', ' + adr1
                 data = {
                     "adresse": adresse2,
-                    "code_postal": adr2
+                    "code_postal": adr2,
+                    'score': score
                 }
                 writer.writerow(data)
     csv_file.close()

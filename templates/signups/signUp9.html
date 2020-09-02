@@ -21,12 +21,7 @@
 {% endif %}
 {% endblock %}
 {% block lang %}
-{% if lang == "english" %}Eng
-{% else %}{% if lang =="arabe" %}Ar
-{% else %}{% if lang=="french" %}Fr
-{% endif %}
-{% endif %}
-{% endif %}
+{{lang}}
 {% endblock %}
 {% block body %}
 {% if error %}
@@ -60,12 +55,12 @@
                         <source class="source _2" srcset="/static/images/surface.jpg">
                         <img style="width: 130px;margin-top: 30px" src="/static/images/surface.jpg" alt="surfaceimage" >
                     </picture>
-                    <h2>normal</h2>
+                    <h2>average</h2>
                     <span>100 m²&#10877; . <300 m²</span>
                 </label>
                 <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="range2" value="range2" name="range">
                 <label style="display: none" class="form-check-label without" for="range2">
-                    normal <span>100 m²&#10877; . <300 m²</span>
+                    average <span>100 m²&#10877; . <300 m²</span>
                 </label>
 
             </div>
@@ -89,7 +84,11 @@
             <button type="submit" name="form9" class="btn btn-primary col-2">Next</button>
         </div>
     </form>
+    {% if jump is sameas True %}
+    <div class="back"><a href="/signup/7/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+    {% else %}
     <div class="back"><a href="/signup/8/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+    {% endif %}
 </div>
 {% else %}{% if lang =="arabe" %}
 <div class="arab container-fluid">
@@ -148,7 +147,11 @@
             <button type="submit" name="form9" class="btn btn-primary col-2">Next</button>
         </div>
     </form>
+    {% if jump is sameas True %}
+    <div class="back"><a href="/signup/7/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+    {% else %}
     <div class="back"><a href="/signup/8/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+    {% endif %}
 </div>
 {% else %}{% if lang=="french" %}
 <div class="french container-fluid">
@@ -178,12 +181,12 @@
                         <source class="source _2" srcset="/static/images/surface.jpg">
                         <img style="margin-top: 30px;width: 130px" src="/static/images/surface.jpg" alt="surfaceimage" >
                     </picture>
-                    <h2>normal</h2>
+                    <h2>moyenne</h2>
                     <span>100 m²&#10877; . <300 m²</span>
                 </label>
                 <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="range2" value="range2" name="range">
                 <label style="display: none" class="form-check-label without" for="range2">
-                    normal  <span>100 m²&#10877; . <300 m²</span>
+                    moyenne  <span>100 m²&#10877; . <300 m²</span>
                 </label>
 
             </div>
@@ -207,7 +210,11 @@
             <button type="submit" name="form9" class="btn btn-primary col-2">Next</button>
         </div>
     </form>
+    {% if jump is sameas True %}
+    <div class="back"><a href="/signup/7/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+    {% else %}
     <div class="back"><a href="/signup/8/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+    {% endif %}
 </div>
 {% endif %}
 {% endif %}

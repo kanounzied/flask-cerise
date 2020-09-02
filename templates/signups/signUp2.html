@@ -20,13 +20,29 @@
     {% endif %}
     {% endif %}
 {% endblock %}
+{% block dropdown %}
+<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item" href="/signup/{{nbr}}/arabe">Ar</a>
+    <a class="dropdown-item" href="/signup/{{nbr}}/french">Fr</a>
+    <a class="dropdown-item" href="/signup/{{nbr}}/english">Eng</a>
+</div>
+{% endblock %}
+{% block dropdown2 %}
+<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item" href="/signup/{{nbr}}/arabe">Ar</a>
+    <a class="dropdown-item" href="/signup/{{nbr}}/french">Fr</a>
+    <a class="dropdown-item" href="/signup/{{nbr}}/english">Eng</a>
+</div>
+{% endblock %}
 {% block lang %}
-{% if lang == "english" %}Eng
-{% else %}{% if lang =="arabe" %}Ar
-{% else %}{% if lang=="french" %}Fr
-{% endif %}
-{% endif %}
-{% endif %}
+{{lang}}
+{% endblock %}
+{% block style %}
+<style>
+    .container-fluid{
+        padding-top: 50px;
+    }
+</style>
 {% endblock %}
 {% block body %}
 {% if error %}

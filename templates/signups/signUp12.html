@@ -21,12 +21,7 @@
 {% endif %}
 {% endblock %}
 {% block lang %}
-{% if lang == "english" %}Eng
-{% else %}{% if lang =="arabe" %}Ar
-{% else %}{% if lang=="french" %}Fr
-{% endif %}
-{% endif %}
-{% endif %}
+{{lang}}
 {% endblock %}
 {% block body %}
 {% if error %}

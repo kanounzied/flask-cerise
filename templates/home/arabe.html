@@ -5,7 +5,15 @@
     <a href="/home/arabe">الرئيسية</a>
     <a href="#">معلومات</a>
     <a href="#">مطالب</a>
-    <a href="#">حسابي</a>
+    <a href="/login/arabe">حسابي</a>
+    <button class="insurence-btn">تأمين سيارات</button>
+{% endblock %}
+{% block style %}
+<style>
+    .container-fluid{
+        padding-top: 50px;
+    }
+</style>
 {% endblock %}
 {% block lang %}Ar{% endblock %}
 {% block navbarli %}
@@ -19,7 +27,7 @@
     <a class="arab" href="#">مطالب</a>
 </li>
 <li class="pull-right">
-    <a href="#">حسابي</a>
+    <a href="/login/arabe">حسابي</a>
 </li>
 <li class="pull-right">
     <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
@@ -34,6 +42,9 @@
             <a class="dropdown-item" href="/home/english">Eng</a>
         </div>
     </div>
+</li>
+<li class="pull-right">
+    <button class="insurence-btn" style="font-weight: bold"> تأمين سيارات</button>
 </li>
 {% endblock %}
 {% block body %}
