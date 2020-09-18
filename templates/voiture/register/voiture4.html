@@ -1,0 +1,293 @@
+{% extends 'sign.html' %}
+{% block nbr %}{{ nbr }}{% endblock %}
+{% block sidenav %}
+{% if lang == "english" %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<a href="#">Claims</a>
+<a href="#">My account</a>
+{% else %}{% if lang =="arabe" %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="#">معلومات</a>
+<a href="#">مطالب</a>
+<a href="#">حسابي</a>
+{% else %}{% if lang=="french" %}
+<a href="/home/french">Acceuil</a>
+<a href="#">Informations</a>
+<a href="#">Réclamations</a>
+<a href="#">Mon compte</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block lang %}
+{{lang}}
+{% endblock %}
+{% block style %}
+<style>
+    .form-check{
+        margin-bottom: 0;
+    }
+    .container-fluid{
+        padding-top: 0;
+    }
+    label h2{
+        background-color: white;
+    }
+
+</style>
+{% endblock %}
+{% block body %}
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid">
+    <div class="content">
+        <h1 class="center-text">Vehicle brand and model?</h1>
+    </div>
+    <form class="third-form" method="post" action="/voiture/5/{{lang}}">
+        <div class="row" style="text-align: center;">
+            <div class="form-group col-md-6">
+                <label for="marque">Vehicle brand</label>
+                <select class="form-control" style="float: right;" name="marque" id="marque">
+                    <option>Select a brand</option>
+                    <option>Renault</option>
+                    <option>Fiat</option>
+                    <option>Audi</option>
+                    <option>Toyota</option>
+                    <option>Peugeot</option>
+                    <option>Opel</option>
+                    <option>Seat</option>
+                    <option>Alfa Romeo</option>
+                    <option>Citroen</option>
+                    <option>Mercedes</option>
+                    <option>Ford</option>
+                    <option>Honda</option>
+                    <option>Volkswagen</option>
+                    <option>BMW</option>
+                    <option>Nissan</option>
+                    <option>Lancia</option>
+                    <option>Kia</option>
+                    <option>Jaguar</option>
+                    <option>Chevrolet</option>
+                    <option>Lexus</option>
+                    <option>Chrysler</option>
+                    <option>Dodge</option>
+                    <option>Hyundai</option>
+                    <option>Jeep</option>
+                    <option>Lada</option>
+                    <option>Land Rover</option>
+                    <option>Mazda</option>
+                    <option>Mini</option>
+                    <option>Mitsubishi</option>
+                    <option>Smart</option>
+                    <option>Skoda</option>
+                    <option>Saab</option>
+                    <option>Volvo</option>
+                    <option>Ssangyong</option>
+                    <option>Suzuki</option>
+                    <option>Isuzu</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+             
+                <label for="marque">Model</label>
+                <select class="form-control" name="marque" id="marque">
+                    <option>Select model</option>
+                    <option>Renault</option>
+                    <option>Fiat</option>
+                    <option>Audi</option>
+                    <option>Toyota</option>
+                    <option>Peugeot</option>
+                    <option>Opel</option>
+                    <option>Seat</option>
+                    <option>Alfa Romeo</option>
+                    <option>Citroen</option>
+                    <option>Mercedes</option>
+                    <option>Ford</option>
+                    <option>Honda</option>
+                    
+                </select>
+                
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="vform4" class="btn btn-primary col-2">Next</button>
+        </div>
+
+    </form>
+    <div class="back"><a href="/voiture/3/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+
+</div>
+
+{% else %}{% if lang == "arabe" %}
+<div class="arab container-fluid">
+    <div class="content">
+        <h1 class="center-text">ماركة وموديل الكرهبة؟</h1>
+    </div>
+    <form class="third-form" method="post" action="/voiture/5/{{lang}}">
+        <div class="row"  style="text-align: center;">
+            <div class="form-group col-md-6">
+             
+                <label for="marque">موديل الكرهبة</label>
+                <select class="form-control" name="marque" id="marque">
+                    <option>إختار موديل</option>
+                    <option>Renault</option>
+                    <option>Fiat</option>
+                    <option>Audi</option>
+                    <option>Toyota</option>
+                    <option>Peugeot</option>
+                    <option>Opel</option>
+                    <option>Seat</option>
+                    <option>Alfa Romeo</option>
+                    <option>Citroen</option>
+                    <option>Mercedes</option>
+                    <option>Ford</option>
+                    <option>Honda</option>
+                    
+                </select>
+                
+            </div>
+            <div class="form-group col-md-6">
+             
+                <label for="marque">ماركة الكرهبة</label>
+                <select class="form-control" name="marque" id="marque">
+                    <option>إختار الماركة</option>
+                    <option>Renault</option>
+                    <option>Fiat</option>
+                    <option>Audi</option>
+                    <option>Toyota</option>
+                    <option>Peugeot</option>
+                    <option>Opel</option>
+                    <option>Seat</option>
+                    <option>Alfa Romeo</option>
+                    <option>Citroen</option>
+                    <option>Mercedes</option>
+                    <option>Ford</option>
+                    <option>Honda</option>
+                    <option>Volkswagen</option>
+                    <option>BMW</option>
+                    <option>Nissan</option>
+                    <option>Lancia</option>
+                    <option>Kia</option>
+                    <option>Jaguar</option>
+                    <option>Chevrolet</option>
+                    <option>Lexus</option>
+                    <option>Chrysler</option>
+                    <option>Dodge</option>
+                    <option>Hyundai</option>
+                    <option>Jeep</option>
+                    <option>Lada</option>
+                    <option>Land Rover</option>
+                    <option>Mazda</option>
+                    <option>Mini</option>
+                    <option>Mitsubishi</option>
+                    <option>Smart</option>
+                    <option>Skoda</option>
+                    <option>Saab</option>
+                    <option>Volvo</option>
+                    <option>Ssangyong</option>
+                    <option>Suzuki</option>
+                    <option>Isuzu</option>
+                    <option>Other</option>
+                </select>
+                
+            </div>
+            
+
+        </div>
+        <div class="row">
+            <button type="submit" name="vform4" class="btn btn-primary col-2">التالي</button>
+        </div>
+
+    </form>
+    <div class="back"><a href="/voiture/3/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang == "french" %}
+    <div class="french container-fluid">
+        <div class="content">
+            <h1 class="center-text">La marque et le modèle du véhicule?</h1>
+        </div>
+        <form class="third-form" method="post" action="/voiture/5/{{lang}}">
+            <div class="row" style="text-align: center;">
+                
+                <div class="form-group col-md-6">
+                    <label for="marque">La marque du véhicule</label>
+                    <select class="form-control" style="float: left;" name="marque" id="marque">
+                        <option>Sélectionner la marque</option>
+                        <option>Renault</option>
+                        <option>Fiat</option>
+                        <option>Audi</option>
+                        <option>Toyota</option>
+                        <option>Peugeot</option>
+                        <option>Opel</option>
+                        <option>Seat</option>
+                        <option>Alfa Romeo</option>
+                        <option>Citroen</option>
+                        <option>Mercedes</option>
+                        <option>Ford</option>
+                        <option>Honda</option>
+                        <option>Volkswagen</option>
+                        <option>BMW</option>
+                        <option>Nissan</option>
+                        <option>Lancia</option>
+                        <option>Kia</option>
+                        <option>Jaguar</option>
+                        <option>Chevrolet</option>
+                        <option>Lexus</option>
+                        <option>Chrysler</option>
+                        <option>Dodge</option>
+                        <option>Hyundai</option>
+                        <option>Jeep</option>
+                        <option>Lada</option>
+                        <option>Land Rover</option>
+                        <option>Mazda</option>
+                        <option>Mini</option>
+                        <option>Mitsubishi</option>
+                        <option>Smart</option>
+                        <option>Skoda</option>
+                        <option>Saab</option>
+                        <option>Volvo</option>
+                        <option>Ssangyong</option>
+                        <option>Suzuki</option>
+                        <option>Isuzu</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+             
+                    <label for="marque">Modèle</label>
+                    <select class="form-control" name="marque" id="marque">
+                        <option>Sélectionner le modèle</option>
+                        <option>Renault</option>
+                        <option>Fiat</option>
+                        <option>Audi</option>
+                        <option>Toyota</option>
+                        <option>Peugeot</option>
+                        <option>Opel</option>
+                        <option>Seat</option>
+                        <option>Alfa Romeo</option>
+                        <option>Citroen</option>
+                        <option>Mercedes</option>
+                        <option>Ford</option>
+                        <option>Honda</option>
+                        
+                    </select>
+                    
+                </div>
+
+            </div>
+            <div class="row">
+                <button type="submit" name="vform4" class="btn btn-primary col-2">Suivant</button>
+            </div>
+    
+        </form>
+        <div class="back"><a href="/voiture/3/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+    </div>
+
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}

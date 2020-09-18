@@ -82,13 +82,21 @@
                         <input type="text" class="form-control" name="state" id="state" value="{{state|string}}" disabled placeholder="State">
                     </div>
                     <div class="form-group col-md-7" >
-                        <input type="text" class="form-control" name="code_postal" id="zip_code" value="{{code_postal|string}}" placeholder="Zip Code">
+                        <input type="text" class="form-control" disabled name="code_postal" id="zip_code" value="{{code_postal|string}}" placeholder="Zip Code">
                     </div>
-                    <a href="#" style="display: none; z-index: 100" data-toggle="popover" id="clickme">click me</a>
+                    <a href="#" style="
+                        display: none;
+                        z-index: 1061;
+                        border: 1px solid #ec182cc9;
+                        padding: 0 5px;
+                        border-radius: 4px;
+                        background: #ffffffc7;
+                        color: brown;" data-toggle="popover" id="clickme">click me
+                    </a>
                 </div>
                 <div class="form-check" style="text-align: left">
                     <input type="checkbox" class="form-check-input" name="under_construction" id="exampleCheck1" value="under_construction">
-                    <label class="form-check-label" for="exampleCheck1">This home is still under construction</label>
+                    <label id="construction" class="form-check-label" for="exampleCheck1">This home is still under construction</label>
                 </div>
                 <div class="row" >
                     <button type="submit" name="form3" class="btn btn-primary col-2">Next</button>
@@ -123,13 +131,21 @@
                         <input type="text" class="form-control" name="state" id="state" disabled placeholder="الولاية" value="{{state|string}}">
                     </div>
                     <div class="form-group col-md-7" >
-                        <input type="text" class="form-control" name="code_postal" id="zip_code" value="{{code_postal|string}}"placeholder="الرقم البريدي">
+                        <input type="text" class="form-control" disabled name="code_postal" id="zip_code" value="{{code_postal|string}}"placeholder="الرقم البريدي">
                     </div>
-                    <a href="#" style="display:none; z-index: 100" data-toggle="popover" id="clickme">click me</a>
+                    <a href="#" style="
+                        display: none;
+                        z-index: 1061;
+                        border: 1px solid #ec182cc9;
+                        padding: 0 5px;
+                        border-radius: 4px;
+                        background: #ffffffc7;
+                        color: brown;" data-toggle="popover" id="clickme">click me
+                    </a>
                 </div>
                 <div class="form-check" style="text-align: left">
                     <input type="checkbox" class="form-check-input" name="under_construction" value="under_construction" id="exampleCheck1">
-                    <label class="form-check-label"  for="exampleCheck1">هذا المنزل لا يزال قيد الإنشاء</label>
+                    <label id="construction" class="form-check-label"  for="exampleCheck1">هذا المنزل لا يزال قيد الإنشاء</label>
                 </div>
                 <div class="row" >
                     <button type="submit" name="form3" class="btn btn-primary col-2">Next</button>
@@ -163,13 +179,21 @@
                         <input type="text" class="form-control" name="state" disabled id="state" value="{{state|string}}" placeholder="Gouvernorat">
                     </div>
                     <div class="form-group col-md-7" >
-                        <input type="text" class="form-control" name="code_postal" id="zip_code" value="{{code_postal|string}}" placeholder="Zip Code">
+                        <input type="text" class="form-control" disabled name="code_postal" id="zip_code" value="{{code_postal|string}}" placeholder="Zip Code">
                     </div>
-                    <a href="#" style="display: none; z-index: 100" data-toggle="popover" id="clickme">click me</a>
+                    <a href="#" style="
+                        display: none;
+                        z-index: 1061;
+                        border: 1px solid #ec182cc9;
+                        padding: 0 5px;
+                        border-radius: 4px;
+                        background: #ffffffc7;
+                        color: brown;" data-toggle="popover" id="clickme">click me
+                    </a>
                 </div>
                 <div class="form-check" style="text-align: left">
                     <input type="checkbox" class="form-check-input" value="under_construction" name="under_construction" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Cette maison est encore en construction</label>
+                    <label id="construction" class="form-check-label" for="exampleCheck1">Cette maison est encore en construction</label>
                 </div>
                 <div class="row">
                     <button type="submit" name="form3" class="btn btn-primary col-2">Next</button>
@@ -193,6 +217,10 @@
 <script>
     // normalement fi app.js
     $(function () {
+        document.getElementById('clickme').addEventListener('click', function (event) {
+            event.preventDefault();
+
+        })
         $('#zip_code').on('input',function(e){
             if ($(this).val().length === 4){
                 req = $.ajax({
@@ -204,7 +232,7 @@
                 req.done(function (data) {
                     var tab = data.code_list;
                     $('#clickme').attr("data-original-title","liste des codes postaux")
-                        .attr("data-placement","top")
+                        .attr("data-placement","bottom")
                         .attr("data-trigger","focus");
                     // create liste
                     $('#popover-content').remove();
@@ -214,9 +242,9 @@
                         $('.custom-popover').append($('<li class="list-group-item">'+value+'</li>'))
 
                     })
+                    $('.custom-popover').addClass('anyClass')
                     document.querySelector('#clickme').style.display="unset";
                     // create popup div
-
                 })
             }
         });

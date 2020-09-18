@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}
+        {% if lang=='en'%}
+        Home
+        {% endif %}
+        {% if lang == 'ar' %}
+        الرئيسية
+        {% endif %}
+        {%if lang=="fr" %}
+        Acceuil
+        {% endif %}
+        {% block nbr %}{% endblock %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link href="/static/styles/stylesheet.css" rel="stylesheet">
+    <style>
+        .navbar {
+            border-bottom: #bbbaba 1px solid;
+        }
+
+
+
+    </style>
+    {% block style %} {% endblock %}
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-sm sign">
+    <div class="sidenav" id="mySidenav">
+        <a class="closebtn" href="javascript:void(0)" onclick="closeNav()">&times;</a>
+        {% block sidenav %}
+        <a href="/">Home</a>
+        <a href="#">About Us</a>
+        <a href="#">Claims</a>
+        <a href="#">My account</a>
+        {% endblock %}
+        <div class="dropright btn-group show">
+            <a aria-expanded="false" aria-haspopup="true" class="btn btn-secondary dropdown-toggle"
+               data-toggle="dropdown"
+               href="#" role="button">
+                {{lang}}
+            </a>
+            {% block dropdownlink %}
+            <div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
+                <a class="dropdown-item" href="/vie/?lang=ar">Ar</a>
+                <a class="dropdown-item" href="/vie/?lang=fr">Fr</a>
+                <a class="dropdown-item" href="/vie/?lang=en">Eng</a>
+            </div>
+            {% endblock %}
+        </div>
+
+    </div>
+    {% block span %}<span onclick="openNav()">&#9776;</span>{% endblock %}
+    <!-- Brand/logo -->
+    <a class="navbar-brand" href="#" style="margin-left: 15px">
+        <img alt="logo" class="image-cerise" src="/static/images/cerise.png">
+    </a>
+    <div class="brand-name brand-name" id="brand-name"><img alt="" src="/static/images/cerise.gris.png" width="250px">
+    </div>
+
+</nav>
+{%block body%}
+{% if lang == 'en' %}
+<div class="english container-fluid vie">
+    <div class="content">
+        <h1 class="center-text">Welcome! We can get you an awesome price in seconds.</h1>
+    </div>
+    <form action="#" id="first_form" method="post">
+        <div class="row">
+            <div class="form-group col-xs-12 col-md-6 ">
+                <input class="form-control" name="first_name" placeholder="First name" required='required'
+                       style="float: right;"
+                       type="text">
+            </div>
+            <div class="form-group col-xs-12 col-md-6">
+                <input class="form-control" name="last_name" placeholder="Last name" required="required"
+                       style="float: left"
+                       type="text">
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary col-2" style="margin-left: 42%" type="submit">Go</button>
+            <!--            <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/"><img alt="" id="back-arrow" src="/static/images/back.png "></a></div>
+</div>
+{% endif %}
+
+
+{%if lang == 'fr' %}
+<div class="english container-fluid vie">
+    <div class="content">
+        <h1 class="center-text">Bienvenu! Vous trouverez les meilleurs prix en quelques secondes!</h1>
+    </div>
+    <form action="#" id="first_form1" method="post">
+        <div class="row">
+            <div class="form-group col-xs-12 col-md-6 ">
+                <input class="form-control" name="first_name" placeholder="Nom" required='required'
+                       style="float: right;"
+                       type="text">
+            </div>
+            <div class="form-group col-xs-12 col-md-6">
+                <input class="form-control" name="last_name" placeholder="Prénom" required="required"
+                       style="float: left"
+                       type="text">
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary col-2" style="margin-left: 42%" type="submit">Soumettre</button>
+            <!--            <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/"><img alt="" id="back-arrow" src="/static/images/back.png "></a></div>
+</div>
+{% endif %}
+
+{% if lang == 'ar' %}
+<div class="english container-fluid vie">
+    <div class="content">
+        <h1 class="center-text">مرحبا بيك في سوريز! عندنا أحنا تلقى اعز الأسوام</h1></div>
+    <form action="#" id="first_form11" method="post">
+        <div class="row">
+            <div class="form-group col-xs-12 col-md-6 ">
+                <input class="form-control" name="first_name" placeholder="الإسم" required="required"
+                       style="float : right;" type="text">
+            </div>
+            <div class="form-group col-xs-12 col-md-6">
+                <input class="form-control" name="last_name" placeholder="اللقب" required="required" style="float: left"
+                       type="text">
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary col-2" style="margin-left: 42%" type="submit">Go</button>
+            <!--            <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/"><img alt="" id="back-arrow" src="/static/images/back.png "></a></div>
+</div>
+{% endif %}
+
+{% block scripts %}{% endblock %}
+{% endblock %}
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+
+
+</script>
+
+</body>
+
+
+</html>

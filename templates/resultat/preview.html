@@ -51,7 +51,7 @@
 <a href="/home/english">Home</a>
 <a href="#">About Us</a>
 <a href="#">Claims</a>
-<a href="#">My account</a>
+<a href="/clear">Logout</a>
 {% endblock %}
 {% block lang %}{{lang}}{% endblock %}
 {% block navbarli %}
@@ -94,7 +94,7 @@
     <a href="#">Réclamations</a>
 </li>
 <li class="pull-right">
-    <a href="#">Mon compte</a>
+    <a href="/clear">Déconnexion</a>
 </li>
 <li class="pull-right">
     <div class="dropdown show">
@@ -121,7 +121,7 @@
     <a class="arab" href="#">مطالب</a>
 </li>
 <li class="pull-right">
-    <a href="#">حسابي</a>
+    <a href="/clear">خروج</a>
 </li>
 <li class="pull-right">
     <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
@@ -666,7 +666,7 @@
                     src="/static/images/art.png" alt=""></div>
             <button type="button" class="btn btn-danger plus" data-toggle="modal" data-target="#fineartmodal"
                     style="right: 35px;"><h4>+</h4></button>
-            <h4 class="label">BEAUX ARTS</h4>
+            <h4 class="label">OEUVRES D'ARTS</h4>
         </div>
         <div class="imagebox">
             <div class="circl" data-toggle="modal" data-target="#bikesmodal"><img
@@ -770,7 +770,7 @@
                 <div class="image-container">
                     <img src="/static/images/damaged.png" alt="">
                 </div>
-                <div class="header"><h4><b>Séisme </b></h4></div>
+                <div class="header"><h4><b>SÉISME </b></h4></div>
                 <div class="parag"><p>La couverture sismique n’est pas incluse dans notre politique de base.</p></div>
             </div>
         </div>
@@ -802,7 +802,7 @@
                 <div class="image-container">
                     <img src="/static/images/roommate.png" alt="">
                 </div>
-                <div class="header"><h4><b>Colocataires</b></h4></div>
+                <div class="header"><h4><b>COLLOCATAIRES</b></h4></div>
                 <div class="parag"><p>Notre politique ne couvre pas les affaires de vos colocataires ou les blessures
                     personnelles.</p></div>
             </div>
@@ -964,7 +964,7 @@
     <div class="title"></div>
 </div>
 <div class="covered container">
-    <div class="title"><h3><b>ما هو المغطى</b></h3></div>
+    <div class="title"><h3><b>:أنت مؤمّن من</b></h3></div>
     <div class="row">
         <div class="col-md-6">
             <div class="etiquette">
@@ -981,7 +981,7 @@
                 <div class="image-container">
                     <img src="/static/images/tornado.png" alt="">
                 </div>
-                <div class="header"><h4><b>طقس سيء</b></h4></div>
+                <div class="header"><h4><b>أضرار طبيعية</b></h4></div>
                 <div class="parag"><p>الشتاء مليء بالعواصف و الأمطار اللتي قد تتسبب في عديد الأضرار . نحن نؤمنك على كل
                     هذه الأضرار ما عدى التي تسببها الفيضانات</p></div>
             </div>
@@ -993,7 +993,7 @@
                 <div class="image-container">
                     <img src="/static/images/pipe.png" alt="">
                 </div>
-                <div class="header"><h4><b>أضرار المياه</b></h4></div>
+                <div class="header"><h4><b>أضرار قنوات المياه</b></h4></div>
                 <div class="parag"><p>قد تكون الأنابيب الخاصة بك معرّضة للتّلف، أو حوض استحمام جارك يسرّب المياه من خلال
                     السقف الخاص بك. إذا كان هناك ضرر مفاجئ أو تعرّض للماء، أنت مُغطا.</p></div>
             </div>
@@ -1721,13 +1721,13 @@
                                         background-repeat: no-repeat;"
                                    class="form-control" placeholder="Numero de la carte">
                         </div>
-                        <div class="form-group ">
+                        <div class="form-group">
                             <input type="text" name="date_carte" class="form-control" style="background-image: url(/static/images/calendar.png);
                                         padding-left: 38px;
                                         background-position: 5px;
                                         background-size: 28px;
                                         background-repeat: no-repeat;"
-                                   placeholder="Date d'expiration">
+                                   placeholder="Date">
                         </div>
                         <div class="form-group ">
                             <input type="text" name="cvc" class="form-control" style="background-image: url(/static/images/lock.png);
@@ -1742,12 +1742,14 @@
                                 <number>12.59dt</number>
                                 <tag>/mois</tag>
                             </button>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 {% else %}{% if lang == "arabe" %}
 <div class="modal fade" id="payment" tabindex="-1" role="dialog" aria-labelledby="paymentModal"
      aria-hidden="true">
@@ -1811,14 +1813,14 @@
     var fullDate = new Date()
     var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
     var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+    if (fullDate.getDate() < 10) {
+        currentDate = "0" + currentDate;
+    }
     $('#sandbox-container input').datepicker({
         format: "dd/mm/yyyy",
         startDate: currentDate,
         orientation: "bottom right"
     });
-    if (fullDate.getDate() < 10) {
-        currentDate = "0" + currentDate;
-    }
     var annual = "annual";
     {% if lang == "french" %}
     annual = "annuel";

@@ -31,22 +31,22 @@
 {% if lang == "english" %}
 <div class="english container-fluid">
     <div class="content">
-        <h1 class="center-text">Enter your birth date!</h1>
+        <h1 class="center-text">Some more information!</h1>
     </div>
     <form class="first_form" method="post" action="/signup/15/{{lang}}">
         <div class="row">
             <div class="form-group col-12 ">
-                <input type="date" class="form-control" name="birth" id="birth"
+                <input type="text" class="form-control" name="birth" id="birth"
                        placeholder="birthdate">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-6 ">
-            <input type="number" class="form-control" name="tel" id="tel"
+            <input type="text" onkeypress="return phoneNumber(event)" class="form-control" name="tel" id="tel"
                    placeholder="phone number">
         </div>
             <div class="form-group col-md-6 ">
-                <input type="number" class="form-control" name="cin" id="cin"
+                <input type="text" onkeypress="return cinNumber(event)" class="form-control" name="cin" id="cin"
                        placeholder="CIN">
             </div>
         </div>
@@ -61,22 +61,22 @@
 {% else %}{% if lang =="arabe" %}
 <div class="arab container-fluid">
     <div class="content">
-        <h1 class="center-text">أدخل تاريخ الميلاد </h1>
+        <h1 class="center-text">!المزيد من المعلومات </h1>
     </div>
     <form class="first_form" method="post" action="/signup/15/{{lang}}">
         <div class="row">
             <div class="form-group col-12 ">
-                <input type="date" class="form-control" name="birth" id="birth"
+                <input type="text" class="form-control" name="birth" id="birth"
                        placeholder="تاريخ الميلاد">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-6 ">
-                <input type="number" class="form-control" name="tel" id="tel"
+                <input type="text" onkeypress="return phoneNumber(event)" class="form-control" name="tel" id="tel"
                        placeholder="رقم الهاتف">
             </div>
             <div class="form-group col-md-6 ">
-                <input type="number" class="form-control" name="cin" id="cin"
+                <input type="text" onkeypress="return cinNumber(event)" class="form-control" name="cin" id="cin"
                        placeholder="CIN">
             </div>
         </div>
@@ -91,22 +91,22 @@
 {% else %}{% if lang=="french" %}
 <div class="french container-fluid">
     <div class="content">
-        <h1 class="center-text">Entrez votre date de naissance</h1>
+        <h1 class="center-text">Un peut plus d'informations!</h1>
     </div>
     <form class="first_form" method="post" action="/signup/15/{{lang}}">
         <div class="row">
             <div class="form-group col-12 ">
-                <input type="date" class="form-control" name="birth" id="birth"
+                <input type="text" class="form-control" name="birth" id="birth"
                        placeholder="date de naissance">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-6 ">
-                <input type="number" class="form-control" name="tel" id="tel"
+                <input type="text" onkeypress="return phoneNumber(event)" class="form-control" name="tel" id="tel"
                        placeholder="numero de telephone">
             </div>
             <div class="form-group col-md-6 ">
-                <input type="number" class="form-control" name="cin" id="cin"
+                <input type="text" onkeypress="return cinNumber(event)" class="form-control" name="cin" id="cin"
                        placeholder="CIN">
             </div>
         </div>
@@ -122,4 +122,36 @@
 {% endif %}
 {% endif %}
 {% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+    var fullDate = new Date()
+    var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+    var max = fullDate.getDate() + "/" + twoDigitMonth + "/" +(parseInt(fullDate.getFullYear())-18).toString();
+    if (fullDate.getDate() < 10) {
+        max = "0" + max;
+    }
+    console.log(max)
+    $('#birth').datepicker({
+        format: "dd/mm/yyyy",
+        endDate: max,
+        orientation: "bottom right"
+    });
+    function phoneNumber(evt) {
+        // Only ASCII charactar in that range allowed
+        var ASCIICode = evt.which
+        console.log(ASCIICode);
+        if ((ASCIICode !== 43) && (ASCIICode !== 32) && (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)))
+            return false;
+        return true;
+    }
+    function cinNumber(evt) {
+        // Only ASCII charactar in that range allowed
+        var ASCIICode = evt.which
+        console.log(ASCIICode);
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+        return true;
+    }
+</script>
 {% endblock %}

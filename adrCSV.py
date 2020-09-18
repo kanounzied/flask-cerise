@@ -71,7 +71,7 @@ with open('adresse.csv', mode='a', encoding="utf-8", newline='') as csv_file:  #
         tab2 = fonc(url, 'col-md-4 mb-2')
         adresse = state
         score = random.randint(60, 100)
-        print(adresse)
+        # print(adresse)
         for tab, link in zip(tab2[0], tab2[1]):  # parcour sur chaque ville du gouvernorat
             adresse1 = adresse + ', ' + tab
             tab3 = fonc(link, 'col-md-6 mb-2')

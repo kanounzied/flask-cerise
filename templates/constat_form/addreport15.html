@@ -1,0 +1,193 @@
+{% extends 'constat_form/sign.html' %}
+{% block nbr %}{{ nbr }}{% endblock %}
+{% block style %}
+<!-- <style>
+    @media screen and (max-width: 768px){
+        input{
+            display: inline-block!important;
+        }
+    }
+</style> -->
+{% endblock %}
+{% block sidenav %}
+{% if lang == "english" %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<a href="#">Claims</a>
+<a href="#">My account</a>
+{% else %}{% if lang =="arabe" %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="#">معلومات</a>
+<a href="#">مطالب</a>
+<a href="#">حسابي</a>
+{% else %}{% if lang=="french" %}
+<a href="/home/french">Acceuil</a>
+<a href="#">Informations</a>
+<a href="#">Réclamations</a>
+<a href="#">Mon compte</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block lang %}
+{{lang}}
+{% endblock %}
+{% block body %}
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid">
+    <div class="content">
+            <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">Vehicle B</h1>
+            <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">Policyholder / insured</h1>
+            <img id="insuredimg" src="/static/images/insured.png" alt="insured">               
+    </div>
+    <form class="first_form" method="post" action="/addreport/16/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="name" id="name"
+                       placeholder="Full name">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="adress" id="adress"
+                placeholder="Adress">
+            </div>
+        </div>  
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="number" class="form-control" name="codep" id="codep"
+                       placeholder="Postal code">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="country" id="country"
+                       placeholder="Country">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="email" class="form-control" name="email" id="email"
+                       placeholder="E-mail">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="number" class="form-control" name="tel" id="tel"
+                       placeholder="Phone number">
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form115" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/addreport/14/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang =="arabe" %}
+<div class="arab container-fluid">
+    <div class="content">
+            <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">السيارة ب</h1>
+            <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">حامل الوثيقة / المؤمن عليه</h1>
+            <img id="insuredimg" src="/static/images/insured.png" alt="insured">               
+    </div>
+    <form class="first_form" method="post" action="/addreport/16/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="name" id="name"
+                       placeholder="الاسم الكامل">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="adress" id="adress"
+                placeholder="العنوان">
+            </div>
+        </div>  
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="number" class="form-control" name="codep" id="codep"
+                       placeholder="الرقم البريدي">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="country" id="country"
+                       placeholder="البلد">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="email" class="form-control" name="email" id="email"
+                       placeholder="البريد الإلكتروني">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="number" class="form-control" name="tel" id="tel"
+                       placeholder="رقم الهاتف">
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form115" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/addreport/14/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang=="french" %}
+<div class="french container-fluid">
+    <div class="content">
+            <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">Véhicule B</h1>
+            <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">Preneur d'assurance / assuré</h1>
+            <img id="insuredimg" src="/static/images/insured.png" alt="insured">               
+    </div>
+    <form class="first_form" method="post" action="/addreport/16/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="name" id="name"
+                       placeholder="Nom complet">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="adress" id="adress"
+                placeholder="Adresse">
+            </div>
+        </div>  
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="number" class="form-control" name="codep" id="codep"
+                       placeholder="Code postal">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="country" id="country"
+                       placeholder="Pays">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="email" class="form-control" name="email" id="email"
+                       placeholder="Email">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="number" class="form-control" name="tel" id="tel"
+                       placeholder="Numéro de téléphone">
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form115" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/addreport/14/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% endif %}
+{% endif %}
+{%endif%}
+{%endblock%}
+{% block scripts %}
+<script>
+    $(document).ready(function(){
+        $("input").change(function(){
+            // Change src attribute of image
+            $( "img[alt='insured']" ).attr("src", "/static/images/insured-colored.png");
+        });    
+    });
+</script>
+{% endblock %}

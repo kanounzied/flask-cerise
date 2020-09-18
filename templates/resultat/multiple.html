@@ -39,11 +39,16 @@
 {% endif %}
 {% if lang == "english" %}
 <div class="english container-fluid">
-    <div class="content" style="text-align: center">
+    <div style="text-align: center">
         <h3 style="margin-bottom: 50px">Choose one of your properties :</h3>
-        <dl class="contract-list">
+        <dl class="contract-list anyClass" style="max-height: 400px">
             {% for contrat in contrats %}
-            <dt><a href="/preview/english/{{loop.index}}">{{contrat}}</a></dt>
+            {% if contrat.paid is sameas false %}
+            {% set x = loop.index %}
+            <dt ><a href="/preview/english/{{loop.index}}">{{contrat.adresse}}</a><span id="{{x}}" class="deladd pull-right">Delete</span></dt>
+            {% else %}
+            <dt class="paid"><p>{{contrat.adresse}}</p></dt>
+            {% endif %}
             {% endfor %}
         </dl>
     </div>
@@ -51,11 +56,17 @@
 </div>
 {% else %}{% if lang =="arabe" %}
 <div class="arab container-fluid">
-    <div class="content" style="text-align: center">
+    <div style="text-align: center">
         <h3 style="margin-bottom: 50px">Choose one of your properties :</h3>
-        <dl class="contract-list">
+        <dl class="contract-list anyClass" style="max-height: 400px">
             {% for contrat in contrats %}
-            <dt><a href="/preview/arabe/{{loop.index}}">{{contrat}}</a></dt>
+            {% if contrat.paid is sameas false %}
+            {% set x = loop.index %}
+            <dt ><a href="/preview/arabe/{{loop.index}}">{{contrat.adresse}}</a><span id="{{x}}" class="deladd pull-right">حذف</span></dt>
+            {% else %}
+
+            <dt class="paid"><p>{{contrat.adresse}}</p></dt>
+            {% endif %}
             {% endfor %}
         </dl>
     </div>
@@ -63,17 +74,105 @@
 </div>
 {% else %}{% if lang=="french" %}
 <div class="french container-fluid">
-    <div class="content" style="text-align: center">
+    <div style="text-align: center">
         <h3 style="margin-bottom: 50px">Choose one of your properties :</h3>
-        <dl class="contract-list">
+        <dl class="contract-list anyClass" style="max-height: 400px">
             {% for contrat in contrats %}
-            <dt><a href="/preview/french/{{loop.index}}">{{contrat}}</a></dt>
+            {% if contrat.paid is sameas false %}
+            {% set x = loop.index %}
+            <dt ><a href="/preview/french/{{loop.index}}">{{contrat.adresse}}</a><span id="{{x}}" class="deladd pull-right">Supprimer</span></dt>
+            {% else %}
+            <dt class="paid"><p>{{contrat.adresse}}</p></dt>
+            {% endif %}
             {% endfor %}
         </dl>
     </div>
 
 </div>
+<!--<div class="french container-fluid">-->
+<!--    <div class="row">-->
+<!--        <div class="col-md-4">-->
+<!--            <div style="text-align: center">-->
+<!--                <h3 style="margin-bottom: 50px">Choose one of your properties :</h3>-->
+<!--                <dl class="contract-list anyClass" style="max-height: 400px">-->
+<!--                    {% for contrat in contrats %}-->
+<!--                    {% if contrat.paid is sameas false %}-->
+<!--                    {% set x = loop.index %}-->
+<!--                    <dt ><a href="/preview/french/{{loop.index}}">{{contrat.adresse}}</a><span id="{{x}}" class="deladd pull-right">Supprimer</span></dt>-->
+<!--                    {% else %}-->
+<!--                    <dt class="paid"><p>{{contrat.adresse}}</p></dt>-->
+<!--                    {% endif %}-->
+<!--                    {% endfor %}-->
+<!--                </dl>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-4">-->
+<!--            <div style="text-align: center">-->
+<!--                <h3 style="margin-bottom: 50px">Choose one of your properties :</h3>-->
+<!--                <dl class="contract-list anyClass" style="max-height: 400px">-->
+<!--                    {% for contrat in contrats %}-->
+<!--                    {% if contrat.paid is sameas false %}-->
+<!--                    {% set x = loop.index %}-->
+<!--                    <dt ><a href="/preview/french/{{loop.index}}">{{contrat.adresse}}</a><span id="{{x}}" class="deladd pull-right">Supprimer</span></dt>-->
+<!--                    {% else %}-->
+<!--                    <dt class="paid"><p>{{contrat.adresse}}</p></dt>-->
+<!--                    {% endif %}-->
+<!--                    {% endfor %}-->
+<!--                </dl>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-4">-->
+<!--            <div style="text-align: center">-->
+<!--                <h3 style="margin-bottom: 50px">Choose one of your properties :</h3>-->
+<!--                <dl class="contract-list anyClass" style="max-height: 400px">-->
+<!--                    {% for contrat in contrats %}-->
+<!--                    {% if contrat.paid is sameas false %}-->
+<!--                    {% set x = loop.index %}-->
+<!--                    <dt ><a href="/preview/french/{{loop.index}}">{{contrat.adresse}}</a><span id="{{x}}" class="deladd pull-right">Supprimer</span></dt>-->
+<!--                    {% else %}-->
+<!--                    <dt class="paid"><p>{{contrat.adresse}}</p></dt>-->
+<!--                    {% endif %}-->
+<!--                    {% endfor %}-->
+<!--                </dl>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--</div>-->
 {% endif %}
 {% endif %}
 {% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+    $(function () {
+        $('dt .deladd').on('click', function () {
+            x = parseInt($(this).attr('id'))
+            console.log(x)
+            req = $.ajax({
+                url: '/delete/contract/'+x,
+                type: 'POST',
+            })
+            req.done(function () {
+                $('dl dt')[x-1].style.display = 'none';
+            })
+        });
+        // $('dt .deladd').on('click', function () {
+        //     console.log(parseInt($(this).attr('id')))
+        // });
+        console.log('la2aa!')
+        function deladd(){
+            x = parseInt($(this).attr('id'))
+            console.log(x)
+            req = $.ajax({
+                url: '/delete/contract/'+x,
+                type: 'POST',
+            })
+            req.done(function (data) {
+                console.log(data.cont_id)
+                $('dl dt')[x-1].css('background-color','red');
+            })
+        }
+    })
+</script>
 {% endblock %}

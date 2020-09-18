@@ -1,0 +1,401 @@
+{% extends 'sign.html' %}
+{% block nbr %}{{ nbr }}{% endblock %}
+{% block sidenav %}
+{% if lang == "english" %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<a href="#">Claims</a>
+<a href="#">My account</a>
+{% else %}{% if lang =="arabe" %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="#">معلومات</a>
+<a href="#">مطالب</a>
+<a href="#">حسابي</a>
+{% else %}{% if lang=="french" %}
+<a href="/home/french">Acceuil</a>
+<a href="#">Informations</a>
+<a href="#">Réclamations</a>
+<a href="#">Mon compte</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block lang %}
+{{lang}}
+{% endblock %}
+{% block style %}
+<style>
+    .form-check{
+        margin-bottom: 0;
+    }
+    .container-fluid{
+        padding-top: 0;
+    }
+    label h2{
+        background-color: white;
+    }
+
+</style>
+{% endblock %}
+{% block body %}
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid">
+    <div class="content">
+        <h1 class="center-text">What do you want to guarantee?</h1>
+    </div>
+    <form class="fifth-form" method="post" action="/voiture/9/{{lang}}">
+        <div class="row" style="text-align: center;">
+            <div class="form-group col-md-6">
+                <label class="form-check-label with_img" for="driverplus">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/group.png">
+                        <img src="/static/images/group.png" alt="ownimage">
+                    </picture>
+                    <h5>Driver plus</h5>
+                </label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="cond_p(1)" name="conducteur_plus" id="conducteur_plus" value="conducteur_plus_non" onchange="hide('0')" checked> No
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="cond_p(0)" name="conducteur_plus" id="conducteur_plus" value="conducteur_plus_oui" onchange="hide('1')"> Yes      
+                <label style="display: none" class="form-check-label without" for="driverplus">
+                    Driver plus
+                </label>
+            </div>
+            
+           
+            <div class="form-group col-md-6">
+                <label class="form-check-label with_img" for="brokencar">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/brokencar.png">
+                        <img src="/static/images/brokencar.png" alt="ownimage">
+                    </picture>
+                    <h5>Damage</h5>
+                </label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="dommage(1)" name="damage" id="damage" value="damage" checked> No
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="dommage(0)" name="damage" id="damage" value="damage"> Collisions 
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="dommage(2)" name="damage" id="damage" value="damage"> All risks      
+                <label style="display: none" class="form-check-label without" for="damage">
+                    Damage
+                </label>
+            </div>
+            
+            <div class="form-group col-md-6">
+                <label style="display: none;" for="capital_assure" id="text5">Insured capital</label>
+                <select style="display: none;" class="form-control" style="float: right;" name="capital_assure" id="capital_assure">
+                    <option>5000DT</option>
+                    <option>10000DT</option>
+                    <option>15000DT</option>
+                    <option>20000DT</option>
+                    <option>25000DT</option>
+                    <option>30000DT</option>
+                    <option>35000DT</option>
+                    <option>40000DT</option>
+                    <option>45000DT</option> 
+                    <option>50000DT</option>                
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label style="display: none;" for="capital_assure_d" id="text6">Insured capital</label>
+                <select style="display: none;" class="form-control" style="float: right;" name="capital_assure_d" id="capital_assure_d">
+                    <option>500DT</option>
+                    <option>1000DT</option>
+                    <option>1500DT</option>
+                    <option>2000DT</option>
+                    <option>2500DT</option>
+                    <option>3000DT</option>
+                    <option>3500DT</option>
+                    <option>4000DT</option>
+                    <option>4500DT</option> 
+                    <option>5000DT</option>  
+                    <option>7000DT</option> 
+                    <option>9000DT</option> 
+                    <option>10000DT</option>
+                    <option>12000DT</option>  
+                    <option>15000DT</option>                 
+                </select>
+                <label style="display: none;" for="capital_assure" id="text7">Franchise</label>
+                <select style="display: none;" class="form-control" style="float: right;" name="franchise" id="franchise">
+                    <option>Without franchise</option>
+                    <option>Franchise 1%</option>
+                    <option>Franchise 2%</option>
+                    <option>Franchise 4%</option>
+                    <option>Franchise 8%</option>
+                    <option>Franchise 12%</option>
+                    <option>Franchise 16%</option>
+                    <option>Franchise 20%</option>                
+                </select>
+            </div>
+        
+        </div>
+        <div class="row">
+            <button type="submit" name="vform8" class="btn btn-primary col-2">Next</button>
+        </div>
+    </form>
+    <div class="back"><a href="/voiture/7/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+
+</div>
+{% else %}{% if lang == "arabe" %}
+<div class="arab container-fluid">
+    <div class="content">
+        <h1 class="center-text">شنية تحب تأمن؟</h1>
+    </div>
+    <form class="fifth-form" method="post" action="/voiture/9/{{lang}}">
+        <div class="row" style="text-align: center;">
+            <div class="form-group col-md-6">
+                <label class="form-check-label with_img" for="driverplus">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/group.png">
+                        <img src="/static/images/group.png" alt="ownimage">
+                    </picture>
+                    <h5>زائد السائق</h5>
+                </label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="cond_p(1)" name="conducteur_plus" id="conducteur_plus" value="conducteur_plus_non" onchange="hide('0')" checked> لا
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="cond_p(0)" name="conducteur_plus" id="conducteur_plus" value="conducteur_plus_oui" onchange="hide('1')"> نعم      
+                <label style="display: none" class="form-check-label without" for="driverplus">
+                     زائد السائق
+                </label>
+            </div>
+            
+           
+            <div class="form-group col-md-6">
+                <label class="form-check-label with_img" for="brokencar">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/brokencar.png">
+                        <img src="/static/images/brokencar.png" alt="ownimage">
+                    </picture>
+                    <h5>ضرر</h5>
+                </label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="dommage(1)" name="damage" id="damage" value="damage" checked> لا
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="dommage(0)" name="damage" id="damage" value="damage"> اصطدامات 
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="dommage(2)" name="damage" id="damage" value="damage"> كل المخاطر     
+                <label style="display: none" class="form-check-label without" for="damage">
+                    ضرر
+                </label>
+            </div>
+            
+            
+            <div class="form-group col-md-6">
+                <label style="display: none;" for="capital_assure" id="text5">راس المال المؤمن</label>
+                <select style="display: none;" class="form-control" style="float: right;" name="capital_assure" id="capital_assure">
+                    <option>5000DT</option>
+                    <option>10000DT</option>
+                    <option>15000DT</option>
+                    <option>20000DT</option>
+                    <option>25000DT</option>
+                    <option>30000DT</option>
+                    <option>35000DT</option>
+                    <option>40000DT</option>
+                    <option>45000DT</option> 
+                    <option>50000DT</option>                
+                </select>
+            </div>
+            
+            <div class="form-group col-md-6">
+                <label style="display: none;" for="capital_assure_d" id="text6">راس المال المؤمن</label>
+                <select style="display: none;" class="form-control" style="float: right;" name="capital_assure_d" id="capital_assure_d">
+                    <option>500DT</option>
+                    <option>1000DT</option>
+                    <option>1500DT</option>
+                    <option>2000DT</option>
+                    <option>2500DT</option>
+                    <option>3000DT</option>
+                    <option>3500DT</option>
+                    <option>4000DT</option>
+                    <option>4500DT</option> 
+                    <option>5000DT</option>  
+                    <option>7000DT</option> 
+                    <option>9000DT</option> 
+                    <option>10000DT</option>
+                    <option>12000DT</option>  
+                    <option>15000DT</option>                 
+                </select>
+                <label style="display: none;" for="capital_assure" id="text7">خصم</label>
+                <select style="display: none;" class="form-control" style="float: right;" name="franchise" id="franchise">
+                    <option>بلاش خصم</option>
+                    <option>خصم%1</option>
+                    <option>خصم%2</option>
+                    <option>خصم%4</option>
+                    <option>خصم%8</option>
+                    <option>خصم%10</option>
+                    <option>16%خصم</option>
+                    <option>خصم%20</option>                
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="vform8" class="btn btn-primary col-2">التالي</button>
+        </div>
+
+    </form>
+    <div class="back"><a href="/voiture/7/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang == "french" %}
+<div class="french container-fluid">
+    <div class="content">
+        <h1 class="center-text">Que voulez-vous garantir?</h1>
+    </div>
+    <form class="fifth-form" method="post" action="/voiture/5/{{lang}}">
+        <div class="row" style="text-align: center;">
+            <div class="form-group col-md-6">
+                <label class="form-check-label with_img" for="driverplus">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/group.png">
+                        <img src="/static/images/group.png" alt="ownimage">
+                    </picture>
+                    <h5>Conducteur plus</h5>
+                </label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="cond_p(1)" name="conducteur_plus" id="conducteur_plus" value="conducteur_plus_non" onchange="hide('0')" checked> Non
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="cond_p(0)" name="conducteur_plus" id="conducteur_plus" value="conducteur_plus_oui" onchange="hide('1')"> Oui      
+                <label style="display: none" class="form-check-label without" for="driverplus">
+                    Conducteur plus
+                </label>
+            </div>
+            
+           
+            <div class="form-group col-md-6">
+                <label class="form-check-label with_img" for="brokencar">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/brokencar.png">
+                        <img src="/static/images/brokencar.png" alt="ownimage">
+                    </picture>
+                    <h5>Dommage</h5>
+                </label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="dommage(1)" name="damage" id="damage" value="damage" checked> Non
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="dommage(0)" name="damage" id="damage" value="damage"> Collisions 
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="dommage(2)" name="damage" id="damage" value="damage"> Tous risques      
+                <label style="display: none" class="form-check-label without" for="damage">
+                    Dommage
+                </label>
+            </div>
+        
+            <div class="form-group col-md-6">
+                <label style="display: none;" for="capital_assure" id="text5">Capital assuré</label>
+                <select style="display: none;" class="form-control" style="float: right;" name="capital_assure" id="capital_assure">
+                    <option>5000DT</option>
+                    <option>10000DT</option>
+                    <option>15000DT</option>
+                    <option>20000DT</option>
+                    <option>25000DT</option>
+                    <option>30000DT</option>
+                    <option>35000DT</option>
+                    <option>40000DT</option>
+                    <option>45000DT</option> 
+                    <option>50000DT</option>                
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label style="display: none;" for="capital_assure_d" id="text6">Capital assuré</label>
+                <select style="display: none;" class="form-control" style="float: right;" name="capital_assure_d" id="capital_assure_d">
+                    <option>500DT</option>
+                    <option>1000DT</option>
+                    <option>1500DT</option>
+                    <option>2000DT</option>
+                    <option>2500DT</option>
+                    <option>3000DT</option>
+                    <option>3500DT</option>
+                    <option>4000DT</option>
+                    <option>4500DT</option> 
+                    <option>5000DT</option>  
+                    <option>7000DT</option> 
+                    <option>9000DT</option> 
+                    <option>10000DT</option>
+                    <option>12000DT</option>  
+                    <option>15000DT</option>                 
+                </select>
+                <label style="display: none;" for="capital_assure" id="text7">Franchise</label>
+                <select style="display: none;" class="form-control" style="float: right;" name="franchise" id="franchise">
+                    <option>Sans franchise</option>
+                    <option>Franchise 1%</option>
+                    <option>Franchise 2%</option>
+                    <option>Franchise 4%</option>
+                    <option>Franchise 8%</option>
+                    <option>Franchise 12%</option>
+                    <option>Franchise 16%</option>
+                    <option>Franchise 20%</option>                
+                </select>
+            </div>
+                
+        </div>
+        <div class="row">
+            <button type="submit" name="vform8" class="btn btn-primary col-2">Suivant</button>
+        </div>
+    </form>
+    <div class="back"><a href="/voiture/7/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+
+
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block scripts %}
+
+<script>
+
+
+function cond_p(x)
+{
+    if(x==0)
+    {document.getElementById('text5').style.display='block'
+    document.getElementById('capital_assure').style.display='block';
+    }
+    else
+    {document.getElementById('text5').style.display='none'
+    document.getElementById('capital_assure').style.display='none';
+    }
+    return;
+}
+
+
+function dommage(x)
+{
+    if(x==0)
+    {document.getElementById('text7').style.display='none'
+    document.getElementById('franchise').style.display='none'
+    document.getElementById('text6').style.display='block'
+    document.getElementById('capital_assure_d').style.display='block';
+    }
+    else if(x==2) 
+    {document.getElementById('text7').style.display='block'
+    document.getElementById('franchise').style.display='block'
+    document.getElementById('text6').style.display='none'
+    document.getElementById('capital_assure_d').style.display='none';
+    }
+    else
+    {document.getElementById('text6').style.display='none'
+    document.getElementById('capital_assure_d').style.display='none'
+    document.getElementById('text7').style.display='none'
+    document.getElementById('franchise').style.display='none';
+    }
+    return;
+}
+
+function hide(x) {
+        var subs = document.querySelector("._" + x).attributes[1].value
+        var sources = document.querySelectorAll(".source")
+        for (var i = 0; i <3; i++) {
+            val = sources[i].attributes[1].value;
+            sources[i].attributes[1].value = val.replace("-colored", "");
+        }
+        document.querySelector("._" + x).attributes[1].value = subs.replace(".png", "") + "-colored" + ".png";
+    }
+</script>
+{% endblock %}
+                
+

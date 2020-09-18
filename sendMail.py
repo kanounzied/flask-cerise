@@ -84,9 +84,9 @@ def sendConfirm(receiver_mail,link):
 
     with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
         server.login("artzy.proj@gmail.com", password)
-        print('connected!')
+        # print('connected!')
         server.sendmail(sender_mail, receiver_mail, message.as_string())
-        print('message sent!')
+        # print('message sent!')
 def sendCode(receiver_mail,code):
     port = 465  # For SSL
     password = "Ds3X8afA"  # getpass.getpass("Type your password : ")
@@ -158,10 +158,10 @@ def sendCode(receiver_mail,code):
 
     with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
         server.login("artzy.proj@gmail.com", password)
-        print('connected!')
+        # print('connected!')
         server.sendmail(sender_mail, receiver_mail, message.as_string())
-        print('message sent!')
-def sendPDF(receiver_mail,pdf_name, text):
+        # print('message sent!')
+def sendPDF(receiver_mail,pdf, text):
     port = 465  # For SSL
     password = "Ds3X8afA"  # getpass.getpass("Type your password : ")
     sender_mail = "artzy.proj@gmail.com"
@@ -207,14 +207,15 @@ def sendPDF(receiver_mail,pdf_name, text):
 
     ############### attachment part ##################
 
-    filename = pdf_name  # In same directory as script
+    # filename = pdf_name  # In same directory as script
 
     # Open PDF file in binary mode
-    with open(filename, "rb") as attachment:
-        # Add file as application/octet-stream
-        # Email client can usually download this automatically as attachment
-        part = MIMEBase("application", "octet-stream")
-        part.set_payload(attachment.read())
+    # with open(filename, "rb") as attachment:
+    #     # Add file as application/octet-stream
+    #     # Email client can usually download this automatically as attachment
+    part = MIMEBase("application", "octet-stream")
+    #     # print(attachment.read())
+    part.set_payload(pdf)
 
     # Encode file in ASCII characters to send by email
     encoders.encode_base64(part)
@@ -222,7 +223,7 @@ def sendPDF(receiver_mail,pdf_name, text):
     # Add header as key/value pair to attachment part
     part.add_header(
         "Content-Disposition",
-        f"attachment; filename= {filename}",
+        f"attachment; filename= {'contrat.pdf'}",
     )
 
     # Add attachment to message and convert message to string
@@ -235,6 +236,6 @@ def sendPDF(receiver_mail,pdf_name, text):
 
     with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
         server.login("artzy.proj@gmail.com", password)
-        print('connected!')
+        # print('connected!')
         server.sendmail(sender_mail, receiver_mail, message.as_string())
-        print('message sent!')
+        # print('message sent!')

@@ -1,0 +1,238 @@
+{% extends 'sign.html' %}
+{% block nbr %}{{ nbr }}{% endblock %}
+{% block sidenav %}
+{% if lang == "english" %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<a href="#">Claims</a>
+<a href="#">My account</a>
+{% else %}{% if lang =="arabe" %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="#">معلومات</a>
+<a href="#">مطالب</a>
+<a href="#">حسابي</a>
+{% else %}{% if lang=="french" %}
+<a href="/home/french">Acceuil</a>
+<a href="#">Informations</a>
+<a href="#">Réclamations</a>
+<a href="#">Mon compte</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block lang %}
+{{lang}}
+{% endblock %}
+{% block style %}
+<style>
+    .form-check{
+        margin-bottom: 0;
+    }
+    .container-fluid{
+        padding-top: 0;
+    }
+    label h2{
+        background-color: white;
+    }
+    
+    .form-check-label{
+        height: 225px!important;
+    }
+</style>
+{% endblock %}
+{% block body %}
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid">
+    <div class="content">
+        <h1 class="center-text">What's your vehicle usage?</h1>
+    </div>
+    <form class="fourth-form" method="post" action="/voiture/3/{{lang}}">
+        <div class="row">
+            <div class="form-check col-md-4">
+                <label class="form-check-label with_img" for="passenger">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/automobile.png">
+                        <img src="/static/images/automobile.png" alt="ownimage">
+                    </picture>
+                    <h2>Passenger</h2>
+                </label>
+                <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="passenger" value="passenger"
+                       name="typev" style="margin-bottom: 10px;" >
+                <label style="display: none" class="form-check-label without" for="passenger">
+                    Passenger
+                </label>
+            </div>
+                <div class="form-check col-md-4">
+                    <label class="form-check-label with_img" for="taxi">
+                        <picture>
+                            <source class="source _2" srcset="/static/images/cab.png">
+                            <img src="/static/images/cab.png" alt="ownimage">
+                        </picture>
+                        <h2>Taxi</h2>
+                    </label>
+                    <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="taxi" value="taxi"
+                           name="typev" style="margin-bottom: 10px;" >
+                    <label style="display: none" class="form-check-label without" for="taxi">
+                        Taxi
+                    </label>
+
+            </div>
+            <div class="form-check col-md-4">
+                <label class="form-check-label with_img" for="commercial">
+                    <picture>
+                        <source class="source _3" srcset="/static/images/minivan1.png">
+                        <img src="/static/images/minivan1.png" alt="ownimage">
+                    </picture>
+                    <h2>Commercial</h2>
+                </label>
+                <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="commercial" value="commercial"
+                       name="typev"style="margin-bottom: 10px;" >
+                <label style="display: none" class="form-check-label without" for="commercial">
+                    Commercial
+                </label>
+
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="vform2" class="btn btn-primary col-2">Next</button>
+        </div>
+    </form>
+    <div class="back"><a href="/voiture/1/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang =="arabe" %}
+<div class="arab container-fluid">
+    <div class="content">
+        <h1 class="center-text">إستعمال كرهبتك ؟</h1>
+    </div>
+    <form class="fourth-form" method="post" action="/voiture/3/{{lang}}">
+        <div class="row">
+            <div class="form-check col-md-4">
+                <label class="form-check-label with_img" for="passenger">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/automobile.png">
+                        <img src="/static/images/automobile.png" alt="ownimage">
+                    </picture>
+                    <h2>سيارة راكب</h2>
+                </label>
+                <label style="display: none" class="form-check-label without" for="passenger">
+                     سيارة راكب
+                </label>
+                <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="passenger" value="passenger"
+                       name="typev" style="margin-bottom: 10px;" >
+            </div>
+
+            <div class="form-check col-md-4">
+                <label class="form-check-label with_img" for="taxi">
+                    <picture>
+                        <source class="source _2" srcset="/static/images/cab.png">
+                        <img src="/static/images/cab.png" alt="ownimage">
+                    </picture>
+                    <h2>تاكسي</h2>
+                </label>
+                <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="taxi" value="taxi"
+                       name="typev" style="margin-bottom: 10px;" >
+                <label style="display: none" class="form-check-label without" for="taxi">
+                    تاكسي
+                </label>
+
+        </div>
+            <div class="form-check col-md-4">
+                <label class="form-check-label with_img" for="commercial">
+                    <picture>
+                        <source class="source _3" srcset="/static/images/minivan1.png">
+                        <img src="/static/images/minivan1.png" alt="ownimage">
+                    </picture>
+                    <h2>سيارة تجارية</h2>
+                </label>
+                <label style="display: none" class="form-check-label without" for="commercial">
+                    سيارة تجارية
+                </label>
+                <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="commercial" value="commercial"
+                       name="typev" style="margin-bottom: 10px;" >
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="vform2" class="btn btn-primary col-2">التالي</button>
+        </div>
+    </form>
+    <div class="back"><a href="/voiture/1/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang=="french" %}
+<div class="french container-fluid">
+    <div class="content">
+        <h1 class="center-text">Quel est l'usage de votre véhicule?</h1>
+    </div>
+    <form class="fourth-form" method="post" action="/voiture/3/{{lang}}">
+        <div class="row">
+            <div class="form-check col-md-4">
+                <label class="form-check-label with_img" for="passenger">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/automobile.png">
+                            <img src="/static/images/automobile.png" alt="ownimage">
+                    </picture>
+                    <h2 id="h2fr1">Voyageur</h2>
+                </label>
+                <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="passenger" value="passenger"
+                       name="typev" style="margin-bottom: 10px;">
+                <label style="display: none" class="form-check-label without" for="passenger">
+                    Voyageur
+                </label>
+
+            </div>
+
+            <div class="form-check col-md-4">
+                <label class="form-check-label with_img" for="taxi">
+                    <picture>
+                        <source class="source _2" srcset="/static/images/cab.png">
+                        <img src="/static/images/cab.png" alt="ownimage">
+                    </picture>
+                    <h2>Taxi</h2>
+                </label>
+                <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="taxi" value="taxi"
+                       name="typev" style="margin-bottom: 10px;">
+                <label style="display: none" class="form-check-label without" for="taxi"> Taxi
+                </label>
+
+        </div>
+            <div class="form-check col-md-4">
+                <label class="form-check-label with_img" for="commercial">
+                    <picture>
+                        <source class="source _3" srcset="/static/images/minivan1.png">
+                        <img src="/static/images/minivan1.png" alt="ownimage">
+                    </picture>
+                    <h2 id="h2fr2">Commerciale</h2>
+                </label>
+                <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="commercial" value="commercial"
+                       name="typev" style="margin-bottom: 10px;" >
+                <label style="display: none" class="form-check-label without" for="commercial">
+                    Commerciale
+                </label>
+
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="vform2" class="btn btn-primary col-2">Suivant</button>
+        </div>
+    </form>
+    <div class="back"><a href="/voiture/1/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+    function hide(x) {
+        var subs = document.querySelector("._" + x).attributes[1].value
+        var sources = document.querySelectorAll(".source")
+        for (var i = 0; i <3; i++) {
+            val = sources[i].attributes[1].value;
+            sources[i].attributes[1].value = val.replace("-colored", "");
+        }
+        document.querySelector("._" + x).attributes[1].value = subs.replace(".png", "") + "-colored" + ".png";
+    }
+</script>
+{% endblock %}

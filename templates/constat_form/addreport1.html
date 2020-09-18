@@ -1,0 +1,102 @@
+{% extends "constat_form/sign.html" %}
+{% block title %} add report {% endblock %}
+{% block body %}
+{% if error %}
+<div class="alert alert-danger">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid">
+    <div class="content">
+        <h1 class="center-text">Date of the accident!</h1>
+    </div>
+    <form class="first_form" method="post" action="/addreport/2/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="date" id="date" max="2020-09-03"
+                       placeholder="Accident date" required>
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form101" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a>
+    </div>
+</div>
+{% else %}{% if lang =="arabe" %}
+<div class="arab container-fluid">
+    <div class="content">
+        <h1 class="center-text">!تاريخ الحادث</h1>
+    </div>
+    <form class="first_form" method="post" action="/addreport/2/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="date" id="date" max="2020-09-03"
+                       placeholder="dd/mm/yyyy" required>
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form101" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a>
+    </div>
+</div>
+{% else %}{% if lang=="french" %}
+<div class="french container-fluid">
+    <div class="content">
+        <h1 class="center-text">Date de l'accident!</h1>
+    </div>
+    <form class="first_form" method="post" action="/addreport/2/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="date" id="date" max="2020-09-03"
+                       placeholder="date de l'accident" required>
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form101" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+{%endblock%}
+{% block scripts %}
+<script>
+n =  new Date();
+y = n.getFullYear();
+m = n.getMonth() + 1;
+if ((m/10)<1){
+    m = "0"+m;
+}
+d = n.getDate();
+if ((d/10)<1){
+    d = "0"+d;
+}
+document.getElementById("date").setAttribute("max",y + "-" + m + "-" + d);
+</script>
+<script>
+    var fullDate = new Date()
+    var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+    var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+    fullDate.setDate(fullDate.getDate()-5);
+    var fivedaysbefore = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+    if (fullDate.getDate() < 10) {
+        currentDate = "0" + currentDate;
+    }
+    $('input').datepicker({
+        format: "dd/mm/yyyy",
+        startDate: fivedaysbefore,
+        endDate: currentDate,
+        orientation: "bottom right"
+    });
+
+</script>
+{%endblock%}

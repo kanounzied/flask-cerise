@@ -1,0 +1,93 @@
+{% extends "vie/sign.html"%}
+{% block dropdownlink %}
+<div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
+    <a class="dropdown-item" href="/vie/6/?lang=ar">Ar</a>
+    <a class="dropdown-item" href="/vie/6/?lang=fr">Fr</a>
+    <a class="dropdown-item" href="/vie/6/?lang=en">Eng</a>
+</div>
+{% endblock %}
+{% block body %}
+{% if lang=='en' %}
+<div class="english container-fluid vie">
+<div class="content">
+    <h1 class="center-text">Tell us more about your health!</h1>
+</div>
+        <form action="#" enctype="multipart/form-data" autocomplete="off"  class="second_form" method="post">
+<div class="input-group">
+
+    <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+    </div>
+    <div class="custom-file">
+        <input aria-describedby="inputGroupFileAddon01" name="file" class="custom-file-input"
+               type="file">
+                 <input type = "submit"/>
+
+        <label class="custom-file-label">Health Record (PDF)</label>
+    </div>
+</div>
+            <br>
+                <div class="row">
+                <button class="btn btn-primary col-2" name="form2" type="submit">Submit</button>
+            </div>
+        </form>
+</div>
+    <div class="back"><a href="/vie/55"><img id="back-arrow" src="/static/images/back.png " alt=""></a></div>
+{% endif %}
+
+{% if lang=='fr' %}
+
+<div class="english container-fluid vie">
+<div class="content">
+    <h1 class="center-text">Parlez nous de votre santé!</h1>
+</div>
+        <form action="#" autocomplete="off" enctype="multipart/form-data" class="second_form" method="post">
+<div class="input-group">
+
+    <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroupFileAddon01">Télécharger</span>
+    </div>
+    <div class="custom-file">
+        <input aria-describedby="inputGroupFileAddon01" class="custom-file-input" name="file"
+               type="file">
+        <label class="custom-file-label">Dossier Médical (PDF)</label>
+    </div>
+</div>
+            <br>
+                <div class="row">
+                <button class="btn btn-primary col-2" name="form2" type="submit">Suivant</button>
+            </div>
+        </form>
+</div>
+    <div class="back"><a href="/vie/55"><img id="back-arrow" src="/static/images/back.png " alt=""></a></div>
+{% endif %}
+
+{% if lang=='ar' %}
+
+<div class="english container-fluid vie">
+<div class="content">
+    <h1 class="center-text">أحكيلنا على صحتك؟</h1>
+</div>
+        <form action="#" enctype="multipart/form-data" autocomplete="off" class="second_form" method="post">
+<div class="input-group">
+
+    <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroupFileAddon01">تحميل</span>
+    </div>
+
+    <div class="custom-file">
+        <input aria-describedby="inputGroupFileAddon01" name="file" class="custom-file-input"
+               type="file">
+        <label class="custom-file-label">الملف الصحي (PDF)</label>
+    </div>
+</div>
+            <br>
+                <div class="row">
+                <button class="btn btn-primary col-2" name="form2" type="submit">التالي</button>
+            </div>
+        </form>
+</div>
+    <div class="back"><a href="/vie/55"><img id="back-arrow" src="/static/images/back.png " alt=""></a></div>
+{% endif %}
+
+{% endblock %}

@@ -37,6 +37,7 @@
 {% if error %}
 <div class="alert alert-dark">{{error}}</div>
 {% endif %}
+<div id="error_for_email" style="display: none" class="alert alert-dark"></div>
 {% if lang == "english" %}
 <div class="english container-fluid">
     <div class="content">
@@ -287,7 +288,6 @@
             var testEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
             email = $('.modal input').val()
             if (testEmail.test(email)) {
-                $('.pop_pres').css('display', 'flex');
                 req = $.ajax({
                     url: "/forgot/pwd/{{lang}}",
                     type: 'POST',
@@ -295,7 +295,14 @@
                         'email': email,
                         'gen_code': true
                     }
-                })
+                });
+                req.done(function (data) {
+                    if (data.error !== undefined)
+                    {$('#error_for_email').text(data.error).css('display', 'block')}
+                    else if (data.error === undefined){
+                        $('.pop_pres').css('display', 'flex');
+                    }
+                });
             }
         })
         $('.pop_pres .close').on('click', function () {

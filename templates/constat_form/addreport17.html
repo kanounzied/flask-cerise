@@ -1,0 +1,347 @@
+{% extends 'constat_form/sign.html' %}
+{% block nbr %}{{ nbr }}{% endblock %}
+{% block style %}
+<!-- <style>
+    @media screen and (max-width: 768px){
+        input{
+            display: inline-block!important;
+        }
+    }
+</style> -->
+{% endblock %}
+{% block sidenav %}
+{% if lang == "english" %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<a href="#">Claims</a>
+<a href="#">My account</a>
+{% else %}{% if lang =="arabe" %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="#">معلومات</a>
+<a href="#">مطالب</a>
+<a href="#">حسابي</a>
+{% else %}{% if lang=="french" %}
+<a href="/home/french">Acceuil</a>
+<a href="#">Informations</a>
+<a href="#">Réclamations</a>
+<a href="#">Mon compte</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block lang %}
+{{lang}}
+{% endblock %}
+{% block body %}
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid">
+    <div class="content">
+            <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">Vehicle B</h1>
+            <h2 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">Insurance company</h2>
+            <img id="insuranceimg"  src="/static/images/company.png" alt="insurance">               
+    </div>
+
+    <form class="first_form" method="post" action="/addreport/18/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="names" id="names"
+                       placeholder="Name">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="number" class="form-control" name="nbc" id="nbc"
+                       placeholder="Number of contract">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="number" class="form-control" name="nbcv" id="nbcv"
+                        placeholder="Number of green card">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <h6>From:</h6>
+                <input type="text" class="form-control" name="datecb" id="datecb"
+                       placeholder="dd/mm/yy">
+            </div>
+            <div class="form-group col-md-6 ">
+                <h6>To:</h6>
+                <input type="text" class="form-control" name="datece" id="datece"
+                       placeholder="dd/mm/yy">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="typeinsurance" id="agency" value="agency" checked>
+                <label class="form-check-label" for="agency">
+                  Agency
+                </label>
+              </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="typeinsurance" id="office" value="office">
+                <label class="form-check-label" for="office">
+                    Office
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="typeinsurance" id="broker" value="broker">
+                <label class="form-check-label" for="broker">
+                    Broker
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="nameag" id="nameag"
+                       placeholder="Name">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="adressag" id="adressag"
+                       placeholder="Adress">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="countryag" id="countryag"
+                       placeholder="Country">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="email" class="form-control" name="emailag" id="emailag"
+                       placeholder="E-mail">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="number" class="form-control" name="telag" id="telag"
+                       placeholder="Phone number">
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form117" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/addreport/16/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang =="arabe" %}
+<div class="arab container-fluid">
+    <div class="content">
+            <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">السيارة ب</h1>
+            <h2 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">شركة تأمين</h2>
+            <img id="insuranceimg"  src="/static/images/company.png" alt="insurance">    
+
+
+    <form class="first_form" method="post" action="/addreport/18/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="names" id="names"
+                       placeholder="اسم">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="number" class="form-control" name="nbc" id="nbc"
+                       placeholder="رقم العقد">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="number" class="form-control" name="nbcv" id="nbcv"
+                        placeholder="رقم البطاقة الخضراء">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <h6>:من</h6>
+                <input type="text" class="form-control" name="datecb" id="datecb"
+                       placeholder="dd/mm/yy">
+            </div>
+            <div class="form-group col-md-6 ">
+                <h6>:إلى</h6>
+                <input type="text" class="form-control" name="datece" id="datece"
+                       placeholder="dd/mm/yy">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="typeinsurance" id="agency" value="agency" checked>
+                <label class="form-check-label" for="agency">
+                  وكالة
+                </label>
+              </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="typeinsurance" id="office" value="office">
+                <label class="form-check-label" for="office">
+                    مكتب
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="typeinsurance" id="broker" value="broker">
+                <label class="form-check-label" for="broker">
+                    وسيط
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="nameag" id="nameag"
+                       placeholder="الاسم">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="adressag" id="adressag"
+                       placeholder="العنوان">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="countryag" id="countryag"
+                       placeholder="البلد">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="email" class="form-control" name="emailag" id="emailag"
+                       placeholder="البريد الإلكتروني">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="number" class="form-control" name="telag" id="telag"
+                       placeholder="رقم الهاتف">
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form117" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/addreport/16/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang=="french" %}
+<div class="french container-fluid">
+    <div class="content">
+            <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">Véhicule B</h1>
+            <h2 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">Société d'assurance</h2>
+            <img id="insuranceimg"  src="/static/images/company.png" alt="insurance">                  
+    </div>
+
+
+    <form class="first_form" method="post" action="/addreport/18/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="names" id="names"
+                       placeholder="Nom">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="number" class="form-control" name="nbc" id="nbc"
+                       placeholder="Numéro de contrat">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="number" class="form-control" name="nbcv" id="nbcv"
+                        placeholder="Nombre de carte verte">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <h6>Du:</h6>
+                <input type="text" class="form-control" name="datecb" id="datecb"
+                       placeholder="dd/mm/yy">
+            </div>
+            <div class="form-group col-md-6 ">
+                <h6>au:</h6>
+                <input type="text" class="form-control" name="datece" id="datece"
+                       placeholder="dd/mm/yy">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="typeinsurance" id="agency" value="agency" checked>
+                <label class="form-check-label" for="agency">
+                  Agence
+                </label>
+              </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="typeinsurance" id="office" value="office">
+                <label class="form-check-label" for="office">
+                    Bureau
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="typeinsurance" id="broker" value="broker">
+                <label class="form-check-label" for="broker">
+                    Courtier
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="nameag" id="nameag"
+                       placeholder="Nom">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="adressag" id="adressag"
+                       placeholder="Adresse">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="countryag" id="countryag"
+                       placeholder="Pays">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="email" class="form-control" name="emailag" id="emailag"
+                       placeholder="Email">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="number" class="form-control" name="telag" id="telag"
+                       placeholder="Numéro de téléphone">
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form117" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/addreport/16/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% endif %}
+{% endif %}
+{%endif%}
+{%endblock%}
+{% block scripts %}
+<script>
+    $(document).ready(function(){
+        $("input").change(function(){
+            // Change src attribute of image
+            $( "img[alt='insurance']" ).attr("src", "/static/images/company-colored.png");
+        });    
+    });
+</script>
+<script>
+    var fullDate = new Date()
+    var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+    var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+    if (fullDate.getDate() < 10) {
+        currentDate = "0" + currentDate;
+    }
+    $('#datecb').datepicker({
+        format: "dd/mm/yyyy",
+        endDate: currentDate,
+        orientation: "bottom right"
+    });
+    $('#datece').datepicker({
+        format: "dd/mm/yyyy",
+        startDate: currentDate,
+        orientation: "bottom right"
+    });
+</script>
+{% endblock %}

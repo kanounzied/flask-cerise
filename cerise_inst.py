@@ -1,16 +1,24 @@
 import base64
 import datetime
+import json
 import random
+import uuid
+
 import pdfkit
 
 from datetime import timedelta
 
-from flask import session, render_template, redirect, request, jsonify, url_for, abort, make_response
+from flask import session, render_template, redirect, request, jsonify, url_for, abort, make_response,jsonify,flash
 from flask_assets import Environment, Bundle
 from flask_recaptcha import ReCaptcha
 from flask_session import Session
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
-
+from werkzeug.utils import secure_filename
+import os.path
+#--------------------------add w badel lpath mta3 upload lfile ------------------------------
+UPLOAD_FOLDER = '/Users/Zied/Dropbox/Portail_Assurance/cerise_flask/static/public'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+#-------------------------------end-------------------------------------------------------
 from classes import *
 from db_maker import *
 from loadData import load, hash_password, verify_password
@@ -35,6 +43,9 @@ scss = Bundle('styles/stylesheet2.scss', filters='pyscss', output='gen/all.css')
 assets.register('scss_all', scss)
 Session(app)
 s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+#---------------------------------------------add-------------------------------
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+#-------------------------------------------------end----------------------------------------
 
 
 @app.before_request
@@ -42,7 +53,21 @@ def make_session_permanent():  # la session est valide pour seulement une heure
     session.permanent = True
     app.permanent_session_lifetime = timedelta(minutes=60)
 
+#----------------------------------------------------add----------------------
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+@app.route("/getit/", methods=["GET"])
+def getit():
+    getthat = collection.find_one({"_id":session['reportid']})
+    # with open("/Users/ahmed/Desktop/flaskone/public/"+getthat['accident_sketch'], "rb") as image_file:
+    #     encoded_string = base64.b64encode(image_file.read())
+    # return json.dumps(getthat, default=json_util.default)
+    return render_template("/constat_form/constat_voiture.html",report=getthat)
+    #  allcars = list(collection.find({}))
+    #  return json.dumps(allcars, default=json_util.default)
+#------------------------------------------------------------------end---------------------------------------------------
 @app.route("/")
 def arab():
     return redirect("/home/arabe")
@@ -55,8 +80,12 @@ def home(lang):
 @app.route("/clear")
 def clear():  # vider la session client
     session.clear()
-    return "<h1>session cleared"
+    return redirect('/')
 
+@app.route("/prints")
+def prints():  # vider la session client
+    # # print(session)
+    return "str(session)"
 
 @app.route("/signup/<nbr>/<lang>", methods=['GET', 'POST'])
 def signup(nbr, lang):
@@ -70,9 +99,12 @@ def signup(nbr, lang):
         chooseerr = "vous devez choisir!"
         rangeerr = "vous devez choisir un entier entre 1 et 30 pour les chambres et 50 pour les étages!"
         pwderr = "votre mot de passe n'est pas le méme!"
-        pwdregex = "mot de passe doit avoir une lettre miniscule, une lettre majuscule, un chiffre, et l'un des charactéres suivants @#$%^&+= "
+        pwdregex = "mot de passe doit avoir une lettre miniscule, une lettre majuscule, un chiffre, et l'un des " \
+                   "charactéres suivants @#$%^&+= "
         verify = "Nous vous avons envoyé un mail pour confirmer votre adresse email !"
         emailexisterr = "Cet email est déja dans la base de données veuillez saisir un autre email!"
+        posterr = "le code postal doit contenir 4 chiffres, si vous avez modifié le code postal, retournez à la page" \
+                  " précédente et choisissez la bonne adresse"
     elif lang == 'english':
         champerr = 'fields are empty!'
         adresserr = "address form must be like : (locality, delegation, governorate)"
@@ -80,19 +112,24 @@ def signup(nbr, lang):
         chooseerr = "you must choose!"
         rangeerr = "you must choose a number in range 1 to 30 rooms or to 50 floors!"
         pwderr = "your password doesn't match!"
-        pwdregex = "your password must have a miniscule letter, a capital letter, a number, and one of the following characters @#$%^&+="
+        pwdregex = "your password must have a miniscule letter, a capital letter, a number, and one of the following " \
+                   "characters @#$%^&+="
         verify = "We've sent you a verification mail for your email address !"
         emailexisterr = "This email is already in data base please type another email!"
+        posterr = "postal code must contain 4 numbers, if you have changed the postcode go back to the previous page " \
+                  "and choose the right address"
     else:
         champerr = 'البلايص فارغين'
         adresserr = "لازم الادريسة هكا : (محافظه، وفد، منطقه)"
         adrnotfound = "عنوانك غير مسجل في قاعدة البيانات!"
         chooseerr = "لازم تختار!"
-        rangeerr = "لازم تختار عدد بين 1 و 30 بيت أو 50 طابق!"
         pwderr = "كلمة المرور الخاصة بك لا تتطابق!"
+        rangeerr = "لازم تختار عدد بين 1 و 30 بيت أو 50 طابق!"
         pwdregex = "يجب أن تحتوي كلمة المرور على الأقل على حرف صغير[a .. z]، حرف كبير[A .. Z]، رقم، واحد من الرموز التالية @#$%^&+="
         verify = "!لقد أرسلنا لك بريد التحقق من عنوان البريد الإلكتروني الخاص بك"
         emailexisterr = "!هذا البريد الإلكتروني موجود في قاعدة البيانات، الرجاء كتابة بريد إلكتروني آخر"
+        posterr = "!يجب أن يحتوي الرقم البريدي على 4 أرقام، إذا قمت بتغيير رقم البريد" \
+                  " انتقل إلى الصفحة السابقة واختر العنوان الصحيح"
     if request.method == "POST":
         req = request.form
         if 'form1' in req:
@@ -103,7 +140,7 @@ def signup(nbr, lang):
                                        error=champerr)
             client = Client_(prenom, nom)
             session['client'] = client.__dict__
-            print('client created')
+            # # # print("client created")
             session['form1'] = 'submitted'
         if 'form1' not in session:
             return redirect('/signup/1/' + lang)
@@ -137,26 +174,26 @@ def signup(nbr, lang):
                 return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        data=data,
                                        error=adrnotfound)
-            print(adresseObj)
+            # # # print(adresseObj)
             adr_id = adresseObj['_id']
             session['adr_id'] = adr_id
-            print('adresse found')
-            # apt_id = Propriete.insert_one(  # inserer la classe propriété dans bd
-            #     {
-            #         "apt_unit": apt_unit,
-            #         "adr_id": session['adr_id']
-            #     }
-            # )
+            # # print('address found')
             apt = Propriete_(apt_unit)
             apt.jardin = True
             session['apt'] = apt.__dict__
-            print('apt created')
+            # # print('apt created')
             session['form2'] = 'submitted'
         if 'form3' in req:
             adresse = Adresse.find_one({'_id': session['adr_id']})
+            adresse1 = adresse['adresse']
+            tab = adresse1.split(',')
+            city = tab[1]
+            state = tab[0]
             apt = session.get('apt')
-            print(adresse['adresse'])
+            # # print(adresse['adresse'])
             under_const = req.get('under_construction')
+            post = adresse['code_postal']
+            # postal = req.get('code_postal')
             if under_const == "under_construction":
                 apt['under_construction'] = True
             else:
@@ -164,7 +201,25 @@ def signup(nbr, lang):
             rue = req.get('adresse')
             if rue == "":
                 return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
-                                       error=champerr)
+                                       error=champerr,
+                                       city=city,
+                                       state=state,
+                                       code_postal=post,
+                                       apt_unit=apt['apt_unit'])
+            # if int(postal) not in range(1000,9999):
+            #     return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+            #                            error=posterr,
+            #                            city=city,
+            #                            state=state,
+            #                            code_postal=post,
+            #                            apt_unit=apt['apt_unit'])
+            # if int(post) != int(postal):
+            #     return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+            #                            error=posterr,
+            #                            city=city,
+            #                            state=state,
+            #                            code_postal=post,
+            #                            apt_unit=apt['apt_unit'])
             if session['apt'] is not None:
                 apt['rue'] = rue
             session['form3'] = 'submitted'
@@ -211,7 +266,7 @@ def signup(nbr, lang):
         if 'form7' in req:
             room = req.get('room')
             etage = req.get('etage')
-            if (int(room) not in list(range(30))) or (int(etage) not in list(range(100))):
+            if (int(room) not in list(range(1,30))) or (int(etage) not in list(range(100))):
                 return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=rangeerr)
             session.get('apt')['nbr_chambres'] = room
@@ -230,8 +285,6 @@ def signup(nbr, lang):
             apt = session.get('apt')
             if garden == 'garden':
                 apt['jardin'] = True
-                # Propriete.update_one({'_id': session['apt_id']},
-                #                      {"$set": {'garden': True}})
             else:
                 apt['jardin'] = False
                 # Propriete.update_one({'_id': session['apt_id']},
@@ -278,7 +331,7 @@ def signup(nbr, lang):
         if 'form12' in req:
             email = req.get('email')
             if email == "":
-                print(email, 'none ')
+                # # print(email, 'none ')
                 return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=champerr)
             session.get('client')['email'] = email
@@ -291,6 +344,50 @@ def signup(nbr, lang):
             sendConfirm(email, link)
             session['form12'] = 'submitted'
             return render_template('confirm/confirm.html', confirmed=False, error=verify, lang=lang)
+        if 'form12b' in req:
+            pwderror = ''
+            mailerr = ''
+            error = ''
+            champerr = ''
+            recaptchaerr = ''
+            if lang == 'french':
+                pwderror = 'Verifiez votre mot de passe !'
+                mailerr = 'Verifiez votre email !'
+                recaptchaerr = "Veuillez confirmer que vous n'êtes pas un robot!"
+                champerr = 'les champs sont vides!'
+            if lang == 'english':
+                pwderror = 'Verify your password ! '
+                mailerr = 'Verify your email !'
+                recaptchaerr = "Please confirm that you're not a robot!"
+                champerr = 'fields are empty!'
+            if lang == 'arabe':
+                pwderror = '!التحقق من كلمة المرور'
+                mailerr = '!تحقق من بريدك الإلكتروني'
+                recaptchaerr = "!الرجاء التأكد من أنك لست آلة"
+                champerr = 'البلايص فارغين'
+            if req.get('email') != '':
+                client = Client.find_one({'email': req['email']})
+                session['clid'] = client['_id']
+                if client:
+                    a = verify_password(client['password'], req.get('password'))
+                    if a:
+                        pwd = req.get('password')
+                        if recaptcha.verify():
+                            session['client'] = client
+                            session['form12'] = 'submitted'
+                            session['form13'] = 'submitted'
+                            session['form14'] = 'submitted'
+                            # print(session.get('client'))
+                        else:
+                            error = recaptchaerr
+                    else:
+                        error = pwderror
+                else:
+                    error = mailerr
+            else:
+                error = champerr
+            if error != '':
+                return render_template("signups/signUp12.html", lang=lang, error=error)
         if 'form13' in req:
             pwd = req.get('password')
             cpwd = req.get('confirm-password')
@@ -320,12 +417,12 @@ def signup(nbr, lang):
     if session == {'_permanent': True} and int(nbr) > 1:  # if session vide wenti moch fel page 1
         return redirect("/signup/1/" + lang)
 
-    if int(nbr) in range(2, 15) and ('form' + str(int(nbr) - 1) not in session):
-        form = ""
-        for i in range(2, 15):
-            if ('form' + str(i)) in session:
-                form = str(i - 1)
-        return redirect("/signup/" + form + "/" + lang)
+    # if int(nbr) in range(2, 15) and ('form' + str(int(nbr) - 1) not in session):
+    #     form = ""
+    #     for i in range(2, 15):
+    #         if ('form' + str(i)) in session:
+    #             form = str(i - 1)
+    #     return redirect("/signup/" + form + "/" + lang)
     nom = ""
     prenom = ""
     adresse = ""
@@ -342,7 +439,7 @@ def signup(nbr, lang):
         prenom = pers['prenom']
         if 'email' in pers:
             email = pers['email']
-        print("client already conneted")
+        # # # print("client already conneted")
         if 'adr_id' in session:
             adresse1 = Adresse.find_one({'_id': session['adr_id']})
             adresse = adresse1['adresse']
@@ -420,11 +517,7 @@ def preview(lang, index):
             jeweler = True
         if 'done' in session:
             done = True
-        client = session.get('client')
-        propriete = session.get('apt')
-        if 'loaded' not in session:
-            load(client, propriete, adresse)
-            session['loaded'] = True
+        session['apt'] = Propriete.find_one({'_id': session.get('apt_id')})
         adresse = apt_unit + "," + rue + ", " + adresse  # careful
         return render_template("resultat/preview.html",
                                lang=lang,
@@ -435,16 +528,21 @@ def preview(lang, index):
     else:
         client = session.get('client')
         proprietes = list([])
+        # print('contrats', client['contrats'])
         for cont in client['contrats']:
             cnt = Contrat.find_one({'_id': cont})
+            # print('cnt', cnt)
+            if 'paid' in cnt:
+                paid = True
+            else:paid = False
             apt = Propriete.find_one({'_id': cnt['prop_id']})
             adresse = Adresse.find_one({'_id': apt['adr_id']})['adresse']
-            proprietes.append('adresse : ' + apt['apt_unit'] + ", " + apt['rue'] + "  " + adresse)
+            prop = {
+                'adresse': apt['apt_unit'] + ", " + apt['rue'] + "  " + adresse,
+                'paid': paid
+            }
+            proprietes.append(prop)
         return render_template("resultat/multiple.html", contrats=proprietes, lang=lang)
-
-@app.route('/print/session')
-def printsess():
-    return session.__dict__
 
 
 @app.route("/login/<lang>", methods=['POST', 'GET'])
@@ -452,57 +550,66 @@ def login(lang):
     pwderror = ''
     mailerr = ''
     error = ''
+    champerr = ''
     if lang == 'french':
         pwderror = 'Verifiez votre mot de passe !'
         mailerr = 'Verifiez votre email !'
         recaptchaerr = "Veuillez confirmer que vous n'êtes pas un robot!"
+        champerr = 'les champs sont vides!'
     if lang == 'english':
         pwderror = 'Verify your password ! '
         mailerr = 'Verify your email !'
         recaptchaerr = "Please confirm that you're not a robot!"
+        champerr = 'fields are empty!'
     if lang == 'arabe':
         pwderror = '!التحقق من كلمة المرور'
         mailerr = '!تحقق من بريدك الإلكتروني'
         recaptchaerr = "!الرجاء التأكد من أنك لست آلة"
+        champerr = 'البلايص فارغين'
     if request.method == 'POST':
         req = request.form
-        client = Client.find_one({'email': req['email']})
-        session['clid'] = client['_id']
-        if client:
-            a = verify_password(client['password'], req['password'])
-            if a:
-                if recaptcha.verify():
-                    print('recaptcha vérifié! ')
-                    session['done'] = True
-                    session['client'] = client
-                    if len(client['contrats']) == 1:
-                        contrat = Contrat.find_one({'_id': client['contrats'][0]})
-                        apartement = Propriete.find_one({'_id': contrat['prop_id']})
-                        session['apt'] = apartement
-                        session['adr_id'] = apartement['adr_id']
-                        session['contrat'] = contrat
+        if req.get('email') != '':
+            client = Client.find_one({'email': req['email']})
+            session['clid'] = client['_id']
+            if client:
+                a = verify_password(client['password'], req['password'])
+                if a:
+                    if recaptcha.verify():
+                        session['done'] = True
+                        session['client'] = client
+                        if len(client['contrats']) == 1 and 'paid' not in Contrat.find_one({'_id': client['contrats'][0]}):
+                            contrat = Contrat.find_one({'_id': client['contrats'][0]})
+                            apartement = Propriete.find_one({'_id': contrat['prop_id']})
+                            session['apt'] = apartement
+                            session['adr_id'] = apartement['adr_id']
+                            session['contrat'] = contrat
+                        else:
+                            session['apt_id'] = 'multiple'
+                            session['apt'] = 'multiple'
+                            session['contrat'] = 'multiple'
+                            session['adr_id'] = 'multiple'
+                        session['finished'] = True
+                        return redirect('/preview/' + lang)
                     else:
-                        session['apt_id'] = 'multiple'
-                        session['apt'] = 'multiple'
-                        session['contrat'] = 'multiple'
-                        session['adr_id'] = 'multiple'
-                    return redirect('/preview/' + lang)
+                        error = recaptchaerr
                 else:
-                    error = recaptchaerr
+                    error = pwderror
             else:
-                error = pwderror
+                error = mailerr
         else:
-            error = mailerr
+            error = champerr
     return render_template("confirm/login.html", lang=lang, error=error)
 
 
 @app.route("/code_postal", methods=['POST'])  # envoyer la liste des codes postaux
 def postal():
-    code = request.form['code']
+    code = int(request.form['code'])
+    # print('code', code)
     codes = Adresse.find({'code_postal': code})
     liste = list([])
     for cod in codes:
         liste.append(cod['adresse'] + " :" + str(cod['code_postal']))
+    # print(liste)
     return jsonify({'result': 'success', 'code': code, 'code_list': liste})
 
 
@@ -613,7 +720,7 @@ def variables():
     # Formule YEAR PRICE = 12x Month Price -12DT
     year_price = formule / 1000 + totext + totcov
     year_sans = formule / 1000
-    month_prince = year_price / 12 - year_price * 3 / 100
+    month_prince = year_price / 12
     year_discount = year_price * 10 / 100
     return jsonify({
         'month_price': month_prince,
@@ -622,12 +729,6 @@ def variables():
         'coverage': coverage,
         'extra': extra
     })
-
-
-@app.route("/voiture/<nbr>/<lang>")
-def voitures(nbr, lang):
-    return render_template("voiture/voiture" + nbr + ".html", lang=lang, nbr=nbr)
-
 
 @app.route('/confirm_email/<token>/<lang>')
 def confirm_email(token, lang):
@@ -667,26 +768,42 @@ def confirm_email(token, lang):
 @app.route('/forgot/pwd/<lang>', methods=['POST'])
 def forgot(lang):
     if lang == 'french':
+        emailerr = "cet email n'existe pas dans la bd !"
         pwderror = 'Verifiez votre mot de passe !'
         success = 'Votre mot de passe est changé avec succés!'
+        codeerr = "Le code n'est pas valide"
     if lang == 'english':
+        emailerr = "this email doesn't exist!"
         pwderror = 'Verify your password ! '
         success = 'Your password has been changed successfully!'
+        codeerr = "the code is not valid"
     if lang == 'arabe':
+        emailerr = "cet email n'existe pas dans la bd !"
         pwderror = '!التحقق من كلمة المرور'
         success = '!تم تغيير كلمة المرور بنجاح'
+        codeerr = "الرمز غير صالح"
     if request.method == 'POST':
         req = request.form
         if 'gen_code' in req:
             email = req.get('email')
-            session['client'] = Client.find_one({'email': email})
-            code = random.randrange(10000, 99999)
-            session['verificationcode'] = code
-            sendCode(email, code)
+            client = Client.find_one({'email': email})
+            if client:
+                session['client'] = client
+                code = random.randrange(10000, 99999)
+                session['verificationcode'] = code
+                sendCode(email, code)
+            else:
+                # print('lahna')
+                return jsonify({'error': emailerr})
         if 'code_form' in req:
-            code = int(req.get('one') + req.get('two') + req.get('three') + req.get('four') + req.get('five'))
+            try:
+                code = int(req.get('one') + req.get('two') + req.get('three') + req.get('four') + req.get('five'))
+            except:
+                return render_template('confirm/login.html', lang=lang, error=codeerr)
             if code == session.get('verificationcode'):
                 return render_template('confirm/resetpwd.html', lang=lang)
+            else:
+                return render_template('confirm/login.html', lang=lang, error=codeerr)
         if 'reset_pwd' in req:
             pwd = req.get('password')
             cpwd = req.get('confirm-password')
@@ -698,13 +815,12 @@ def forgot(lang):
             result = re.findall(pattern, password)
             if not result:
                 return render_template("confirm/login.html", lang=lang, error=pwderror)
-            session.get('client')['password'] = hash_password(pwd)
+            session['client']['password'] = hash_password(pwd)
             client = session.get('client')
             Client.update_one({'_id': client['_id']}, {'$set': {'password': hash_password(pwd)}})
-            print('password changed!')
+            # # print('password changed!')
             return render_template('confirm/login.html', lang=lang, error=success)
-    return 'True'
-
+    return 'False'
 
 @app.route('/pay/<lang>', methods=['POST'])
 def pay(lang):
@@ -722,10 +838,35 @@ def pay(lang):
         client = session.get('client')
         text_association = "this is the contract of the client : "+client['nom']+' '+client['prenom']+" with the id " \
                            +str(session.get('clid'))+" : <br>this contract is paid"
-        sendPDF('zied.kanoun6@gmail.com','demande_de_stage.pdf',text_association)
-        return 'your payment is successful!'
-    return "string"
+        apt = session.get('apt')
+        adresse = apt['apt_unit'] + ', ' + apt['rue'] + ', ' + Adresse.find_one({'_id': session.get('adr_id')})[
+            'adresse']
+        autre = []
+        # print(apt)
+        for one in apt['autres_biens']:
+            autre.append(AutresBiens.find_one({'_id': one}))
+        rendered = render_template('contrat/contrat.html',
+                                   client=client,
+                                   adresse=adresse,
+                                   valuables=apt['valuables'],
+                                   autres_biens=autre,
+                                    contrat=Contrat.find_one({'_id': apt['contrat']}))
+        css = ['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
+        pdf = pdfkit.from_string(rendered, False, css=css)
+        sendPDF(client['email'], pdf, text_association)
+        sendPDF('zied.kanoun6@gmail.com', pdf, text_association)
+        sendPDF('henimaher@gmail.com',pdf, text_association)
+        Contrat.update_one({'prop_id': apt['_id']},{"$set": {'paid': True}})
+        session['done'] = True
+        session['client'] = client
+        session['apt_id'] = 'multiple'
+        session['apt'] = 'multiple'
+        session['contrat'] = 'multiple'
+        session['adr_id'] = 'multiple'
+        session['finished'] = True
+    return redirect("/preview/"+lang)
 
+from flask import make_response
 
 @app.route('/gen/contract')
 def generate():
@@ -733,6 +874,7 @@ def generate():
     apt = session.get('apt')
     adresse = apt['apt_unit'] +', '+ apt['rue'] +', '+ Adresse.find_one({'_id': session.get('adr_id')})['adresse']
     autre = []
+    # preparer la liste des autres biens
     for one in apt['autres_biens']:
         autre.append(AutresBiens.find_one({'_id': one}))
     rendered = render_template('contrat/contrat.html',
@@ -743,11 +885,874 @@ def generate():
                                contrat=Contrat.find_one({'_id': apt['contrat']}))
     css=['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
     pdf = pdfkit.from_string(rendered, False,css=css)
+    sendPDF('zied.kanoun6@gmail.com', pdf, 'test pdf 12 12 12')
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = "inline; filename=output.pdf"
     return response
 
+@app.route('/delete/contract/<pos>', methods=['POST'])
+def delete(pos):
+    client = session.get('client')
+    cont_id = client['contrats'][int(pos) - 1]
+    # print(cont_id)
+    prop = Propriete.find_one({'contrat': cont_id})
+    prop_id = prop['_id']
+    adr_id = prop['adr_id']
+    autres = list(prop['autres_biens'])
+    Propriete.delete_one({'contrat': cont_id})
+    Contrat.delete_one({'_id': cont_id})
+
+    liste = list(Client.find_one({'_id': client['_id']})['contrats'])
+    liste.remove(cont_id)
+    Client.update_one({'_id': client['_id']},{'$set': {'contrats': liste}})
+
+    liste = list(Adresse.find_one({'_id': adr_id})['proprietes'])
+    liste.remove(prop_id)
+    Adresse.update_one({'_id': adr_id}, {'$set': {'proprietes': liste}})
+
+    for autre in autres:
+        # print(autre)
+        AutresBiens.delete_one({'_id': autre})
+
+    session['client'] = Client.find_one({'_id': client['_id']})
+    # print('tekhdem')
+    # print(len(client['contrats']))
+    return 'nothing'
+
+########### 5edmet beya ##############
+@app.route("/voiture/<nbr>/<lang>" , methods=['GET', 'POST'])
+def voiture(nbr,lang):
+    if lang == 'french':
+        chooseerr = "vous devez choisir!"
+        champerr = 'les champs sont vides!'
+        champwrg = 'Il y a une information incorrecte'
+    elif lang == "english":
+        champerr = 'Fields are empty!'
+        chooseerr = "You have to choose!"
+        champwrg = 'There is an incorrect information'
+    else:
+        champerr = 'البلايص فارغين'
+        chooseerr = "لازم تختار"
+        champwrg = 'فما معلومة غالطة'
+
+    if request.method == "POST":
+        req = request.form
+        if 'vform1' in req:
+            prenom = req.get('first_name')
+            nom = req.get('last_name')
+            if nom == "" or prenom == "":
+                return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr)
+            client = Client_(prenom, nom)
+            session['client'] = client.__dict__
+            # print('client created')
+            session['vform1'] = 'submitted'
+        if 'vform1' not in session:
+            return redirect('/voiture/1/' + lang)
+
+        if 'vform2' in req:
+            typev = req.get('typev')
+            if typev is None:
+                return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=chooseerr)
+            if typev not in ['passenger', 'taxi', 'commercial', None]:
+                return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="please do not change values!")
+            session['typev'] = typev
+            session['vform2'] = 'submitted'
+        if 'vform3' in req:
+            valeur_a_neuf = req.get('valeur_a_neuf')
+            valeur_actuelle = req.get('valeur_actuelle')
+            if valeur_a_neuf == "" or valeur_actuelle == "" :
+                return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr)
+            if valeur_actuelle > valeur_a_neuf:
+                return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg)
+
+            session['valeur_a_neuf'] = valeur_a_neuf
+            session['valeur_actuelle'] = valeur_actuelle
+            session['vform3']='submitted'
+        if 'vform4' in req:
+            marque = req.get('marque')
+
+            if marque == "Select a brand" or marque == "Sélectionner la marque" or marque == "إختار الماركة" :
+                return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=chooseerr)
+            session['marque'] = marque
+            session['vform4'] = 'submitted'
+        if 'vform5' in req:
+            classe = req.get('classe')
+
+            if classe == "Select a class" or classe == "Sélectionner la classe" or classe == "إختار القسم":
+                return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=chooseerr)
+            nbcv = req.get('nbcv')
+
+            if nbcv == "Select" or nbcv == "Sélectionner" or nbcv == "إختار" :
+                return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=chooseerr)
+            session['classe'] = classe
+            session['nbcv'] = nbcv
+            session['vform5']='submitted'
+        if 'vform6' in req:
+            remorquage = req.get('remorquage')
+            pers_trans = req.get('pers_trans')
+            nbp = req.get('nbp')
+            capital_d = req.get('capital_d')
+            session['remorquage'] = remorquage
+            session['pers_trans'] = pers_trans
+            session['nbp'] = nbp
+            session['vform6']='submitted'
+        if 'vform7' in req:
+            bris_glace = req.get('bris_glace')
+            valeur_bg = req.get('valeur_bg')
+            radio_ca7 = req.get('radio_ca7')
+            valeur_rc = req.get('valeur_rc')
+            if bris_glace == 'bris_glace_oui' or radio_ca7 == 'radio_ca7_oui':
+                if valeur_bg == "" or valeur_rc == "" :
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                           error=champerr)
+            session['bris_glace'] = bris_glace
+            session['valeur_bg'] = valeur_bg
+            session['radio_ca7'] = radio_ca7
+            session['valeur_rc'] = valeur_rc
+            session['vform7']  = 'submitted'
+
+
+    return render_template("voiture/register/voiture" +nbr+".html", nbr = nbr, lang = lang)
+############### end of 5edma ##############
+############### 5edmet bouali #############
+d = dict(
+    zip(['vie0', 'vie1', 'vie2', 'vie22', 'vie3', 'vie33', 'vie333', 'vie4', 'vie44', 'vie5', 'vie55', 'vie6'],
+        [False for i in range(12)]))
+
+def session_lang():
+    try:
+        session['lang'] = request.args.get('lang')
+        if not (session['lang']):
+            raise Exception()
+    except:
+        session['lang'] = 'ar'
+
+@app.route("/vie/", methods=['POST', 'GET'])
+def home1():
+    session_lang()
+    if request.method == 'POST':
+        fn = request.form.get('first_name')
+        ln = request.form.get('last_name')
+        session['fn'] = fn
+        session['ln'] = ln
+
+        if fn and ln:
+            session['vie0'] = True
+            return redirect(url_for("vie1"))
+    for key in d:
+        session[key] = d[key]
+    return render_template('vie/sign.html', lang=session['lang'])
+
+
+@app.route('/vie/1/', methods=['POST', 'GET'])
+def vie1():
+    session_lang()
+    error=''
+    cursor = mongo.db['Adresse'].find({})
+    # print(cursor)
+    data = list([])
+    # print(mongo.db['Adresse'].count_documents({}))
+    for v in cursor:
+        data.append(v['adresse'] + ' ' + v['code_postal'])
+    if request.method == 'POST':
+        session['adresse'] = request.form.get('adresse') + ' '
+        session['code'] = session["adresse"][-5:-1]
+        if session['adresse'] and session['code'].isnumeric():
+            session['vie1'] = True
+            return redirect(url_for("vie2"))
+        else:
+            error = {'fr': "L'adresse doit être non vide et le code numérique!",
+                     'en': 'Enter a non void adress and a number for the code',
+                     'ar': "أدخل عنوان و رمز رقمي"}
+    if not (session['vie0']):
+        return redirect(url_for("home1"))
+    return render_template('vie/vie1.html', lang=session['lang'], data=data, error=error)
+
+
+@app.route('/vie/2/', methods=['POST', 'GET'])
+def vie2():
+    session_lang()
+    erreur = ''
+    if request.method == 'POST' and session['vie1']:
+        age = request.form.get('age')
+        if age.isnumeric() and int(age)>0:
+            session['age'] = age
+            session['vie2'] = True
+            return redirect(url_for("vie22"))
+        else:
+            erreur = {'fr':"L'age doit être une valeur numerique non vide",'en':"Enter a non void number",'ar':"أدخل رقما"}
+    if not (session['vie1']):
+        return redirect(url_for("vie1"))
+    return render_template('vie/vie2.html', lang=session['lang'], error=erreur)
+
+
+@app.route('/vie/22/', methods=['POST', 'GET'])
+def vie22():
+    session_lang()
+    error=''
+    if request.method == 'POST' and session['vie2']:
+        session['sex'] = request.form.get('sex')
+        if session['sex']:
+            session['vie22'] = True
+            return redirect(url_for("vie3"))
+        else:
+            error = {'fr':"",'en':"",'ar':""}
+    if not (session['vie2']):
+        return redirect(url_for("vie2"))
+    return render_template('vie/vie22.html', lang=session['lang'])
+
+
+@app.route('/vie/3/', methods=['POST', 'GET'])
+def vie3():
+    session_lang()
+    error =""
+    if request.method == 'POST' and session['vie22']:
+        session['w'] = request.form.get('w')
+        session['h'] = request.form.get('h')
+
+        if session['w'].isnumeric() and 15 < int(session['w']) < 300 and session['h'].isnumeric() and 15 < int(session['h']) < 300:
+            session['vie3'] = True
+            session['bmi'] = float(session['w'])/(float(session['h'])/100)*(float(session['h'])/100)
+            return redirect(url_for('vie33'))
+        else:
+            error = {'fr':"Taper votre taille et votre poids",'en':'Provide height and wieght','ar':'أدخل طولك و وزنك'}
+    if not (session['vie22']):
+        return redirect(url_for("vie22"))
+    return render_template('vie/vie3.html', lang=session['lang'], error=error)
+
+
+@app.route('/vie/33/', methods=['POST', 'GET'])
+def vie33():
+    session_lang()
+    if request.method == 'POST' and session['vie3']:
+        session['smoke'] = request.form.get('smoke')
+        if session['smoke']:
+            session['vie33'] = True
+            return redirect(url_for('vie333'))
+    if not (session['vie3']):
+        return redirect(url_for("vie3"))
+    return render_template('vie/vie33.html', lang=session['lang'])
+
+
+@app.route('/vie/333/', methods=['POST', 'GET'])
+def vie333():
+    session_lang()
+    if request.method == 'POST' and session['vie33']:
+        session['drink'] = request.form.get('drink')
+        if session['drink']:
+            session['vie333'] = True
+            return redirect(url_for('vie4'))
+    if not (session['vie33']):
+        return redirect(url_for("vie33"))
+    return render_template('vie/vie333.html', lang=session['lang'])
+
+
+@app.route('/vie/4/', methods=['POST', 'GET'])
+def vie4():
+    session_lang()
+    if request.method == 'POST' and session['vie333']:
+        session['status'] = request.form.get('status')
+        if session['status']:
+            session['vie4'] = True
+            return redirect(url_for('vie44'))
+    if not (session['vie333']):
+        return redirect(url_for("vie333"))
+    return render_template('vie/vie4.html', lang=session['lang'])
+
+
+@app.route('/vie/44/', methods=['POST', 'GET'])
+def vie44():
+    session_lang()
+    error=''
+    if request.method == 'POST' and session['vie4']:
+        session['children'] = request.form.get('children')
+        if session['children'].isnumeric():
+            session['vie44'] = True
+            return redirect(url_for('vie5'))
+        else:
+            error = {"fr":"Taper un entier positif ou nul" ,"en":"Type a positif or null integer","ar":"أدخل رقما أكبر أو يساوي صفر" }
+    if not (session['vie4']):
+        return redirect(url_for("vie4"))
+    return render_template('vie/vie44.html', lang=session['lang'], error=error)
+
+
+@app.route('/vie/5/', methods=['POST', 'GET'])
+def vie5():
+    session_lang()
+    error = ''
+    if request.method == 'POST' and session['vie44']:
+        session['salary'] = request.form.get('salary')
+        if session['salary'].isnumeric():
+            session['vie5'] = True
+            return redirect(url_for('vie55'))
+        else:
+            error = {"fr":"Taper un entier positif ou nul" ,"en":"Type a positif or null integer","ar":"أدخل رقما أكبر أو يساوي صفر" }
+
+    if not (session['vie44']):
+        return redirect(url_for("vie44"))
+    return render_template('vie/vie5.html', lang=session['lang'], error=error)
+
+
+@app.route('/vie/55/', methods=['POST', 'GET'])
+def vie55():
+    session_lang()
+    error=''
+    if request.method == 'POST' and session['vie5']:
+        session['debt'] = request.form.get('debt')
+        if session['debt'].isnumeric():
+            session['vie55'] = True
+            return redirect(url_for('vie6'))
+        else:
+            error = {"fr":"Taper un entier positif ou nul" ,"en":"Type a positif or null integer","ar":"أدخل رقما أكبر أو يساوي صفر" }
+
+    if not (session['vie5']):
+        return redirect(url_for("vie5"))
+    return render_template('vie/vie55.html', lang=session['lang'],error=error)
+
+
+@app.route('/vie/6/', methods=['POST', 'GET'])
+def vie6():
+    session_lang()
+    if request.method == 'POST' and session['vie55']:
+        f = request.files['file']
+        string = str(uuid.uuid4())
+        f.save("{}.pdf".format(string))
+        # print(string)
+        if f:
+            session['vie6'] = True
+            # print('aaaaaaaaaaaaaaaaaaaaaa')
+            mongo.db.clients.insert_one(
+                {
+                    'first_name': session['fn'],
+                    'last_name': session['ln'],
+                    'adresse': session['adresse'],
+                    'code': session['code'],
+                    'sex': session['sex'],
+                    'age': session['age'],
+                    'bmi': session['bmi'],
+                    'smoke': session['smoke'],
+                    'drink': session['drink'],
+                    'status': session['status'],
+                    'children': session['children'],
+                    'salary': session['salary'],
+                    'debt': session['debt'],
+                    'file': string
+                }
+            )
+            return redirect(url_for('generatevie'))
+    if not (session['vie55']):
+        return redirect(url_for("vie55"))
+    return render_template('vie/vie6.html', lang=session['lang'])
+
+
+@app.route("/result/", methods=['POST', 'GET'])
+def result():
+    # session_lang()
+    return '<h1>Building Page Result ...</h1>'
+
+def formule(x,y,z):
+    return (x - 0.01*y)*(1+0.01*(100-z))
+
+@app.route('/gen/contract/vie')
+def generatevie():
+    info = [['BMI',session['bmi']]
+        , ['Fumeur', session['smoke']], ['Alcool', session['drink']],
+            ['Statut familial', session['status']], ["Nombre d'enfants",session['children']]]
+    css=['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
+    # print(session['adresse'])
+    # print(session['sex'])
+    rendered = render_template('contrat-vie/contrat.html',
+                               fn=session['fn'],
+                               ln=session['ln'],
+                               adress=session['adresse'],
+                               sex=session['sex'],
+                               age=session['age'],
+                               somme=formule(int(session['salary']),int(session['debt']),int(session['age'])),
+                               dateb = datetime.datetime.now(tz=None).date(),
+                               contrat=0,
+                               info=info)
+    pdf = pdfkit.from_string(rendered, False,css=css)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = "inline; filename=output.pdf"
+    return response
+
+############### end of 5edma ##############
+############### 5edmet jaabiri ##############
+#------------------------------------------el route mta3 constat add ahbet lel e5er ---------------------------------------------------
+@app.route("/addreport/<nbr>/<lang>",methods=["POST","GET"])
+def addreport(nbr,lang):
+    if lang == 'english':
+        chooseerr="choose an option please !"
+        champerr = 'fields are empty!'
+        witnesserr='do not add witness without full informations'
+        greenerr='enter green card or contract please'
+        contacterr='enter atleast one contact information'
+    elif lang =='arabe':
+        chooseerr = "لازم تختار!"
+        champerr = 'البلايص فارغين'
+        witnesserr='لا تضيف شاهد بدون معلومات كاملة'
+        greenerr='أدخل البطاقة الخضراء أو العقد من فضلك'
+        contacterr='حط حاجة نكنتاكتيوك/نكنتاكتيوه عليها'
+    else:
+        chooseerr="choisissez une option s'il vous plaît!"
+        champerr = 'les champs sont vides!'
+        witnesserr='ne pas ajouter de témoin sans informations complètes'
+        greenerr="entrez LaCarteVerte Ou Le Contrat S'il Vous Plaît"
+        contacterr='entrez au moins une information de contact '
+    completed = False
+    if request.method == "POST":
+        req = request.form
+        if 'form101' in req:
+            date = req.get('date')
+            if date=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error='enter a date please')
+            session["date"]= date
+            session['form101'] = 'submitted'
+        if 'form102' in req:
+            time = req.get('time')
+            if time=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error='enter a time please')
+            session["time"]= time
+            session['form102'] = 'submitted'
+        if 'form103' in req:
+            country=req.get('country')
+            city=req.get('city')
+            street=req.get('street')
+            if country=="" or city=="" or street=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr)
+            session["city"] = city
+            session["country"] = country
+            session["street"] = street
+            session['form103'] = 'submitted'
+        if 'form104' in req:
+            injury = req.get('injury')
+            if injury not in ['yes', 'no', None]:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="don't change values please!")
+            if injury == None:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=chooseerr)
+            session["injury"] = injury
+            session['form104'] = 'submitted'
+        if 'form105' in req:
+            damageov = req.get('damageov')
+            if damageov not in ['yes', 'no', None]:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="don't change values please!")
+            if damageov == None:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=chooseerr)
+            session["damageov"] = damageov
+            session['form105'] = 'submitted'
+        if 'form106' in req:
+            damageob = req.get('damageob')
+            if damageob not in ['yes', 'no', None]:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="don't change values please!")
+            if damageob == None:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=chooseerr)
+            session["damageob"] = damageob
+            session['form106'] = 'submitted'
+        if 'form107' in req:
+            i = 1
+            while req.get('namew'+str(int(i))):
+                if (req.get('namew'+str(int(i))))=="" or (req.get('telw'+str(int(i))))=="":
+                    break
+                iv =str(int(i))
+                session["namew"+iv]=req.get('namew'+iv)
+                session["telw"+iv]=req.get('telw'+iv)
+                i += 1
+            if (req.get('namew'+str(int(i))))=="" or (req.get('telw'+str(int(i))))=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=witnesserr)
+            session['form107'] = 'submitted'
+        if 'form108' in req:
+            typev_a = req.get('typev')
+            brandv_a = req.get('brand')
+            matriculev_a = req.get('matricule')
+            countryv_a = req.get('countryv')
+            if typev_a =="normalv":
+                if brandv_a=="" or matriculev_a=="" or countryv_a=="":
+                    return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                           error=champerr)
+            else:
+                if matriculev_a=="" or countryv_a=="":
+                    return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                           error=champerr)
+            session["typev_a"] = typev_a
+            session["brandv_a"] = brandv_a
+            session["matriculev_a"] = matriculev_a
+            session["countryv_a"] = countryv_a
+            session['form108'] = 'submitted'
+        if 'form109' in req:
+            names_a = req.get('names')
+            nb_contract_a = req.get('nbc')
+            nb_greencard_a = req.get('nbcv')
+            date_b_a = req.get('datecb')
+            date_e_a = req.get('datece')
+            typeinsurance_a = req.get('typeinsurance')
+            nameag_a = req.get('nameag')
+            adressag_a = req.get('adressag')
+            countryag_a = req.get('countryag')
+            emailag_a = req.get('emailag')
+            phoneag_a = req.get('telag')
+            if names_a=="" or date_b_a=="" or date_e_a=="" or nameag_a=="" or adressag_a=="" or countryag_a=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr)
+            if nb_contract_a=="" and nb_greencard_a=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=greenerr)
+            if emailag_a=="" and phoneag_a=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=contacterr)
+            session["names_a"] = names_a
+            session["nb_contract_a"] = nb_contract_a
+            session["nb_greencard_a"] = nb_greencard_a
+            session["date_b_a"] = date_b_a
+            session["date_e_a"] = date_e_a
+            session["typeinsurance_a"] = typeinsurance_a
+            session["nameag_a"] = nameag_a
+            session["adressag_a"] = adressag_a
+            session["countryag_a"] = countryag_a
+            session["emailag_a"] = emailag_a
+            session["phoneag_a"] = phoneag_a
+            session['form109'] = 'submitted'
+        if 'form110' in req:
+            damageins_a = req.get('damageins')
+            if damageins_a not in ['yes', 'no', None]:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="don't change values please!")
+            if damageins_a == None:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=chooseerr)
+            session["damageins_a"]= damageins_a
+            session['form110'] = 'submitted'
+        if 'form111' in req:
+            namedr_a = req.get('full_namedr')
+            birthdaydr_a = req.get('birthdaydr')
+            adressdr_a = req.get('adressdr')
+            countrydr_a = req.get('countrydr')
+            emaildr_a = req.get('emaildr')
+            teldr_a = req.get('teldr')
+            permis_a = req.get('permis')
+            categoryp_a = req.get('categoryp')
+            validp_a = req.get('validp')
+            if namedr_a=="" or birthdaydr_a=="" or adressdr_a=="" or countrydr_a=="" or permis_a=="" or categoryp_a=="" or validp_a=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr)
+            if emaildr_a=="" and teldr_a=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=contacterr)
+            session["namedr_a"] = namedr_a
+            session["birthdaydr_a"] = birthdaydr_a
+            session["adressdr_a"] = adressdr_a
+            session["countrydr_a"] = countrydr_a
+            session["emaildr_a"] = emaildr_a
+            session["teldr_a"] = teldr_a
+            session["permis_a"] = permis_a
+            session["categoryp_a"] = categoryp_a
+            session["validp_a"] = validp_a
+            session['form111'] = 'submitted'
+        if 'form112' in req:
+            chocside_a = req.get('chocside')
+            chocpt_a = req.get('chocpt')
+            session["chocside_a"] = chocside_a
+            session["chocpt_a"] = chocpt_a
+            session['form112'] = 'submitted'
+        if 'form113' in req:
+            appdamage_a=req.get('appdamage')
+            session["appdamage_a"]=appdamage_a
+            session['form113'] = 'submitted'
+        if 'form114' in req:
+            obs_a=req.get('obs')
+            session["obs_a"]=obs_a
+            session['form114'] = 'submitted'
+        if 'form115' in req:
+            name_b =req.get('name')
+            adress_b=req.get('adress')
+            codep_b=req.get('codep')
+            country_b=req.get('country')
+            email_b=req.get('email')
+            tel_b=req.get('tel')
+            if name_b=="" or adress_b=="" or codep_b=="" or country_b=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr)
+            if email_b=="" and tel_b=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=contacterr)
+            session["name_b"]=name_b
+            session["adress_b"]=adress_b
+            session["codep_b"]=codep_b
+            session["country_b"]=country_b
+            session["email_b"]=email_b
+            session["tel_b"]=tel_b
+            session['form115'] = 'submitted'
+        if 'form116' in req:
+            typev_b = req.get('typev')
+            brandv_b = req.get('brand')
+            matriculev_b = req.get('matricule')
+            countryv_b = req.get('countryv')
+            if typev_b =="normalv":
+                if brandv_b=="" or matriculev_b=="" or countryv_b=="":
+                    return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                           error=champerr)
+            else:
+                if matriculev_b=="" or countryv_b=="":
+                    return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                           error=champerr)
+            session["typev_b"] = typev_b
+            session["brandv_b"] = brandv_b
+            session["matriculev_b"] = matriculev_b
+            session["countryv_b"] = countryv_b
+            session['form116'] = 'submitted'
+        if 'form117' in req:
+            names_b = req.get('names')
+            nb_contract_b = req.get('nbc')
+            nb_greencard_b = req.get('nbcv')
+            date_b_b = req.get('datecb')
+            date_e_b = req.get('datece')
+            typeinsurance_b = req.get('typeinsurance')
+            nameag_b = req.get('nameag')
+            adressag_b = req.get('adressag')
+            countryag_b = req.get('countryag')
+            emailag_b = req.get('emailag')
+            phoneag_b = req.get('telag')
+            if names_b=="" or date_b_b=="" or date_e_b=="" or nameag_b=="" or adressag_b=="" or countryag_b=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr)
+            if nb_contract_b=="" and nb_greencard_b=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=greenerr)
+            if emailag_b=="" and phoneag_b=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=contacterr)
+            session["names_b"] = names_b
+            session["nb_contract_b"] = nb_contract_b
+            session["nb_greencard_b"] = nb_greencard_b
+            session["date_b_b"] = date_b_b
+            session["date_e_b"] = date_e_b
+            session["typeinsurance_b"] = typeinsurance_b
+            session["nameag_b"] = nameag_b
+            session["adressag_b"] = adressag_b
+            session["countryag_b"] = countryag_b
+            session["emailag_b"] = emailag_b
+            session["phoneag_b"] = phoneag_b
+            session['form117'] = 'submitted'
+        if 'form118' in req:
+            damageins_b = req.get('damageins')
+            if damageins_b not in ['yes', 'no', None]:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="don't change values please!")
+            if damageins_b == None:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=chooseerr)
+            session["damageins_b"]= damageins_b
+            session['form118'] = 'submitted'
+        if 'form119' in req:
+            namedr_b = req.get('full_namedr')
+            birthdaydr_b = req.get('birthdaydr')
+            adressdr_b = req.get('adressdr')
+            countrydr_b = req.get('countrydr')
+            emaildr_b = req.get('emaildr')
+            teldr_b = req.get('teldr')
+            permis_b = req.get('permis')
+            categoryp_b = req.get('categoryp')
+            validp_b = req.get('validp')
+            if namedr_b=="" or birthdaydr_b=="" or adressdr_b=="" or countrydr_b=="" or permis_b=="" or categoryp_b=="" or validp_b=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr)
+            if emaildr_b=="" and teldr_b=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=contacterr)
+            session["namedr_b"] = namedr_b
+            session["birthdaydr_b"] = birthdaydr_b
+            session["adressdr_b"] = adressdr_b
+            session["countrydr_b"] = countrydr_b
+            session["emaildr_b"] = emaildr_b
+            session["teldr_b"] = teldr_b
+            session["permis_b"] = permis_b
+            session["categoryp_b"] = categoryp_b
+            session["validp_b"] = validp_b
+            session['form119'] = 'submitted'
+        if 'form120' in req:
+            chocside_b = req.get('chocside')
+            chocpt_b = req.get('chocpt')
+            session["chocside_b"] = chocside_b
+            session["chocpt_b"] = chocpt_b
+            session['form120'] = 'submitted'
+        if 'form121' in req:
+            appdamage_b=req.get('appdamage')
+            session["appdamage_b"]=appdamage_b
+            session['form121'] = 'submitted'
+        if 'form122' in req:
+            obs_b=req.get('obs')
+            session["obs_b"]=obs_b
+            session['form122'] = 'submitted'
+        if 'form123' in req:
+            circumstances_a=req.getlist('circumstances_a')
+            circumstances_b=req.getlist('circumstances_b')
+            if circumstances_a=="" or circumstances_b=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr)
+            session["circumstances_a"]=circumstances_a
+            session["circumstances_b"]=circumstances_b
+            session['form123'] = 'submitted'
+        if 'form124' in req:
+            # check if the post request has the file part
+            if 'file' not in request.files:
+                flash('No file part')
+                return redirect(request.url)
+            file = request.files['file']
+            # if user does not select file, browser also
+            #  submit an empty part without filename
+            if file.filename == '':
+                flash('No selected file')
+                return redirect(request.url)
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                session["accident_sketch"]=filename
+                session['form115'] = 'submitted'
+                completed=True
+    if int(nbr) in range(2, 25) and ('form' + str(int(nbr)+99) not in session):
+        form = "1"
+        for k in range(2, 25):
+            v=k+100
+            if ('form' + str(v)) in session:
+                form = str(k+1)
+        return redirect("/addreport/" + form + "/" + lang)
+    if completed:
+        j = 1
+        # wnames=""
+        # wphones=""
+        wits=""
+        while session.get('namew'+str(int(j))):
+            jv=str(int(j))
+            # wnames+=session["namew"+jv]+";"
+            # wphones+=session["telw"+jv]+";"
+            if session.get('namew'+str(int(j+1))):
+                wits+=session["namew"+jv]+":"+session["telw"+jv]+";"
+            else:
+                wits+=session["namew"+jv]+":"+session["telw"+jv]
+            j += 1
+        curc_a=""
+        curc_b=""
+        for index,value in enumerate(session["circumstances_a"]):
+            if index+1 < len(session["circumstances_a"]):
+                curc_a+=value+";"
+            else:
+                curc_a+=value
+        for index,value in enumerate(session["circumstances_b"]):
+            if index+1 < len(session["circumstances_b"]):
+                curc_b+=value+";"
+            else:
+                curc_b+=value
+
+        exp = {
+            "date":session["date"],
+            "time":session["time"],
+            "adress":session["country"]+', '+session["city"]+', '+session["street"],
+            "injuries":session["injury"],
+            "damage_to_other_vehicles":session["damageov"],
+            "damage_to_other_objects":session["damageob"],
+            "witnesses":wits,
+            "vehicle_A":{
+                "type":session["typev_a"],
+                "brand":session["brandv_a"],
+                "registration_number":session["matriculev_a"],
+                "country":session["countryv_a"]
+            },
+            "insurance_society_A":{
+                "name":session["names_a"],
+                "number_of_contract":session["nb_contract_a"],
+                "number_of_greencard":session["nb_greencard_a"],
+                "starting_date":session["date_b_a"],
+                "ending_date":session["date_e_a"],
+                "type_insurance":session["typeinsurance_a"],
+                "name_of_type":session["nameag_a"],
+                "adress":session["adressag_a"]+', '+session["countryag_a"],
+                "email":session["emailag_a"],
+                "phone":session["phoneag_a"],
+                "material_damage_insured":session["damageins_a"]
+            },
+            "driver_A":{
+                "name":session["namedr_a"],
+                "birthday":session["birthdaydr_a"],
+                "adress":session["adressdr_a"]+', '+session["countrydr_a"],
+                "email":session["emaildr_a"],
+                "phone":session["teldr_a"],
+                "permis":session["permis_a"],
+                "category":session["categoryp_a"],
+                "available_until":session["validp_a"]
+            } ,
+            "shock_point_car_A":session["chocside_a"]+', '+session["chocpt_a"],
+            "damage_apparent_A":session["appdamage_a"],
+            "observations_A":session["obs_a"],
+            "insured_B":{
+                "name":session["name_b"],
+                "adress":session["adress_b"]+', '+session["country_b"],
+                "postal_code":session["codep_b"],
+                "email":session["email_b"],
+                "phone":session["tel_b"],
+            },
+            "vehicle_B":{
+                "type":session["typev_b"],
+                "brand":session["brandv_b"],
+                "registration_number":session["matriculev_b"],
+                "country":session["countryv_b"]
+            },
+            "insurance_society_B":{
+                "name":session["names_b"],
+                "number_of_contract":session["nb_contract_b"],
+                "number_of_greencard":session["nb_greencard_b"],
+                "starting_date":session["date_b_b"],
+                "ending_date":session["date_e_b"],
+                "type_insurance":session["typeinsurance_b"],
+                "name_of_type":session["nameag_b"],
+                "adress":session["adressag_b"]+', '+session["countryag_b"],
+                "email":session["emailag_b"],
+                "phone":session["phoneag_b"],
+                "material_damage_insured":session["damageins_b"]
+            },
+            "driver_B":{
+                "name":session["namedr_b"],
+                "birthday":session["birthdaydr_b"],
+                "adress":session["adressdr_b"]+', '+session["countrydr_b"],
+                "email":session["emaildr_b"],
+                "phone":session["teldr_b"],
+                "permis":session["permis_b"],
+                "category":session["categoryp_b"],
+                "available_until":session["validp_b"]
+            },
+            "shock_point_car_B":session["chocside_b"]+', '+session["chocpt_b"],
+            "damage_apparent_B":session["appdamage_b"],
+            "observations_B":session["obs_b"],
+            "circumstances_A":curc_a,
+            "circumstances_B":curc_b,
+            "accident_sketch":session["accident_sketch"]
+        }
+        #----------------badel el collection bech 7atit--------------------------------------------------------
+        report = collection.insert_one(exp)
+        session['reportid'] = report.inserted_id
+        return redirect(url_for("getit"))
+    return render_template("/constat_form/addreport"+nbr+".html",lang=lang,
+                           nbr=nbr)
+#----------------end-----------------------------------------------------------------------------------
+############### end of 5edma ##############
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')

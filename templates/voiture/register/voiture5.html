@@ -1,0 +1,187 @@
+{% extends 'sign.html' %}
+{% block nbr %}{{ nbr }}{% endblock %}
+{% block sidenav %}
+{% if lang == "english" %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<a href="#">Claims</a>
+<a href="#">My account</a>
+{% else %}{% if lang =="arabe" %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="#">معلومات</a>
+<a href="#">مطالب</a>
+<a href="#">حسابي</a>
+{% else %}{% if lang=="french" %}
+<a href="/home/french">Acceuil</a>
+<a href="#">Informations</a>
+<a href="#">Réclamations</a>
+<a href="#">Mon compte</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block lang %}
+{{lang}}
+{% endblock %}
+{% block style %}
+<style>
+    .form-check{
+        margin-bottom: 0;
+    }
+    .container-fluid{
+        padding-top: 0;
+    }
+    label h2{
+        background-color: white;
+    }
+
+</style>
+{% endblock %}
+{% block body %}
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid">
+    <div class="content">
+        <h1 class="center-text">Class and Number of HP? </h1>
+    </div>
+    <form class="third-form" method="post" action="/voiture/6/{{lang}}">
+        <div class="row" style="text-align: center;">
+            <div class="form-group col-md-6">
+                <label for="classe">Vehicle class</label>
+                <select class="form-control" style="float: right;" name="classe" id="classe">
+                    <option>Select a class</option>
+                    <option>class 1</option>
+                    <option>class 2</option>
+                    <option>class 3</option>
+                    <option>class 4</option>
+                    <option>class 5</option>
+                    <option>class 6</option>
+                    <option>class 7</option>
+                    <option>class 8 (if this is your first vehicle)</option>
+                    <option>class 9</option>
+                    <option>class 10</option>
+                    <option>class 11</option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="classe">Number of Fiscal Horsepower</label>
+                <select class="form-control" style="float: right;" name="nbcv" id="nbcv">
+                    <option>Select</option>
+                    <option>2FHP</option>
+                    <option>3-4FHP</option>
+                    <option>5-6FHP</option>
+                    <option>7-10FHP</option>
+                    <option>11-14FHP</option>
+                    <option>15FHP+</option>
+                </select>
+            </div>
+        
+        </div>
+        <div class="row">
+            <button type="submit" name="vform5" class="btn btn-primary col-2">Next</button>
+        </div>
+
+    </form>
+    <div class="back"><a href="/voiture/4/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+
+
+</div>
+{% else %}{% if lang =="french" %}
+<div class="french container-fluid">
+    <div class="content">
+        <h1 class="center-text">Classe et Nombre de CV? </h1>
+    </div>
+    <form class="third-form" method="post" action="/voiture/6/{{lang}}">
+        <div class="row" style="text-align: center;">
+        
+            <div class="form-group col-md-6">
+                <label for="classe">La classe du véhicule</label>
+                <select class="form-control" style="float: left;" name="classe" id="classe">
+                    <option>Sélectionner la classe</option>
+                    <option>classe 1</option>
+                    <option>classe 2</option>
+                    <option>classe 3</option>
+                    <option>classe 4</option>
+                    <option>classe 5</option>
+                    <option>classe 6</option>
+                    <option>classe 7</option>
+                    <option>classe 8 (si c'est votre premier véhicule)</option>
+                    <option>classe 9</option>
+                    <option>classe 10</option>
+                    <option>classe 11</option>
+                </select>
+            </div>
+        
+            <div class="form-group col-md-6">
+                <label for="classe">Nombre de Chevaux Fiscaux du véhicule</label>
+                <select class="form-control" style="float: right;" name="nbcv" id="nbcv">
+                    <option>Sélectionner</option>
+                    <option>2CV</option>
+                    <option>3-4CV</option>
+                    <option>5-6CV</option>
+                    <option>7-10CV</option>
+                    <option>11-14CV</option>
+                    <option>15CV+</option>
+                </select>
+            </div>
+            
+
+        </div>
+        <div class="row">
+            <button type="submit" name="vform5" class="btn btn-primary col-2">Suivant</button>
+        </div>
+    </form>
+    <div class="back"><a href="/voiture/4/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang =="arabe" %}
+<div class="arab container-fluid">
+    <div class="content">
+        <h1 class="center-text">القسم وعدد الزوايل؟</h1>
+    </div>
+    <form class="third-form" method="post" action="/voiture/6/{{lang}}">
+        <div class="row" style="text-align: center;">
+            <div class="form-group col-md-6">
+                <label for="classe">قسم الكرهبة</label>
+                <select class="form-control" style="float: right;" name="classe" id="classe">
+                    <option>إختار القسم</option>
+                    <option>1 قسم</option>
+                    <option>2 قسم</option>
+                    <option>3 قسم</option>
+                    <option>4 قسم</option>
+                    <option>5 قسم</option>
+                    <option>6 قسم</option>
+                    <option>7 قسم</option>
+                    <option>(قسم 8 (إذا هذي أول كرهبة ليك</option>
+                    <option>9 قسم</option>
+                    <option>10 قسم</option>
+                    <option>11 قسم</option>
+                </select>
+            </div>
+            
+            <div class="form-group col-md-6">
+                <label for="classe">كرهبتك قداش فيها من خيالي؟</label>
+                <select class="form-control" style="float: right;" name="nbcv" id="nbcv">
+                    <option>إختار</option>
+                    <option>خ2</option>
+                    <option>3-4خ</option>
+                    <option>5-6خ</option>
+                    <option>7-10خ</option>
+                    <option>11-14خ</option>
+                    <option>15خ+</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="vform6" class="btn btn-primary col-2">التالي</button>
+        </div>
+    </form>
+    <div class="back"><a href="/voiture/4/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+
+</div>
+
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}

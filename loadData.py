@@ -70,13 +70,13 @@ def load(client, propriete, adresse):
     session['apt_id'] = propid
     session['clid'] = clid
     x = datetime.datetime.now()
-    print(x.strftime("%d" + "/" + "%m" + "/" + "%Y"))
+    # print(x.strftime("%d" + "/" + "%m" + "/" + "%Y"))
     contrat = Contrat.insert_one(
         {'client_id': clid, 'prop_id': propid, 'date_debut': x.strftime("%d" + "/" + "%m" + "/" + "%Y")})
-    print('contract created')
+    # print('contract created')
     session['cont_id'] = contrat.inserted_id
     Propriete.update_one({'_id': propid}, {'$set': {'contrat': contrat.inserted_id}})
-    print('property updated')
+    # print('property updated')
     if 'contrats' in client:  # ajouter un contrat
         contab = client['contrats']
         contab.append(contrat.inserted_id)
@@ -86,7 +86,7 @@ def load(client, propriete, adresse):
         {'_id': clid},
         {"$set": {'contrats': contab}}
     )
-    print('client updated')
+    # print('client updated')
     adr = Adresse.find_one({'_id': adr_id})
     # block pour lier tous les appartements dans l même adresse
     if 'proprietes' in adr:
@@ -98,21 +98,21 @@ def load(client, propriete, adresse):
         {'_id': adr_id},
         {"$set": {'proprietes': adrtab}}
     )
-    print('address updated')
+    # print('address updated')
     if 'coverage' not in Contrat.find_one({'_id': contrat.inserted_id}):
         for str in ['propriete_personnelle', 'obligation_personnelle', 'payement_medical', 'perte_usage']:
             tab = list([])
             contrat2 = Contrat.find_one({'_id': contrat.inserted_id})
-            print(str)
+            # print(str)
             if 'coverage' not in contrat2:
-                print('contrat2')
+                # print('contrat2')
                 Contrat.update_one(
                     {'_id': contrat.inserted_id},
                     {'$set': {'coverage': tab}}
                 )
             else:
                 tab = contrat2['coverage']
-                print(tab)
+                # print(tab)
             price = 200
             if str == 'propriete_personnelle': price = 500
             if str == 'payement_medical': price = 100

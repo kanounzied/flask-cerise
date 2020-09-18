@@ -1,16 +1,20 @@
 from flask import Flask
-import pymongo
+# import pymongo
+from flask_pymongo import PyMongo
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-conc = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false"
+# conc = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false"
+app.config['MONGO_URI'] = "mongodb://localhost:27017/cerise_db"
 
-client = pymongo.MongoClient(conc)
-db = client.cerise_db
-Admin = db['Admin']
-Client = db['Client']
-Adresse = db['Adresse']
-AutresBiens = db['AutresBiens']
-Categories = db['Categories']
-Contrat = db['Contrat']
-Propriete = db['Propriete']
+# client = pymongo.MongoClient(conc)
+mongo = PyMongo(app)
+# db = client.cerise_db
+Admin = mongo.db['Admin']
+Client = mongo.db['Client']
+Adresse = mongo.db['Adresse']
+AutresBiens = mongo.db['AutresBiens']
+Categories = mongo.db['Categories']
+Contrat = mongo.db['Contrat']
+Propriete = mongo.db['Propriete']
+collection = mongo.db['constat']
