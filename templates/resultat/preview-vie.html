@@ -1,4 +1,4 @@
-{% extends '/vie/base.html' %}
+{% extends 'vie/base.html' %}
 {% block title %}{{lang}} preview{% endblock %}
 {% block head %}
 {% assets "scss_all" %}
@@ -55,7 +55,7 @@
 {% endblock %}
 {% block lang %}{{lang}}{% endblock %}
 {% block navbarli %}
-{% if lang == "en" %}
+{% if lang == "english" %}
 <li>
     <a href="/home/english">Home</a>
 </li>
@@ -77,13 +77,13 @@
         </a>
 
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="/preview/arabe">Ar</a>
-            <a class="dropdown-item" href="/preview/french">Fr</a>
-            <a class="dropdown-item" href="/preview/english">Eng</a>
+            <a class="dropdown-item" href="/result/?lang=ar">Ar</a>
+            <a class="dropdown-item" href="/result/?lang=fr">Fr</a>
+            <a class="dropdown-item" href="/result/?lang=en">Eng</a>
         </div>
     </div>
 </li>
-{% else %}{% if lang == "fr" %}
+{% else %}{% if lang == "french" %}
 <li>
     <a href="/home/french">Acceuil</a>
 </li>
@@ -104,13 +104,13 @@
         </a>
 
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="/preview/arabe">Ar</a>
-            <a class="dropdown-item" href="/preview/french">Fr</a>
-            <a class="dropdown-item" href="/preview/english">Eng</a>
+            <a class="dropdown-item" href="/result/?lang=ar">Ar</a>
+            <a class="dropdown-item" href="/result/?lang=fr">Fr</a>
+            <a class="dropdown-item" href="/result/?lang=en">Eng</a>
         </div>
     </div>
 </li>
-{% else %} {% if lang == "ar" %}
+{% else %} {% if lang == "arabe" %}
 <li>
     <a class="arab" href="/home/arabe">الرئيسية</a>
 </li>
@@ -132,9 +132,9 @@
         </a>
 
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="/preview/arabe">Ar</a>
-            <a class="dropdown-item" href="/preview/french">Fr</a>
-            <a class="dropdown-item" href="/preview/english">Eng</a>
+            <a class="dropdown-item" href="/result/?lang=ar">Ar</a>
+            <a class="dropdown-item" href="/result/?lang=fr">Fr</a>
+            <a class="dropdown-item" href="/result/?lang=en">Eng</a>
         </div>
     </div>
 </li>
@@ -146,11 +146,11 @@
 {% block preloader %}
 <div id="preloader" style="margin: 200px auto;width:fit-content;display: none">
     <div class="plzwait">
-        {% if lang == "en" %}
+        {% if lang == "english" %}
         <span>Please wait until we calculate your payment!</span>
-        {% else %} {% if lang == "fr" %}
+        {% else %} {% if lang == "french" %}
         <span>Veuillez attendre , nous calculons votre payement!</span>
-        {% else %} {% if lang == "ar" %}
+        {% else %} {% if lang == "arabe" %}
         <span>يرجى الانتظار حتى نقوم بحساب الدفع!</span>
         {% endif %}
         {% endif %}
@@ -170,7 +170,7 @@
 </div>
 {% endblock %}
 {% block bg_box %}
-{% if lang == "en" %}
+{% if lang == "english" %}
 <div class="box" id="backgroung-merged2">
     <div class="container-fluid" style="position: unset">
         <h1>Cerise Home Insurance</h1>
@@ -214,7 +214,7 @@
         </button>
     </div>
 </div>
-{% else %}{% if lang == "fr" %}
+{% else %}{% if lang == "french" %}
 <div class="box" id="backgroung-merged2">
     <div class="container-fluid" style="position: unset">
         <h1>Cerise Assurence Immobilière</h1>
@@ -258,7 +258,7 @@
         </button>
     </div>
 </div>
-{% else %}{% if lang == "ar" %}
+{% else %}{% if lang == "arabe" %}
 <div class="box" id="backgroung-merged2">
     <div class="container-fluid" style="position: unset">
         <h1>سوريز للتأمين المنزلي</h1>
@@ -308,7 +308,7 @@
 {% endif %}
 {% endblock %}
 {% block body %}
-{% if lang == "en" %}
+{% if lang == "english" %}
 <div class="couvrage-amounts container">
     <div class="title">
         <h3><b>Coverage Amounts</b></h3>
@@ -551,7 +551,7 @@
         </div>
     </div>
 </div>
-{% else %}{% if lang == "fr" %}
+{% else %}{% if lang == "french" %}
 <div class="couvrage-amounts container">
     <div class="title">
         <h3><b>Montant De Couverture</b></h3>
@@ -809,7 +809,7 @@
         </div>
     </div>
 </div>
-{% else %}{% if lang == "ar" %}
+{% else %}{% if lang == "arabe" %}
 <div class="couvrage-amounts container">
     <div class="title">
         <h3><b>مبالغ التغطية</b></h3>
@@ -1806,7 +1806,6 @@
 {% endif %}
 {% endif %}
 {% endblock %}
-<!--
 {% block scripts %}
 <script charset="utf-8" type="text/javascript">
     var fullDate = new Date()
@@ -2208,4 +2207,4 @@
         }
     })
 </script>
-{% endblock %}-->
+{% endblock %}

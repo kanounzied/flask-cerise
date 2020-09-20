@@ -67,6 +67,9 @@
     </div>
 
 </nav>
+{% if error %}
+<div class="alert alert-dark">{{error[lang]}}</div>
+{% endif %}
 {%block body%}
 {% if lang == 'en' %}
 <div class="english container-fluid vie">

@@ -1,24 +1,22 @@
-import base64
 import datetime
-import json
+import datetime
+import os.path
 import random
 import uuid
-
-import pdfkit
-
 from datetime import timedelta
 
-from flask import session, render_template, redirect, request, jsonify, url_for, abort, make_response,jsonify,flash
+import pdfkit
+from flask import session, render_template, redirect, request, url_for, abort, jsonify, flash, send_file
 from flask_assets import Environment, Bundle
 from flask_recaptcha import ReCaptcha
 from flask_session import Session
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
 from werkzeug.utils import secure_filename
-import os.path
-#--------------------------add w badel lpath mta3 upload lfile ------------------------------
+
+# --------------------------add w badel lpath mta3 upload lfile ------------------------------
 UPLOAD_FOLDER = '/Users/Zied/Dropbox/Portail_Assurance/cerise_flask/static/public'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-#-------------------------------end-------------------------------------------------------
+# -------------------------------end-------------------------------------------------------
 from classes import *
 from db_maker import *
 from loadData import load, hash_password, verify_password
@@ -51,7 +49,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.before_request
 def make_session_permanent():  # la session est valide pour seulement une heure
     session.permanent = True
-    app.permanent_session_lifetime = timedelta(minutes=60)
+    # app.permanent_session_lifetime = timedelta(minutes=60)
 
 #----------------------------------------------------add----------------------
 def allowed_file(filename):
@@ -60,11 +58,13 @@ def allowed_file(filename):
 
 @app.route("/getit/", methods=["GET"])
 def getit():
-    getthat = collection.find_one({"_id":session['reportid']})
+    getthat = collection.find_one({"_id": session['reportid']})
     # with open("/Users/ahmed/Desktop/flaskone/public/"+getthat['accident_sketch'], "rb") as image_file:
     #     encoded_string = base64.b64encode(image_file.read())
     # return json.dumps(getthat, default=json_util.default)
-    return render_template("/constat_form/constat_voiture.html",report=getthat)
+    nbcurc_a = getthat['circumstances_A'].count(";")
+    nbcurc_b = getthat['circumstances_B'].count(";")
+    return render_template("/constat_form/constat_voiture.html", report=getthat, nba=nbcurc_a, nbb=nbcurc_b)
     #  allcars = list(collection.find({}))
     #  return json.dumps(allcars, default=json_util.default)
 #------------------------------------------------------------------end---------------------------------------------------
@@ -93,18 +93,18 @@ def signup(nbr, lang):
     #     return redirect('/preview/' + lang)
     # block des erreurs en trois langues
     if lang == 'french':
-        champerr = 'les champs sont vides!'
-        adresserr = "la forme de l'adresse doit etre comme suit : (localité, délégation, gouvernorat)"
-        adrnotfound = "Votre adresse n'est pas enregistrée dans la base de données!"
-        chooseerr = "vous devez choisir!"
-        rangeerr = "vous devez choisir un entier entre 1 et 30 pour les chambres et 50 pour les étages!"
-        pwderr = "votre mot de passe n'est pas le méme!"
-        pwdregex = "mot de passe doit avoir une lettre miniscule, une lettre majuscule, un chiffre, et l'un des " \
-                   "charactéres suivants @#$%^&+= "
-        verify = "Nous vous avons envoyé un mail pour confirmer votre adresse email !"
-        emailexisterr = "Cet email est déja dans la base de données veuillez saisir un autre email!"
-        posterr = "le code postal doit contenir 4 chiffres, si vous avez modifié le code postal, retournez à la page" \
-                  " précédente et choisissez la bonne adresse"
+        champerr = u'les champs sont vides!'
+        adresserr = u"la forme de l'adresse doit etre comme suit : (localité, délégation, gouvernorat)"
+        adrnotfound = u"Votre adresse n'est pas enregistrée dans la base de données!"
+        chooseerr = u"vous devez choisir!"
+        rangeerr = u"vous devez choisir un entier entre 1 et 30 pour les chambres et 50 pour les étages!"
+        pwderr = u"votre mot de passe n'est pas le méme!"
+        pwdregex = u"mot de passe doit avoir une lettre miniscule, une lettre majuscule, un chiffre, et l'un des " \
+                   u"charactéres suivants @#$%^&+= "
+        verify = u"Nous vous avons envoyé un mail pour confirmer votre adresse email !"
+        emailexisterr = u"Cet email est déja dans la base de données veuillez saisir un autre email!"
+        posterr = u"le code postal doit contenir 4 chiffres, si vous avez modifié le code postal, retournez à la page" \
+                  u" précédente et choisissez la bonne adresse"
     elif lang == 'english':
         champerr = 'fields are empty!'
         adresserr = "address form must be like : (locality, delegation, governorate)"
@@ -733,10 +733,10 @@ def variables():
 @app.route('/confirm_email/<token>/<lang>')
 def confirm_email(token, lang):
     if lang == 'french':
-        token_expired = "Votre confirmation est expirée!"
+        token_expired = u"Votre confirmation est expirée!"
         token_match_err = "Votre confirmation n'est pas compatible!"
         session_err = "Vous devez ouvrir la page dans la même fenêtre"
-        msg = "Votre email est maintenant confirmé, veuillez continuer votre formulaire!"
+        msg = u"Votre email est maintenant confirmé, veuillez continuer votre formulaire!"
 
     elif lang == 'english':
         token_expired = "The confirmation has expired!"
@@ -770,7 +770,7 @@ def forgot(lang):
     if lang == 'french':
         emailerr = "cet email n'existe pas dans la bd !"
         pwderror = 'Verifiez votre mot de passe !'
-        success = 'Votre mot de passe est changé avec succés!'
+        success = u'Votre mot de passe est changé avec succés!'
         codeerr = "Le code n'est pas valide"
     if lang == 'english':
         emailerr = "this email doesn't exist!"
@@ -977,7 +977,7 @@ def voiture(nbr,lang):
         if 'vform4' in req:
             marque = req.get('marque')
 
-            if marque == "Select a brand" or marque == "Sélectionner la marque" or marque == "إختار الماركة" :
+            if marque == "Select a brand" or marque == u"Sélectionner la marque" or marque == "إختار الماركة" :
                 return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=chooseerr)
             session['marque'] = marque
@@ -985,12 +985,12 @@ def voiture(nbr,lang):
         if 'vform5' in req:
             classe = req.get('classe')
 
-            if classe == "Select a class" or classe == "Sélectionner la classe" or classe == "إختار القسم":
+            if classe == "Select a class" or classe == u"Sélectionner la classe" or classe == "إختار القسم":
                 return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=chooseerr)
             nbcv = req.get('nbcv')
 
-            if nbcv == "Select" or nbcv == "Sélectionner" or nbcv == "إختار" :
+            if nbcv == "Select" or nbcv == u"Sélectionner" or nbcv == "إختار" :
                 return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=chooseerr)
             session['classe'] = classe
@@ -1024,6 +1024,9 @@ def voiture(nbr,lang):
     return render_template("voiture/register/voiture" +nbr+".html", nbr = nbr, lang = lang)
 ############### end of 5edma ##############
 ############### 5edmet bouali #############
+from PyPDF2 import PdfFileReader, PdfFileWriter, PdfFileMerger
+
+
 d = dict(
     zip(['vie0', 'vie1', 'vie2', 'vie22', 'vie3', 'vie33', 'vie333', 'vie4', 'vie44', 'vie5', 'vie55', 'vie6'],
         [False for i in range(12)]))
@@ -1039,18 +1042,22 @@ def session_lang():
 @app.route("/vie/", methods=['POST', 'GET'])
 def home1():
     session_lang()
+    error = ''
     if request.method == 'POST':
         fn = request.form.get('first_name')
         ln = request.form.get('last_name')
         session['fn'] = fn
         session['ln'] = ln
 
-        if fn and ln:
+        if (fn and ln) and not (fn.isnumeric() and ln.isnumeric()):
             session['vie0'] = True
             return redirect(url_for("vie1"))
+        else:
+            error = {'fr': 'Le nom doit être non vide et ne doit pas contenir que des chiffres',
+                     'en': 'Name is non-empty string with letters', 'ar': 'لا تترك الحقل فارغاً و أدخل حروف'}
     for key in d:
         session[key] = d[key]
-    return render_template('vie/sign.html', lang=session['lang'])
+    return render_template('vie/sign.html', lang=session['lang'], error=error)
 
 
 @app.route('/vie/1/', methods=['POST', 'GET'])
@@ -1070,7 +1077,7 @@ def vie1():
             session['vie1'] = True
             return redirect(url_for("vie2"))
         else:
-            error = {'fr': "L'adresse doit être non vide et le code numérique!",
+            error = {'fr': u"L'adresse doit être non vide et le code numérique!",
                      'en': 'Enter a non void adress and a number for the code',
                      'ar': "أدخل عنوان و رمز رقمي"}
     if not (session['vie0']):
@@ -1084,7 +1091,7 @@ def vie2():
     erreur = ''
     if request.method == 'POST' and session['vie1']:
         age = request.form.get('age')
-        if age.isnumeric() and int(age)>0:
+        if age.isnumeric() and int(age)>0 and int(age)<100:
             session['age'] = age
             session['vie2'] = True
             return redirect(url_for("vie22"))
@@ -1124,7 +1131,8 @@ def vie3():
             session['bmi'] = float(session['w'])/(float(session['h'])/100)*(float(session['h'])/100)
             return redirect(url_for('vie33'))
         else:
-            error = {'fr':"Taper votre taille et votre poids",'en':'Provide height and wieght','ar':'أدخل طولك و وزنك'}
+            error = {'fr': "Taper votre taille (30 cm à 300cm) et votre poids (54 à 300kg)", 'en': 'Provide height (30-300cm) and wieght (5-300kg)',
+                     'ar': 'أدخل طولك(30-cm300) و وزنك(5-kg300)'}
     if not (session['vie22']):
         return redirect(url_for("vie22"))
     return render_template('vie/vie3.html', lang=session['lang'], error=error)
@@ -1222,69 +1230,102 @@ def vie55():
 @app.route('/vie/6/', methods=['POST', 'GET'])
 def vie6():
     session_lang()
+    error=''
     if request.method == 'POST' and session['vie55']:
         f = request.files['file']
+        print(f.name)
         string = str(uuid.uuid4())
-        f.save("{}.pdf".format(string))
-        # print(string)
+        session['file'] = string[0:7]+'.pdf'
+        print("                                             ",session['file'])
+        f.save("{}.pdf".format(string[0:7]))
+        try:
+            PdfFileReader(open(f'{string[0:7]}.pdf', "rb"))
+            print("VALID PDF FILE")
+        except :
+            print("invalid PDF file")
+            error={'fr':'Ajouter un fichier PDF','en':'Upload a PDF file','ar':'قم بتحميل ملف PDF'}
+            return render_template('vie/vie6.html', lang=session['lang'], error=error)
+
         if f:
             session['vie6'] = True
-            # print('aaaaaaaaaaaaaaaaaaaaaa')
-            mongo.db.clients.insert_one(
-                {
-                    'first_name': session['fn'],
-                    'last_name': session['ln'],
-                    'adresse': session['adresse'],
-                    'code': session['code'],
-                    'sex': session['sex'],
-                    'age': session['age'],
-                    'bmi': session['bmi'],
-                    'smoke': session['smoke'],
-                    'drink': session['drink'],
-                    'status': session['status'],
-                    'children': session['children'],
-                    'salary': session['salary'],
-                    'debt': session['debt'],
-                    'file': string
-                }
+            print('aaaaaaaaaaaaaaaaaaaaaa')
+            mongo.db.clients.insert(
+                {'nom': session['fn'], 'prenom': session['ln']}
             )
-            return redirect(url_for('generatevie'))
+            mongo.db.sante.insert(
+                {'adresse': session['adresse'],
+                 'code': session['code'],
+                 'sex': session['sex'],
+                 'age': session['age'],
+                 'bmi': session['bmi'],
+                 'smoke': session['smoke'],
+                 'drink': session['drink'],
+                 'status': session['status'],
+                 'children': session['children'],
+                 'salary': session['salary'],
+                 'debt': session['debt'],
+                 'file': string}
+            )
+            print(session['adresse'])
+            return redirect(url_for('result', lang=session['lang']))
     if not (session['vie55']):
         return redirect(url_for("vie55"))
-    return render_template('vie/vie6.html', lang=session['lang'])
+    return render_template('vie/vie6.html', lang=session['lang'], error=error)
 
 
-@app.route("/result/", methods=['POST', 'GET'])
-def result():
-    # session_lang()
-    return '<h1>Building Page Result ...</h1>'
+@app.route("/result/<lang>", methods=['POST', 'GET'])
+def result(lang):
+    price = formule(int(session['salary']), int(session['debt']), int(session['age']))
+    print(price)
+    if request.method == 'POST':
+        return redirect(url_for("generate"))
+    return render_template("resultat/preview-vie.html", lang=lang, adresse=session['adresse'], price=price)
 
 def formule(x,y,z):
     return (x - 0.01*y)*(1+0.01*(100-z))
 
 @app.route('/gen/contract/vie')
 def generatevie():
-    info = [['BMI',session['bmi']]
-        , ['Fumeur', session['smoke']], ['Alcool', session['drink']],
-            ['Statut familial', session['status']], ["Nombre d'enfants",session['children']]]
-    css=['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
-    # print(session['adresse'])
-    # print(session['sex'])
+    info = [
+        ['BMI', session['bmi']],
+        ['Fumeur', session['smoke']],
+        ['Alcool', session['drink']],
+        ['Statut familial', session['status']],
+        ["Nombre d'enfants", session['children']]
+    ]
+    css = ['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
+    print(session['adresse'])
+    print(session['sex'])
     rendered = render_template('contrat-vie/contrat.html',
                                fn=session['fn'],
                                ln=session['ln'],
                                adress=session['adresse'],
                                sex=session['sex'],
                                age=session['age'],
-                               somme=formule(int(session['salary']),int(session['debt']),int(session['age'])),
-                               dateb = datetime.datetime.now(tz=None).date(),
+                               somme=formule(int(session['salary']), int(session['debt']), int(session['age'])),
+                               dateb=datetime.datetime.now().date(),
                                contrat=0,
                                info=info)
-    pdf = pdfkit.from_string(rendered, False,css=css)
-    response = make_response(pdf)
-    response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = "inline; filename=output.pdf"
-    return response
+    pdf = pdfkit.from_string(rendered, False, css=css)
+    print(f'name: {type(pdf)}')
+
+    r = PdfFileReader(session['file'])
+    print(session['file'])
+    w = PdfFileWriter()
+    with open("contrat-vie/outputtt.pdf", "wb") as f:
+        f.write(pdf)
+
+    merger = PdfFileMerger()
+    merger.append(open("outputtt.pdf","rb"),import_bookmarks=False)
+    merger.append(open(session['file'],"rb"),import_bookmarks=False)
+    merger.write("contrat.pdf")
+    text_client = "the contract is ready now and waiting to be paid!<br> if you want to modify it just log in and choose" \
+                  " your contract if you have more than one"
+    client = dict()
+    client['email'] = 'ahmed2bouali@gmail.com'
+    sendPDF(client['email'], 'contrat.pdf', text_client)
+    return send_file('contrat.pdf',
+                     mimetype='application/pdf',)
 
 ############### end of 5edma ##############
 ############### 5edmet jaabiri ##############
@@ -1306,7 +1347,7 @@ def addreport(nbr,lang):
     else:
         chooseerr="choisissez une option s'il vous plaît!"
         champerr = 'les champs sont vides!'
-        witnesserr='ne pas ajouter de témoin sans informations complètes'
+        witnesserr=u'ne pas ajouter de témoin sans informations complètes'
         greenerr="entrez LaCarteVerte Ou Le Contrat S'il Vous Plaît"
         contacterr='entrez au moins une information de contact '
     completed = False
@@ -1651,16 +1692,10 @@ def addreport(nbr,lang):
             j += 1
         curc_a=""
         curc_b=""
-        for index,value in enumerate(session["circumstances_a"]):
-            if index+1 < len(session["circumstances_a"]):
-                curc_a+=value+";"
-            else:
-                curc_a+=value
-        for index,value in enumerate(session["circumstances_b"]):
-            if index+1 < len(session["circumstances_b"]):
-                curc_b+=value+";"
-            else:
-                curc_b+=value
+        for value in session["circumstances_a"]:
+            curc_a+=value+";"
+        for value in session["circumstances_b"]:
+            curc_b+=value+";"
 
         exp = {
             "date":session["date"],
