@@ -1,0 +1,129 @@
+{% extends 'constat_form/sign.html' %}
+{% block nbr %}{{ nbr }}{% endblock %}
+{% block style %}
+<style>
+    @media screen and (max-width: 768px){
+        input{
+            display: inline-block!important;
+        }
+    }
+</style>
+{% endblock %}
+{% block sidenav %}
+{% if lang == "english" %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<a href="#">Claims</a>
+<a href="#">My account</a>
+{% else %}{% if lang =="arabe" %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="#">معلومات</a>
+<a href="#">مطالب</a>
+<a href="#">حسابي</a>
+{% else %}{% if lang=="french" %}
+<a href="/home/french">Acceuil</a>
+<a href="#">Informations</a>
+<a href="#">Réclamations</a>
+<a href="#">Mon compte</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block lang %}
+{{lang}}
+{% endblock %}
+{% block body %}
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid">
+    <div class="content">
+        <h1 class="center-text">Initial impact to vehicle A</h1>
+    </div>
+    <form class="fifth-form" method="post" action="/addreport/13/{{lang}}">
+          <div class="form-group">
+            <label for="chocside">the initial side of impact</label>
+            <select class="form-control" id="chocside" name="chocside">
+              <option value="front">Front</option>
+              <option value="right">Right side</option>
+              <option value="left">Left side</option>
+              <option value="back">Rear</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="chocpt">standing in front of that side where exactly is the impact point</label>
+            <select class="form-control" id="chocpt" name="chocpt">
+              <option value="right">Right</option>
+              <option value="middle">Middle</option>
+              <option value="left">Left</option>
+            </select>
+          </div>
+        <div class="row">
+            <button type="submit" name="form112" class="btn btn-primary col-2">Next</button>
+        </div>
+    </form>
+    <div class="back"><a href="/addreport/11/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang =="arabe" %}
+<div class="arab container-fluid">
+  <div class="content">
+      <h1 class="center-text">بلاصة الضربة الاولي على السيارة أ</h1>
+  </div>
+  <form class="fifth-form" method="post" action="/addreport/13/{{lang}}">
+        <div class="form-group">
+          <label for="chocside">الجهة متاع الضربة</label>
+          <select class="form-control" id="chocside" name="chocside">
+            <option value="front">الخشم</option>
+            <option value="right">الجهة اليمنى</option>
+            <option value="left">الجهة اليسري</option>
+            <option value="back">منتالي</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="chocpt">و انت واقف قدام هاك الجهة فين بضبط الضربة</label>
+          <select class="form-control" id="chocpt" name="chocpt">
+            <option value="right">عاليمين</option>
+            <option value="middle">فالوسط</option>
+            <option value="left">عاليسار</option>
+          </select>
+        </div>
+      <div class="row">
+          <button type="submit" name="form112" class="btn btn-primary col-2">Next</button>
+      </div>
+  </form>
+  <div class="back"><a href="/addreport/11/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang=="french" %}
+<div class="french container-fluid">
+  <div class="content">
+      <h1 class="center-text">Impact initial sur le véhicule A</h1>
+  </div>
+  <form class="fifth-form" method="post" action="/addreport/13/{{lang}}">
+        <div class="form-group">
+          <label for="chocside">le côté initial de l'impact</label>
+          <select class="form-control" id="chocside" name="chocside">
+            <option value="front">De face</option>
+            <option value="right">Côté droit</option>
+            <option value="left">Côté gauche</option>
+            <option value="back">Arrière</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="chocpt">devant ce côté où se trouve exactement le point d'impact</label>
+          <select class="form-control" id="chocpt" name="chocpt">
+            <option value="right">à Droite</option>
+            <option value="middle">au Milieu</option>
+            <option value="left">à gauche</option>
+          </select>
+        </div>
+      <div class="row">
+          <button type="submit" name="form112" class="btn btn-primary col-2">Next</button>
+      </div>
+  </form>
+  <div class="back"><a href="/addreport/11/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% endif %}
+{% endif %}
+{%endif%}
+{%endblock%}

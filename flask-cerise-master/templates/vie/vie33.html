@@ -1,0 +1,126 @@
+{%extends "vie/sign.html"%}
+{% block dropdownlink %}
+<div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
+    <a class="dropdown-item" href="/vie/33/?lang=ar">Ar</a>
+    <a class="dropdown-item" href="/vie/33/?lang=fr">Fr</a>
+    <a class="dropdown-item" href="/vie/33/?lang=en">Eng</a>
+</div>
+{% endblock %}
+{% block body %}
+{% if lang=='en'%}
+<div class="back"><a href="/vie/3"><img alt="" id="back-arrow" src="/static/images/back.png "></a></div>
+
+<div class="english container-fluid vie">
+    <div class="content">
+        <h1 class="center-text">Tell us more about your health!</h1>
+    </div>
+    <form action="#" autocomplete="off" class="second_form" method="post">
+        <div class="row">
+            <div class="form-group col-xs-12 col-md-12"><h4>Do you smoke?</h4></div>
+            <div class="form-group col-xs-12 col-md-6">
+
+                <input onchange="hide('1')" id="v" name="smoke" type="radio"
+                       value="Oui">
+                <label for="v">
+                   <strong>Yes</strong>
+                    <img class="source _1" src="/static/images/smoke.png" style="width:120px;height:120px;padding:20px">
+                </label>
+            </div>
+
+            <div class="form-group col-xs-12 col-md-6">
+                <input onchange="hide('2')" id="vv" name="smoke" type="radio" value="Non">
+                <label for="vv"><strong>No</strong>
+                    <img class="source _2" src="/static/images/smokeno.png" style="width:120px;height:120px;padding:20px">
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary col-2" name="form2" type="submit">Next</button>
+        </div>
+    </form>
+</div>
+{% endif %}
+
+{% if lang=='fr'%}
+<div class="back"><a href="/vie/3"><img alt="" id="back-arrow" src="/static/images/back.png "></a></div>
+
+<div class="english container-fluid vie">
+    <div class="content">
+        <h1 class="center-text">Parlez nous de votre santé!</h1>
+    </div>
+    <form action="#" autocomplete="off" class="second_form" method="post">
+        <div class="row">
+            <div class="form-group col-xs-12 col-md-12"><h4>Êtes vous fumeur?</h4></div>
+            <div class="form-group col-xs-12 col-md-6">
+
+                <input onchange="hide('1')" id="smoke" name="smoke" type="radio"
+                       value="Oui">
+                <label for="smoke"><strong>Oui</strong>
+                    <img class="source _1" src="/static/images/smoke.png" style="width:120px;height:120px;padding:20px">
+                </label>
+            </div>
+
+            <div class="form-group col-xs-12 col-md-6">
+                <input onchange="hide('2')" id="smokeno" name="smoke" type="radio" value="Non">
+                <label for="smokeno"><strong>Non</strong>
+                    <img class="source _2" src="/static/images/smokeno.png" style="width:120px;height:120px;padding:20px">
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary col-2" name="form2" type="submit">Suivant</button>
+        </div>
+    </form>
+</div>
+{% endif %}
+
+
+{% if lang=='ar'%}
+<div class="back"><a href="/vie/3"><img alt="" id="back-arrow" src="/static/images/back.png "></a></div>
+
+<div class="english container-fluid vie">
+    <div class="content">
+        <h1 class="center-text">أحكيلنا على صحتك!</h1>
+    </div>
+    <form action="#" autocomplete="off" class="second_form" method="post">
+        <div class="row">
+            <div class="form-group col-xs-12 col-md-12"><h4>هل تدخن؟</h4></div>
+            <div class="form-group col-xs-12 col-md-6">
+
+                <input onchange="hide('1')" id="c" name="smoke" type="radio"
+                       value="Oui">
+                <label for="c"><strong>نعم</strong>
+                    <img class="source _1" src="/static/images/smoke.png" style="width:120px;height:120px;padding:20px">
+                </label>
+            </div>
+
+            <div class="form-group col-xs-12 col-md-6">
+                <input onchange="hide('2')" id="cc" name="smoke" type="radio" value="Non">
+                <label for="cc"><strong>لا</strong>
+                    <img class="source _2" src="/static/images/smokeno.png" style="width:120px;height:120px;padding:20px">
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary col-2" name="form2" type="submit">التالي</button>
+        </div>
+    </form>
+</div>
+{% endif %}
+
+<script>
+    function hide(x) {
+        console.log("will do it!");
+        var subs = document.querySelector("._" + x).attributes[1].value;
+        var sources = document.querySelectorAll(".source")
+        for (var i = 0; i < 2; i++) {
+            val = sources[i].attributes[1].value;
+            sources[i].attributes[1].value = val.replace("1", "");
+        }
+        document.querySelector("._" + x).attributes[1].value = subs.replace(".png", "") + "1" + ".png";
+    console.log("did it!");
+    }
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=unicode">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+<script src="/static/styles/js/bootstrap-datepicker.min.js"></script>
+<script src="/static/styles/locales/bootstrap-datepicker.en-GB.min.js"></script>
+
+<title>{% block title %}{% endblock %}</title>
+<link rel="stylesheet" href="/static/styles/css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lateef&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&display=swap" rel="stylesheet">
+{% block head %}{% endblock %}
+<link rel="stylesheet" href="/static/styles/stylesheet.css">
+<!--<link rel="stylesheet" href="/static/styles/stylesheet2.scss">-->
+{% block style %}{% endblock %}
+<body>
+<nav class="navbar navbar-expand-sm " onscroll="myFunction()">
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        {% block sidenav %}
+            <a href="/home/english">Home</a>
+            <a href="#">About Us</a>
+            <a href="#">Claims</a>
+            <a href="/login/english">My account</a>
+        {% endblock %}
+        <div class="dropright btn-group show">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false" style="margin: 10px 25px;">
+                {% block lang %}{% endblock %}
+            </a>
+            {% block dropdown %}
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="/home/arabe">Ar</a>
+                <a class="dropdown-item" href="/home/french">Fr</a>
+                <a class="dropdown-item" href="/home/english">Eng</a>
+            </div>
+            {% endblock %}
+        </div>
+
+    </div>
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+    <!-- Brand/logo -->
+    <a style="margin-left: 15px" class="navbar-brand" href="#">
+        <img src="/static/images/cerise.png" alt="logo" class="image-cerise">
+    </a>
+    <ul class="navbar-nav">
+        {% block navbarli %}
+            <li>
+                <a href="/home/english">Home</a>
+            </li>
+            <li>
+                <a href="#">About Us </a>
+            </li>
+            <li>
+                <a href="#">Claims</a>
+            </li>
+            <li class="pull-right">
+                <a href="/login/english">My account</a>
+            </li>
+            <li class="pull-right">
+                <div class="dropdown show">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Eng
+                    </a>
+                    {% block dropdown2 %}
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/home/arabe">Ar</a>
+                        <a class="dropdown-item" href="/home/french">Fr</a>
+                        <a class="dropdown-item" href="/home/english">Eng</a>
+                    </div>
+                    {% endblock %}
+                </div>
+            </li>
+        {% endblock %}
+    </ul>
+    <div class="brand-name" id="brand-name"><img width="200px" src="/static/images/cerise.gris.png" alt="">
+    </div>
+</nav>
+{% block preloader %}{% endblock %}
+<div class=" wrapper">
+    <div class="clearfix">
+        {% block bg_box %}<div class="box" id="backgroung-merged">
+    </div>{% endblock %}
+    </div>
+    {% block body %}
+    {% endblock %}
+    <div class="cars">
+        <img src="/static/images/car.png" alt="">
+    </div>
+</div>
+{% block scripts %}
+{% endblock %}
+<script>
+
+    window.onscroll = function () {
+        myFunction();
+        scrollFunction();
+    };
+
+
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function myFunction() {
+        if ($(window).width() > 751) {
+            if (document.documentElement.scrollTop >= 70 || document.documentElement.scrollTop >= 70) {
+                document.getElementById("brand-name").className = "brand-name brand-name-decrease";
+                document.querySelector(".navbar").style.height = "70px";
+                document.querySelector(".navbar").style.borderBottom = "1px gray solid";
+                document.querySelector(".navbar").style.marginBottom = "50px";
+            } else {
+
+                document.getElementById("brand-name").className = "brand-name";
+                document.querySelector("nav").style.height = "120px";
+                document.querySelector("nav").style.borderBottom = "1px white solid";
+                document.querySelector("nav").style.marginBottom = "0";
+            }
+        }
+    }
+    $('.insurence-btn').hover(function () {
+        a = $('.cars img')
+        a.addClass('go');
+        setTimeout(function () {
+        },2000);
+        a.removeClass('go');
+    })
+
+</script>
+
+</body>
+</html>

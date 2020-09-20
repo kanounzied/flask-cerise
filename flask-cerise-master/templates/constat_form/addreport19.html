@@ -1,0 +1,263 @@
+{% extends 'constat_form/sign.html' %}
+{% block nbr %}{{ nbr }}{% endblock %}
+{% block style %}
+<!-- <style>
+    @media screen and (max-width: 768px){
+        input{
+            display: inline-block!important;
+        }
+    }
+</style> -->
+{% endblock %}
+{% block sidenav %}
+{% if lang == "english" %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<a href="#">Claims</a>
+<a href="#">My account</a>
+{% else %}{% if lang =="arabe" %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="#">معلومات</a>
+<a href="#">مطالب</a>
+<a href="#">حسابي</a>
+{% else %}{% if lang=="french" %}
+<a href="/home/french">Acceuil</a>
+<a href="#">Informations</a>
+<a href="#">Réclamations</a>
+<a href="#">Mon compte</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block lang %}
+{{lang}}
+{% endblock %}
+{% block body %}
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid">
+    <div class="content">
+            <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">Driver of vehicle B</h1>
+            <img id="driverimg"  src="/static/images/driver.png" alt="driver">               
+    </div>
+    <form class="first_form" method="post" action="/addreport/20/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="full_namedr" id="full_namedr"
+                       placeholder="Full Name">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="birthdaydr" id="birthdaydr"
+                       placeholder="Birthday">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="adressdr" id="adressdr"
+                       placeholder="Adress">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="countrydr" id="countrydr"
+                       placeholder="Country">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="email" class="form-control" name="emaildr" id="emaildr"
+                       placeholder="E-mail">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="number" class="form-control" name="teldr" id="teldr"
+                       placeholder="Phone number">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="number" class="form-control" name="permis" id="permis"
+                        placeholder="driver's license number">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="categoryp" id="categoryp"
+                        placeholder="driver's license Categoty">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <h6>Valid until</h6>
+                <input type="text" class="form-control" name="validp" id="validp">
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form119" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/addreport/18/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang =="arabe" %}
+<div class="arab container-fluid">
+    <div class="content">
+            <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">سائق الكرهبة ب</h1>
+            <img id="driverimg"  src="/static/images/driver.png" alt="driver">                
+    </div>
+    <form class="first_form" method="post" action="/addreport/20/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="full_namedr" id="full_namedr"
+                       placeholder="الاسم الكامل">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="birthdaydr" id="birthdaydr"
+                       placeholder="تاريخ الميلاد ">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="adressdr" id="adressdr"
+                       placeholder="العنوان">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="countrydr" id="countrydr"
+                       placeholder="البلد">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="email" class="form-control" name="emaildr" id="emaildr"
+                       placeholder="البريد الإلكتروني">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="number" class="form-control" name="teldr" id="teldr"
+                       placeholder="رقم الهاتف">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="number" class="form-control" name="permis" id="permis"
+                        placeholder="رقم رخصة القيادة">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="categoryp" id="categoryp"
+                        placeholder="فئة رخصة القيادة">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <h6>صالح حتى</h6>
+                <input type="text" class="form-control" name="validp" id="validp">
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form119" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/addreport/18/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang=="french" %}
+<div class="french container-fluid">
+    <div class="content">
+            <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">Conducteur du véhicule B</h1>
+            <img id="driverimg"  src="/static/images/driver.png" alt="driver">               
+    </div>
+    <form class="first_form" method="post" action="/addreport/20/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="full_namedr" id="full_namedr"
+                       placeholder="Nom complet">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="birthdaydr" id="birthdaydr"
+                       placeholder="date de naissance">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="adressdr" id="adressdr"
+                       placeholder="Adresse">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="countrydr" id="countrydr"
+                       placeholder="Pays">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="email" class="form-control" name="emaildr" id="emaildr"
+                       placeholder="Email">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="number" class="form-control" name="teldr" id="teldr"
+                       placeholder="Numéro de téléphone">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="number" class="form-control" name="permis" id="permis"
+                        placeholder="Numéro de permis de conduire">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="categoryp" id="categoryp"
+                        placeholder="Catégorie de permis de conduire">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <h6>Valable jusqu'au</h6>
+                <input type="text" class="form-control" name="validp" id="validp">
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form119" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/addreport/18/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% endif %}
+{% endif %}
+{%endif%}
+{%endblock%}
+{% block scripts %}
+<script>
+    $(document).ready(function(){
+        $("input").change(function(){
+            // Change src attribute of image
+            $( "img[alt='driver']" ).attr("src", "/static/images/driver-colored.png");
+        });    
+    });
+    </script>
+    <script>
+        var fullDate = new Date()
+        var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+        var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+        var legalage = fullDate.getDate() + "/" + twoDigitMonth + "/" + (fullDate.getFullYear()-18);
+        if (fullDate.getDate() < 10) {
+            currentDate = "0" + currentDate;
+        }
+        $('#birthdaydr').datepicker({
+            format: "dd/mm/yyyy",
+            endDate: legalage,
+            orientation: "bottom right"
+        });
+        $('#validp').datepicker({
+            format: "dd/mm/yyyy",
+            startDate: currentDate ,
+            orientation: "bottom right"
+        });
+       </script>
+{% endblock %}

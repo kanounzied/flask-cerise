@@ -1,0 +1,2212 @@
+{% extends 'base.html' %}
+{% block title %}{{lang}} preview{% endblock %}
+{% block head %}
+{% assets "scss_all" %}
+<link rel="stylesheet" href="/static/gen/all.css">
+{% endassets %}
+<style>
+    .container-fluid {
+        text-align: center !important;
+    }
+
+    .container {
+        margin: 0;
+        max-width: 100%;
+    }
+
+    .couvrage-amounts, .deductible, .not.covered {
+        background-color: #f5f5f5;
+    }
+
+    .card-img-top {
+        width: 150px;
+        margin: auto;
+    }
+
+    .card {
+        max-width: 80%;
+        min-height: 560px;
+        margin: auto;
+        margin-bottom: 20px;
+        padding-top: 10px;
+    }
+
+    .card-body {
+        padding: 2.25rem;
+    }
+
+    .card-footer {
+        border-top: 3px solid rgb(232 27 46);
+    }
+</style>
+{% endblock %}
+{% block dropdown %}
+<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item" href="/preview/arabe">Ar</a>
+    <a class="dropdown-item" href="/preview/french">Fr</a>
+    <a class="dropdown-item" href="/preview/english">Eng</a>
+</div>
+{% endblock %}
+{% block sidenav %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<a href="#">Claims</a>
+<a href="/clear">Logout</a>
+{% endblock %}
+{% block lang %}{{lang}}{% endblock %}
+{% block navbarli %}
+{% if lang == "english" %}
+<li>
+    <a href="/home/english">Home</a>
+</li>
+<li>
+    <a href="#">About Us </a>
+</li>
+<li>
+    <a href="#">Claims</a>
+</li>
+<li class="pull-right">
+    <a href="#">My account</a>
+</li>
+<li class="pull-right">
+    <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
+    <div class="dropdown show">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Eng
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="/preview/arabe">Ar</a>
+            <a class="dropdown-item" href="/preview/french">Fr</a>
+            <a class="dropdown-item" href="/preview/english">Eng</a>
+        </div>
+    </div>
+</li>
+{% else %}{% if lang == "french" %}
+<li>
+    <a href="/home/french">Acceuil</a>
+</li>
+<li>
+    <a href="#">Informations</a>
+</li>
+<li>
+    <a href="#">Réclamations</a>
+</li>
+<li class="pull-right">
+    <a href="/clear">Déconnexion</a>
+</li>
+<li class="pull-right">
+    <div class="dropdown show">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+            Fr
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="/preview/arabe">Ar</a>
+            <a class="dropdown-item" href="/preview/french">Fr</a>
+            <a class="dropdown-item" href="/preview/english">Eng</a>
+        </div>
+    </div>
+</li>
+{% else %} {% if lang == "arabe" %}
+<li>
+    <a class="arab" href="/home/arabe">الرئيسية</a>
+</li>
+<li>
+    <a class="arab" href="#">معلومات </a>
+</li>
+<li>
+    <a class="arab" href="#">مطالب</a>
+</li>
+<li class="pull-right">
+    <a href="/clear">خروج</a>
+</li>
+<li class="pull-right">
+    <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
+    <div class="dropdown show">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+            Ar
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="/preview/arabe">Ar</a>
+            <a class="dropdown-item" href="/preview/french">Fr</a>
+            <a class="dropdown-item" href="/preview/english">Eng</a>
+        </div>
+    </div>
+</li>
+{% endif %}
+{% endif %}
+{% endif %}
+
+{% endblock %}
+{% block preloader %}
+<div id="preloader" style="margin: 200px auto;width:fit-content;display: none">
+    <div class="plzwait">
+        {% if lang == "english" %}
+        <span>Please wait until we calculate your payment!</span>
+        {% else %} {% if lang == "french" %}
+        <span>Veuillez attendre , nous calculons votre payement!</span>
+        {% else %} {% if lang == "arabe" %}
+        <span>يرجى الانتظار حتى نقوم بحساب الدفع!</span>
+        {% endif %}
+        {% endif %}
+        {% endif %}
+    </div>
+    <div class="loading">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+    <div class="after-pre">
+        <img src="" alt="">
+        <p>loading addres ...</p>
+    </div>
+</div>
+{% endblock %}
+{% block bg_box %}
+{% if lang == "english" %}
+<div class="box" id="backgroung-merged2">
+    <div class="container-fluid" style="position: unset">
+        <h1>Cerise Home Insurance</h1>
+        <p>{{adresse}}</p>
+        <div class="monthan">
+            <div class="month" style="width: 0; padding: 0; visibility: hidden"> MONTHLY
+            </div>
+            <div class="show">
+                <div class="otherpreloader" style="display: none">
+                    <img src="/static/images/black-hole-white.gif" style="width: 30px" alt="">
+                </div>
+                MONTHLY
+            </div>
+            <div class="an">ANNUAL
+                <discount>-12dt</discount>
+            </div>
+
+        </div>
+        <div class="shape">
+            <price>12.59dt</price>
+            <small>per month</small>
+            <div class="otherpreloader" style="display: none">
+                <img src="/static/images/black-hole-pink.gif" alt="">
+            </div>
+        </div>
+        <div class="calendar" id="sandbox-container">
+            <form id="final" class="form-group row" action="">
+                <label for="date" class="col-form-label"><b>start date: </b></label>
+                <input style="max-width: 110px; margin-left: 15px" type="text" value="" class="form-control" id="date">
+            </form>
+        </div>
+        <br>
+        <button class="btn btn-primary pay_button" style="margin-top: 0" data-toggle="modal"
+                data-target="#payment">
+            <tag>PAY</tag>
+            <number>12.59dt</number>
+            <div class="otherpreloader" style="display: none">
+                <img src="/static/images/black-hole-pink.gif" style="width: 30px" alt="">
+            </div>
+            <tag>/MONTH</tag>
+        </button>
+    </div>
+</div>
+{% else %}{% if lang == "french" %}
+<div class="box" id="backgroung-merged2">
+    <div class="container-fluid" style="position: unset">
+        <h1>Cerise Assurence Immobilière</h1>
+        <p>{{adresse}}</p>
+        <div class="monthan">
+            <div class="month" style="width: 0; padding: 0; visibility: hidden"> PAR MOIS
+            </div>
+            <div class="show">
+                <div class="otherpreloader" style="display: none">
+                    <img src="/static/images/black-hole-white.gif" style="width: 30px" alt="">
+                </div>
+                PAR MOIS
+            </div>
+            <div class="an">ANNUEL
+                <discount>-12dt</discount>
+            </div>
+
+        </div>
+        <div class="shape">
+            <price>12.59dt</price>
+            <small>par mois</small>
+            <div class="otherpreloader" style="display: none">
+                <img src="/static/images/black-hole-pink.gif" alt="">
+            </div>
+        </div>
+        <div class="calendar" id="sandbox-container">
+            <form id="final" class="form-group row" action="">
+                <label for="date" class="col-form-label"><b>date de début: </b></label>
+                <input style="max-width: 110px; margin-left: 15px" type="text" value="" class="form-control" id="date">
+            </form>
+        </div>
+        <br>
+        <button class="btn btn-primary pay_button" style="margin-top: 0" data-toggle="modal"
+                data-target="#payment">
+            <tag>PAYEZ</tag>
+            <number>12.59dt</number>
+            <div class="otherpreloader" style="display: none">
+                <img src="/static/images/black-hole-pink.gif" style="width: 30px" alt="">
+            </div>
+            <tag>/MOIS</tag>
+        </button>
+    </div>
+</div>
+{% else %}{% if lang == "arabe" %}
+<div class="box" id="backgroung-merged2">
+    <div class="container-fluid" style="position: unset">
+        <h1>سوريز للتأمين المنزلي</h1>
+        <p>{{adresse}}</p>
+        <div class="monthan">
+            <div class="month" style="width: 0; padding: 0; visibility: hidden"> شهريا
+            </div>
+            <div class="show">
+                <div class="otherpreloader" style="display: none">
+                    <img src="/static/images/black-hole-white.gif" style="width: 30px" alt="">
+                </div>
+                شهريا
+            </div>
+            <div class="an">
+                <discount>-12dt</discount>
+                السنوي
+            </div>
+
+        </div>
+        <div class="shape">
+            <price>12.59dt</price>
+            <small>شهريا</small>
+            <div class="otherpreloader" style="display: none">
+                <img src="/static/images/black-hole-pink.gif" alt="">
+            </div>
+        </div>
+        <div class="calendar" id="sandbox-container">
+            <form id="final" class="form-group row" action="">
+                <input style="max-width: 110px; margin-right: 15px" type="text" value="" class="form-control" id="date">
+                <label for="date" class="col-form-label"><b>:تاريخ البدئ </b></label>
+            </form>
+        </div>
+        <br>
+        <button class="btn btn-primary pay_button" style="margin-top: 0" data-toggle="modal"
+                data-target="#payment">
+            <tag>إدفع</tag>
+            <number>12.59دت</number>
+            <div class="otherpreloader" style="display: none">
+                <img src="/static/images/black-hole-pink.gif" style="width: 30px" alt="">
+            </div>
+            <tag>/شهر</tag>
+        </button>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block body %}
+{% if lang == "english" %}
+<div class="couvrage-amounts container">
+    <div class="title">
+        <h3><b>Coverage Amounts</b></h3>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <div class="card text-center">
+                <img class="card-img-top" src="/static/images/sofa.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">PERSONAL PROPERTY</h5>
+                    <p class="card-text">The total value of the stuff you own, such as electronics, clothing, furniture,
+                        etc.
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <div class="plusminus" id="properties">
+                        <button type="button" class="btn btn-outline-danger minus"
+                                style="left: 35px;padding: 3px 14px;"><h4>-</h4></button>
+                        <div class="value text-center"><h4>500dt</h4></div>
+                        <button type="button" class="btn btn-outline-danger plus"
+                                style="right: 35px;"><h4>+</h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <div class="card text-center">
+                <img class="card-img-top" src="/static/images/legal.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">PERSONAL LIABILITY</h5>
+                    <p class="card-text">If someone gets hurt on your property and decides to take legal action, this is
+                        the max amount we'll pay to cover damages you're legally required to pay.
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <div class="plusminus" id="liability">
+                        <button type="button" class="btn btn-outline-danger minus"
+                                style="left: 35px;padding: 3px 14px;"><h4>-</h4></button>
+                        <div class="value text-center"><h4>200dt</h4></div>
+                        <button type="button" class="btn btn-outline-danger plus"
+                                style="right: 35px;"><h4>+</h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <div class="card text-center">
+                <img class="card-img-top" src="/static/images/injured.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">MEDICAL PAYMENTS TO OTHERS</h5>
+                    <p class="card-text">We'll cover medical expenses up to this amount if a guest or neighbor is
+                        injured on your property.</p>
+                </div>
+                <div class="card-footer">
+                    <div class="plusminus" id="medical">
+                        <button type="button" class="btn btn-outline-danger minus"
+                                style="left: 35px;padding: 3px 14px;"><h4>-</h4></button>
+                        <div class="value text-center"><h4>100dt</h4></div>
+                        <button type="button" class="btn btn-outline-danger plus"
+                                style="right: 35px;"><h4>+</h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <div class="card text-center">
+                <img class="card-img-top" src="/static/images/damaged.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">LOSS OF USE</h5>
+                    <p class="card-text">We hope this never happens, but if your place is unlivable, we'll put you up in
+                        a nice hotel or similar rental home. We'll also include living expenses to get you back on your
+                        feet. This is the max that we'll pay in such an event.</p>
+                </div>
+                <div class="card-footer">
+                    <div class="plusminus" id="house_loss">
+                        <button type="button" class="btn btn-outline-danger minus"
+                                style="left: 35px;padding: 3px 14px;"><h4>-</h4></button>
+                        <div class="value text-center"><h4>500dt</h4></div>
+                        <button type="button" class="btn btn-outline-danger plus"
+                                style="right: 35px;"><h4>+</h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="title"></div>
+</div>
+{% if valuables is sameas true %}
+<div class="extra-couvrage container">
+    <div class="title" id="extra">
+        <h3><b> Add Extra Coverage </b></h3>
+    </div>
+    <div class="row">
+        <div class="imagebox">
+            <div class="circl" data-toggle="modal" data-target="#jewelrymodal"><img
+                    src="/static/images/jewelry.png" alt=""></div>
+            <button type="button" class="btn btn-danger plus" data-toggle="modal" data-target="#jewelrymodal"
+                    style="right: 35px;"><h4>+</h4></button>
+            <h4 class="label">JEWELRY</h4>
+        </div>
+        <div class="imagebox">
+            <div class="circl" data-toggle="modal" data-target="#fineartmodal"><img
+                    src="/static/images/art.png" alt=""></div>
+            <button type="button" class="btn btn-danger plus" data-toggle="modal" data-target="#fineartmodal"
+                    style="right: 35px;"><h4>+</h4></button>
+            <h4 class="label">FINE ART</h4>
+        </div>
+        <div class="imagebox">
+            <div class="circl" data-toggle="modal" data-target="#bikesmodal"><img
+                    src="/static/images/bike.png" alt=""></div>
+            <button type="button" class="btn btn-danger plus" data-toggle="modal" data-target="#bikesmodal"
+                    style="right: 35px;"><h4>+</h4></button>
+            <h4 class="label">BIKES</h4>
+        </div>
+        <div class="imagebox">
+            <div class="circl" data-toggle="modal" data-target="#camerasmodal"><img
+                    src="/static/images/camera.png" alt=""></div>
+            <button type="button" class="btn btn-danger plus" data-toggle="modal" data-target="#camerasmodal"
+                    style="right: 35px;"><h4>+</h4></button>
+            <h4 class="label">CAMERAS</h4>
+        </div>
+        <div class="imagebox">
+            <div class="circl" data-toggle="modal" data-target="#instrumentsmodal"><img
+                    src="/static/images/instruments.png" alt=""></div>
+            <button type="button" class="btn btn-danger plus" data-toggle="modal" data-target="#instrumentsmodal"
+                    style="right: 35px;"><h4>+</h4></button>
+            <h4 class="label">MUSICAL INSTRUMENTS</h4>
+        </div>
+    </div>
+    <div class="title"></div>
+</div>
+{% endif %}
+<div class="deductible container">
+    <div class="title"></div>
+    <div class="title"><h3><b>Choose Your Deductible</b></h3></div>
+    <div class="row justify-content-center" style="align-items: baseline;">
+        <h5> Deductible:</h5>
+        <select id="sel1">
+            <option>250dt</option>
+            <option>500dt</option>
+            <option>750dt</option>
+            <option>1000dt</option>
+        </select>
+    </div>
+    <div class="row col-md-10" style="margin: 30px auto"><h5>This is the amount that will be deducted from any claim
+        payment you may receive. For example, choosing a 1,000dt deductible means that if you file a claim for 5,000dt
+        and it's approved, we will pay you 4,000dt.</h5></div>
+    <div class="title"></div>
+</div>
+<div class="covered container">
+    <div class="title"><h3><b>What's covered</b></h3></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/fire.png" alt="">
+                </div>
+                <div class="header"><h4><b>FIRE AND SMOKE</b></h4></div>
+                <div class="parag"><p>A faulty Christmas light or your attempt at deep frying can cause some smoke and
+                    fire damage. We cover you for both.</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/tornado.png" alt="">
+                </div>
+                <div class="header"><h4><b>BAD WEATHER</b></h4></div>
+                <div class="parag"><p>Wind, lightning, and hail are scary. You're covered for all of them. Flood
+                    insurance isn't part of the basic policy.</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/pipe.png" alt="">
+                </div>
+                <div class="header"><h4><b>WATER DAMAGE</b></h4></div>
+                <div class="parag"><p>Your pipes may be feeling a chill, or your neighbor's bathtub is leaking through
+                    your ceiling. Aka, if there's sudden or accidental water damage, you're covered.</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/theif.png" alt="">
+                </div>
+                <div class="header"><h4><b>CRIME AND VANDALISM</b></h4></div>
+                <div class="parag"><p>Your home is full of stuff: furniture, clothing, appliances. We cover you if any
+                    of it is stolen or damaged.</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="not covered container">
+    <div class="title"><h3><b>What's not covered</b></h3></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/damaged.png" alt="">
+                </div>
+                <div class="header"><h4><b>EARTHQUAKE </b></h4></div>
+                <div class="parag"><p>Earthquake coverage is not included in our base policy.</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/dog.png" alt="">
+                </div>
+                <div class="header"><h4><b>HIGH-RISK DOG ATTACKS</b></h4></div>
+                <div class="parag"><p> If your dog bites someone you're covered as long as they're not considered a
+                    high-risk breed, and don't have a history of attacks.</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/flood.png" alt="">
+                </div>
+                <div class="header"><h4><b>FLOOD</b></h4></div>
+                <div class="parag"><p>We do not cover structural or personal property damage caused by floods.</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/roommate.png" alt="">
+                </div>
+                <div class="header"><h4><b>ROOMMATES</b></h4></div>
+                <div class="parag"><p>Our policy does not cover your roommates' stuff or personal injuries.</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}{% if lang == "french" %}
+<div class="couvrage-amounts container">
+    <div class="title">
+        <h3><b>Montant De Couverture</b></h3>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <div class="card text-center">
+                <img class="card-img-top" src="/static/images/sofa.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">PROPRIETE PERSONNELLE</h5>
+                    <p class="card-text">La valeur totale des choses que vous possédez, comme l’électroménager, les
+                        vêtements, les meubles,
+                        Etc.
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <div class="plusminus" id="properties">
+                        <button type="button" class="btn btn-outline-danger minus"
+                                style="left: 35px;padding: 3px 14px;"><h4>-</h4></button>
+                        <div class="value text-center"><h4>500dt</h4></div>
+                        <button type="button" class="btn btn-outline-danger plus"
+                                style="right: 35px;"><h4>+</h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <div class="card text-center">
+                <img class="card-img-top" src="/static/images/legal.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">OBLIGATION PERSONNELLE</h5>
+                    <p class="card-text">Si quelqu’un est blessé sur votre propriété et décide d’intenter une action en
+                        justice,
+                        le montant maximum que nous allons payer pour couvrir les dommages que vous êtes légalement tenu
+                        de payer.
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <div class="plusminus" id="liability">
+                        <button type="button" class="btn btn-outline-danger minus"
+                                style="left: 35px;padding: 3px 14px;"><h4>-</h4></button>
+                        <div class="value text-center"><h4>200dt</h4></div>
+                        <button type="button" class="btn btn-outline-danger plus"
+                                style="right: 35px;"><h4>+</h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <div class="card text-center">
+                <img class="card-img-top" src="/static/images/injured.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">PAIEMENTS MEDICALE DES AUTRES</h5>
+                    <p class="card-text">Nous couvrirons les frais médicaux jusqu’à ce montant si un invité ou un voisin
+                        est
+                        blessés sur votre propriété.</p>
+                </div>
+                <div class="card-footer">
+                    <div class="plusminus" id="medical">
+                        <button type="button" class="btn btn-outline-danger minus"
+                                style="left: 35px;padding: 3px 14px;"><h4>-</h4></button>
+                        <div class="value text-center"><h4>100dt</h4></div>
+                        <button type="button" class="btn btn-outline-danger plus"
+                                style="right: 35px;"><h4>+</h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <div class="card text-center">
+                <img class="card-img-top" src="/static/images/damaged.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">PERTE D'USAGE</h5>
+                    <p class="card-text">Nous espérons que cela n’arrivera jamais, mais si votre place est invivable,
+                        nous allons vous mettre en
+                        un bel hôtel ou une maison de location similaire. Nous inclurons également les frais de
+                        subsistance pour vous remettre sur votre
+                        Pieds. C’est le maximum que nous allons payer dans un tel événement.
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <div class="plusminus" id="house_loss">
+                        <button type="button" class="btn btn-outline-danger minus"
+                                style="left: 35px;padding: 3px 14px;"><h4>-</h4></button>
+                        <div class="value text-center"><h4>500dt</h4></div>
+                        <button type="button" class="btn btn-outline-danger plus"
+                                style="right: 35px;"><h4>+</h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="title"></div>
+</div>
+{% if valuables is sameas true %}
+<div class="extra-couvrage container">
+    <div class="title" id="extra">
+        <h3><b> Ajout de couvertures supplémentaires </b></h3>
+    </div>
+    <div class="row">
+        <div class="imagebox">
+            <div class="circl" data-toggle="modal" data-target="#jewelrymodal"><img
+                    src="/static/images/jewelry.png" alt=""></div>
+            <button type="button" class="btn btn-danger plus" data-toggle="modal" data-target="#jewelrymodal"
+                    style="right: 35px;"><h4>+</h4></button>
+            <h4 class="label">BIJOUX</h4>
+        </div>
+        <div class="imagebox">
+            <div class="circl" data-toggle="modal" data-target="#fineartmodal"><img
+                    src="/static/images/art.png" alt=""></div>
+            <button type="button" class="btn btn-danger plus" data-toggle="modal" data-target="#fineartmodal"
+                    style="right: 35px;"><h4>+</h4></button>
+            <h4 class="label">OEUVRES D'ARTS</h4>
+        </div>
+        <div class="imagebox">
+            <div class="circl" data-toggle="modal" data-target="#bikesmodal"><img
+                    src="/static/images/bike.png" alt=""></div>
+            <button type="button" class="btn btn-danger plus" data-toggle="modal" data-target="#bikesmodal"
+                    style="right: 35px;"><h4>+</h4></button>
+            <h4 class="label">VELOS</h4>
+        </div>
+        <div class="imagebox">
+            <div class="circl" data-toggle="modal" data-target="#camerasmodal"><img
+                    src="/static/images/camera.png" alt=""></div>
+            <button type="button" class="btn btn-danger plus" data-toggle="modal" data-target="#camerasmodal"
+                    style="right: 35px;"><h4>+</h4></button>
+            <h4 class="label">CAMERAS</h4>
+        </div>
+        <div class="imagebox">
+            <div class="circl" data-toggle="modal" data-target="#instrumentsmodal"><img
+                    src="/static/images/instruments.png" alt=""></div>
+            <button type="button" class="btn btn-danger plus" data-toggle="modal" data-target="#instrumentsmodal"
+                    style="right: 35px;"><h4>+</h4></button>
+            <h4 class="label">INSTRUMENTS DE MUSIQUE</h4>
+        </div>
+    </div>
+    <div class="title"></div>
+</div>
+{% endif %}
+<div class="deductible container">
+    <div class="title"></div>
+    <div class="title"><h3><b>CHOISIS VOTRE FRANCHISE</b></h3></div>
+    <div class="row justify-content-center" style="align-items: baseline;">
+        <h5> Franchise:</h5>
+        <select id="sel1">
+            <option>250dt</option>
+            <option>500dt</option>
+            <option>750dt</option>
+            <option>1000dt</option>
+        </select>
+    </div>
+    <div class="row col-md-10" style="margin: 30px auto"><h5>Il s’agit du montant qui sera déduit de toute réclamation
+        paiement que vous pouvez recevoir. Par exemple, le choix d’une franchise de 1 000 dt signifie que si vous
+        déposez une demande pour 5 000 dt
+        et il est approuvé, nous allons vous payer 4000dt.</h5></div>
+    <div class="title"></div>
+</div>
+<div class="covered container">
+    <div class="title"><h3><b>Ce qui est couvert</b></h3></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/fire.png" alt="">
+                </div>
+                <div class="header"><h4><b>FEU ET FUMÉE</b></h4></div>
+                <div class="parag"><p>Une lumière de Noël défectueuse ou votre tentative de friture peut causer de la
+                    fumée et des
+                    dommages causés par le feu. Nous vous couvrons pour les deux.</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/tornado.png" alt="">
+                </div>
+                <div class="header"><h4><b>MAUVAIS TEMPS</b></h4></div>
+                <div class="parag"><p>Le vent, la foudre et la grêle font peur. Vous êtes couvert pour tous. les
+                    inondation
+                    ne font pas partie de la politique de base de notre assurence.</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/pipe.png" alt="">
+                </div>
+                <div class="header"><h4><b>DÉGÂTS D’EAU</b></h4></div>
+                <div class="parag"><p>Vos tuyaux peuvent se sentir un froid, ou la baignoire de votre voisin fuit à
+                    travers
+                    votre plafond. Aka, s’il y a des dégâts d’eau soudains ou accidentels, vous êtes couvert.</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/theif.png" alt="">
+                </div>
+                <div class="header"><h4><b>CRIME ET VANDALISME</b></h4></div>
+                <div class="parag"><p>Votre maison est pleine de choses: meubles, vêtements, appareils électroménagers.
+                    Nous vous couvrons le cas échéant
+                    de celui-ci est volé ou endommagé.</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="not covered container">
+    <div class="title"><h3><b>Ce qui n'est pas couvert</b></h3></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/damaged.png" alt="">
+                </div>
+                <div class="header"><h4><b>SÉISME </b></h4></div>
+                <div class="parag"><p>La couverture sismique n’est pas incluse dans notre politique de base.</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/dog.png" alt="">
+                </div>
+                <div class="header"><h4><b>ATTAQUES DE CHIENS À HAUT RISQUE</b></h4></div>
+                <div class="parag"><p> Si votre chien mord quelqu’un que vous êtes couvert tant qu’il n’est pas
+                    considéré comme une
+                    race à haut risque, et na pas d’antécédents d’attaques.</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/flood.png" alt="">
+                </div>
+                <div class="header"><h4><b>INONDATIONS</b></h4></div>
+                <div class="parag"><p>Nous ne couvrons pas les dommages matériels structurels ou personnels causés par
+                    les inondations.</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/roommate.png" alt="">
+                </div>
+                <div class="header"><h4><b>COLLOCATAIRES</b></h4></div>
+                <div class="parag"><p>Notre politique ne couvre pas les affaires de vos colocataires ou les blessures
+                    personnelles.</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}{% if lang == "arabe" %}
+<div class="couvrage-amounts container">
+    <div class="title">
+        <h3><b>مبالغ التغطية</b></h3>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <div class="card text-center">
+                <img class="card-img-top" src="/static/images/sofa.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">الممتلكات الشخصية</h5>
+                    <p class="card-text">القيمة الإجمالية للأشياء التي تملكها ، مثل الالكترونيات والملابس والأثاث ،
+                        الخ.
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <div class="plusminus" id="properties">
+                        <button type="button" class="btn btn-outline-danger minus"
+                                style="left: 35px;padding: 3px 14px;"><h4>-</h4></button>
+                        <div class="value text-center"><h4>500dt</h4></div>
+                        <button type="button" class="btn btn-outline-danger plus"
+                                style="right: 35px;"><h4>+</h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <div class="card text-center">
+                <img class="card-img-top" src="/static/images/legal.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">المسؤولية الشخصية</h5>
+                    <p class="card-text">إذا أصيب شخص ما في ممتلكاتك وقرر اتخاذ إجراءات قانونية ، فهذا هو
+                        المبلغ الأقصى الذي سندفعه لتغطية الأضرار التي يجب عليك دفعها بشكل قانوني.
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <div class="plusminus" id="liability">
+                        <button type="button" class="btn btn-outline-danger minus"
+                                style="left: 35px;padding: 3px 14px;"><h4>-</h4></button>
+                        <div class="value text-center"><h4>200dt</h4></div>
+                        <button type="button" class="btn btn-outline-danger plus"
+                                style="right: 35px;"><h4>+</h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <div class="card text-center">
+                <img class="card-img-top" src="/static/images/injured.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">المدفوعات الطبية للآخرين</h5>
+                    <p class="card-text">سنقوم بتغطية النفقات الطبية إلى حدّ هذا المبلغ إذا كان الضيف أو الجار قد
+                        أصيب في الممتلكات الخاصة بك.</p>
+                </div>
+                <div class="card-footer">
+                    <div class="plusminus" id="medical">
+                        <button type="button" class="btn btn-outline-danger minus"
+                                style="left: 35px;padding: 3px 14px;"><h4>-</h4></button>
+                        <div class="value text-center"><h4>100dt</h4></div>
+                        <button type="button" class="btn btn-outline-danger plus"
+                                style="right: 35px;"><h4>+</h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <div class="card text-center">
+                <img class="card-img-top" src="/static/images/damaged.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">فقدان الاستخدام</h5>
+                    <p class="card-text">نأمل أن هذا لن يحدث أبدا، ولكن إذا كان مكانك غير صالح للعيش، سنتكلّف بسكناكم إن
+                        كان في فندق أو منزل آخر.و سنتكفّل أيضا بمصاريف العيش حسب إمكانياتكم. هذا هو الحد الأقصى الذي
+                        سندفعه في مثل هذا الحدث.</p>
+                </div>
+                <div class="card-footer">
+                    <div class="plusminus" id="house_loss">
+                        <button type="button" class="btn btn-outline-danger minus"
+                                style="left: 35px;padding: 3px 14px;"><h4>-</h4></button>
+                        <div class="value text-center"><h4>500dt</h4></div>
+                        <button type="button" class="btn btn-outline-danger plus"
+                                style="right: 35px;"><h4>+</h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="title"></div>
+</div>
+{% if valuables is sameas true %}
+<div class="extra-couvrage container">
+    <div class="title" id="extra">
+        <h3><b>زيد ضمّن حوايج أخرى غالية عليك </b></h3>
+        <span></span>
+    </div>
+    <div class="row">
+        <div class="imagebox">
+            <div class="circl" data-toggle="modal" data-target="#jewelrymodal"><img
+                    src="/static/images/jewelry.png" alt=""></div>
+            <button type="button" class="btn btn-danger plus" data-toggle="modal" data-target="#jewelrymodal"
+                    style="right: 35px;"><h4>+</h4></button>
+            <h4 class="label">المجوهرات</h4>
+        </div>
+        <div class="imagebox">
+            <div class="circl" data-toggle="modal" data-target="#fineartmodal"><img
+                    src="/static/images/art.png" alt=""></div>
+            <button type="button" class="btn btn-danger plus" data-toggle="modal" data-target="#fineartmodal"
+                    style="right: 35px;"><h4>+</h4></button>
+            <h4 class="label">الفنون الجميلة</h4>
+        </div>
+        <div class="imagebox">
+            <div class="circl" data-toggle="modal" data-target="#bikesmodal"><img
+                    src="/static/images/bike.png" alt=""></div>
+            <button type="button" class="btn btn-danger plus" data-toggle="modal" data-target="#bikesmodal"
+                    style="right: 35px;"><h4>+</h4></button>
+            <h4 class="label">الدراجات</h4>
+        </div>
+        <div class="imagebox">
+            <div class="circl" data-toggle="modal" data-target="#camerasmodal"><img
+                    src="/static/images/camera.png" alt=""></div>
+            <button type="button" class="btn btn-danger plus" data-toggle="modal" data-target="#camerasmodal"
+                    style="right: 35px;"><h4>+</h4></button>
+            <h4 class="label">الكاميرات</h4>
+        </div>
+        <div class="imagebox">
+            <div class="circl" data-toggle="modal" data-target="#instrumentsmodal"><img
+                    src="/static/images/instruments.png" alt=""></div>
+            <button type="button" class="btn btn-danger plus" data-toggle="modal" data-target="#instrumentsmodal"
+                    style="right: 35px;"><h4>+</h4></button>
+            <h4 class="label">الآلات الموسيقية</h4>
+        </div>
+    </div>
+    <div class="title"></div>
+</div>
+{% endif %}
+<div class="deductible container">
+    <div class="title"></div>
+    <div class="title"><h3><b>إختر قيمة الخصم</b></h3></div>
+    <div class="row justify-content-center" style="align-items: baseline;">
+
+        <select id="sel1">
+            <option>250dt</option>
+            <option>500dt</option>
+            <option>750dt</option>
+            <option>1000dt</option>
+        </select>
+        <h5>: قيمة الخصم</h5>
+    </div>
+    <div class="row col-md-10" style="margin: 30px auto"><h5 style="text-align: right">هذا المبلغ يمتعك بخصم من المبلغ و
+        يقع طرحه من سداد التأمين فيما بعد، إذا اخترت مثلاً 1000 دينار وطالبت فيما بعد بسداد 5000 دينار فسندفع فقط 4000
+        دينار.</h5></div>
+    <div class="title"></div>
+</div>
+<div class="covered container">
+    <div class="title"><h3><b>:أنت مؤمّن من</b></h3></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/fire.png" alt="">
+                </div>
+                <div class="header"><h4><b>النار والدخان</b></h4></div>
+                <div class="parag"><p>أي خطأ في الطهو أو في الكهرباء يمكن ان يتسبب في حرائق أو دخان صاعد. نحن نؤمنك على
+                    الإثنين</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/tornado.png" alt="">
+                </div>
+                <div class="header"><h4><b>أضرار طبيعية</b></h4></div>
+                <div class="parag"><p>الشتاء مليء بالعواصف و الأمطار اللتي قد تتسبب في عديد الأضرار . نحن نؤمنك على كل
+                    هذه الأضرار ما عدى التي تسببها الفيضانات</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/pipe.png" alt="">
+                </div>
+                <div class="header"><h4><b>أضرار قنوات المياه</b></h4></div>
+                <div class="parag"><p>قد تكون الأنابيب الخاصة بك معرّضة للتّلف، أو حوض استحمام جارك يسرّب المياه من خلال
+                    السقف الخاص بك. إذا كان هناك ضرر مفاجئ أو تعرّض للماء، أنت مُغطا.</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/theif.png" alt="">
+                </div>
+                <div class="header"><h4><b>الجريمة والتخريب</b></h4></div>
+                <div class="parag"><p>نحن نؤمّن كلّ الأشياء المسروقة من داخل المنزل</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="not covered container">
+    <div class="title"><h3><b>ما هو ليس مغطى</b></h3></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/damaged.png" alt="">
+                </div>
+                <div class="header"><h4><b>الزلازل </b></h4></div>
+                <div class="parag"><p>لا يتم تضمين تغطية الزلازل في سياستنا الأساسية</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/dog.png" alt="">
+                </div>
+                <div class="header"><h4><b>هجمات الكلاب عالية الخطورة</b></h4></div>
+                <div class="parag"><p> إذا كان الكلب الخاص بك قد عضّ شخص ما أنت مؤمّن طالما كان الكلب ليس من فصيلة شرسة
+                    ، وليس لديه تاريخ من الهجمات</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/flood.png" alt="">
+                </div>
+                <div class="header"><h4><b>الفيضانات</b></h4></div>
+                <div class="parag"><p>ولا نغطي أضرار الهياكل أو الممتلكات الشخصية التي تسببها الفيضانات</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/roommate.png" alt="">
+                </div>
+                <div class="header"><h4><b>الرفقاء في الحجرة </b></h4></div>
+                <div class="parag"><p>سياستنا لا تغطي الاشياء الخاصة برفقائك في الحجرة أو إصاباتهم الشخصية</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+<a class="topnav" style="display: none" data-toggle="modal" data-target="#payment" href="">
+    {% if lang == "english" %}
+    <tag>PAY</tag>
+    {% else %}{% if lang == "french" %}
+    <tag>PAYEZ</tag>
+    {% else %}{% if lang == "arabe" %}
+    <tag>إدفع</tag>
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    <number>12.59dt</number>
+    <div class="otherpreloader" style="display: none">
+        <img src="/static/images/black-hole-pink.gif" style="width: 30px" alt="">
+    </div>
+    <tag>/MONTH</tag>
+</a>
+<a class="myBtn" onclick="topFunction()">&#9651;</a>
+<!-- Modal -->
+{% if lang == "english" %}
+<div class="modal fade" id="jewelrymodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="/static/images/jewelry.png" alt="">
+                <div class="corps">
+                    <h4>TOTAL JEWELRY VALUE</h4>
+                    <p>This is the maximum we can pay for stolen, lost or damaged jewelry items</p>
+                </div>
+            </div>
+
+            <form action="" style="width: 100%">
+                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                    <button type="button" class="btn btn-outline-secondary minus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                            style="left: 35px;top: 3px; padding: 3px 14px;"><h4>-</h4></button>
+                    <div class="value text-center" style="width: 100%"><input
+                            class="quantity modal-input"
+                            min="200"
+                            value="200" type="number"></div>
+                    <button type="button" class="btn btn-outline-secondary plus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                            style="right: 35px;top: 3px;"><h4>+</h4></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" class="btn">add 10dt/yr</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</div>
+{% else %}{% if lang == "french" %}
+<div class="modal fade" id="jewelrymodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="/static/images/jewelry.png" alt="">
+                <div class="corps">
+                    <h4>VALEUR TOTALE DES BIJOUX</h4>
+                    <p>C’est le maximum que nous pouvons payer pour les bijoux volés, perdus ou endommagés</p>
+                </div>
+            </div>
+
+            <form action="" style="width: 100%">
+                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                    <button type="button" class="btn btn-outline-secondary minus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                            style="left: 35px;top: 3px; padding: 3px 14px;"><h4>-</h4></button>
+                    <div class="value text-center" style="width: 100%"><input
+                            class="quantity modal-input"
+                            min="200"
+                            value="200" type="number"></div>
+                    <button type="button" class="btn btn-outline-secondary plus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                            style="right: 35px;top: 3px;"><h4>+</h4></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" class="btn">ajouter 10dt/an</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</div>
+{% else %}{% if lang == "arabe" %}
+<div class="modal fade" id="jewelrymodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="/static/images/jewelry.png" alt="">
+                <div class="corps">
+                    <h4>قيمة المجوهرات الجملية</h4>
+                    <p>هذا هو الحد الأقصى الذي يمكن أن ندفعه مقابل سلع المجوهرات المسروقة أو المفقودة أو التالفة</p>
+                </div>
+            </div>
+
+            <form action="" style="width: 100%">
+                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                    <button type="button" class="btn btn-outline-secondary minus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                            style="left: 35px;top: 3px; padding: 3px 14px;"><h4>-</h4></button>
+                    <div class="value text-center" style="width: 100%"><input
+                            class="quantity modal-input"
+                            min="200"
+                            value="200" type="number"></div>
+                    <button type="button" class="btn btn-outline-secondary plus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                            style="right: 35px;top: 3px;"><h4>+</h4></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" class="btn">زيد 10دت/سنة</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+{% if lang == "english" %}
+<div class="modal fade" id="fineartmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="/static/images/art.png" alt="">
+                <div class="corps">
+                    <h4>TOTAL FINE ART VALUE</h4>
+                    <p>The maximum we can pay for lost, stolen or damaged fine art items (excluding public
+                        exhibitions).</p>
+                </div>
+            </div>
+
+            <form action="" style="width: 100%">
+                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                    <button type="button" class="btn btn-outline-secondary minus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                            style="left: 35px;top: 3px; padding: 3px 14px;"><h4>-</h4></button>
+                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                              min="200"
+                                                                              value="200" type="number"></div>
+                    <button type="button" class="btn btn-outline-secondary plus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                            style="right: 35px;top: 3px;"><h4>+</h4></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" class="btn">add 10dt/yr</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</div>
+{% else %}{% if lang == "french" %}
+<div class="modal fade" id="fineartmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="/static/images/art.png" alt="">
+                <div class="corps">
+                    <h4>VALEUR TOTALE DES BEAUX-ARTS</h4>
+                    <p>Le maximum que nous pouvons payer pour les objets d’art perdus, volés ou endommagés (à
+                        l’exclusion des expositions publiques).</p>
+                </div>
+            </div>
+
+            <form action="" style="width: 100%">
+                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                    <button type="button" class="btn btn-outline-secondary minus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                            style="left: 35px;top: 3px; padding: 3px 14px;"><h4>-</h4></button>
+                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                              min="200"
+                                                                              value="200" type="number"></div>
+                    <button type="button" class="btn btn-outline-secondary plus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                            style="right: 35px;top: 3px;"><h4>+</h4></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" class="btn">ajouter 10dt/an</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</div>
+{% else %}{% if lang == "arabe" %}
+<div class="modal fade" id="fineartmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="/static/images/art.png" alt="">
+                <div class="corps">
+                    <h4>قيمة الفنون الجميلة الكلية</h4>
+                    <p>الحد الأقصى الذي يمكننا دفعه مقابل البنود المفقودة أو المسروقة أو التالفة من الفنون الجميلة
+                        (باستثناء المعارض العامّة).</p>
+                </div>
+            </div>
+
+            <form action="" style="width: 100%">
+                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                    <button type="button" class="btn btn-outline-secondary minus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                            style="left: 35px;top: 3px; padding: 3px 14px;"><h4>-</h4></button>
+                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                              min="200"
+                                                                              value="200" type="number"></div>
+                    <button type="button" class="btn btn-outline-secondary plus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                            style="right: 35px;top: 3px;"><h4>+</h4></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" class="btn">زيد 10دت/سنة</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+{% if lang == "english" %}
+<div class="modal fade" id="bikesmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="/static/images/bike.png" alt="">
+                <div class="corps">
+                    <h4>TOTAL VALUE OF BIKES</h4>
+                    <p>This is the maximum we can pay for your lost, stolen, or crash-related damaged bikes.</p>
+                </div>
+            </div>
+
+            <form action="" style="width: 100%">
+                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                    <button type="button" class="btn btn-outline-secondary minus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                            style="left: 35px;top: 3px; padding: 3px 14px;"><h4>-</h4></button>
+                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                              min="200"
+                                                                              value="200" type="number"></div>
+                    <button type="button" class="btn btn-outline-secondary plus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                            style="right: 35px;top: 3px;"><h4>+</h4></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" class="btn">add 10dt/yr</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</div>
+{% else %}{% if lang == "french" %}
+<div class="modal fade" id="bikesmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="/static/images/bike.png" alt="">
+                <div class="corps">
+                    <h4>VALEUR TOTALE DES VÉLOS</h4>
+                    <p>C’est le maximum que nous pouvons payer pour vos vélos endommagés, perdus, volés ou
+                        accidentés.</p>
+                </div>
+            </div>
+
+            <form action="" style="width: 100%">
+                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                    <button type="button" class="btn btn-outline-secondary minus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                            style="left: 35px;top: 3px; padding: 3px 14px;"><h4>-</h4></button>
+                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                              min="200"
+                                                                              value="200" type="number"></div>
+                    <button type="button" class="btn btn-outline-secondary plus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                            style="right: 35px;top: 3px;"><h4>+</h4></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" class="btn">ajouter 10dt/an</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</div>
+{% else %}{% if lang == "arabe" %}
+<div class="modal fade" id="bikesmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="/static/images/bike.png" alt="">
+                <div class="corps">
+                    <h4>القيمة الإجمالية للدراجات</h4>
+                    <p>هذا هو الحد الأقصى الذي يمكننا دفعه مقابل الدراجات التالفة المفقودة أو المسروقة أو المعطلة.</p>
+                </div>
+            </div>
+
+            <form action="" style="width: 100%">
+                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                    <button type="button" class="btn btn-outline-secondary minus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                            style="left: 35px;top: 3px; padding: 3px 14px;"><h4>-</h4></button>
+                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                              min="200"
+                                                                              value="200" type="number"></div>
+                    <button type="button" class="btn btn-outline-secondary plus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                            style="right: 35px;top: 3px;"><h4>+</h4></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" class="btn">زيد 10دت/سنة</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+{% if lang == "english" %}
+<div class="modal fade" id="camerasmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="/static/images/camera.png" alt="">
+                <div class="corps">
+                    <h4>TOTAL VALUE OF CAMERAS</h4>
+                    <p>This is the maximum we can pay for lost, stolen, or broken cameras, lenses and related hobby
+                        equipment.</p>
+                </div>
+            </div>
+
+            <form action="" style="width: 100%">
+                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                    <button type="button" class="btn btn-outline-secondary minus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                            style="left: 35px;top: 3px; padding: 3px 14px;"><h4>-</h4></button>
+                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                              min="200"
+                                                                              value="200" type="number"></div>
+                    <button type="button" class="btn btn-outline-secondary plus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                            style="right: 35px;top: 3px;"><h4>+</h4></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" class="btn">add 10dt/yr</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</div>
+{% else %}{% if lang == "french" %}
+<div class="modal fade" id="camerasmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="/static/images/camera.png" alt="">
+                <div class="corps">
+                    <h4>VALEUR TOTALE DES CAMERAS</h4>
+                    <p>C’est le maximum que nous pouvons payer pour les caméras perdues, volées ou cassées, les
+                        lentilles et les équipements des passe-temps connexes .</p>
+                </div>
+            </div>
+
+            <form action="" style="width: 100%">
+                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                    <button type="button" class="btn btn-outline-secondary minus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                            style="left: 35px;top: 3px; padding: 3px 14px;"><h4>-</h4></button>
+                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                              min="200"
+                                                                              value="200" type="number"></div>
+                    <button type="button" class="btn btn-outline-secondary plus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                            style="right: 35px;top: 3px;"><h4>+</h4></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" class="btn">ajouter 10dt/an</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</div>
+{% else %}{% if lang == "arabe" %}
+<div class="modal fade" id="camerasmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="/static/images/camera.png" alt="">
+                <div class="corps">
+                    <h4>القيمة الإجمالية للكاميرات</h4>
+                    <p>هذا هو الحد الأقصى الذي يمكن أن ندفعه مقابل الكاميرات المفقودة أو المسروقة أو المكسورة والعدسات
+                        والهوايات ذات الصلة</p>
+                </div>
+            </div>
+
+            <form action="" style="width: 100%">
+                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                    <button type="button" class="btn btn-outline-secondary minus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                            style="left: 35px;top: 3px; padding: 3px 14px;"><h4>-</h4></button>
+                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                              min="200"
+                                                                              value="200" type="number"></div>
+                    <button type="button" class="btn btn-outline-secondary plus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                            style="right: 35px;top: 3px;"><h4>+</h4></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" class="btn">زيد 10دت/سنة</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+{% if lang == "english" %}
+<div class="modal fade" id="instrumentsmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="/static/images/instruments.png" alt="">
+                <div class="corps">
+                    <h4>TOTAL VALUE OF MUSICAL INSTRUMENTS</h4>
+                    <p>The maximum we can pay for lost, stolen or damaged musical instruments</p>
+                </div>
+            </div>
+
+            <form action="" style="width: 100%">
+                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                    <button type="button" class="btn btn-outline-secondary minus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                            style="left: 35px;top: 3px; padding: 3px 14px;"><h4>-</h4></button>
+                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                              min="200"
+                                                                              value="200" type="number"></div>
+                    <button type="button" class="btn btn-outline-secondary plus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                            style="right: 35px;top: 3px;"><h4>+</h4></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" class="btn btnfooter">add 10dt/yr</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</div>
+{% else %}{% if lang == "french" %}
+<div class="modal fade" id="instrumentsmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="/static/images/instruments.png" alt="">
+                <div class="corps">
+                    <h4>VALEUR TOTALE DES INSTRUMENTS DE MUSIQUE</h4>
+                    <p>Le maximum que nous pouvons payer pour les instruments de musique perdus, volés ou endommagés</p>
+                </div>
+            </div>
+
+            <form action="" style="width: 100%">
+                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                    <button type="button" class="btn btn-outline-secondary minus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                            style="left: 35px;top: 3px; padding: 3px 14px;"><h4>-</h4></button>
+                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                              min="200"
+                                                                              value="200" type="number"></div>
+                    <button type="button" class="btn btn-outline-secondary plus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                            style="right: 35px;top: 3px;"><h4>+</h4></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" class="btn btnfooter">ajouter 10dt/an</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</div>
+{% else %}{% if lang == "arabe" %}
+<div class="modal fade" id="instrumentsmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <img src="/static/images/instruments.png" alt="">
+                <div class="corps">
+                    <h4>القيمة الإجمالية للآلات الموسيقية</h4>
+                    <p>الحد الأقصى الذي يمكننا دفعه مقابل الآلات الموسيقية المفقودة أو المسروقة أو التالفة</p>
+                </div>
+            </div>
+
+            <form action="" style="width: 100%">
+                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                    <button type="button" class="btn btn-outline-secondary minus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                            style="left: 35px;top: 3px; padding: 3px 14px;"><h4>-</h4></button>
+                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                              min="200"
+                                                                              value="200" type="number"></div>
+                    <button type="button" class="btn btn-outline-secondary plus"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                            style="right: 35px;top: 3px;"><h4>+</h4></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" class="btn btnfooter">زيد 10دت/سنة</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+
+<!-- Payment Modal -->
+{% if lang == "english" %}
+<div class="modal fade" id="payment" tabindex="-1" role="dialog" aria-labelledby="paymentModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="corps container">
+                    <h4>PAYMENT DETAILS</h4>
+                    <form action="/pay/{{lang}}" method="post">
+                        <div class="form-group">
+                            <select class="form-control" id="sel2">
+                                <option value="month">MONTHLY</option>
+                                <option value="annual">ANNUAL</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="card_num" style="background-image: url(/static/images/card.png);
+                                        padding-left: 38px;
+                                        background-position: 5px;
+                                        background-size: 28px;
+                                        background-repeat: no-repeat;"
+                                   class="form-control" placeholder="Enter Card Number">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="date_carte" class="form-control" style="background-image: url(/static/images/calendar.png);
+                                        padding-left: 38px;
+                                        background-position: 5px;
+                                        background-size: 28px;
+                                        background-repeat: no-repeat;"
+                                   placeholder="Date">
+                        </div>
+                        <div class="form-group ">
+                            <input type="text" name="cvc" class="form-control" style="background-image: url(/static/images/lock.png);
+                                        padding-left: 38px;
+                                        background-position: 5px;
+                                        background-size: 28px;
+                                        background-repeat: no-repeat;"
+                                   placeholder="CVC">
+                        </div>
+                        <div class="row">
+                            <button id="pay_button" type="submit" class="btn btn-primary">Pay
+                                <number>12.59dt</number>
+                                <tag>/month</tag>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}{% if lang == "french" %}
+<div class="modal fade" id="payment" tabindex="-1" role="dialog" aria-labelledby="paymentModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="corps container">
+                    <h4>DETAILS DE PAIEMENT</h4>
+                    <form action="/pay/{{lang}}" method="post">
+                        <div class="form-group">
+                            <select class="form-control" id="sel2">
+                                <option value="month">PAR MOIS</option>
+                                <option value="annual">ANNUEL</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="card_num" style="background-image: url(/static/images/card.png);
+                                        padding-left: 38px;
+                                        background-position: 5px;
+                                        background-size: 28px;
+                                        background-repeat: no-repeat;"
+                                   class="form-control" placeholder="Numero de la carte">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="date_carte" class="form-control" style="background-image: url(/static/images/calendar.png);
+                                        padding-left: 38px;
+                                        background-position: 5px;
+                                        background-size: 28px;
+                                        background-repeat: no-repeat;"
+                                   placeholder="Date">
+                        </div>
+                        <div class="form-group ">
+                            <input type="text" name="cvc" class="form-control" style="background-image: url(/static/images/lock.png);
+                                        padding-left: 38px;
+                                        background-position: 5px;
+                                        background-size: 28px;
+                                        background-repeat: no-repeat;"
+                                   placeholder="CVC">
+                        </div>
+                        <div class="row">
+                            <button id="pay_button" type="submit" class="btn btn-primary">Payez
+                                <number>12.59dt</number>
+                                <tag>/mois</tag>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% else %}{% if lang == "arabe" %}
+<div class="modal fade" id="payment" tabindex="-1" role="dialog" aria-labelledby="paymentModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="corps container">
+                    <h4>تفاصيل الدفع</h4>
+                    <form action="/pay/{{lang}}" method="post">
+                        <div class="form-group">
+                            <select class="form-control" id="sel2">
+                                <option value="month">شهريا</option>
+                                <option value="annual">سنويا</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="card_num" style="background-image: url(/static/images/card.png);
+                                        padding-left: 38px;
+                                        background-position: 5px;
+                                        background-size: 28px;
+                                        background-repeat: no-repeat;"
+                                   class="form-control" placeholder="أدخل رقم البطاقة">
+                        </div>
+                        <div class="form-group ">
+                            <input type="text" name="date_carte" class="form-control" style="background-image: url(/static/images/calendar.png);
+                                        padding-left: 38px;
+                                        background-position: 5px;
+                                        background-size: 28px;
+                                        background-repeat: no-repeat;"
+                                   placeholder="تاريخ انتهاء الصلاحية">
+                        </div>
+                        <div class="form-group ">
+                            <input type="text" name="cvc" class="form-control" style="background-image: url(/static/images/lock.png);
+                                        padding-left: 38px;
+                                        background-position: 5px;
+                                        background-size: 28px;
+                                        background-repeat: no-repeat;"
+                                   placeholder="CVC">
+                        </div>
+                        <div class="row">
+                            <button id="pay_button" type="submit" class="btn btn-primary">إدفع
+                                <number>12.59 دت</number>
+                                <tag> شهريا</tag>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script charset="utf-8" type="text/javascript">
+    var fullDate = new Date()
+    var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+    var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+    if (fullDate.getDate() < 10) {
+        currentDate = "0" + currentDate;
+    }
+    $('#sandbox-container input').datepicker({
+        format: "dd/mm/yyyy",
+        startDate: currentDate,
+        orientation: "bottom right"
+    });
+    var annual = "annual";
+    {% if lang == "french" %}
+    annual = "annuel";
+    {% endif %}
+    {% if lang == "arabe" %}
+    annual = "السنوي";
+    {% endif %}
+    var permonth = "per month";
+    var monthly = "monthly";
+    {% if lang == "french" %}
+    permonth = "par mois";
+    monthly = "par mois";
+    {% endif %}
+    {% if lang == "arabe" %}
+    permonth = "شهريا";
+    monthly = "شهريا";
+    {% endif %}
+    var year = "yr"
+    {% if lang == "french" %}
+    year = "an";
+    {% endif %}
+    {% if lang == "arabe" %}
+    year = "سنة";
+    {% endif %}
+    var add = "add"
+    {% if lang == "french" %}
+    add = "ajouter";
+    {% endif %}
+    {% if lang == "arabe" %}
+    add = "زيد";
+    {% endif %}
+    var dt = "dt"
+    {% if lang == "arabe" %}
+    dt = "دت";
+    {% endif %}
+
+    $('#sandbox-container input').val(currentDate)
+    var month = document.querySelector(".monthan .month");
+    var an = document.querySelector(".monthan .an");
+    var show = document.querySelector(".monthan .show");
+    month.addEventListener('click', function () {
+        month.style.width = "0";
+        month.style.visibility = "hidden";
+        month.style.padding = "0";
+        an.style.width = "145px";
+        an.style.visibility = "visible";
+        an.style.padding = "10px 15px";
+        show.innerHTML = monthly.toUpperCase();
+        show.style.boxShadow = "7px 0 8px -4px #733838";
+    });
+    an.addEventListener('click', function () {
+        an.style.width = "0";
+        an.style.visibility = "hidden";
+        an.style.padding = "0";
+        month.style.width = "100px";
+        month.style.visibility = "visible";
+        month.style.padding = "10px 15px";
+        show.innerHTML = annual.toUpperCase();
+        show.style.boxShadow = "-7px 0 8px -4px #733838";
+    });
+
+    // mybutton = document.querySelector(".myBtn");
+    mybutton = $('.myBtn');
+    otherbutton = $('.topnav');
+    console.log(mybutton)
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+            mybutton.css('display', 'unset');
+            otherbutton.css('display', 'unset');
+            if ($(window).width() < 768) {
+                otherbutton.css('transform', 'translate(0px, 54px) scale(0.8)')
+            } else {
+                otherbutton.css('transform', 'translate(0px, 54px)')
+            }
+        } else {
+            mybutton.css('display', 'none');
+            otherbutton.css('display', 'none');
+            if ($(window).width() < 768) {
+                otherbutton.css('transform', 'translate(0,-54px) scale(0.8)')
+            } else {
+                otherbutton.css('transform', 'translate(0,-54px)')
+            }
+
+        }
+    }
+
+    function topFunction() {
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+
+    // normalement fi app.js
+
+    $(function () {
+        function sendRequest() {
+            jewelry = 200
+            if ($(".imagebox button[data-target='#jewelrymodal'].clos").length) {
+                jewelry = parseInt($('#jewelrymodal .quantity').val())
+                console.log(jewelry)
+            }
+            fineart = 200
+            if ($(".imagebox button[data-target='#fineartmodal'].clos").length) {
+                fineart = parseInt($('#fineartmodal .quantity').val())
+            }
+            bikes = 200
+            if ($(".imagebox button[data-target='#bikesmodal'].clos").length) {
+                bikes = parseInt($('#bikesmodal .quantity').val())
+            }
+            cameras = 200
+            if ($(".imagebox button[data-target='#camerasmodal'].clos").length) {
+                cameras = parseInt($('#camerasmodal .quantity').val())
+            }
+            instruments = 200
+            if ($(".imagebox button[data-target='#instrumentsmodal'].clos").length) {
+                instruments = parseInt($('#instrumentsmodal .quantity').val())
+            }
+            req = $.ajax({
+                url: '/vars',
+                type: 'POST',
+                data: {
+                    deductible: parseInt($('#sel1').val().replace('dt', '')),
+                    properties: parseInt($('#properties').children('.value').children().text().replace('dt', '')),
+                    liability: parseInt($('#liability').children('.value').children().text().replace('dt', '')),
+                    medical: parseInt($('#medical').children('.value').children().text().replace('dt', '')),
+                    house_loss: parseInt($('#house_loss').children('.value').children().text().replace('dt', '')),
+                    jewelry: jewelry,
+                    fineart: fineart,
+                    bikes: bikes,
+                    cameras: cameras,
+                    instruments: instruments,
+                },
+                beforeSend: function () {
+                    $('.otherpreloader').css('display', 'inline');
+                    $('.pay_button number').hide();
+                    $('.topnav number').hide();
+                    $('price').hide();
+                    $('price+small').hide();
+                },
+                complete: function () {
+                    $('.otherpreloader').hide();
+                    $('.pay_button number').show();
+                    $('.topnav number').show();
+                    $('price').show();
+                    $('price+small').show();
+                }
+            });
+            return req;
+        }
+
+        {% if done == True %}
+        jewelry = 200
+        if ($(".imagebox button[data-target='#jewelrymodal'].clos").length) {
+            jewelry = parseInt($('#jewelrymodal .quantity').val())
+        }
+        fineart = 200
+        if ($(".imagebox button[data-target='#fineartmodal'].clos").length) {
+            jewelry = parseInt($('#fineartmodal .quantity').val())
+        }
+        bikes = 200
+        if ($(".imagebox button[data-target='#bikesmodal'].clos").length) {
+            jewelry = parseInt($('#bikesmodal .quantity').val())
+        }
+        cameras = 200
+        if ($(".imagebox button[data-target='#camerasmodal'].clos").length) {
+            jewelry = parseInt($('#camerasmodal .quantity').val())
+        }
+        instruments = 200
+        if ($(".imagebox button[data-target='#instrumentsmodal'].clos").length) {
+            jewelry = parseInt($('#instrumentsmodal .quantity').val())
+        }
+        req = $.ajax({
+            url: '/vars',
+            type: 'POST',
+            data: {
+                deductible: parseInt($('#sel1').val().replace('dt', '')),
+                properties: parseInt($('#properties').children('.value').children().text().replace('dt', '')),
+                liability: parseInt($('#liability').children('.value').children().text().replace('dt', '')),
+                medical: parseInt($('#medical').children('.value').children().text().replace('dt', '')),
+                house_loss: parseInt($('#house_loss').children('.value').children().text().replace('dt', '')),
+                jewelry: jewelry,
+                fineart: fineart,
+                bikes: bikes,
+                cameras: cameras,
+                instruments: instruments,
+            },
+            beforeSend: function () {
+                $('#preloader').show();
+                $('.wrapper').hide();
+            },
+            complete: function () {
+                $('#preloader').hide();
+                $('.wrapper').show();
+            }
+        });
+        req.done(function (data) {
+            var month_price = data.month_price
+            var year_price = data.year_price
+            var year_discount = data.year_discount
+            if (($('.month').css('width') === '0px')) {
+                $(".shape price").text(Math.round(month_price * 100) / 100 + dt);
+                $(".shape small").text(permonth);
+                {% if lang != "arabe" %}
+                $('.monthan .an').text(annual.toUpperCase() + "(-" + Math.round(year_discount * 100) / 100 + 'dt)');
+                {% else %}
+                $('.monthan .an').text(annual.toUpperCase() + "(" + Math.round(year_discount * 100) / 100 + '- دت)');
+                {% endif %}
+                $('.topnav').children('number').text(Math.round(month_price * 100) / 100 + ' ' + dt).parent().children('tag').last().text(permonth.toUpperCase());
+                $('.pay_button').children('number').text(Math.round(month_price * 100) / 100 + ' ' + dt).parent().children('tag').last().text(permonth.toUpperCase());
+                $('#pay_button number').text(Math.round(month_price * 100) / 100 + ' ' + dt);
+                $('select discount').text(' -' + Math.round(year_discount * 100) / 100 + dt)
+            }
+        })
+        {% endif %}
+
+        $("form .plusminus button[onclick]").on('click', function () {
+            str = $(this).parents('.modal.fade.show').attr('id');
+            $(this).parents('form').children('.modal-footer').children('.btn').text(add + " " + (parseInt($('#' + str + ' .quantity').val()) / 20).toString() + dt + "/" + year);
+        })
+        $('form .modal-footer button').on('click', function () {
+            var id = $(this).parents('.modal').attr('id');
+            a = $(".imagebox div[data-target='#" + id + "']+button");
+            a.addClass('clos');
+            updateit();
+            a.removeAttr('data-toggle');
+            $('.clos').on('click', function () {
+                a = $(this);
+                a.removeClass('clos');
+                updateit();
+                a.attr('data-toggle', 'modal');
+                var id = $(this).attr('data-target')
+                $(id + ' .value').children('input').val(200);
+                $(id + ' .modal-footer button').text(add + ' 10dt/' + year);
+                {% if lang == "arabe" %}
+                $(id + ' .modal-footer button').text(add + ' 10دت/' + year);
+                {% endif %}
+            }).attr('data-toggle', 'modal')
+
+        })
+
+        $('#sel2').on('change', function () {
+            a = $(this)
+            jewelry = 200
+            if ($(".imagebox button[data-target='#jewelrymodal'].clos").length) {
+                jewelry = parseInt($('#jewelrymodal .quantity').val())
+                console.log(jewelry)
+            }
+            fineart = 200
+            if ($(".imagebox button[data-target='#fineartmodal'].clos").length) {
+                fineart = parseInt($('#fineartmodal .quantity').val())
+            }
+            bikes = 200
+            if ($(".imagebox button[data-target='#bikesmodal'].clos").length) {
+                bikes = parseInt($('#bikesmodal .quantity').val())
+            }
+            cameras = 200
+            if ($(".imagebox button[data-target='#camerasmodal'].clos").length) {
+                cameras = parseInt($('#camerasmodal .quantity').val())
+            }
+            instruments = 200
+            if ($(".imagebox button[data-target='#instrumentsmodal'].clos").length) {
+                instruments = parseInt($('#instrumentsmodal .quantity').val())
+            }
+            req = $.ajax({
+                url: '/vars',
+                type: 'POST',
+                data: {
+                    deductible: parseInt($('#sel1').val().replace('dt', '')),
+                    properties: parseInt($('#properties').children('.value').children().text().replace('dt', '')),
+                    liability: parseInt($('#liability').children('.value').children().text().replace('dt', '')),
+                    medical: parseInt($('#medical').children('.value').children().text().replace('dt', '')),
+                    house_loss: parseInt($('#house_loss').children('.value').children().text().replace('dt', '')),
+                    jewelry: jewelry,
+                    fineart: fineart,
+                    bikes: bikes,
+                    cameras: cameras,
+                    instruments: instruments,
+                }
+            });
+
+            req.done(function (data) {
+                var month_price = data.month_price
+                var year_price = data.year_price
+                var year_discount = data.year_discount
+                if (a.val() === 'month') {
+                    $('#pay_button number').text(Math.round(month_price * 100) / 100)
+                    $('#pay_button tag').text(permonth)
+                } else {
+                    $('#pay_button number').text(Math.round((year_price - year_discount) * 100) / 100 + dt)
+                    $('#pay_button tag').text(year)
+                }
+            })
+
+        })
+
+        var classes = ['.month', '.an']
+        for (classe in classes) {
+            $(classes[classe]).click(function (event) {
+                console.log(annual)
+                req = sendRequest();
+                req.done(function (data) {
+                    var month_price = data.month_price
+                    var year_price = data.year_price
+                    var year_discount = data.year_discount
+                    console.log($('#sel1').val())
+                    if (event.target.className === 'month') {
+                        $(".shape price").text(Math.round(month_price * 100) / 100 + dt);
+                        $(".shape small").text(permonth);
+                        $('.pay_button').children('number').text(Math.round(month_price * 100) / 100 + ' ' + dt).parent().children('tag').last().text(permonth.toUpperCase());
+                        $('.topnav').children('number').text(Math.round(month_price * 100) / 100 + ' ' + dt).parent().children('tag').last().text(permonth.toUpperCase());
+                    } else {
+                        {% if lang != "arabe" %}
+                        $(".shape price").text(Math.round(year_price * 100) / 100 + dt);
+                        $(".shape small").text(annual + '(-' + Math.round(year_discount * 100) / 100 + 'dt)');
+                        $(".an").text(annual.toUpperCase() + '(-' + Math.round(year_discount * 100) / 100 + 'dt)');
+                        $('.monthan .show').text(annual.toUpperCase() + "(-" + Math.round(year_discount * 100) / 100 + 'dt)');
+                        $('.pay_button').children('number').text(Math.round((year_price - year_discount) * 100) / 100 + "dt").parent().children('tag').last().text('');
+                        $('.topnav').children('number').text(Math.round((year_price - year_discount) * 100) / 100 + "dt").parent().children('tag').last().text('');
+                        {% else %}
+                        $(".shape price").text(Math.round(year_price * 100) / 100 + ' دت');
+                        $(".shape small").text(annual + '(' + Math.round(year_discount * 100) / 100 + '- دت)');
+                        $(".an").text(annual.toUpperCase() + '(' + Math.round(year_discount * 100) / 100 + '- دت)');
+                        $('.monthan .show').text(annual.toUpperCase() + "(" + Math.round(year_discount * 100) / 100 + '- دت)');
+                        $('.pay_button').children('number').text(Math.round((year_price - year_discount) * 100) / 100 + " دت").parent().children('tag').last().text('');
+                        $('.topnav').children('number').text(Math.round((year_price - year_discount) * 100) / 100 + " دت").parent().children('tag').last().text('');
+                        {% endif %}
+                    }
+                })
+            })
+        }
+        $(".card .minus").click(function () {
+            amount = $(this).parent().children('.value').children().text();
+            $(this).parent().children('.value').html("<h4>" + (parseInt(amount.substring(0, amount.length - 2)) - 10) + "dt</h4>");
+            updateit();
+        });
+        $(".card .plus").click(function () {
+            amount = $(this).parent().children('.value').children().text();
+            $(this).parent().children('.value').html("<h4>" + (parseInt(amount.substring(0, amount.length - 2)) + 10) + "dt</h4>");
+            updateit();
+        });
+        $('#sel1').on('change', function () {
+            updateit();
+        })
+
+        function updateit() {
+            req = sendRequest();
+            req.done(function (data) {
+                var month_price = data.month_price
+                var year_price = data.year_price
+                var year_discount = data.year_discount
+                if (($('.month').css('width') === '0px')) {
+                    {% if lang != "arabe" %}
+                    $(".shape price").text(Math.round(month_price * 100) / 100 + 'dt');
+                    $(".shape small").text(permonth);
+                    $('.monthan .an').text(annual.toUpperCase() + "(-" + Math.round(year_discount * 100) / 100 + 'dt)');
+                    $('.pay_button').children('number').text(Math.round(month_price * 100) / 100 + "dt");
+                    $('.topnav').children('number').text(Math.round(month_price * 100) / 100 + "dt");
+                    $('select discount').text(Math.round(month_price * 100) / 100 + "dt");
+                    {% else %}
+                    $(".shape price").text(Math.round(month_price * 100) / 100 + ' دت');
+                    $(".shape small").text(permonth);
+                    $('.monthan .an').text(annual.toUpperCase() + "(" + Math.round(year_discount * 100) / 100 + '- دت)');
+                    $('.pay_button').children('number').text(Math.round(month_price * 100) / 100 + " دت");
+                    $('.topnav').children('number').text(Math.round(month_price * 100) / 100 + " دت");
+                    $('select discount').text(Math.round(month_price * 100) / 100 + " دت");
+                    {% endif %}
+                } else {
+                    {% if lang != "arabe" %}
+                    $(".shape price").text(Math.round(year_price * 100) / 100 + 'dt');
+                    $(".shape small").text(annual + '(-' + Math.round(year_discount * 100) / 100 + 'dt)');
+                    $(".an").text(annual.toUpperCase() + '(-' + Math.round(year_discount * 100) / 100 + 'dt)');
+                    $('.monthan .show').text(annual + "(-" + Math.round(year_discount * 100) / 100 + 'dt)');
+                    $('.pay_button').children('number').text(Math.round((year_price - year_discount) * 100) / 100 + "dt");
+                    $('.topnav').children('number').text(Math.round((year_price - year_discount) * 100) / 100 + "dt");
+                    $('select discount').text(annual + "(-" + Math.round(year_discount * 100) / 100 + 'dt)');
+                    {% else %}
+                    $(".shape price").text(Math.round(year_price * 100) / 100 + ' دت');
+                    $(".shape small").text(annual + '(' + Math.round(year_discount * 100) / 100 + '- دت)');
+                    $(".an").text(annual.toUpperCase() + '(' + Math.round(year_discount * 100) / 100 + '- دت)');
+                    $('.monthan .show').text(annual + "(" + Math.round(year_discount * 100) / 100 + '- دت)');
+                    $('.pay_button').children('number').text(Math.round((year_price - year_discount) * 100) / 100 + " دت");
+                    $('.topnav').children('number').text(Math.round((year_price - year_discount) * 100) / 100 + " دت");
+                    $('select discount').text(annual + "(" + Math.round(year_discount * 100) / 100 + '- دت)');
+                    {% endif %}
+                }
+            })
+        }
+    })
+</script>
+{% endblock %}
