@@ -1090,7 +1090,7 @@ def voiture(nbr,lang):
                 conducteur_plus = "EXCLUE"
                 capital_assure_cp = "EXCLUE"
             damage = req.get('damage')
-            incendie = session['valeur_actuelle']
+            incendie = session.get('voiture')['valeur_actuelle']
             capital_assure_d = req.get('capital_assure_d')
             franchise = req.get('franchise')
             if damage == "damage_basique":
@@ -1206,11 +1206,23 @@ def voiture(nbr,lang):
             session['vform11'] = 'submitted'
 
             client = Client.insert_one({
-                'client': session['client']
+                'prenom': session.get('client')['prenom'],
+                'nom': session.get('client')['nom'],
+                'email': session.get('client')['email'],
+                'cin': session.get('client')['cin'],
+                'tel': session.get('client')['tel_num'],
+                'date_de_naissance': session.get('client')['date_de_naissance'],
+                'password': session.get('client')['password'],
+                'confirmed': session.get('client')['confirmed']
                  
             })
             voi = Voiture.insert_one({
-                'voiture': session['voiture']
+                'type': session.get('voiture')['typev'],
+                'marq_model': session.get('voiture')['marq_model'],
+                'puissance_fiscale': session.get('voiture')['puissance'],
+                'valeur_a_neuf': session.get('voiture')['valeur_a_neuf'],
+                'valeur_actuelle': session.get('voiture')['valeur_actuelle'],
+                'bonus_malus': session.get('voiture')['bonus_malus']
                     })
             Contrat_vehicule.insert_one({
             
