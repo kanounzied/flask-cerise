@@ -1,0 +1,187 @@
+{% extends 'auto.html' %}
+{% block nbr %}{{ nbr }}{% endblock %}
+{% block sidenav %}
+{% if lang == "english" %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<a href="#">Claims</a>
+<a href="#">My account</a>
+{% else %}{% if lang =="arabe" %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="#">معلومات</a>
+<a href="#">مطالب</a>
+<a href="#">حسابي</a>
+{% else %}{% if lang=="french" %}
+<a href="/home/french">Acceuil</a>
+<a href="#">Informations</a>
+<a href="#">Réclamations</a>
+<a href="#">Mon compte</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block lang %}
+{{lang}}
+{% endblock %}
+{% block style %}
+<style>
+    .form-check{
+        margin-bottom: 0;
+    }
+    .container-fluid{
+        padding-top: 0;
+    }
+    label h2{
+        background-color: white;
+    }
+
+</style>
+{% endblock %}
+{% block body %}
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid-auto">
+    <div class="content">
+        <h1 class="center-text-car">Class and Number of HP? </h1>
+    </div>
+    <form class="third-form" method="post" action="/voiture/6/{{lang}}">
+        <div class="row" style="text-align: center;">
+            <div class="form-group col-md-6">
+                <label for="classe">Class</label>
+                <select class="form-control" style="float: right;" name="classe" id="classe">
+                    <option>Select a class</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8 (if this is your first vehicle)</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>11</option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="classe">Number of Fiscal Horsepower</label>
+                <select class="form-control" style="float: right;" name="nbcv" id="nbcv">
+                    <option>Select</option>
+                    <option>2</option>
+                    <option>3-4</option>
+                    <option>5-6</option>
+                    <option>7-10</option>
+                    <option>11-14</option>
+                    <option>15+</option>
+                </select>
+            </div>
+        
+        </div>
+        <div class="row">
+            <button type="submit" name="vform5" class="btn btn-primary col-2">Next</button>
+        </div>
+
+    </form>
+    <div class="back"><a href="/voiture/4/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+
+
+</div>
+{% else %}{% if lang =="french" %}
+<div class="french container-fluid-auto">
+    <div class="content">
+        <h1 class="center-text-car">Classe et Nombre de CV? </h1>
+    </div>
+    <form class="third-form" method="post" action="/voiture/6/{{lang}}">
+        <div class="row" style="text-align: center;">
+        
+            <div class="form-group col-md-6">
+                <label for="classe">Classe</label>
+                <select class="form-control" style="float: left;" name="classe" id="classe">
+                    <option>Sélectionner la classe</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8 (si c'est votre premier véhicule)</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>11</option>
+                </select>
+            </div>
+        
+            <div class="form-group col-md-6">
+                <label for="classe">Nombre de Chevaux Fiscaux du véhicule</label>
+                <select class="form-control" style="float: right;" name="nbcv" id="nbcv">
+                    <option>Sélectionner</option>
+                    <option>2</option>
+                    <option>3-4</option>
+                    <option>5-6</option>
+                    <option>7-10</option>
+                    <option>11-14</option>
+                    <option>15+</option>
+                </select>
+            </div>
+            
+
+        </div>
+        <div class="row">
+            <button type="submit" name="vform5" class="btn btn-primary col-2">Suivant</button>
+        </div>
+    </form>
+    <div class="back"><a href="/voiture/4/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang =="arabe" %}
+<div class="arab container-fluid-auto">
+    <div class="content">
+        <h1 class="center-text-car">سلم المكافأة وعدد الزوايل؟</h1>
+    </div>
+    <form class="third-form" method="post" action="/voiture/6/{{lang}}">
+        <div class="row" style="text-align: center;">
+            <div class="form-group col-md-6">
+                <label for="classe">سلم المكافأة</label>
+                <select class="form-control" style="float: right;" name="classe" id="classe">
+                    <option>إختار السلم</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>(إذا هذي أول كرهبة ليك) 8</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>11</option>
+                </select>
+            </div>
+            
+            <div class="form-group col-md-6">
+                <label for="classe">كرهبتك قداش فيها من خيالي؟</label>
+                <select class="form-control" style="float: right;" name="nbcv" id="nbcv">
+                    <option>إختار</option>
+                    <option>2</option>
+                    <option>3-4</option>
+                    <option>5-6</option>
+                    <option>7-10</option>
+                    <option>11-14</option>
+                    <option>15+</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="vform5" class="btn btn-primary col-2">التالي</button>
+        </div>
+    </form>
+    <div class="back"><a href="/voiture/4/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+
+</div>
+
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}

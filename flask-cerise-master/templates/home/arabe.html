@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}arabe home{% endblock %}
+{% block sidenav %}
+    <a href="/home/arabe">الرئيسية</a>
+    <a href="#">معلومات</a>
+    <a href="#">مطالب</a>
+    <a href="/login/arabe">حسابي</a>
+    <a href="/voiture/1/arabe" class="insurence-btn">تأمين سيارات</a>
+    <a href="/vie" class="insurence-btn">تأمين حياة</a>
+{% endblock %}
+{% block style %}
+<style>
+    .container-fluid{
+        padding-top: 50px;
+    }
+</style>
+{% endblock %}
+{% block lang %}Ar{% endblock %}
+{% block navbarli %}
+<li >
+    <a class="arab" href="/home/arabe">الرئيسية</a>
+</li>
+<li >
+    <a class="arab" href="#">معلومات </a>
+</li>
+<li >
+    <a class="arab" href="#">مطالب</a>
+</li>
+<li class="pull-right">
+    <a href="/login/arabe">حسابي</a>
+</li>
+<li class="pull-right">
+    <a href="/addreport/1/arabe">محضر</a>
+</li>
+<li class="pull-right">
+    <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
+    <div class="dropdown show">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Ar
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="/home/arabe">Ar</a>
+            <a class="dropdown-item" href="/home/french">Fr</a>
+            <a class="dropdown-item" href="/home/english">Eng</a>
+        </div>
+    </div>
+</li>
+<li class="pull-right">
+    <a href="/voiture/1/english" class="insurence-btn">تأمين سيارات</a>
+</li>
+<li class="pull-right">
+    <a href="/vie" class="insurence-btn">تأمين حياة</a>
+</li>
+{% endblock %}
+{% block body %}
+<div class="container-fluid">
+    <h1>أمّن دارك واطمان على صغارك </h1>
+    <p>بقلب كبير وبثمن صغير أمن دارك في وقت قصير </p>
+    <a href="/signup/1/{{ lang }}">
+        <button class="btn btn-primary">خوذ فكرة على السوم</button>
+    </a>
+</div>
+{% endblock %}
+

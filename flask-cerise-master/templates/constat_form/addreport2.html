@@ -1,0 +1,69 @@
+{% extends "constat_form/sign.html" %}
+{% block title %} add report {% endblock %}
+{% block body %}
+{% if error %}
+<div class="alert alert-danger">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid">
+    <div class="content">
+        <h1 class="center-text">Hour of the accident!</h1>
+    </div>
+    <form class="first_form" method="post" action="/addreport/3/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+            <input type="time" class="form-control" name="time" id="time"
+                   placeholder="Time of accident">
+        </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form102" class="btn btn-primary col-2">Next!</button>
+        </div>
+    </form>
+    <div class="back"><a href="/addreport/1/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a>
+    </div>
+</div>
+{% else %}{% if lang =="arabe" %}
+<div class="arab container-fluid">
+    <div class="content">
+        <h1 class="center-text">!ساعة الحادث</h1>
+    </div>
+    <form class="first_form" method="post" action="/addreport/3/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+            <input type="time" class="form-control" name="time" id="time"
+                   placeholder="Time of accident">
+        </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form102" class="btn btn-primary col-2">Next!</button>
+        </div>
+    </form>
+    <div class="back"><a href="/addreport/1/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a>
+    </div>
+</div>
+{% else %}{% if lang=="french" %}
+<div class="french container-fluid">
+    <div class="content">
+        <h1 class="center-text">Heure de l'accident!</h1>
+    </div>
+    <form class="first_form" method="post" action="/addreport/3/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+            <input type="time" class="form-control" name="time" id="time"
+                   placeholder="Time of accident">
+        </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form102" class="btn btn-primary col-2">Next!</button>
+        </div>
+    </form>
+    <div class="back"><a href="/addreport/1/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+{%endblock%}
+{% block scripts %}
+{%endblock%}

@@ -1,0 +1,118 @@
+{%extends "vie/sign.html"%}
+{% block dropdownlink %}
+<div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
+    <a class="dropdown-item" href="/vie/3/?lang=ar">Ar</a>
+    <a class="dropdown-item" href="/vie/3/?lang=fr">Fr</a>
+    <a class="dropdown-item" href="/vie/3/?lang=en">Eng</a>
+</div>
+{% endblock %}
+{% block body %}
+{% if lang=='en' %}
+{% if error %}
+<div class="alert alert-dark">{{error['enx']}}</div>
+{% endif %}
+<div class="back"><a href="/vie/22"><img alt="" id="back-arrow" src="/static/images/back.png "></a></div>
+
+
+<div class="english container-fluid vie">
+    <div class="content">
+        <h1 class="center-text">Tell us more about your health!</h1>
+    </div>
+    <form action="#" id="first_form" method="post">
+        <div class="row">
+
+            <div class="form-group col-xs-12 col-md-6 ">
+                <h3>Your height?</h3>
+
+                <input class="form-control" name="h" placeholder="value in cm.." required='required'
+                       style="float: right;"
+                       type="text">
+            </div>
+            <div class="form-group col-xs-12 col-md-6">
+                <h3>Your weight?</h3>
+
+                <input class="form-control" name="w" placeholder="value in kg.." required="required"
+                       style="float: left"
+                       type="text">
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary col-2" style="margin-left: 42%" type="submit">Go</button>
+            <!--            <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+</div>
+
+{% endif %}
+
+
+{% if lang=='fr' %}
+
+<div class="back"><a href="/vie/22"><img alt="" id="back-arrow" src="/static/images/back.png "></a></div>
+
+
+<div class="english container-fluid vie">
+    <div class="content">
+        <h1 class="center-text">Parlez nous de votre santé!</h1>
+    </div>
+     <form action="#" id="first_form" method="post">
+        <div class="row">
+
+            <div class="form-group col-xs-12 col-md-6 ">
+                <h3>Votre taille?</h3>
+
+                <input class="form-control" name="h" placeholder="en cm.." required='required'
+                       style="float: right;"
+                       type="text">
+            </div>
+            <div class="form-group col-xs-12 col-md-6">
+                <h3>Votre poids?</h3>
+
+                <input class="form-control" name="w" placeholder="en kg.." required="required"
+                       style="float: left"
+                       type="text">
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary col-2" style="margin-left: 42%" type="submit">Go</button>
+            <!--            <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+</div>
+{% endif %}
+
+{% if lang=='ar'%}
+
+<div class="back"><a href="/vie/22"><img alt="" id="back-arrow" src="/static/images/back.png "></a></div>
+
+
+<div class="english container-fluid vie">
+    <div class="content">
+        <h1 class="center-text">أحكيلنا على صحتك!</h1>
+    </div>
+    <form action="#" id="first_form" method="post">
+        <div class="row">
+
+            <div class="form-group col-xs-12 col-md-6 ">
+                <h3>كم طولك؟</h3>
+
+                <input class="form-control" name="h" placeholder="بالسنتيمتر.." required='required'
+                       style="float: right;"
+                       type="text">
+            </div>
+            <div class="form-group col-xs-12 col-md-6">
+                <h3>كم وزنك؟</h3>
+
+                <input class="form-control" name="w" placeholder="بالكيلوجرام.." required="required"
+                       style="float: left"
+                       type="text">
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary col-2" style="margin-left: 42%" type="submit">Go</button>
+            <!--            <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+</div>
+{% endif %}
+{% endblock %}

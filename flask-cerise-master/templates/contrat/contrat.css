@@ -1,0 +1,24 @@
+
+.top{
+    width: 100%;
+    height: 60px;
+    text-align: center;
+}
+.hh{
+    border-bottom: 1px solid #ff3a5a;
+    width: 80%;
+    margin: auto;
+}
+.container{
+    border: 1px solid #bbbbbb;
+    padding-top: 50px;
+    margin-bottom: 50px;
+}
+.signature img{
+    width: 60px;
+    display: block;
+}
+.signature div{
+    position: fixed;
+    bottom: -50px;
+}

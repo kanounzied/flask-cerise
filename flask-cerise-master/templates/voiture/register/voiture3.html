@@ -1,0 +1,136 @@
+{% extends 'auto.html' %}
+{% block nbr %}{{ nbr }}{% endblock %}
+{% block sidenav %}
+{% if lang == "english" %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<a href="#">Claims</a>
+<a href="#">My account</a>
+{% else %}{% if lang =="arabe" %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="#">معلومات</a>
+<a href="#">مطالب</a>
+<a href="#">حسابي</a>
+{% else %}{% if lang=="french" %}
+<a href="/home/french">Acceuil</a>
+<a href="#">Informations</a>
+<a href="#">Réclamations</a>
+<a href="#">Mon compte</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block lang %}
+{{lang}}
+{% endblock %}
+{% block style %}
+<style>
+    .form-check{
+        margin-bottom: 0;
+    }
+    .container-fluid{
+        padding-top: 0;
+    }
+    label h2{
+        background-color: white;
+    }
+
+</style>
+{% endblock %}
+{% block body %}
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid-auto">
+    <!--  <div class="content">
+       <h1 class="center-text">Now please enter some of your vehicle information!</h1> 
+    </div> -->
+    <div class="content">
+        <h1 class="center-text-car">Vehicle values?</h1>
+    </div>
+        <form class="third-form" method="post" action="/voiture/4/{{lang}}">
+            <div class="row" style="text-align: center;">
+                
+                <div class="form-group col-md-6">
+                    <label for="valeur_a_neuf">New vehicle value</label>
+                    <input type="text" style="float: right;" class="form-control" name="valeur_a_neuf" id="valeur_a_neuf" value="{{valeurneuf|string}}"
+                    placeholder="Exp: 40.000DT">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="valeur_actuelle">Vehicle current value </label>
+                    <input type="text" style="float: right;" class="form-control" name="valeur_actuelle" id="valeur_actuelle" value="{{valeuract|string}}"
+                    placeholder="Exp: 20.000DT">
+                </div>
+                
+            </div>
+            <div class="row">
+                <button type="submit" name="vform3" class="btn btn-primary col-2">Next</button>
+            </div>
+        </form>
+        <div class="back"><a href="/voiture/2/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang =="french" %}
+<div class="french container-fluid-auto">
+<!--<div class="content">
+        <h1 class="center-text">Now please enter some of your vehicle information!</h1> 
+    </div> -->
+    <div class="content">
+        <h1 class="center-text-car">Valeurs du véhicules?</h1>
+    </div>
+        <form class="third-form" method="post" action="/voiture/4/{{lang}}">
+            <div class="row" style="text-align: center;">
+                <div class="form-group col-md-6">
+                    <label for="valeur_a_neuf">Valeur à neuf du véhicule</label>
+                    <input type="text" style="float: left;" class="form-control" name="valeur_a_neuf" id="valeur_a_neuf" value="{{valeurneuf|string}}"
+                    placeholder="Exp: 40.000DT">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="valeur_actuelle">Valeur actuelle du véhicule</label>
+                    <input type="text" style="float: left;" class="form-control" name="valeur_actuelle" id="valeur_actuelle" value="{{valeuract|string}}"
+                    placeholder="Exp: 20.000DT">
+                </div>
+                
+            </div>
+            <div class="row">
+                <button type="submit" name="vform3" class="btn btn-primary col-2">Suivant</button>
+            </div>
+        </form>
+        <div class="back"><a href="/voiture/2/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+
+</div>
+
+{% else %}{% if lang =="arabe" %}
+<div class="arab container-fluid-auto">
+<!--<div class="content">
+        <h1 class="center-text">Now please enter some of your vehicle information!</h1> 
+    </div> -->
+    <div class="content">
+        <h1 class="center-text-car">أسوام الكرهبة؟</h1>
+    </div>
+        <form class="third-form" method="post" action="/voiture/4/{{lang}}">
+            <div class="row" style="text-align: center;">
+                <div class="form-group col-md-6">
+                    <label for="valeur_a_neuf">قيمة كرهبتك وهي جديدة</label>
+                    <input type="text" style="float: right;" class="form-control" name="valeur_a_neuf" id="valeur_a_neuf" value="{{valeurneuf|string}}"
+                    placeholder="مثال: 40.000 دينار">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="valeur_actuelle">قيمة كرهبتك الحالية</label>
+                    <input type="text" style="float: right;" class="form-control" name="valeur_actuelle" id="valeur_actuelle" value="{{valeuract|string}}"
+                    placeholder="مثال: 20.000 دينار">
+                </div>
+                
+            </div>
+            <div class="row">
+                <button type="submit" name="vform3" class="btn btn-primary col-2">التالي</button>
+            </div>
+        </form>
+        <div class="back"><a href="/voiture/2/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+
+</div>
+
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
