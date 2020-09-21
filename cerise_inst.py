@@ -417,12 +417,12 @@ def signup(nbr, lang):
     if session == {'_permanent': True} and int(nbr) > 1:  # if session vide wenti moch fel page 1
         return redirect("/signup/1/" + lang)
 
-    # if int(nbr) in range(2, 15) and ('form' + str(int(nbr) - 1) not in session):
-    #     form = ""
-    #     for i in range(2, 15):
-    #         if ('form' + str(i)) in session:
-    #             form = str(i - 1)
-    #     return redirect("/signup/" + form + "/" + lang)
+    if int(nbr) in range(2, 15) and ('form' + str(int(nbr) - 1) not in session):
+        form = ""
+        for i in range(2, 15):
+            if ('form' + str(i)) in session:
+                form = str(i - 1)
+        return redirect("/signup/" + form + "/" + lang)
     nom = ""
     prenom = ""
     adresse = ""
@@ -1131,6 +1131,7 @@ def voiture(nbr,lang):
             #session['email'] = email
             session['vform9'] = 'submitted'
             return render_template('confirm/confirmv.html', confirmed=False, error=verify, lang=lang)
+            
         if 'vform9b' in req:
             pwderror = ''
             mailerr = ''
