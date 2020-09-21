@@ -31,7 +31,10 @@
     .container-fluid{
         padding-top: 0;
     }
-    label h2{
+    label h5{
+        background-color: white;
+    }
+    label h6{
         background-color: white;
     }
 
@@ -60,10 +63,14 @@
                     Towing
                 </label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage1" value="remorquage_non" onchange="hideR('1','1')" checked> No
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage2" value="remorquage_oui" onchange="hideR('1','2')"> Yes     
-     
+                <div class="box">
+                    
+                    <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage1" value="remorquage_non" onchange="hideR('1','1')" checked> 
+                    <label for="remorquage1" class="form-check-label without"><h6>No</h6></label>
+                    <br/>
+                    <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage2" value="remorquage_oui" onchange="hideR('1','2')">     
+                    <label for="remorquage2" class="form-check-label without"><h6>Yes</h6></label>
+                </div>
             </div>
             <div class="form-group col-md-6">
                 <label class="form-check-label with_img" for="pers_trans">
@@ -77,13 +84,14 @@
                     People transported
                 </label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap"  name="pers_trans" id="pers_trans1" value="pers_trans_non" onchange="hideP('2','1')" onclick="pers_t(1)" checked > No
+                <input type = "radio" class="form-check-input with-gap"  name="pers_trans" id="pers_trans1" value="pers_trans_non" onchange="hideP('2','1')" onclick="pers_t(1)" checked > 
+                <label for="pers_trans1" class="form-check-label without"><h6>No</h6></label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap"  name="pers_trans" id="pers_trans2" value="pers_trans_oui" onchange="hideP('2','2')" onclick="pers_t(0)"> Yes        
-   
+                <input type = "radio" class="form-check-input with-gap"  name="pers_trans" id="pers_trans2" value="pers_trans_oui" onchange="hideP('2','2')" onclick="pers_t(0)">         
+                <label for="pers_trans2" class="form-check-label without"><h6>Yes</h6></label>
             </div>
             <div class="form-group col-md-6">
-                <label style="display: none;" for="classe" id="text1">Nbr of pple in the gray card</label>
+                <label style="display: none;" for="classe" id="text1"><h6>Nbr of pple in the gray card</h6></label>
                 <select style="display: none;" class="form-control" style="float: right;" name="nbp" id="nbp">
                     <option>Select</option>
                     <option>1</option>
@@ -98,7 +106,7 @@
                 </select>
             </div>
             <div class="form-group col-md-6">
-                <label style="display: none;" for="capital_d" id="text2">Death benefit</label>
+                <label style="display: none;" for="capital_d" id="text2"><h6>Death benefit</h6></label>
                 <select style="display: none;" class="form-control" style="float: right;" name="capital_d" id="capital_d">
                     <option>5000DT</option>
                     <option>6000DT</option>
@@ -153,10 +161,11 @@
                     رمركاج
                 </label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap"  name="remorquage" id="remorquage1" value="remorquage_non" onchange="hideR('1','1')" checked> لا
+                <input type = "radio" class="form-check-input with-gap"  name="remorquage" id="remorquage1" value="remorquage_non" onchange="hideR('1','1')" checked> 
+                <label for="remorquage1" class="form-check-label without"><h6>لا</h6></label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap"  name="remorquage" id="remorquage2" value="remorquage_oui" onchange="hideR('1','2')"> نعم     
-       
+                <input type = "radio" class="form-check-input with-gap"  name="remorquage" id="remorquage2" value="remorquage_oui" onchange="hideR('1','2')">     
+                <label for="remorquage2" class="form-check-label without"><h6>نعم</h6></label>
             </div>
             <div class="form-group col-md-6">
                 <label class="form-check-label with_img" for="pers_trans">
@@ -170,13 +179,14 @@
                     نقل الناس 
                 </label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap" name="pers_trans" id="pers_trans1" value="pers_trans_non" onchange="hideP('2','1')" onclick="pers_t(1)"  checked> لا
+                <input type = "radio" class="form-check-input with-gap" name="pers_trans" id="pers_trans1" value="pers_trans_non" onchange="hideP('2','1')" onclick="pers_t(1)"  checked> 
+                <label for="pers_trans1" class="form-check-label without"><h6>لا</h6></label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap" name="pers_trans" id="pers_trans2" value="pers_trans_oui" onchange="hideP('2','2')" onclick="pers_t(0)" > نعم        
-   
+                <input type = "radio" class="form-check-input with-gap" name="pers_trans" id="pers_trans2" value="pers_trans_oui" onchange="hideP('2','2')" onclick="pers_t(0)" >       
+                <label for="pers_trans2" class="form-check-label without"><h6>نعم</h6></label>
             </div>
             <div class="form-group col-md-6">
-                <label style="display: none;" for="classe" id="text1">عدد الأشخاص في البطاقة الرمادية</label>
+                <label style="display: none;" for="classe" id="text1"><h6>عدد الأشخاص في البطاقة الرمادية</h6></label>
                 <select style="display: none;" class="form-control" style="float: right;" name="nbp" id="nbp">
                     <option>إختار</option>
                     <option>1</option>
@@ -191,7 +201,7 @@
                 </select>
             </div>
             <div class="form-group col-md-6">
-                <label style="display: none;" for="capital_d" id="text2">استحقاقات الوفاة</label>
+                <label style="display: none;" for="capital_d" id="text2"><h6>استحقاقات الوفاة</h6></label>
                 <select style="display: none;" class="form-control" style="float: right;" name="capital_d" id="capital_d">
                     <option>5000DT</option>
                     <option>6000DT</option>
@@ -244,9 +254,11 @@
                         Remorquage
                     </label>
                     <br/>
-                    <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage1" value="remorquage_non" onchange="hideR('1','1')" checked> Non
+                    <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage1" value="remorquage_non" onchange="hideR('1','1')" checked> 
+                    <label for="remorquage1" class="form-check-label without"><h6>Non</h6></label>
                     <br/>
-                    <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage2" value="remorquage_oui" onchange="hideR('1','2')"> Oui 
+                    <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage2" value="remorquage_oui" onchange="hideR('1','2')">  
+                    <label for="remorquage2" class="form-check-label without"><h6>Oui</h6></label>
                 </div>
                 <div class="form-group col-md-6">
                     <label class="form-check-label with_img" for="pers_trans">
@@ -260,13 +272,14 @@
                         Personnes transportées
                     </label>
                     <br/>
-                    <input type = "radio" class="form-check-input with-gap" name="pers_trans" id="pers_trans1" value="pers_trans_non" onchange="hideP('2','1')" onclick="pers_t(1)"  checked> Non
+                    <input type = "radio" class="form-check-input with-gap" name="pers_trans" id="pers_trans1" value="pers_trans_non" onchange="hideP('2','1')" onclick="pers_t(1)"  checked> 
+                    <label for="pers_trans1" class="form-check-label without"><h6>Non</h6></label>
                     <br/>
-                    <input type = "radio" class="form-check-input with-gap" name="pers_trans" id="pers_trans2" value="pers_trans_oui" onchange="hideP('2','2')" onclick="pers_t(0)" > Oui        
-       
+                    <input type = "radio" class="form-check-input with-gap" name="pers_trans" id="pers_trans2" value="pers_trans_oui" onchange="hideP('2','2')" onclick="pers_t(0)" >         
+                    <label for="pers_trans2" class="form-check-label without"><h6>Oui</h6></label>
                 </div> 
                 <div class="form-group col-md-6">
-                    <label style="display: none;" for="classe" id="text1">Nbr de prs dans la carte grise</label>
+                    <label style="display: none;" for="classe" id="text1"><h6>Nbr de prs dans la carte grise</h6></label>
                     <select style="display: none;" class="form-control" style="float: right;" name="nbp" id="nbp">
                         <option>Sélectionner</option>
                         <option>1</option>
@@ -281,7 +294,7 @@
                     </select>
                 </div>
                 <div class="form-group col-md-6">
-                    <label style="display: none;" for="capital_d" id="text2">Capital décès</label>
+                    <label style="display: none;" for="capital_d" id="text2"><h6>Capital décès</h6></label>
                     <select style="display: none;" class="form-control" style="float: right;" name="capital_d" id="capital_d">
                         <option>5000DT</option>
                         <option>6000DT</option>

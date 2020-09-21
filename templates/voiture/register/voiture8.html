@@ -31,7 +31,10 @@
     .container-fluid{
         padding-top: 0;
     }
-    label h2{
+    label h5{
+        background-color: white;
+    }
+    label h6{
         background-color: white;
     }
 
@@ -62,10 +65,14 @@
                 <br/>
                 
                 <input type = "radio"  onclick="cond_p(1)" name="conducteur_plus" id="conducteur_plus1" value="conducteur_plus_non" onchange="hide('1','1','conducteur_plus')" checked>
-                <label for="conducteur_plus1" class="form-check-label without">No</label>
+                <label for="conducteur_plus1" class="form-check-label without">
+                    <h6>No</h6>
+                </label>
                 <br/>
                 <input type = "radio"  onclick="cond_p(0)" name="conducteur_plus" id="conducteur_plus2" value="conducteur_plus_oui" onchange="hide('1','2','conducteur_plus')">       
-                <label for="conducteur_plus2" class="form-check-label without">Yes</label>
+                <label for="conducteur_plus2" class="form-check-label without">
+                    <h6>Yes</h6>
+                </label>
                 
             </div>
             <div class="form-group col-md-6">
@@ -80,16 +87,20 @@
                     Damage
                 </label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="dommage(1)" name="damage" id="damage1" value="damage_basique" onchange="hideD('2','1','damage','brokencar')" checked> No
+                <input type = "radio" class="form-check-input with-gap" onclick="dommage(1)" name="damage" id="damage1" value="damage_basique" onchange="hideD('2','1','damage','brokencar')" checked> 
+                <label for="damage1" class="form-check-label without"><h6>No</h6></label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="dommage(0)" name="damage" id="damage2" value="damage_col" onchange="hideD('2','2','damage','brokencar')"> Collisions 
+                <input type = "radio" class="form-check-input with-gap" onclick="dommage(0)" name="damage" id="damage2" value="damage_col" onchange="hideD('2','2','damage','brokencar')"> 
+                <label for="damage2" class="form-check-label without"><h6>Collisions</h6></label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="dommage(2)" name="damage" id="damage3" value="damage_tr" onchange="hideD('2','3','damage','brokencar')"> All risks      
-      
+                <input type = "radio" class="form-check-input with-gap" onclick="dommage(2)" name="damage" id="damage3" value="damage_tr" onchange="hideD('2','3','damage','brokencar')">     
+                <label for="damage3" class="form-check-label without"><h6>All risks</h6></label>
             </div>
             
             <div class="form-group col-md-6">
-                <label style="display: none;" for="capital_assure_cp" id="text5">Insured capital</label>
+                <label style="display: none;" for="capital_assure_cp" id="text5">
+                    <h6>Insured capital</h6>
+                </label>
                 <select style="display: none;" class="form-control" style="float: right;" name="capital_assure_cp" id="capital_assure_cp">
                     <option>5000DT</option>
                     <option>10000DT</option>
@@ -104,7 +115,7 @@
                 </select>
             </div>
             <div class="form-group col-md-6">
-                <label style="display: none;" for="capital_assure_d" id="text6">Insured capital</label>
+                <label style="display: none;" for="capital_assure_d" id="text6"><h6>Insured capital</h6></label>
                 <select style="display: none;" class="form-control" style="float: right;" name="capital_assure_d" id="capital_assure_d">
                     <option>500DT</option>
                     <option>1000DT</option>
@@ -122,7 +133,7 @@
                     <option>12000DT</option>  
                     <option>15000DT</option>                 
                 </select>
-                <label style="display: none;" for="franchise" id="text7">Franchise</label>
+                <label style="display: none;" for="franchise" id="text7"><h6>Franchise</h6></label>
                 <select style="display: none;" class="form-control" style="float: right;" name="franchise" id="franchise">
                     <option>0%</option>
                     <option>1%</option>
@@ -154,16 +165,21 @@
                         <source class="source _1" srcset="/static/images/driver.png">
                         <img src="/static/images/driver.png" alt="ownimage">
                     </picture>
-                    <h5>زائد السائق</h5>
+                    <h5>تأمين تكميلي للسائق</h5>
                 </label>
                 <label style="display: none" class="form-check-label without" for="driverplus">
-                    زائد السائق
+                    تأمين تكميلي للسائق
                </label>
                 <br/>
                 <input type = "radio" class="form-check-input with-gap" onclick="cond_p(1)" name="conducteur_plus" id="conducteur_plus1" value="conducteur_plus_non" onchange="hide('1','1','conducteur_plus')" checked> لا
+                <label for="conducteur_plus1" class="form-check-label without">
+                    <h6>لا</h6>
+                </label>
                 <br/>
                 <input type = "radio" class="form-check-input with-gap" onclick="cond_p(0)" name="conducteur_plus" id="conducteur_plus2" value="conducteur_plus_oui" onchange="hide('1','2','conducteur_plus')"> نعم      
-   
+                <label for="conducteur_plus2" class="form-check-label without"> 
+                    <h6>نعم</h6>
+                </label>
             </div>
             
            
@@ -179,17 +195,27 @@
                     ضرر
                 </label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="dommage(1)" name="damage" id="damage1" value="damage_basique" onchange="hideD('2','1','damage','brokencar')" checked> لا
+                <input type = "radio" class="form-check-input with-gap" onclick="dommage(1)" name="damage" id="damage1" value="damage_basique" onchange="hideD('2','1','damage','brokencar')" checked> 
+                <label for="damage1" class="form-check-label without">
+                    <h6>لا</h6>
+                </label>
                 <br/>
                 <input type = "radio" class="form-check-input with-gap" onclick="dommage(0)" name="damage" id="damage2" value="damage_col" onchange="hideD('2','2','damage','brokencar')"> اصطدامات 
+                <label for="damage2" class="form-check-label without">
+                    <h6>اصطدامات</h6>
+                </label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="dommage(2)" name="damage" id="damage3" value="damage_tr" onchange="hideD('2','3','damage','brokencar')"> كل المخاطر     
-              
+                <input type = "radio" class="form-check-input with-gap" onclick="dommage(2)" name="damage" id="damage3" value="damage_tr" onchange="hideD('2','3','damage','brokencar')"> كل      
+                <label for="damage3" class="form-check-label without"> 
+                    <h6>كل المخاطر</h6>
+                </label>
             </div>
             
             
             <div class="form-group col-md-6">
-                <label style="display: none;" for="capital_assure_cp" id="text5">راس المال المؤمن</label>
+                <label style="display: none;" for="capital_assure_cp" id="text5">
+                    <h6>راس المال المؤمن</h6>
+                </label>
                 <select style="display: none;" class="form-control" style="float: right;" name="capital_assure_cp" id="capital_assure_cp">
                     <option>5000DT</option>
                     <option>10000DT</option>
@@ -204,7 +230,9 @@
                 </select>
             </div>  
             <div class="form-group col-md-6">
-                <label style="display: none;" for="capital_assure_d" id="text6">راس المال المؤمن</label>
+                <label style="display: none;" for="capital_assure_d" id="text6">
+                    <h6>راس المال المؤمن</h6>
+                </label>
                 <select style="display: none;" class="form-control" style="float: right;" name="capital_assure_d" id="capital_assure_d">
                     <option>500DT</option>
                     <option>1000DT</option>
@@ -222,7 +250,7 @@
                     <option>12000DT</option>  
                     <option>15000DT</option>                 
                 </select>
-                <label style="display: none;" for="franchise" id="text7">إعفاء</label>
+                <label style="display: none;" for="franchise" id="text7"><h6>إعفاء</h6></label>
                 <select style="display: none;" class="form-control" style="float: right;" name="franchise" id="franchise">
                     <option>0%</option>
                     <option>1%</option>
@@ -247,7 +275,7 @@
     </div>
     <form class="fifth-form" method="post" action="/voiture/9/{{lang}}">
         <div class="row" style="text-align: center;">
-            <div class="form-group col-md-6 box" >
+            <div class="form-group col-md-6 " >
                 <label class="form-check-label with_img" for="driverplus">
                     <picture>
                         <source class="source _1" srcset="/static/images/driver.png">
@@ -260,9 +288,10 @@
                 </label>
                 <br/>
                 <input type = "radio" class="form-check-input with-gap" onclick="cond_p(1)" name="conducteur_plus" id="conducteur_plus1" value="conducteur_plus_non" onchange="hide('1','1','conducteur_plus')" checked> Non
+                <label for="conducteur_plus1" class="form-check-label without"><h6>Non</h6></label>
                 <br/>
                 <input type = "radio" class="form-check-input with-gap" onclick="cond_p(0)" name="conducteur_plus" id="conducteur_plus2" value="conducteur_plus_oui" onchange="hide('1','2','conducteur_plus')" > Oui      
-
+                <label for="conducteur_plus2" class="form-check-label without"><h6>Oui</h6></label>
             </div>       
             <div class="form-group col-md-6">
                 <label class="form-check-label with_img" for="brokencar">
@@ -275,20 +304,19 @@
                 <label style="display: none" class="form-check-label without" for="damage">
                     Dommage
                 </label>
+                <br/>      
+                <input type = "radio" class="form-check-input with-gap" onclick="dommage(1)" name="damage" id="damage1" value="damage_basique" onchange="hideD('2','1','damage','brokencar')" checked>
+                <label for="damage1" class="form-check-label without"><h6>Non</h6></label>
                 <br/>
-                <div class="box">
-                    <label>
-                        <input type = "radio" class="form-check-input with-gap" onclick="dommage(1)" name="damage" id="damage1" value="damage_basique" onchange="hideD('2','1','damage','brokencar')" checked> Non
-                        <br/>
-                        <input type = "radio" class="form-check-input with-gap" onclick="dommage(0)" name="damage" id="damage2" value="damage_col" onchange="hideD('2','2','damage','brokencar')"> Collisions
-                        <br/>
-                        <input type = "radio" class="form-check-input with-gap" onclick="dommage(2)" name="damage" id="damage3" value="damage_tr" onchange="hideD('2','3','damage','brokencar')"> Tous risques       
-                    </label>
-                </div>
+                <input type = "radio" class="form-check-input with-gap" onclick="dommage(0)" name="damage" id="damage2" value="damage_col" onchange="hideD('2','2','damage','brokencar')">
+                <label for="damage2" class="form-check-label without"><H6>Collisions</H6></label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="dommage(2)" name="damage" id="damage3" value="damage_tr" onchange="hideD('2','3','damage','brokencar')">       
+                <label for="damage3" class="form-check-label without"><h6>Tous risques</h6></label>
             </div>
         
             <div class="form-group col-md-6">
-                <label style="display: none;" for="capital_assure_cp" id="text5">Capital assuré</label>
+                <label style="display: none;" for="capital_assure_cp" id="text5"><h6>Capital assuré</h6></label>
                 <select style="display: none;" class="form-control" style="float: right;" name="capital_assure_cp" id="capital_assure_cp">
                     <option>5000DT</option>
                     <option>10000DT</option>
@@ -303,7 +331,7 @@
                 </select>
             </div>
             <div class="form-group col-md-6">
-                <label style="display: none;" for="capital_assure_d" id="text6">Capital assuré</label>
+                <label style="display: none;" for="capital_assure_d" id="text6"><h6>Capital assuré</h6></label>
                 <select style="display: none;" class="form-control" style="float: right;" name="capital_assure_d" id="capital_assure_d">
                     <option>500DT</option>
                     <option>1000DT</option>
@@ -321,7 +349,7 @@
                     <option>12000DT</option>  
                     <option>15000DT</option>                 
                 </select>
-                <label style="display: none;" for="franchise" id="text7">Franchise</label>
+                <label style="display: none;" for="franchise" id="text7"><h6>Franchise</h6></label>
                 <select style="display: none;" class="form-control" style="float: right;" name="franchise" id="franchise">
                     <option>0%</option>
                     <option>1%</option>
