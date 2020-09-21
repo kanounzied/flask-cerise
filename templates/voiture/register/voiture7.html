@@ -1,4 +1,4 @@
-{% extends 'sign.html' %}
+{% extends 'auto.html' %}
 {% block nbr %}{{ nbr }}{% endblock %}
 {% block sidenav %}
 {% if lang == "english" %}
@@ -42,9 +42,9 @@
 <div class="alert alert-dark">{{error}}</div>
 {% endif %}
 {% if lang == "english" %}
-<div class="english container-fluid">
+<div class="english container-fluid-auto">
     <div class="content">
-        <h1 class="center-text">What do you want to guarantee?</h1>
+        <h1 class="center-text-car">What do you want to guarantee?</h1>
     </div>
     <form class="fifth-form" method="post" action="/voiture/8/{{lang}}">
         <div class="row" style="text-align: center;">
@@ -53,34 +53,36 @@
                 <label class="form-check-label with_img" for="brisglace">
                     <picture>
                         <source class="source _1" srcset="/static/images/windshield.png">
-                        <img src="/static/images/windshield.png" alt="windsheild">
+                        <img src="/static/images/windshield.png" alt="ownimage">
                     </picture>
                     <h5>Broken glass</h5>
                 </label>
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="bris_g(1)" name="bris_glace" id="bris_glace" value="bris_glace_non" onchange="hide('0')" checked> No
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="bris_g(0)" name="bris_glace" id="bris_glace" value="bris_glace_oui" onchange="hide('1')"> Yes      
                 <label style="display: none" class="form-check-label without" for="brisglace">
                     Broken glass
                 </label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="bris_g(1)" name="bris_glace" id="bris_glace1" value="bris_glace_non" onchange="hideR('1','1')" checked> No
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="bris_g(0)" name="bris_glace" id="bris_glace2" value="bris_glace_oui" onchange="hideR('1','2')"> Yes      
+      
             </div>
 
             <div class="form-group col-md-6">
                 <label class="form-check-label with_img" for="radiocass">
                     <picture>
-                        <source class="source _1" srcset="/static/images/carradio.png">
+                        <source class="source _2" srcset="/static/images/carradio.png">
                         <img src="/static/images/carradio.png" alt="ownimage">
                     </picture>
                     <h5>Tape player</h5>
                 </label>
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="radio_c(1)" name="radio_ca7" id="radio_ca7" value="radio_ca7" checked> No
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="radio_c(0)" name="radio_ca7" id="radio_ca7" value="radio_ca7">  Yes     
                 <label style="display: none" class="form-check-label without" for="radiocass">
                     Tape player
                 </label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="radio_c(1)" name="radio_ca7" id="radio_ca71" value="radio_ca7_non" onchange="hideP('2','1')" checked> No
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="radio_c(0)" name="radio_ca7" id="radio_ca72" value="radio_ca7_oui" onchange="hideP('2','2')">  Yes     
+     
             </div>
             
             <div class="form-group col-md-6">
@@ -103,9 +105,9 @@
 
 </div>
 {% else %}{% if lang == "arabe" %}
-<div class="arab container-fluid">
+<div class="arab container-fluid-auto">
     <div class="content">
-        <h1 class="center-text">شنية تحب تأمن؟</h1>
+        <h1 class="center-text-car">شنية تحب تأمن؟</h1>
     </div>
     <form class="fifth-form" method="post" action="/voiture/8/{{lang}}">
         <div class="row" style="text-align: center;">
@@ -118,30 +120,32 @@
                     </picture>
                     <h5>بلار مكسور</h5>
                 </label>
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="bris_g(1)" name="bris_glace" id="bris_glace" value="bris_glace_non" onchange="hide('0')" checked> لا
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="bris_g(0)" name="bris_glace" id="bris_glace" value="bris_glace_oui" onchange="hide('1')"> نعم      
                 <label style="display: none" class="form-check-label without" for="brisglace">
                     بلار مكسور
                 </label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="bris_g(1)" name="bris_glace" id="bris_glace1" value="bris_glace_non" onchange="hideR('1','1')" checked> لا
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="bris_g(0)" name="bris_glace" id="bris_glace2" value="bris_glace_oui" onchange="hideR('1','2')"> نعم      
+     
             </div>
 
             <div class="form-group col-md-6">
                 <label class="form-check-label with_img" for="radiocass">
                     <picture>
-                        <source class="source _1" srcset="/static/images/carradio.png">
+                        <source class="source _2" srcset="/static/images/carradio.png">
                         <img src="/static/images/carradio.png" alt="ownimage">
                     </picture>
                     <h5>راديو كاست</h5>
                 </label>
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="radio_c(1)" name="radio_ca7" id="radio_ca7" value="radio_ca7" checked> لا
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="radio_c(0)" name="radio_ca7" id="radio_ca7" value="radio_ca7"> نعم      
                 <label style="display: none" class="form-check-label without" for="radiocass">
-                     راديو كاست
-                </label>
+                    راديو كاست
+               </label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="radio_c(1)" name="radio_ca7" id="radio_ca71" value="radio_ca7_non" onchange="hideP('2','1')" checked> لا
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="radio_c(0)" name="radio_ca7" id="radio_ca72" value="radio_ca7_oui" onchange="hideP('2','2')"> نعم      
+         
             </div>
             <div class="form-group col-md-6">
                 <label style="display: none;" id="text3" for="valeur_bg">قيمة البلار المكسور</label>
@@ -161,9 +165,9 @@
     <div class="back"><a href="/voiture/6/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
 {% else %}{% if lang == "french" %}
-<div class="french container-fluid">
+<div class="french container-fluid-auto">
     <div class="content">
-        <h1 class="center-text">Que voulez-vous garantir?</h1>
+        <h1 class="center-text-car">Que voulez-vous garantir?</h1>
     </div>
     <form class="fifth-form" method="post" action="/voiture/8/{{lang}}">
         <div class="row" style="text-align: center;">
@@ -175,30 +179,32 @@
                     </picture>
                     <h5>Bris de glace</h5>
                 </label>
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="bris_g(1)" name="bris_glace" id="bris_glace" value="bris_glace_non" onchange="hide('0')" checked> Non
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="bris_g(0)" name="bris_glace" id="bris_glace" value="bris_glace_oui" onchange="hide('1')"> Oui      
                 <label style="display: none" class="form-check-label without" for="brisglace">
                     Bris de glace
                 </label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="bris_g(1)" name="bris_glace" id="bris_glace1" value="bris_glace_non" onchange="hideR('1','1')" checked> Non
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="bris_g(0)" name="bris_glace" id="bris_glace2" value="bris_glace_oui" onchange="hideR('1','2')"> Oui      
+          
             </div>
 
             <div class="form-group col-md-6">
                 <label class="form-check-label with_img" for="radiocass">
                     <picture>
-                        <source class="source _1" srcset="/static/images/carradio.png">
+                        <source class="source _2" srcset="/static/images/carradio.png">
                         <img src="/static/images/carradio.png" alt="ownimage">
                     </picture>
                     <h5>Radio cassette</h5>
                 </label>
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="radio_c(1)" name="radio_ca7" id="radio_ca7" value="radio_ca7" checked> Non
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="radio_c(0)" name="radio_ca7" id="radio_ca7" value="radio_ca7"> Oui      
                 <label style="display: none" class="form-check-label without" for="radiocass">
                     Radio cassette
                 </label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="radio_c(1)" name="radio_ca7" id="radio_ca71" value="radio_ca7_non" onchange="hideP('2','1')" checked> Non
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" onclick="radio_c(0)" name="radio_ca7" id="radio_ca72" value="radio_ca7_oui" onchange="hideP('2','2')"> Oui      
+   
             </div>
 
             <div class="form-group col-md-6">
@@ -249,6 +255,34 @@ function radio_c(x)
     document.getElementById('valeur_rc').style.display='none';
     }
     return;
+}
+
+function hideR(x,y) {
+    var valeur = document.getElementById('bris_glace'+y).getAttribute('value')
+    var subs = document.querySelector("._" + x).attributes[1].value
+    var sources = document.querySelectorAll(".source")
+    for (var i = 0; i <2; i++) {
+        val = sources[i].attributes[1].value;
+        if (valeur == 'bris_glace_non') {
+            sources[i].attributes[1].value = val.replace("-colored", "");
+        }
+        if (valeur == 'bris_glace_oui') {
+            document.querySelector("._" + x).attributes[1].value = subs.replace(".png", "") + "-colored" + ".png";        }
+    }
+}
+
+function hideP(x,y) {
+    var valeur = document.getElementById('radio_ca7'+y).getAttribute('value')
+    var subs = document.querySelector("._" + x).attributes[1].value
+    var sources = document.querySelectorAll(".source")
+    for (var i = 0; i <2; i++) {
+        val = sources[i].attributes[1].value;
+        if (valeur == 'radio_ca7_non') {
+            sources[i].attributes[1].value = val.replace("-colored", "");
+        }
+        if (valeur == 'radio_ca7_oui') {
+            document.querySelector("._" + x).attributes[1].value = subs.replace(".png", "") + "-colored" + ".png";        }
+    }
 }
 
 </script>

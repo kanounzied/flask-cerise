@@ -762,7 +762,7 @@ def confirm_email(token, lang):
         return render_template('confirm/confirm.html', confirmed=False, error=token_expired)
     except BadTimeSignature:
         return render_template('confirm/confirm.html', confirmed=False, error=token_match_err)
-    return render_template('confirm/confirm.html', confirmed=True, success=msg, lang=lang)
+    return render_template('confirm/confirm.html', confirmed=True, success=msg, lang=lang, href="/signup/13/"+lang)
 
 
 @app.route('/forgot/pwd/<lang>', methods=['POST'])
@@ -924,18 +924,43 @@ def delete(pos):
 @app.route("/voiture/<nbr>/<lang>" , methods=['GET', 'POST'])
 def voiture(nbr,lang):
     if lang == 'french':
-        chooseerr = "vous devez choisir!"
-        champerr = 'les champs sont vides!'
-        champwrg = 'Il y a une information incorrecte'
+        chooseerr = u"vous devez choisir!"
+        champerr = u'les champs sont vides!'
+        champwrg2 = u'S.V.P verifiez vos informations! La valeur actuelle ne peut pas être superieure à la valeur à neuf!'
+        champwrg3 = u'Les valeurs ne peuvent pas être moins de 1000DT!'
+        champwrg4 = u'Veuillez saisir que des lettres!'
+        emailexisterr = u"Cet email est déja dans la base de données veuillez saisir un autre email!"
+        pwderr = u"votre mot de passe n'est pas le méme!"
+        pwdregex = u"mot de passe doit avoir une lettre miniscule, une lettre majuscule, un chiffre, et l'un des " \
+            u"charactéres suivants @#$%^&+= "
+        posterr = u"le code postal doit contenir 4 chiffres, si vous avez modifié le code postal, retournez à la page" \
+                  u" précédente et choisissez la bonne adresse"
+        verify = u"Nous vous avons envoyé un mail pour confirmer votre adresse email !"
     elif lang == "english":
         champerr = 'Fields are empty!'
         chooseerr = "You have to choose!"
-        champwrg = 'There is an incorrect information'
+        champwrg2 = 'Please verify your information! The current value cannot be higher than the new vehicle value!'
+        champwrg3 = 'The values cannot be less than 1000DT!'
+        champwrg4 = 'Please enter only numbers!'
+        emailexisterr = "This email is already in data base please type another email!"
+        pwdregex = "your password must have a miniscule letter, a capital letter, a number, and one of the following " \
+            "characters @#$%^&+=" 
+        pwderr = "your password doesn't match!"
+        posterr = "postal code must contain 4 numbers, if you have changed the postcode go back to the previous page " \
+                  "and choose the right address"
+        verify = "We've sent you a verification mail for your email address !"
     else:
         champerr = 'البلايص فارغين'
         chooseerr = "لازم تختار"
-        champwrg = 'فما معلومة غالطة'
-
+        champwrg2 = '!زيد ثبت! قيمة الكرهبة الحالية ما تنجمش تكون أكبر من قيمة الكرهبة وهي جديدة'
+        champwrg3 = '!القيمتين ما ينجموش يكونوا أقل من 1000 دينار'
+        champwrg4 = '!الرجاء إدخال أرقام فقط'
+        emailexisterr = "!هذا البريد الإلكتروني موجود في قاعدة البيانات، الرجاء كتابة بريد إلكتروني آخر"
+        pwderr = "كلمة المرور الخاصة بك لا تتطابق!"
+        pwdregex = "يجب أن تحتوي كلمة المرور على الأقل على حرف صغير[a .. z]، حرف كبير[A .. Z]، رقم، واحد من الرموز التالية @#$%^&+="
+        posterr = "!يجب أن يحتوي الرقم البريدي على 4 أرقام، إذا قمت بتغيير رقم البريد" \
+                  " انتقل إلى الصفحة السابقة واختر العنوان الصحيح"
+        verify = "!لقد أرسلنا لك بريد التحقق من عنوان البريد الإلكتروني الخاص بك"
     if request.method == "POST":
         req = request.form
         if 'vform1' in req:
@@ -944,9 +969,10 @@ def voiture(nbr,lang):
             if nom == "" or prenom == "":
                 return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=champerr)
+            
             client = Client_(prenom, nom)
             session['client'] = client.__dict__
-            # print('client created')
+            print('client created')
             session['vform1'] = 'submitted'
         if 'vform1' not in session:
             return redirect('/voiture/1/' + lang)
@@ -960,6 +986,8 @@ def voiture(nbr,lang):
                 return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error="please do not change values!")
             session['typev'] = typev
+            voiture = Voiture_(typev)
+            session['voiture'] = voiture.__dict__
             session['vform2'] = 'submitted'
         if 'vform3' in req:
             valeur_a_neuf = req.get('valeur_a_neuf')
@@ -969,59 +997,337 @@ def voiture(nbr,lang):
                                        error=champerr)
             if valeur_actuelle > valeur_a_neuf:
                 return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
-                                       error=champwrg)
-
-            session['valeur_a_neuf'] = valeur_a_neuf
-            session['valeur_actuelle'] = valeur_actuelle
+                                       error=champwrg2)
+            if len(valeur_a_neuf)<4 or len(valeur_actuelle)<4:
+                return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg3)
+            for i in range(len(valeur_a_neuf)):
+                if valeur_a_neuf[i].isalpha():
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg4)
+            for j in range(len(valeur_actuelle)):
+                if valeur_actuelle[j].isalpha():
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg4)
+           
+            session.get('voiture')['valeur_a_neuf'] = valeur_a_neuf
+            session.get('voiture')['valeur_actuelle'] = valeur_actuelle
             session['vform3']='submitted'
         if 'vform4' in req:
             marque = req.get('marque')
-
-            if marque == "Select a brand" or marque == u"Sélectionner la marque" or marque == "إختار الماركة" :
+            modele = req.get('modele')
+            if marque == "Select brand" or marque == "Sélectionner la marque" or marque == "إختار الماركة" : 
                 return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
-                                       error=chooseerr)
-            session['marque'] = marque
+                                    error=chooseerr)
+            if modele == "Select model" or modele == "Sélectionner le modèle" or modele == "إختار موديل" : 
+                return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                    error=chooseerr)
+            session.get('voiture')['marq_model'] = marque + " " + modele
             session['vform4'] = 'submitted'
         if 'vform5' in req:
             classe = req.get('classe')
-
-            if classe == "Select a class" or classe == u"Sélectionner la classe" or classe == "إختار القسم":
+                  
+            if classe == "Select a class" or classe == "Sélectionner la classe" or classe == "إختار القسم": 
                 return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=chooseerr)
             nbcv = req.get('nbcv')
 
-            if nbcv == "Select" or nbcv == u"Sélectionner" or nbcv == "إختار" :
+            if nbcv == "Select" or nbcv == "Sélectionner" or nbcv == "إختار" :
                 return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=chooseerr)
-            session['classe'] = classe
-            session['nbcv'] = nbcv
+            session.get('voiture')['bonus_malus'] = classe
+            session.get('voiture')['puissance'] = nbcv
             session['vform5']='submitted'
         if 'vform6' in req:
             remorquage = req.get('remorquage')
+            if remorquage == "remorquage_non":
+                remorquage = "EXCLUE"
+            else :
+                remorquage = "OUI"
             pers_trans = req.get('pers_trans')
             nbp = req.get('nbp')
             capital_d = req.get('capital_d')
+            if pers_trans == 'pers_trans_oui':
+                if nbp == "Select" or nbp == "Sélectionner" or nbp == "إختار" :
+                    return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=chooseerr)
+            if pers_trans == "pers_trans_non":
+                pers_trans = "EXCLUE"
+                nbp = "EXCLUE"
+                capital_d = "EXCLUE"
             session['remorquage'] = remorquage
             session['pers_trans'] = pers_trans
             session['nbp'] = nbp
+            session['capital_d'] = capital_d
             session['vform6']='submitted'
         if 'vform7' in req:
             bris_glace = req.get('bris_glace')
-            valeur_bg = req.get('valeur_bg')
             radio_ca7 = req.get('radio_ca7')
+            valeur_bg = req.get('valeur_bg')
             valeur_rc = req.get('valeur_rc')
-            if bris_glace == 'bris_glace_oui' or radio_ca7 == 'radio_ca7_oui':
-                if valeur_bg == "" or valeur_rc == "" :
+            if bris_glace == "bris_glace_non":
+                valeur_bg = "EXCLUE"
+            else:
+                if valeur_bg == "":
                     return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
-                                           error=champerr)
+                                       error=champerr)
+            if radio_ca7 == 'radio_ca7_non':
+                valeur_rc = "EXCLUE"
+            else:
+                if valeur_rc == "" :
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr)
             session['bris_glace'] = bris_glace
             session['valeur_bg'] = valeur_bg
             session['radio_ca7'] = radio_ca7
             session['valeur_rc'] = valeur_rc
             session['vform7']  = 'submitted'
+        if 'vform8' in req:
+            conducteur_plus = req.get('conducteur_plus')
+            capital_assure_cp = req.get('capital_assure_cp')
+
+            if conducteur_plus == "conducteur_plus_non":
+                conducteur_plus = "EXCLUE"
+                capital_assure_cp = "EXCLUE"
+            damage = req.get('damage')
+            incendie = session['valeur_actuelle']
+            capital_assure_d = req.get('capital_assure_d')
+            franchise = req.get('franchise')
+            if damage == "damage_basique":
+                dommage_collision = "EXCLUE"
+                dommage_tous_risques = "EXCLUE"
+                capital_assure_d = "EXCLUE"
+                franchise = "EXCLUE"
+            elif damage == "damage_col":
+                dommage_tous_risques = "EXCLUE"
+                dommage_collision = capital_assure_d
+                franchise = ""
+            else :
+                dommage_collision = "EXCLUE"
+                dommage_tous_risques = incendie
+            session['conducteur_plus'] = conducteur_plus
+            session['capital_assure_cp'] = capital_assure_cp
+            session['damage'] = damage
+            session['incendie'] = incendie
+            session['capital_assure_d'] = capital_assure_d
+            session['franchise'] = franchise
+            session['dommage_collision'] = dommage_collision
+            session['dommage_tous_risques'] = dommage_tous_risques
+            session['vform8']  = 'submitted'
+        if 'vform9' in req:
+            email = req.get('email')
+            if email == "":
+                # # print(email, 'none ')
+                return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr)
+            session.get('client')['email'] = email
+            client = session.get('client')
+            if Client.find_one({'email': client['email']}):  # client already in data base
+                return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=emailexisterr)
+            token = s.dumps(email, salt='email-confirm')
+            link = url_for('confirm_email_v', lang=lang, token=token, _external=True)
+            sendConfirm(email, link)
+            #session['email'] = email
+            session['vform9'] = 'submitted'
+            return render_template('confirm/confirmv.html', confirmed=False, error=verify, lang=lang)
+        if 'vform9b' in req:
+            pwderror = ''
+            mailerr = ''
+            error = ''
+            champerr = ''
+            recaptchaerr = ''
+            if lang == 'french':
+                pwderror = 'Verifiez votre mot de passe !'
+                mailerr = 'Verifiez votre email !'
+                recaptchaerr = "Veuillez confirmer que vous n'êtes pas un robot!"
+                champerr = 'les champs sont vides!'
+            if lang == 'english':
+                pwderror = 'Verify your password ! '
+                mailerr = 'Verify your email !'
+                recaptchaerr = "Please confirm that you're not a robot!"
+                champerr = 'fields are empty!'
+            if lang == 'arabe':
+                pwderror = '!التحقق من كلمة المرور'
+                mailerr = '!تحقق من بريدك الإلكتروني'
+                recaptchaerr = "!الرجاء التأكد من أنك لست آلة"
+                champerr = 'البلايص فارغين'
+            if req.get('email') != '':
+                client = Client.find_one({'email': req['email']})
+                session['clid'] = client['_id']
+                if client:
+                    a = verify_password(client['password'], req.get('password'))
+                    if a:
+                        pwd = req.get('password')
+                        if recaptcha.verify():
+                            session['client'] = client
+                            session['vform9'] = 'submitted'
+                            session['vform10'] = 'submitted'
+                            session['vform11'] = 'submitted'
+                            # print(session.get('client'))
+                        else:
+                            error = recaptchaerr
+                    else:
+                        error = pwderror
+                else:
+                    error = mailerr
+            else:
+                error = champerr
+            if error != '':
+                return render_template("voiture/register/voiture9.html", lang=lang, error=error)
+        if 'vform10' in req:
+            pwd = req.get('password')
+            cpwd = req.get('confirm-password')
+            if pwd != cpwd:
+                return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=pwderr)
+            import re
+            pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,20}$"
+            password = pwd
+            result = re.findall(pattern, password)
+            if not result:
+                return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=pwdregex)
+            session.get('client')['password'] = hash_password(pwd)
+            #session['password'] = pwd
+            #session['confirm-password'] = cpwd
+            session['vform10'] = 'submitted'
+        if 'vform11' in req:
+            tel = req.get('tel')
+            cin = req.get('cin')
+            birth = req.get('birth')
+            if birth == "" or tel == "" or cin == "":
+                return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr)
+            session.get('client')['date_de_naissance'] = birth
+            session.get('client')['tel_num'] = tel
+            session.get('client')['cin'] = cin
+            session['vform11'] = 'submitted'
+
+            client = Client.insert_one({
+                'client': session['client']
+                 
+            })
+            voi = Voiture.insert_one({
+                'voiture': session['voiture']
+                    })
+            Contrat_vehicule.insert_one({
+            
+                'client_id': client.inserted_id,
+                'voiture_id': voi.inserted_id,
+                'incendie ou vol': session['incendie'],
+                'dommage_collision': session['dommage_collision'],
+                'dommage_tous_risques': session['dommage_tous_risques'],
+                'franchise_TR': session['franchise'],
+                'radio_cassette': session['valeur_rc'],
+                'bris_de_glace': session['valeur_bg'],
+                'remorquage': session['remorquage'],
+                'nbr_pers_transporte': session['nbp'],
+                'capital_deces': session['capital_d'],
+                'conducteur_plus': session['conducteur_plus'],
+                'capital_assure_cp': session['capital_assure_cp']
+            })
+        if nbr == "12" and request.method == 'POST':
+        
+            if session.get('client')['confirmed']:
+                print("kjh")
+                voiture = session.get('voiture')
+                client = session.get('client')
+                contrat = Contrat_vehicule.find()
+                garantie = Contrat_vehicule.find().sort( "_id", -1 ).limit(1)
+                print(garantie)
+                #load(client, voiture, garantie)
+                session['loaded'] = True
+                session['done'] = True
+                session['finished'] = True  # finished is for when the client submits the last form (passwords) and from
+                                            # then he shouldn't be allowed to return to signups
+                #text_association = "this is the contract of the client : "+client['nom']+' '+client['prenom']+" with the id "\
+                #       +str(session.get('clid'))+" : <br>this contract is still not paid"
+                #sendPDF('kallel.beya@gmail.com', 'demande_de_stage.pdf', text_association)
+                #text_client = "the contract is ready now and waiting to be paid!<br> if you want to modify it just log in and choose" \
+                #              " your contract if you have more than one"
+                #sendPDF(client['email'], 'demande_de_stage.pdf', text_client)
+                return redirect("/preview-voiture/" + lang)
+        elif nbr == "12" and request.method == 'GET':
+            print('df')
+            abort(403)
+        
+    if int(nbr) > 9 and session.get('client')['confirmed'] == False:
+        return render_template('confirm/confirm.html', confirmed=False, error=verify, lang=lang)
+
+    if session == {'_permanent': True} and int(nbr) > 1:  # if session vide wenti moch fel page 1
+        return redirect("/voiture/1/" + lang)
+    if int(nbr) in range(2, 12) and ('vform' + str(int(nbr) - 1) not in session):
+        form = ""
+        for i in range(2, 12):
+            print(i)
+            if ('vform' + str(i)) in session:
+                form = str(i)
+            print(form)
+        return redirect("/voiture/" + form + "/" + lang)  
 
 
     return render_template("voiture/register/voiture" +nbr+".html", nbr = nbr, lang = lang)
+@app.route('/confirm_email_v/<token>/<lang>')
+def confirm_email_v(token, lang):
+    if lang == 'french':
+        token_expired = u"Votre confirmation est expirée!"
+        token_match_err = "Votre confirmation n'est pas compatible!"
+        session_err = "Vous devez ouvrir la page dans la même fenêtre"
+        msg = u"Votre email est maintenant confirmé, veuillez continuer votre formulaire!"
+
+    elif lang == 'english':
+        token_expired = "The confirmation has expired!"
+        token_match_err = "The token is not compatible!"
+        session_err = "You must open the page in the same window!"
+        msg = "Your email is now confirmed, please continue your form!"
+
+    else:
+        token_expired = "!إنتهت صلاحية التأكيد"
+        token_match_err = "!تأكيدك غير متوافق"
+        session_err = "!يجب فتح الصفحة في نفس النافذة"
+        msg = "!تم تأكيد البريد الإلكتروني الخاص بك الآن، يرجى متابعة النموذج الخاص بك"
+
+    try:
+        email = s.loads(token, salt='email-confirm', max_age=3600)
+        try:
+            if email != session.get('client')['email']:
+                return render_template('confirm/confirmv.html', confirmed=False, error="not the same email address")
+            session.get('client')['confirmed'] = True
+        except:
+            return render_template('confirm/confirmv.html', confirmed=False, error=session_err)
+    except SignatureExpired:
+        return render_template('confirm/confirmv.html', confirmed=False, error=token_expired)
+    except BadTimeSignature:
+        return render_template('confirm/confirmv.html', confirmed=False, error=token_match_err)  
+    return render_template('confirm/confirmv.html', confirmed=True, success=msg, lang=lang, href="/voiture/10/"+lang)
+
+@app.route('/gen/contract/voiture')
+def generatevoiture():
+    client = session.get('client'),
+    garantie = [['Incendie/Vol' , session.get('valeur_actuelle')],
+        ['Dommage Collision', session.get('dommage_collision')],
+        ['Dommage Tous Risques', session.get('dommage_tous_risques')],
+        ['Franchise Dommage Tous Risque', session.get('franchise')],
+        ['Radio Cassette', session.get('valeur_rc')],
+        ['Bris de Glace', session.get('valeur_bg')],  
+        ['Remorquage', session.get('remorquage')],
+        ['Nombre de personnes transportees', session.get('nbp')],
+        ['capital_deces', session.get('capital_d')],
+        ['conducteur_plus', session.get('conducteur_plus')],
+        ['capital_assure_cp', session.get('capital_assure_cp')]]
+    rendered = render_template('contrat/contrat_voiture.html',
+                               client = client,
+                               datecontrat = datetime.now().date(),
+                               garantie= garantie)
+    css=['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
+    pdf = pdfkit.from_string(rendered, False,css=css)
+    sendPDF('kallel.beya@gmail.com', pdf, 'test pdf 12 12 12')
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = "inline; filename=output.pdf"
+    return response
+
 ############### end of 5edma ##############
 ############### 5edmet bouali #############
 from PyPDF2 import PdfFileReader, PdfFileWriter, PdfFileMerger
@@ -1790,4 +2096,4 @@ def addreport(nbr,lang):
 ############### end of 5edma ##############
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run()
