@@ -1,4 +1,4 @@
-{% extends 'sign.html' %}
+{% extends 'auto.html' %}
 {% block nbr %}{{ nbr }}{% endblock %}
 {% block sidenav %}
     {% if lang == "english" %}
@@ -49,9 +49,9 @@
     <div class="alert alert-dark">{{error}}</div>
 {% endif %}
     {% if lang == "english" %}
-        <div class="english container-fluid">
+        <div class="english container-fluid-auto">
             <div class="content">
-                <h1 class="center-text">Welcome! We can get you an awsome price in seconds.</h1>
+                <h1 class="center-text-car">Welcome! We can get you an awsome price in seconds.</h1>
             </div>
             <form class="first_form" method="post" action="/voiture/2/{{lang}}">
                 <div class="row">
@@ -73,9 +73,9 @@
             </div>
         </div>
     {% else %}{% if lang =="arabe" %}
-        <div class="arab container-fluid">
+        <div class="arab container-fluid-auto">
             <div class="content">
-                <h1 class="center-text">مرحبا بيك في سوريز! عندنا أحنا تلقى اعز الأسوام</h1>
+                <h1 class="center-text-car">مرحبا بيك في سوريز! عندنا أحنا تلقى اعز الأسوام</h1>
             </div>
             <form class="first_form" autocomplete="off" method="post" action="/voiture/2/{{lang}}">
                 <div class="row">
@@ -97,11 +97,11 @@
             </div>
         </div>
     {% else %}{% if lang=="french" %}
-        <div class="french container-fluid">
+        <div class="french container-fluid-auto">
             <div class="content">
-                <h1 class="center-text">Bienvenue ici! Votre prix sera généré en un clin d'oeuil</h1>
+                <h1 class="center-text-car">Bienvenue ici! Votre prix sera généré en un clin d'oeuil</h1>
             </div>
-            <form class="first_form" method="post" action="/signup/2/{{lang}}">
+            <form class="first_form" method="post" action="/voiture/2/{{lang}}">
                 <div class="row">
                     <div class="form-group col-xs-12 col-md-6">
                         <input type="text" style="float: right;" class="form-control" name="first_name" id="first_name" value="{{prenom|string}}"

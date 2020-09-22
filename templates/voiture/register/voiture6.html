@@ -1,4 +1,4 @@
-{% extends 'sign.html' %}
+{% extends 'auto.html' %}
 {% block nbr %}{{ nbr }}{% endblock %}
 {% block sidenav %}
 {% if lang == "english" %}
@@ -31,7 +31,10 @@
     .container-fluid{
         padding-top: 0;
     }
-    label h2{
+    label h5{
+        background-color: white;
+    }
+    label h6{
         background-color: white;
     }
 
@@ -42,46 +45,53 @@
 <div class="alert alert-dark">{{error}}</div>
 {% endif %}
 {% if lang == "english" %}
-<div class="english container-fluid">
+<div class="english container-fluid-auto">
     <div class="content">
-        <h1 class="center-text">What do you want to guarantee?</h1>
+        <h1 class="center-text-car">What do you want to guarantee?</h1>
     </div>
     <form class="fifth-form" method="post" action="/voiture/7/{{lang}}">
         <div class="row" style="text-align: center;">
             <div class="form-group col-md-6">
-                <label class="form-check-label with_img" for="brisglace">
+                <label class="form-check-label with_img" for="remorquage">
                     <picture>
                         <source class="source _1" srcset="/static/images/tow.png">
                         <img src="/static/images/tow.png" alt="ownimage">
                     </picture>
                     <h5>Towing</h5>
                 </label>
-                <br/>
-                <input type = "radio" class="form-check-input with-gap"  name="remorquage" id="remorquage" value="remorquage" checked> No
-                <br/>
-                <input type = "radio" class="form-check-input with-gap"  name="remorquage" id="remorquage" value="remorquage"> Yes     
-                <label style="display: none" class="form-check-label without" for="brisglace">
+                <label style="display: none" class="form-check-label without" for="remorquage">
                     Towing
                 </label>
+                <br/>
+                <div class="box">
+                    
+                    <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage1" value="remorquage_non" onchange="hideR('1','1')" checked> 
+                    <label for="remorquage1" class="form-check-label without"><h6>No</h6></label>
+                    <br/>
+                    <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage2" value="remorquage_oui" onchange="hideR('1','2')">     
+                    <label for="remorquage2" class="form-check-label without"><h6>Yes</h6></label>
+                </div>
             </div>
             <div class="form-group col-md-6">
-                <label class="form-check-label with_img" for="brisglace">
+                <label class="form-check-label with_img" for="pers_trans">
                     <picture>
-                        <source class="source _1" srcset="/static/images/public-transport.png">
-                        <img src="/static/images/public-transport.png" alt="ownimage">
+                        <source class="source _2" srcset="/static/images/publictransport.png">
+                        <img src="/static/images/publictransport.png" alt="ownimage">
                     </picture>
                     <h5>People transported</h5>
                 </label>
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="pers_t(1)" name="pers_trans" id="pers_trans" value="pers_trans" checked> No
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="pers_t(0)" name="pers_trans" id="pers_trans" value="pers_trans"> Yes        
-                <label style="display: none" class="form-check-label without" for="brisglace">
+                <label style="display: none" class="form-check-label without" for="pers_trans">
                     People transported
                 </label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap"  name="pers_trans" id="pers_trans1" value="pers_trans_non" onchange="hideP('2','1')" onclick="pers_t(1)" checked > 
+                <label for="pers_trans1" class="form-check-label without"><h6>No</h6></label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap"  name="pers_trans" id="pers_trans2" value="pers_trans_oui" onchange="hideP('2','2')" onclick="pers_t(0)">         
+                <label for="pers_trans2" class="form-check-label without"><h6>Yes</h6></label>
             </div>
             <div class="form-group col-md-6">
-                <label style="display: none;" for="classe" id="text1">Nbr of pple in the gray card</label>
+                <label style="display: none;" for="classe" id="text1"><h6>Nbr of pple in the gray card</h6></label>
                 <select style="display: none;" class="form-control" style="float: right;" name="nbp" id="nbp">
                     <option>Select</option>
                     <option>1</option>
@@ -96,7 +106,7 @@
                 </select>
             </div>
             <div class="form-group col-md-6">
-                <label style="display: none;" for="capital_d" id="text2">Death benefit</label>
+                <label style="display: none;" for="capital_d" id="text2"><h6>Death benefit</h6></label>
                 <select style="display: none;" class="form-control" style="float: right;" name="capital_d" id="capital_d">
                     <option>5000DT</option>
                     <option>6000DT</option>
@@ -133,46 +143,50 @@
 </div>
 
 {% else %}{% if lang == "arabe" %}
-<div class="arab container-fluid">
+<div class="arab container-fluid-auto">
     <div class="content">
-        <h1 class="center-text">شنية تحب تأمن؟</h1>
+        <h1 class="center-text-car">شنية تحب تأمن؟</h1>
     </div>
     <form class="fifth-form" method="post" action="/voiture/7/{{lang}}">
         <div class="row" style="text-align: center;">
             <div class="form-group col-md-6">
-                <label class="form-check-label with_img" for="brisglace">
+                <label class="form-check-label with_img" for="remorquage">
                     <picture>
                         <source class="source _1" srcset="/static/images/tow.png">
                         <img src="/static/images/tow.png" alt="ownimage">
                     </picture>
                     <h5>رمركاج</h5>
                 </label>
-                <br/>
-                <input type = "radio" class="form-check-input with-gap"  name="remorquage" id="remorquage" value="remorquage" checked> لا
-                <br/>
-                <input type = "radio" class="form-check-input with-gap"  name="remorquage" id="remorquage" value="remorquage"> نعم     
-                <label style="display: none" class="form-check-label without" for="brisglace">
+                <label style="display: none" class="form-check-label without" for="remorquage">
                     رمركاج
                 </label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap"  name="remorquage" id="remorquage1" value="remorquage_non" onchange="hideR('1','1')" checked> 
+                <label for="remorquage1" class="form-check-label without"><h6>لا</h6></label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap"  name="remorquage" id="remorquage2" value="remorquage_oui" onchange="hideR('1','2')">     
+                <label for="remorquage2" class="form-check-label without"><h6>نعم</h6></label>
             </div>
             <div class="form-group col-md-6">
-                <label class="form-check-label with_img" for="brisglace">
+                <label class="form-check-label with_img" for="pers_trans">
                     <picture>
-                        <source class="source _1" srcset="/static/images/public-transport.png">
-                        <img src="/static/images/public-transport.png" alt="ownimage">
+                        <source class="source _2" srcset="/static/images/publictransport.png">
+                        <img src="/static/images/publictransport.png" alt="ownimage">
                     </picture>
                     <h5> نقل الناس</h5>
                 </label>
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="pers_t(1)" name="pers_trans" id="pers_trans" value="pers_trans" checked> لا
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="pers_t(0)" name="pers_trans" id="pers_trans" value="pers_trans"> نعم        
-                <label style="display: none" class="form-check-label without" for="brisglace">
+                <label style="display: none" class="form-check-label without" for="pers_trans">
                     نقل الناس 
                 </label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" name="pers_trans" id="pers_trans1" value="pers_trans_non" onchange="hideP('2','1')" onclick="pers_t(1)"  checked> 
+                <label for="pers_trans1" class="form-check-label without"><h6>لا</h6></label>
+                <br/>
+                <input type = "radio" class="form-check-input with-gap" name="pers_trans" id="pers_trans2" value="pers_trans_oui" onchange="hideP('2','2')" onclick="pers_t(0)" >       
+                <label for="pers_trans2" class="form-check-label without"><h6>نعم</h6></label>
             </div>
             <div class="form-group col-md-6">
-                <label style="display: none;" for="classe" id="text1">عدد الأشخاص في البطاقة الرمادية</label>
+                <label style="display: none;" for="classe" id="text1"><h6>عدد الأشخاص في البطاقة الرمادية</h6></label>
                 <select style="display: none;" class="form-control" style="float: right;" name="nbp" id="nbp">
                     <option>إختار</option>
                     <option>1</option>
@@ -187,7 +201,7 @@
                 </select>
             </div>
             <div class="form-group col-md-6">
-                <label style="display: none;" for="capital_d" id="text2">استحقاقات الوفاة</label>
+                <label style="display: none;" for="capital_d" id="text2"><h6>استحقاقات الوفاة</h6></label>
                 <select style="display: none;" class="form-control" style="float: right;" name="capital_d" id="capital_d">
                     <option>5000DT</option>
                     <option>6000DT</option>
@@ -221,47 +235,51 @@
     <div class="back"><a href="/voiture/5/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
 {% else %}{% if lang == "french" %}
-    <div class="french container-fluid">
+    <div class="french container-fluid-auto">
         <div class="content">
-            <h1 class="center-text">Que voulez-vous garantir?</h1>
+            <h1 class="center-text-car">Que voulez-vous garantir?</h1>
         </div>
         <form class="fifth-form" method="post" action="/voiture/7/{{lang}}">
             <div class="row" style="text-align: center;">
 
                 <div class="form-group col-md-6">
-                    <label class="form-check-label with_img" for="brisglace">
+                    <label class="form-check-label with_img" for="remorquage">
                         <picture>
                             <source class="source _1" srcset="/static/images/tow.png">
                             <img src="/static/images/tow.png" alt="ownimage">
                         </picture>
                         <h5>Remorquage</h5>
                     </label>
-                    <br/>
-                    <input type = "radio" class="form-check-input with-gap"  name="remorquage" id="remorquage" value="remorquage" checked> Non
-                    <br/>
-                    <input type = "radio" class="form-check-input with-gap"  name="remorquage" id="remorquage" value="remorquage"> Oui     
-                    <label style="display: none" class="form-check-label without" for="brisglace">
+                    <label style="display: none" class="form-check-label without" for="remorquage">
                         Remorquage
                     </label>
+                    <br/>
+                    <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage1" value="remorquage_non" onchange="hideR('1','1')" checked> 
+                    <label for="remorquage1" class="form-check-label without"><h6>Non</h6></label>
+                    <br/>
+                    <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage2" value="remorquage_oui" onchange="hideR('1','2')">  
+                    <label for="remorquage2" class="form-check-label without"><h6>Oui</h6></label>
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="form-check-label with_img" for="brisglace">
+                    <label class="form-check-label with_img" for="pers_trans">
                         <picture>
-                            <source class="source _1" srcset="/static/images/public-transport.png">
-                            <img src="/static/images/public-transport.png" alt="ownimage">
+                            <source class="source _2" srcset="/static/images/publictransport.png">
+                            <img src="/static/images/publictransport.png" alt="ownimage">
                         </picture>
                         <h5>Personnes transportées</h5>
                     </label>
-                    <br/>
-                    <input type = "radio" class="form-check-input with-gap" onclick="pers_t(1)" name="pers_trans" id="pers_trans" value="pers_trans" checked> Non
-                    <br/>
-                    <input type = "radio" class="form-check-input with-gap" onclick="pers_t(0)" name="pers_trans" id="pers_trans" value="pers_trans"> Oui        
-                    <label style="display: none" class="form-check-label without" for="brisglace">
+                    <label style="display: none" class="form-check-label without" for="pers_trans">
                         Personnes transportées
                     </label>
+                    <br/>
+                    <input type = "radio" class="form-check-input with-gap" name="pers_trans" id="pers_trans1" value="pers_trans_non" onchange="hideP('2','1')" onclick="pers_t(1)"  checked> 
+                    <label for="pers_trans1" class="form-check-label without"><h6>Non</h6></label>
+                    <br/>
+                    <input type = "radio" class="form-check-input with-gap" name="pers_trans" id="pers_trans2" value="pers_trans_oui" onchange="hideP('2','2')" onclick="pers_t(0)" >         
+                    <label for="pers_trans2" class="form-check-label without"><h6>Oui</h6></label>
                 </div> 
                 <div class="form-group col-md-6">
-                    <label style="display: none;" for="classe" id="text1">Nbr de prs dans la carte grise</label>
+                    <label style="display: none;" for="classe" id="text1"><h6>Nbr de prs dans la carte grise</h6></label>
                     <select style="display: none;" class="form-control" style="float: right;" name="nbp" id="nbp">
                         <option>Sélectionner</option>
                         <option>1</option>
@@ -276,7 +294,7 @@
                     </select>
                 </div>
                 <div class="form-group col-md-6">
-                    <label style="display: none;" for="capital_d" id="text2">Capital décès</label>
+                    <label style="display: none;" for="capital_d" id="text2"><h6>Capital décès</h6></label>
                     <select style="display: none;" class="form-control" style="float: right;" name="capital_d" id="capital_d">
                         <option>5000DT</option>
                         <option>6000DT</option>
@@ -335,6 +353,33 @@ function pers_t(x)
     document.getElementById('capital_d').style.display='none';
     }
     return;
+}
+
+function hideR(x,y) {
+    var valeur = document.getElementById('remorquage'+y).getAttribute('value')
+    var subs = document.querySelector("._" + x).attributes[1].value
+    var sources = document.querySelectorAll(".source")
+    for (var i = 0; i <2; i++) {
+        val = sources[i].attributes[1].value;
+        if (valeur == 'remorquage_non') {
+            sources[i].attributes[1].value = val.replace("-colored", "");
+        }
+        if (valeur == 'remorquage_oui') {
+            document.querySelector("._" + x).attributes[1].value = subs.replace(".png", "") + "-colored" + ".png";        }
+    }
+}
+function hideP(x,y) {
+    var valeur = document.getElementById('pers_trans'+y).getAttribute('value')
+    var subs = document.querySelector("._" + x).attributes[1].value
+    var sources = document.querySelectorAll(".source")
+    for (var i = 0; i <2; i++) {
+        val = sources[i].attributes[1].value;
+        if (valeur == 'pers_trans_non') {
+            sources[i].attributes[1].value = val.replace("-colored", "");
+        }
+        if (valeur == 'pers_trans_oui') {
+            document.querySelector("._" + x).attributes[1].value = subs.replace(".png", "") + "-colored" + ".png";        }
+    }
 }
 
 </script>

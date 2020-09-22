@@ -1,4 +1,4 @@
-{% extends 'sign.html' %}
+{% extends 'auto.html' %}
 {% block nbr %}{{ nbr }}{% endblock %}
 {% block sidenav %}
 {% if lang == "english" %}
@@ -38,6 +38,7 @@
     .form-check-label{
         height: 225px!important;
     }
+
 </style>
 {% endblock %}
 {% block body %}
@@ -45,11 +46,11 @@
 <div class="alert alert-dark">{{error}}</div>
 {% endif %}
 {% if lang == "english" %}
-<div class="english container-fluid">
+<div class="english container-fluid-auto">
     <div class="content">
-        <h1 class="center-text">What's your vehicle usage?</h1>
+        <h1 class="center-text-car">What's your vehicle usage?</h1>
     </div>
-    <form class="fourth-form" method="post" action="/voiture/3/{{lang}}">
+    <form class="fifth-form" method="post" action="/voiture/3/{{lang}}">
         <div class="row">
             <div class="form-check col-md-4">
                 <label class="form-check-label with_img" for="passenger">
@@ -60,7 +61,7 @@
                     <h2>Passenger</h2>
                 </label>
                 <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="passenger" value="passenger"
-                       name="typev" style="margin-bottom: 10px;" >
+                       name="typev" style="margin-bottom: 10px;" hidden >
                 <label style="display: none" class="form-check-label without" for="passenger">
                     Passenger
                 </label>
@@ -74,7 +75,7 @@
                         <h2>Taxi</h2>
                     </label>
                     <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="taxi" value="taxi"
-                           name="typev" style="margin-bottom: 10px;" >
+                           name="typev" style="margin-bottom: 10px;" hidden >
                     <label style="display: none" class="form-check-label without" for="taxi">
                         Taxi
                     </label>
@@ -89,7 +90,7 @@
                     <h2>Commercial</h2>
                 </label>
                 <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="commercial" value="commercial"
-                       name="typev"style="margin-bottom: 10px;" >
+                       name="typev"style="margin-bottom: 10px;" hidden>
                 <label style="display: none" class="form-check-label without" for="commercial">
                     Commercial
                 </label>
@@ -103,11 +104,11 @@
     <div class="back"><a href="/voiture/1/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
 {% else %}{% if lang =="arabe" %}
-<div class="arab container-fluid">
+<div class="arab container-fluid-auto">
     <div class="content">
-        <h1 class="center-text">إستعمال كرهبتك ؟</h1>
+        <h1 class="center-text-car">إستعمال كرهبتك ؟</h1>
     </div>
-    <form class="fourth-form" method="post" action="/voiture/3/{{lang}}">
+    <form class="fifth-form" method="post" action="/voiture/3/{{lang}}">
         <div class="row">
             <div class="form-check col-md-4">
                 <label class="form-check-label with_img" for="passenger">
@@ -121,7 +122,7 @@
                      سيارة راكب
                 </label>
                 <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="passenger" value="passenger"
-                       name="typev" style="margin-bottom: 10px;" >
+                       name="typev" style="margin-bottom: 10px;" hidden >
             </div>
 
             <div class="form-check col-md-4">
@@ -133,7 +134,7 @@
                     <h2>تاكسي</h2>
                 </label>
                 <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="taxi" value="taxi"
-                       name="typev" style="margin-bottom: 10px;" >
+                       name="typev" style="margin-bottom: 10px;" hidden >
                 <label style="display: none" class="form-check-label without" for="taxi">
                     تاكسي
                 </label>
@@ -151,7 +152,7 @@
                     سيارة تجارية
                 </label>
                 <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="commercial" value="commercial"
-                       name="typev" style="margin-bottom: 10px;" >
+                       name="typev" style="margin-bottom: 10px;" hidden >
             </div>
         </div>
         <div class="row">
@@ -161,11 +162,11 @@
     <div class="back"><a href="/voiture/1/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
 {% else %}{% if lang=="french" %}
-<div class="french container-fluid">
+<div class="french container-fluid-auto">
     <div class="content">
-        <h1 class="center-text">Quel est l'usage de votre véhicule?</h1>
+        <h1 class="center-text-car">Quel est l'usage de votre véhicule?</h1>
     </div>
-    <form class="fourth-form" method="post" action="/voiture/3/{{lang}}">
+    <form class="fifth-form" method="post" action="/voiture/3/{{lang}}">
         <div class="row">
             <div class="form-check col-md-4">
                 <label class="form-check-label with_img" for="passenger">
@@ -176,7 +177,7 @@
                     <h2 id="h2fr1">Voyageur</h2>
                 </label>
                 <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="passenger" value="passenger"
-                       name="typev" style="margin-bottom: 10px;">
+                       name="typev" style="margin-bottom: 10px;" hidden>
                 <label style="display: none" class="form-check-label without" for="passenger">
                     Voyageur
                 </label>
@@ -192,7 +193,7 @@
                     <h2>Taxi</h2>
                 </label>
                 <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="taxi" value="taxi"
-                       name="typev" style="margin-bottom: 10px;">
+                       name="typev" style="margin-bottom: 10px;" hidden>
                 <label style="display: none" class="form-check-label without" for="taxi"> Taxi
                 </label>
 
@@ -206,7 +207,7 @@
                     <h2 id="h2fr2">Commerciale</h2>
                 </label>
                 <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="commercial" value="commercial"
-                       name="typev" style="margin-bottom: 10px;" >
+                       name="typev" style="margin-bottom: 10px;" hidden>
                 <label style="display: none" class="form-check-label without" for="commercial">
                     Commerciale
                 </label>

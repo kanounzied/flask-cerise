@@ -1,4 +1,4 @@
-{% extends 'sign.html' %}
+{% extends 'auto.html' %}
 {% block nbr %}{{ nbr }}{% endblock %}
 {% block sidenav %}
 {% if lang == "english" %}
@@ -42,18 +42,18 @@
 <div class="alert alert-dark">{{error}}</div>
 {% endif %}
 {% if lang == "english" %}
-<div class="english container-fluid">
+<div class="english container-fluid-auto">
     <!--  <div class="content">
        <h1 class="center-text">Now please enter some of your vehicle information!</h1> 
     </div> -->
     <div class="content">
-        <h1 class="center-text">Vehicle values?</h1>
+        <h1 class="center-text-car">Vehicle values?</h1>
     </div>
         <form class="third-form" method="post" action="/voiture/4/{{lang}}">
             <div class="row" style="text-align: center;">
                 
                 <div class="form-group col-md-6">
-                    <label for="valeur_a_neuf">Vehicle new value</label>
+                    <label for="valeur_a_neuf">New vehicle value</label>
                     <input type="text" style="float: right;" class="form-control" name="valeur_a_neuf" id="valeur_a_neuf" value="{{valeurneuf|string}}"
                     placeholder="Exp: 40.000DT">
                 </div>
@@ -71,12 +71,12 @@
         <div class="back"><a href="/voiture/2/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
 {% else %}{% if lang =="french" %}
-<div class="french container-fluid">
+<div class="french container-fluid-auto">
 <!--<div class="content">
         <h1 class="center-text">Now please enter some of your vehicle information!</h1> 
     </div> -->
     <div class="content">
-        <h1 class="center-text">Valeurs du véhicules?</h1>
+        <h1 class="center-text-car">Valeurs du véhicules?</h1>
     </div>
         <form class="third-form" method="post" action="/voiture/4/{{lang}}">
             <div class="row" style="text-align: center;">
@@ -101,12 +101,12 @@
 </div>
 
 {% else %}{% if lang =="arabe" %}
-<div class="arab container-fluid">
+<div class="arab container-fluid-auto">
 <!--<div class="content">
         <h1 class="center-text">Now please enter some of your vehicle information!</h1> 
     </div> -->
     <div class="content">
-        <h1 class="center-text">أسوام الكرهبة؟</h1>
+        <h1 class="center-text-car">أسوام الكرهبة؟</h1>
     </div>
         <form class="third-form" method="post" action="/voiture/4/{{lang}}">
             <div class="row" style="text-align: center;">
