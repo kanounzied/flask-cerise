@@ -1071,12 +1071,20 @@ def voiture(nbr,lang):
                 if valeur_bg == "":
                     return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=champerr)
+                for i in range(len(valeur_bg)):
+                    if valeur_bg[i].isalpha():
+                        return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg4)
             if radio_ca7 == 'radio_ca7_non':
                 valeur_rc = "EXCLUE"
             else:
                 if valeur_rc == "" :
                     return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=champerr)
+                for j in range(len(valeur_rc)): 
+                    if valeur_rc[j].isalpha():
+                        return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg4)
             session['bris_glace'] = bris_glace
             session['valeur_bg'] = valeur_bg
             session['radio_ca7'] = radio_ca7
