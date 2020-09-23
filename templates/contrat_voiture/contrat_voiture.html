@@ -18,16 +18,29 @@
     </div>
 </div>
 <div class="container">
-    Prenom: {{prenom}}<br>
-    Nom: {{nom}}<br>
-    Date du début du contart : {{datecontrat}}<br>
-    <ul><h2>Garanties</h2>
-    {% for val in garantie %}
+    Prenom: {{client.prenom}}<br>
+    Nom: {{client.nom}}<br>
+    Email: {{client.email}}<br>
+    Cin: {{client.cin}} <br>
+    Num Tel: {{client.tel_num}}<br>
+    Date de Naissance: {{client.date_de_naissance}} <br>
+    Total annuel: {{contratv.total}}<br>
+    Date Debut du Contrat : {{contratv.date_de_debut_du_contrat}}<br>
+    <table class="table" >
+        <thead class="thead-light">
+        <tr>
+            <th style="text-align: center;" colspan="3" scope="col">Garanties</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for val in contratv.coveragev %}
+        <tr>
+            <th scope="row">{{val.libelle}}</th><td>{{val.valeur}}</td><td>{{val.valeurEstimee}}</td>
+        </tr>
+        {% endfor %}
 
-    <li>{{val[0]}} : {{val[1]}}</li>
-
-    {% endfor %}
-    </ul>
+        </tbody>
+    </table>
 
 </div>
 <div class="signature">

@@ -19,7 +19,7 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 # -------------------------------end-------------------------------------------------------
 from classes import *
 from db_maker import *
-from loadData import load, hash_password, verify_password
+from loadData import load, hash_password, verify_password, loadAuto
 from sendMail import *
 
 app = Flask(__name__)
@@ -1013,7 +1013,7 @@ def voiture(nbr,lang):
                 if valeur_actuelle[j].isalpha():
                     return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=champwrg4)
-           
+            
             session.get('voiture')['valeur_a_neuf'] = valeur_a_neuf
             session.get('voiture')['valeur_actuelle'] = valeur_actuelle
             session['vform3']='submitted'
@@ -1050,7 +1050,9 @@ def voiture(nbr,lang):
                 remorquage = "OUI"
             pers_trans = req.get('pers_trans')
             nbp = req.get('nbp')
-            capital_d = req.get('capital_d')
+            capital_d1 = req.get('capital_d')
+            size = len(capital_d1)
+            capital_d = capital_d1[:size - 2]
             if pers_trans == 'pers_trans_oui':
                 if nbp == "Select" or nbp == "Sélectionner" or nbp == "إختار" :
                     return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
@@ -1059,10 +1061,10 @@ def voiture(nbr,lang):
                 pers_trans = "EXCLUE"
                 nbp = "EXCLUE"
                 capital_d = "EXCLUE"
-            session['remorquage'] = remorquage
+            
             session['pers_trans'] = pers_trans
-            session['nbp'] = nbp
-            session['capital_d'] = capital_d
+            garantie = GarantieAuto_(remorquage, nbp, capital_d)
+            session['garantie'] = garantie.__dict__
             session['vform6']='submitted'
         if 'vform7' in req:
             bris_glace = req.get('bris_glace')
@@ -1075,27 +1077,40 @@ def voiture(nbr,lang):
                 if valeur_bg == "":
                     return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=champerr)
+                for i in range(len(valeur_bg)):
+                    if valeur_bg[i].isalpha():
+                        return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg4)
             if radio_ca7 == 'radio_ca7_non':
                 valeur_rc = "EXCLUE"
             else:
                 if valeur_rc == "" :
                     return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=champerr)
+                for j in range(len(valeur_rc)): 
+                    if valeur_rc[j].isalpha():
+                        return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg4)
             session['bris_glace'] = bris_glace
-            session['valeur_bg'] = valeur_bg
+            session.get('garantie')['valeur_bg'] = valeur_bg
             session['radio_ca7'] = radio_ca7
-            session['valeur_rc'] = valeur_rc
+            session.get('garantie')['valeur_rc'] = valeur_rc
             session['vform7']  = 'submitted'
         if 'vform8' in req:
             conducteur_plus = req.get('conducteur_plus')
-            capital_assure_cp = req.get('capital_assure_cp')
-
+            capital_assure_cp1 = req.get('capital_assure_cp')
+            size1 = len(capital_assure_cp1)
+            capital_assure_cp = capital_assure_cp1[:size1 - 2]
             if conducteur_plus == "conducteur_plus_non":
                 conducteur_plus = "EXCLUE"
                 capital_assure_cp = "EXCLUE"
+            else : 
+                conducteur_plus = "OUI"
             damage = req.get('damage')
             incendie = session.get('voiture')['valeur_actuelle']
-            capital_assure_d = req.get('capital_assure_d')
+            capital_assure_d1 = req.get('capital_assure_d')
+            size2 = len(capital_assure_d1)
+            capital_assure_d = capital_assure_d1[:size2 - 2]
             franchise = req.get('franchise')
             if damage == "damage_basique":
                 dommage_collision = "EXCLUE"
@@ -1109,14 +1124,14 @@ def voiture(nbr,lang):
             else :
                 dommage_collision = "EXCLUE"
                 dommage_tous_risques = incendie
-            session['conducteur_plus'] = conducteur_plus
-            session['capital_assure_cp'] = capital_assure_cp
+            session.get('garantie')['conducteur_plus'] = conducteur_plus
+            session.get('garantie')['capital_assure_cp'] = capital_assure_cp
             session['damage'] = damage
-            session['incendie'] = incendie
+            session.get('garantie')['incendie'] = incendie
             session['capital_assure_d'] = capital_assure_d
-            session['franchise'] = franchise
-            session['dommage_collision'] = dommage_collision
-            session['dommage_tous_risques'] = dommage_tous_risques
+            session.get('garantie')['franchise'] = franchise
+            session.get('garantie')['dommage_collision'] = dommage_collision
+            session.get('garantie')['dommage_tous_risques'] = dommage_tous_risques
             session['vform8']  = 'submitted'
         if 'vform9' in req:
             email = req.get('email')
@@ -1221,6 +1236,7 @@ def voiture(nbr,lang):
                  
             })
             voi = Voiture.insert_one({
+                'client_id': client.inserted_id,
                 'type': session.get('voiture')['typev'],
                 'marq_model': session.get('voiture')['marq_model'],
                 'puissance_fiscale': session.get('voiture')['puissance'],
@@ -1228,50 +1244,22 @@ def voiture(nbr,lang):
                 'valeur_actuelle': session.get('voiture')['valeur_actuelle'],
                 'bonus_malus': session.get('voiture')['bonus_malus']
                     })
-            Contrat_vehicule.insert_one({
+            Garantie.insert_one({
             
                 'client_id': client.inserted_id,
                 'voiture_id': voi.inserted_id,
-                'incendie ou vol': session['incendie'],
-                'dommage_collision': session['dommage_collision'],
-                'dommage_tous_risques': session['dommage_tous_risques'],
-                'franchise_TR': session['franchise'],
-                'radio_cassette': session['valeur_rc'],
-                'bris_de_glace': session['valeur_bg'],
-                'remorquage': session['remorquage'],
-                'nbr_pers_transporte': session['nbp'],
-                'capital_deces': session['capital_d'],
-                'conducteur_plus': session['conducteur_plus'],
-                'capital_assure_cp': session['capital_assure_cp']
+                'incendie-vol': session.get('garantie')['incendie'],
+                'dommage_collision': session.get('garantie')['dommage_collision'],
+                'dommage_tous_risques': session.get('garantie')['dommage_tous_risques'],
+                'franchise_TR': session.get('garantie')['franchise'],
+                'radio_cassette': session.get('garantie')['valeur_rc'],
+                'bris_de_glace': session.get('garantie')['valeur_bg'],
+                'remorquage': session.get('garantie')['remorquage'],
+                'nbr_pers_transporte': session.get('garantie')['nbp'],
+                'capital_deces': session.get('garantie')['capital_d'],
+                'conducteur_plus': session.get('garantie')['conducteur_plus'],
+                'capital_assure_cp': session.get('garantie')['capital_assure_cp']
             })
-        if nbr == "12" and request.method == 'POST':
-        
-            if session.get('client')['confirmed']:
-                print("kjh")
-                voiture = session.get('voiture')
-                client = session.get('client')
-                contrat = Contrat_vehicule.find()
-                garantie = Contrat_vehicule.find().sort( "_id", -1 ).limit(1)
-                print(garantie)
-                #load(client, voiture, garantie)
-                session['loaded'] = True
-                session['done'] = True
-                session['finished'] = True  # finished is for when the client submits the last form (passwords) and from
-                                            # then he shouldn't be allowed to return to signups
-                #text_association = "this is the contract of the client : "+client['nom']+' '+client['prenom']+" with the id "\
-                #       +str(session.get('clid'))+" : <br>this contract is still not paid"
-                #sendPDF('kallel.beya@gmail.com', 'demande_de_stage.pdf', text_association)
-                #text_client = "the contract is ready now and waiting to be paid!<br> if you want to modify it just log in and choose" \
-                #              " your contract if you have more than one"
-                #sendPDF(client['email'], 'demande_de_stage.pdf', text_client)
-                return redirect("/preview-voiture/" + lang)
-        elif nbr == "12" and request.method == 'GET':
-            print('df')
-            abort(403)
-        
-    if int(nbr) > 9 and session.get('client')['confirmed'] == False:
-        return render_template('confirm/confirm.html', confirmed=False, error=verify, lang=lang)
-
     if session == {'_permanent': True} and int(nbr) > 1:  # if session vide wenti moch fel page 1
         return redirect("/voiture/1/" + lang)
     if int(nbr) in range(2, 12) and ('vform' + str(int(nbr) - 1) not in session):
@@ -1281,8 +1269,33 @@ def voiture(nbr,lang):
             if ('vform' + str(i)) in session:
                 form = str(i)
             print(form)
-        return redirect("/voiture/" + form + "/" + lang)  
+        return redirect("/voiture/" + form + "/" + lang)
 
+    if nbr == "12" and request.method == 'POST':
+    
+        if session.get('client')['confirmed']:
+            voiture = session.get('voiture')
+            client = session.get('client')
+            garantie = session.get('garantie')
+            loadAuto(client, voiture, garantie)
+            session['loaded'] = True
+            session['done'] = True
+            session['finished'] = True  # finished is for when the client submits the last form (passwords) and from
+                                        # then he shouldn't be allowed to return to signups
+            text_association = "This is the contract of the client : "+client['prenom']+' '+client['nom']+" with the id "\
+                   +str(session.get('client_id'))+" : <br>this contract is still not paid"
+            sendPDF('kallel.beya@gmail.com', 'contrat_voiture.pdf', text_association)
+            text_client = "The contract is ready now and waiting to be paid!<br> If you want to modify it just log in and choose" \
+                          " your contract if you have more than one"
+            sendPDF(client['email'], 'contrat_voiture.pdf', text_client)
+            #return redirect(url_for('gen/contract/voiture')
+            return redirect("/preview-voiture/" + lang)
+    elif nbr == "12" and request.method == 'GET':
+        print('df')
+        abort(403)
+        
+    if int(nbr) > 9 and session.get('client')['confirmed'] == False:
+        return render_template('confirm/confirm.html', confirmed=False, error=verify, lang=lang)
 
     return render_template("voiture/register/voiture" +nbr+".html", nbr = nbr, lang = lang)
 @app.route('/confirm_email_v/<token>/<lang>')
@@ -1321,22 +1334,14 @@ def confirm_email_v(token, lang):
 
 @app.route('/gen/contract/voiture')
 def generatevoiture():
-    client = session.get('client'),
-    garantie = [['Incendie/Vol' , session.get('valeur_actuelle')],
-        ['Dommage Collision', session.get('dommage_collision')],
-        ['Dommage Tous Risques', session.get('dommage_tous_risques')],
-        ['Franchise Dommage Tous Risque', session.get('franchise')],
-        ['Radio Cassette', session.get('valeur_rc')],
-        ['Bris de Glace', session.get('valeur_bg')],  
-        ['Remorquage', session.get('remorquage')],
-        ['Nombre de personnes transportees', session.get('nbp')],
-        ['capital_deces', session.get('capital_d')],
-        ['conducteur_plus', session.get('conducteur_plus')],
-        ['capital_assure_cp', session.get('capital_assure_cp')]]
-    rendered = render_template('contrat/contrat_voiture.html',
-                               client = client,
-                               datecontrat = datetime.now().date(),
-                               garantie= garantie)
+    print('fgr')
+    client = session.get('client')
+    garantie = session.get('garantie')
+   
+    rendered = render_template('contrat_voiture/contrat_voiture.html',
+                               client=client,
+                               garantie=garantie,
+                               contrat=Contrat.find_one({'_id': garantie['contract']}))
     css=['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
     pdf = pdfkit.from_string(rendered, False,css=css)
     sendPDF('kallel.beya@gmail.com', pdf, 'test pdf 12 12 12')
