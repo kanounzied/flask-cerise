@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+{% block title %}About Us {% endblock %}
+{% block style %}
+<style>
+    body{
+        overflow-x: hidden;
+    }
+    .container-fluid{
+        padding-top: 50px;
+    }
+    .wrapper .container-fluid .paragraphe p{
+        width: 80%;
+    }
+    .wrapper .container-fluid .paragraphe img{
+        width: 20%;
+        padding: 35px;
+        padding-top: 25px;
+    }
+    .paragraphe{
+        display: flow-root;
+    }
+    .paragraphe p, .paragraphe img{
+        opacity: 0;
+        transition: all ease-in-out 1.5s;
+    }
+    .paragraphe._1 p{
+        transform: translateX(-75vw);
+    }
+    .paragraphe._1 img{
+        transform: translateX(75vw);
+    }
+    .paragraphe._2 p{
+        transform: translateX(75vw);
+    }
+    .paragraphe._2 img{
+        transform: translateX(-75vw);
+    }
+    #right, #left{
+        transition: all ease-in-out 1.5s;
+    }
+    #handImg{
+        opacity: 0;
+        width: 300px;
+        margin-top: 70px;
+        transform: translateY(200px);
+        transition: 1.2s all cubic-bezier(.66,.12,.34,1.68);
+    }
+    @media screen and (max-width: 768px) {
+    }
+</style>
+{% endblock %}
+{% block sidenav %}
+{% if lang == 'english' %}
+<a href="/home/english">Home</a>
+<!--<a href="/login/english">My account</a>-->
+<!--<a href="#">Claims</a>-->
+{% else %}{% if lang == 'french' %}
+<a href="/home/french">Acceuil</a>
+<a href="#">Informations</a>
+<!--    <a href="#">Réclamations</a>-->
+<!--<a href="/login/french">Mon compte</a>-->
+{% else %}{% if lang == 'arabe' %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="#">معلومات</a>
+<!--    <a href="#">مطالب</a>-->
+<!--<a href="/login/arabe">حسابي</a>-->
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block navbarli %}
+{% if lang == 'arabe' %}
+<li >
+    <a class="arab" href="/home/arabe">الرئيسية</a>
+</li>
+<li >
+    <a class="arab" href="#">معلومات </a>
+</li>
+<li>
+    <a href="/addreport/1/arabe">محضر</a>
+</li>
+<!--<li >-->
+<!--    <a class="arab" href="#">مطالب</a>-->
+<!--</li>-->
+<!--<li class="pull-right">-->
+<!--    <a href="/login/arabe">حسابي</a>-->
+<!--</li>-->
+<li class="pull-right">
+    <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
+    <div class="dropdown show">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Ar
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="/home/arabe">Ar</a>
+            <a class="dropdown-item" href="/home/french">Fr</a>
+            <a class="dropdown-item" href="/home/english">Eng</a>
+        </div>
+    </div>
+</li>
+{% else %}{% if lang == 'french' %}
+<li >
+    <a  href="/home/french">Acceuil</a>
+</li>
+<li >
+    <a  href="#">Informations</a>
+</li>
+<!--    <li >-->
+<!--        <a  href="#">Réclamations</a>-->
+<!--    </li>-->
+<li >
+    <a  href="/addreport/1/french">Constat</a>
+</li>
+<!--<li class="pull-right">-->
+<!--    <a href="/login/french">Mon compte</a>-->
+<!--</li>-->
+<li class="pull-right">
+    <div class="dropdown show">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Fr
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="/home/arabe">Ar</a>
+            <a class="dropdown-item" href="/home/french">Fr</a>
+            <a class="dropdown-item" href="/home/english">Eng</a>
+        </div>
+    </div>
+</li>
+{% else %}{% if lang == 'english' %}
+<li>
+    <a href="/home/english">Home</a>
+</li>
+<li>
+    <a href="#">About Us </a>
+</li>
+<!--    <li>-->
+<!--        <a href="#">Claims</a>-->
+<!--    </li>-->
+<li>
+    <a href="/addreport/1/english">Car Report</a>
+</li>
+<!--<li class="pull-right">-->
+<!--    <a href="/login/english">My account</a>-->
+<!--</li>-->
+<li class="pull-right">
+    <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
+    <div class="dropdown show">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Eng
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="/home/arabe">Ar</a>
+            <a class="dropdown-item" href="/home/french">Fr</a>
+            <a class="dropdown-item" href="/home/english">Eng</a>
+        </div>
+    </div>
+</li>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block body %}
+<div class="container-fluid">
+    <h1 id="left" style="transform: translate(-90vw)">Forget Everything You Know About</h1>
+    <h1 id="right" style="transform: translate(80vw)">Insurance</h1>
+    <img id="handImg" src="/static/images/aboutus/insure.png" alt="">
+    <div class="paragraphe _1" style="margin-top: 50px">
+        <p style="float: left">Cerise is transforming the very business model of insurance.
+            By injecting technology and transparency into an industry that often lacks both,
+            we’re creating an insurance experience that is fast, affordable, and hassle free.
+            We currently offer renters, homeowners, automobile and health insurance. </p>
+        <img style="float: right" src="/static/images/insured-red.png" alt="">
+    </div>
+    <div class="paragraphe _2" style="margin-top: 50px">
+        <p style="float: right">Cerise changes the traditional insurance model.
+            Customers do not need to call or go to the nearest Insurance company to get insured.
+            With few simple clicks, everything becomes simple and transparent. We send contracts,
+            resolve claims fast, and be there for you in your difficult times.  </p>
+        <img style="float: left" src="/static/images/aboutus/insure-house.png" alt="">
+    </div>
+    <div  style="margin-top: 50px">
+        <img style="margin: 30px 0" src="/static/images/aboutus/temporary.PNG" alt=""><br>
+        <img style="margin: 30px 0" src="/static/images/aboutus/heart.PNG" alt="">
+        <h2>JOIN THE CERISE MOUVEMENT !</h2>
+    </div>
+
+
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+
+    setTimeout(function () {
+            document.getElementById('left').style.transform = "translate(0vw)"
+            document.getElementById('right').style.transform = "translate(0vw)"
+            document.getElementById('handImg').style.transform = "translateY(-50px)"
+            document.getElementById('handImg').style.opacity = "1"
+    },100)
+
+    function paragscroll() {
+        if ($(window).width() > 751) {
+            if (document.documentElement.scrollTop >= 250) {
+                $("._1 p").css('transform', 'translateX(0)').css('opacity', '1')
+                $("._1 img").css('transform', 'translateX(0)').css('opacity', '1')
+            }
+            if (document.documentElement.scrollTop >= 470) {
+                $("._2 p").css('transform', 'translateX(0)').css('opacity', '1')
+                $("._2 img").css('transform', 'translateX(0)').css('opacity', '1')
+            }
+        }
+    }
+</script>
+{% endblock %}

@@ -82,9 +82,13 @@ def clear():  # vider la session client
     session.clear()
     return redirect('/')
 
+@app.route('/about/<lang>')
+def about(lang):
+    return render_template('home/aboutUs.html', lang=lang)
+
 @app.route("/prints")
 def prints():  # vider la session client
-    # # print(session)
+    print(session)
     return "str(session)"
 
 @app.route("/signup/<nbr>/<lang>", methods=['GET', 'POST'])
