@@ -50,5 +50,16 @@ class Voiture_:
         self.valeur_a_neuf = ""
         self.valeur_actuelle = ""
         self.bonus_malus = ""
-#class GarantieAuto_: 
-#    def __init__(self, )
+class GarantieAuto_: 
+    def __init__(self, remorquage, nbp, capital_d):
+        self.incendie = ""
+        self.dommage_collision= ""
+        self.dommage_tous_risques = ""
+        self.franchise = ""
+        self.valeur_rc = ""
+        self.valeur_bg = ""
+        self.remorquage = remorquage
+        self.nbp = nbp
+        self.capital_d = capital_d
+        self.conducteur_plus = ""
+        self.capital_assure_cp =""
