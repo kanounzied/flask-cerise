@@ -1,0 +1,1261 @@
+{% extends 'base.html' %}
+{% block title %}{{lang}} preview{% endblock %}
+{% block head %}
+{% assets "scss_all" %}
+<link rel="stylesheet" href="/static/gen/all.css">
+{% endassets %}
+<style>
+    .container-fluid {
+        text-align: center !important;
+    }
+
+    .container {
+        margin: 0;
+        max-width: 100%;
+    }
+
+    .couvrage-amounts, .deductible, .not.covered {
+        background-color: #f5f5f5;
+    }
+
+    .card-img-top {
+        width: 150px;
+        margin: auto;
+    }
+
+    .card {
+        max-width: 80%;
+        min-height: 560px;
+        margin: auto;
+        margin-bottom: 20px;
+        padding-top: 10px;
+    }
+
+    .card-body {
+        padding: 2.25rem;
+    }
+
+    .card-footer {
+        border-top: 3px solid rgb(232 27 46);
+    }
+</style>
+{% endblock %}
+{% block dropdown %}
+<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item" href="/previewvoiture/arabe">Ar</a>
+    <a class="dropdown-item" href="/previewvoiture/french">Fr</a>
+    <a class="dropdown-item" href="/previewvoiture/english">Eng</a>
+</div>
+{% endblock %}
+{% block sidenav %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<a href="#">Claims</a>
+<a href="/clear">Logout</a>
+{% endblock %}
+{% block lang %}{{lang}}{% endblock %}
+{% block navbarli %}
+{% if lang == "english" %}
+<li>
+    <a href="/home/english">Home</a>
+</li>
+<li>
+    <a href="#">About Us </a>
+</li>
+<li>
+    <a href="#">Claims</a>
+</li>
+<li class="pull-right">
+    <a href="#">My account</a>
+</li>
+<li class="pull-right">
+    <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
+    <div class="dropdown show">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Eng
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="/previewvoiture/arabe">Ar</a>
+            <a class="dropdown-item" href="/previewvoiture/french">Fr</a>
+            <a class="dropdown-item" href="/previewvoiture/english">Eng</a>
+        </div>
+    </div>
+</li>
+{% else %}{% if lang == "french" %}
+<li>
+    <a href="/home/french">Accueil</a>
+</li>
+<li>
+    <a href="#">Informations</a>
+</li>
+<li>
+    <a href="#">Réclamations</a>
+</li>
+<li class="pull-right">
+    <a href="/clear">Déconnexion</a>
+</li>
+<li class="pull-right">
+    <div class="dropdown show">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+            Fr
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="/previewvoiture/arabe">Ar</a>
+            <a class="dropdown-item" href="/previewvoiture/french">Fr</a>
+            <a class="dropdown-item" href="/previewvoiture/english">Eng</a>
+        </div>
+    </div>
+</li>
+{% else %} {% if lang == "arabe" %}
+<li>
+    <a class="arab" href="/home/arabe">الرئيسية</a>
+</li>
+<li>
+    <a class="arab" href="#">معلومات </a>
+</li>
+<li>
+    <a class="arab" href="#">مطالب</a>
+</li>
+<li class="pull-right">
+    <a href="/clear">خروج</a>
+</li>
+<li class="pull-right">
+    <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
+    <div class="dropdown show">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+            Ar
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="/previewvoiture/arabe">Ar</a>
+            <a class="dropdown-item" href="/previewvoiture/french">Fr</a>
+            <a class="dropdown-item" href="/previewvoiture/english">Eng</a>
+        </div>
+    </div>
+</li>
+{% endif %}
+{% endif %}
+{% endif %}
+
+{% endblock %}
+{% block preloader %}
+<div id="preloader" style="margin: 200px auto;width:fit-content;display: none">
+    <div class="plzwait">
+        {% if lang == "english" %}
+        <span>Please wait until we calculate your payment!</span>
+        {% else %} {% if lang == "french" %}
+        <span>Veuillez attendre , nous calculons votre payement!</span>
+        {% else %} {% if lang == "arabe" %}
+        <span>يرجى الانتظار حتى نقوم بحساب الدفع!</span>
+        {% endif %}
+        {% endif %}
+        {% endif %}
+    </div>
+    <div class="loading">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+    <div class="after-pre">
+        <img src="" alt="">
+        <p>loading vehicle ...</p>
+    </div>
+</div>
+{% endblock %}
+{% block bg_box %}
+{% if lang == "english" %}
+<div class="box" id="backgroung-merged2">
+    <div class="container-fluid" style="position: unset">
+        <h1>Cerise Auto Insurance</h1>
+        <p>{{voiture}}</p>
+        <div class="monthan">
+            <div class="month" style="width: 0; padding: 0; visibility: hidden"> MONTHLY
+            </div>
+            <div class="show">
+                <div class="otherpreloader" style="display: none">
+                    <img src="/static/images/black-hole-white.gif" style="width: 30px" alt="">
+                </div>
+                MONTHLY
+            </div>
+            <div class="an">ANNUAL
+                <discount>5%</discount>
+            </div>
+
+        </div>
+        <div class="shape">
+            <price>45dt</price>
+            <small>per month</small>
+            <div class="otherpreloader" style="display: none">
+                <img src="/static/images/black-hole-pink.gif" alt="">
+            </div>
+        </div>
+        <div class="calendar" id="sandbox-container">
+            <form id="final" class="form-group row" action="">
+                <label for="date" class="col-form-label"><b>start date: </b></label>
+                <input style="max-width: 110px; margin-left: 15px" type="text" value="" class="form-control" id="date">
+            </form>
+        </div>
+        <br>
+        <button class="btn btn-primary pay_button" style="margin-top: 0" data-toggle="modal"
+                data-target="#payment">
+            <tag>PAY</tag>
+            <number>45dt</number>
+            <div class="otherpreloader" style="display: none">
+                <img src="/static/images/black-hole-pink.gif" style="width: 30px" alt="">
+            </div>
+            <tag>/MONTH</tag>
+        </button>
+    </div>
+</div>
+{% else %}{% if lang == "french" %}
+<div class="box" id="backgroung-merged2">
+    <div class="container-fluid" style="position: unset">
+        <h1>Cerise Assurence Auto</h1>
+        <p>{{adresse}}</p>
+        <div class="monthan">
+            <div class="month" style="width: 0; padding: 0; visibility: hidden"> PAR MOIS
+            </div>
+            <div class="show">
+                <div class="otherpreloader" style="display: none">
+                    <img src="/static/images/black-hole-white.gif" style="width: 30px" alt="">
+                </div>
+                PAR MOIS
+            </div>
+            <div class="an">ANNUEL
+                <discount>5%</discount>
+            </div>
+
+        </div>
+        <div class="shape">
+            <price>45dt</price>
+            <small>par mois</small>
+            <div class="otherpreloader" style="display: none">
+                <img src="/static/images/black-hole-pink.gif" alt="">
+            </div>
+        </div>
+        <div class="calendar" id="sandbox-container">
+            <form id="final" class="form-group row" action="">
+                <label for="date" class="col-form-label"><b>date de début: </b></label>
+                <input style="max-width: 110px; margin-left: 15px" type="text" value="" class="form-control" id="date">
+            </form>
+        </div>
+        <br>
+        <button class="btn btn-primary pay_button" style="margin-top: 0" data-toggle="modal"
+                data-target="#payment">
+            <tag>PAYEZ</tag>
+            <number>45dt</number>
+            <div class="otherpreloader" style="display: none">
+                <img src="/static/images/black-hole-pink.gif" style="width: 30px" alt="">
+            </div>
+            <tag>/MOIS</tag>
+        </button>
+    </div>
+</div>
+{% else %}{% if lang == "arabe" %}
+<div class="box" id="backgroung-merged2">
+    <div class="container-fluid" style="position: unset">
+        <h1>سوريز  لتأمين السيارات</h1>
+        <p>{{adresse}}</p>
+        <div class="monthan">
+            <div class="month" style="width: 0; padding: 0; visibility: hidden"> شهريا
+            </div>
+            <div class="show">
+                <div class="otherpreloader" style="display: none">
+                    <img src="/static/images/black-hole-white.gif" style="width: 30px" alt="">
+                </div>
+                شهريا
+            </div>
+            <div class="an">
+                <discount>5%</discount>
+                السنوي
+            </div>
+
+        </div>
+        <div class="shape">
+            <price>45دت</price>
+            <small>شهريا</small>
+            <div class="otherpreloader" style="display: none">
+                <img src="/static/images/black-hole-pink.gif" alt="">
+            </div>
+        </div>
+        <div class="calendar" id="sandbox-container">
+            <form id="final" class="form-group row" action="">
+                <input style="max-width: 110px; margin-right: 15px" type="text" value="" class="form-control" id="date">
+                <label for="date" class="col-form-label"><b>:تاريخ البدئ </b></label>
+            </form>
+        </div>
+        <br>
+        <button class="btn btn-primary pay_button" style="margin-top: 0" data-toggle="modal"
+                data-target="#payment">
+            <tag>إدفع</tag>
+            <number>45دت</number>
+            <div class="otherpreloader" style="display: none">
+                <img src="/static/images/black-hole-pink.gif" style="width: 30px" alt="">
+            </div>
+            <tag>/شهر</tag>
+        </button>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block body %}
+{% if lang == "english" %}
+<div class="couvrage-amounts container">
+    <div class="title">
+        <h3><b>Coverage Amounts</b></h3>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <div class="card text-center">
+                <img class="card-img-top" src="/static/images/emeute.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">ACCIDENTAL DAMAGE FROM RIOTS AND NATURAL DISASTERS</h5>
+                    <p class="card-text">If your vehicle is damaged following a 
+                        natural disaster or riot, we will pay you compensation. </p>
+                </div>
+                <div class="card-footer">
+                    <div class="plusminus" id="car_damaged">
+                        <button type="button" class="btn btn-outline-danger minus"
+                        
+                                style="left: 35px;padding: 3px 14px;"><h4>-</h4></button>
+                        <div class="value text-center"><h4>5000dt</h4></div>
+                        <button type="button" class="btn btn-outline-danger plus"
+                         
+                                style="right: 35px;"><h4>+</h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <div class="card text-center">
+                <img class="card-img-top" src="/static/images/injured.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">MEDICAL EXPENSES</h5>
+                    <p class="card-text">Reimbursement of medical expenses (hospitalization, outpatient treatment and revalidation).</p>
+                </div>
+                <div class="card-footer">
+                    <div class="plusminus" id="medical">
+                        <button type="button" class="btn btn-outline-danger minus"
+                                style="left: 35px;padding: 3px 14px;"><h4>-</h4></button>
+                        <div class="value text-center"><h4>500dt</h4></div>
+                        <button type="button" class="btn btn-outline-danger plus"
+                                style="right: 35px;"><h4>+</h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="title"></div>
+</div>
+<div class="covered container">
+    <div class="title"><h3><b>What's covered</b></h3></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/fire.png" alt="">
+                </div>
+                <div class="header"><h4><b>FIRE</b></h4></div>
+                <div class="parag"><p>In the event of a fire claim, we will
+                     refund the vehicle's current value.</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/disaster.png" alt="">
+                </div>
+                <div class="header"><h4><b>NATURAL DISASTERS</b></h4></div>
+                <div class="parag"><p>Your vehicle is covered due to any natural disaster.</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/civil.png" alt="">
+                </div>
+                <div class="header"><h4><b>CIVIL LIABILITY</b></h4></div>
+                <div class="parag"><p>Whatever the nature of your activity, 
+                    you are exposed to risks that may engage your civil liability.
+                    Don't worry, you're covered.</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/theif.png" alt="">
+                </div>
+                <div class="header"><h4><b>CRIME AND VANDALISM</b></h4></div>
+                <div class="parag"><p>We cover your vehicle in case it is stolen or damaged.</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="not covered container">
+    <div class="title"><h3><b>What's not covered</b></h3></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/breakdown.png" alt="">
+                </div>
+                <div class="header"><h4><b>TECHNICAL BREAKDOWNS</b></h4></div>
+                <div class="parag"><p>Technical breakdowns coverage is not included in our base policy.</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/carspeaker.png" alt="">
+                </div>
+                <div class="header"><h4><b>ADDED ACCESSORIES</b></h4></div>
+                <div class="parag"><p> Let’s say you want to personalize your car 
+                    and you’ve bought a new music system and a nice DVD screen. 
+                    These items will not be covered by your car insurance policy 
+                    because they are categorized as personal items.</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/othercar.png" alt="">
+                </div>
+                <div class="header"><h4><b>DRIVING AN UNOWNED VEHICLE</b></h4></div>
+                <div class="parag"><p>If you drive a different car and get into an accident, 
+                    you will not be covered. If that car is already on another insurance 
+                    policy, you should be covered.</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/items.png" alt="">
+                </div>
+                <div class="header"><h4><b>PERSONAL BELONGINGS INSIDE THE VEHICLE</b></h4></div>
+                <div class="parag"><p> If your car is stolen or damaged, as well as your
+                     personal items that you may have left inside, those items will not be covered.</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}{% if lang == "french" %}
+<div class="couvrage-amounts container">
+    <div class="title">
+        <h3><b>Montant de Couvertures</b></h3>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <div class="card text-center">
+                <img class="card-img-top" src="/static/images/emeute.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">DOMMAGES ACCIDENTELS SUITE À DES EMEUTES ET CATASTROPHES NATURELLES</h5>
+                    <p class="card-text">Si votre véhicule est endommagé à la suite d'une catastrophe naturelle 
+                        ou d'une émeute, nous vous verserons une somme d'argent.  </p>
+                </div>
+                <div class="card-footer">
+                    <div class="plusminus" id="car_damaged">
+                        <button type="button" class="btn btn-outline-danger minus"
+                                style="left: 35px;padding: 3px 14px;"><h4>-</h4></button>
+                        <div class="value text-center"><h4>5000dt</h4></div>
+                        <button type="button" class="btn btn-outline-danger plus"
+                                style="right: 35px;"><h4>+</h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <div class="card text-center">
+                <img class="card-img-top" src="/static/images/injured.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">FRAIS MEDICAUX</h5>
+                    <p class="card-text">Remboursement des frais médicaux (hospitalisation, traitement ambulatoire et revalidation).</p>
+                </div>
+                <div class="card-footer">
+                    <div class="plusminus" id="medical">
+                        <button type="button" class="btn btn-outline-danger minus"
+                                style="left: 35px;padding: 3px 14px;"><h4>-</h4></button>
+                        <div class="value text-center"><h4>500dt</h4></div>
+                        <button type="button" class="btn btn-outline-danger plus"
+                                style="right: 35px;"><h4>+</h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="title"></div>
+</div>
+<div class="covered container">
+    <div class="title"><h3><b>Ce qui est couvert</b></h3></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/fire.png" alt="">
+                </div>
+                <div class="header"><h4><b>INCENDIE</b></h4></div>
+                <div class="parag"><p>En cas de sinistre incendie, notre compagnie d'assurance 
+                    remboursera la valeur actuelle du véhicule.</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/disaster.png" alt="">
+                </div>
+                <div class="header"><h4><b>CATASTROPHES NATURELLES</b></h4></div>
+                <div class="parag"><p>Votre véhicule est couvert en cas de catastrophe naturelle.</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/civil.png" alt="">
+                </div>
+                <div class="header"><h4><b>RESPONSABILITE CIVILE</b></h4></div>
+                <div class="parag"><p>Quelle que soit la nature de votre activité, 
+                    vous êtes exposés à des risques qui peuvent engager votre responsabilité civile.</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/theif.png" alt="">
+                </div>
+                <div class="header"><h4><b>CRIME VANDALISME</b></h4></div>
+                <div class="parag"><p>Nous couvrons votre véhicule au cas où il serait volé ou endommagé.</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="not covered container">
+    <div class="title"><h3><b>Ce qui n'est pas couvert</b></h3></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/breakdown.png" alt="">
+                </div>
+                <div class="header"><h4><b>PANNES TECHNIQUES</b></h4></div>
+                <div class="parag"><p>La couverture des pannes techniques n'est pas incluse dans notre police de base.</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/carspeaker.png" alt="">
+                </div>
+                <div class="header"><h4><b>ACCESSOIRES AJOUTES</b></h4></div>
+                <div class="parag"><p> Supposons que vous vouliez personnaliser votre voiture 
+                    et que vous ayez acheté un nouveau système de musique et un 
+                    bel écran DVD. Ces articles ne seront pas couverts car ils sont classés 
+                    comme des articles personnels.</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/othercar.png" alt="">
+                </div>
+                <div class="header"><h4><b>CONDUIRE UN VEHICULE NON-APPARTENANT</b></h4></div>
+                <div class="parag"><p>Si vous conduisez une voiture qui ne vous appartient pas
+                     et que vous faites un accident, vous ne serez pas couvert. Si cette voiture
+                      est déjà couverte par une autre assurance, vous devez être couvert.</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/items.png" alt="">
+                </div>
+                <div class="header"><h4><b>LES OBJETS PERSONNELS À L'INTÉRIEUR DU VÉHICULE</b></h4></div>
+                <div class="parag"><p> Si votre véhicule est volé ou endommagé, ainsi que vos objets
+                     personnels que vous avez laissés à l'intérieur, ces objets ne seront pas couverts</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% else %}{% if lang == "arabe" %}
+<div class="couvrage-amounts container">
+    <div class="title">
+        <h3><b>مبالغ التغطية</b></h3>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <div class="card text-center">
+                <img class="card-img-top" src="/static/images/emeute.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">الأضرار العرضية من الشغب والكوارث الطبيعية</h5>
+                    <p class="card-text">.إذا تعرضت سيارتك للتلف بعد كارثة طبيعية أو أعمال شغب ، فسنقوم بدفع تعويض لك</p>
+                </div>
+                <div class="card-footer">
+                    <div class="plusminus" id="car_damaged">
+                        <button type="button" class="btn btn-outline-danger minus"
+                                style="left: 35px;padding: 3px 14px;"><h4>-</h4></button>
+                        <div class="value text-center"><h4>5000dt</h4></div>
+                        <button type="button" class="btn btn-outline-danger plus"
+                                style="right: 35px;"><h4>+</h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <div class="card text-center">
+                <img class="card-img-top" src="/static/images/injured.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">المصاريف الطبية</h5>
+                    <p class="card-text">.تسديد النفقات الطبية (العلاج في المستشفى ، العلاج في العيادات الخارجية وإعادة التحقق)</p>
+                </div>
+                <div class="card-footer">
+                    <div class="plusminus" id="medical">
+                        <button type="button" class="btn btn-outline-danger minus"
+                                style="left: 35px;padding: 3px 14px;"><h4>-</h4></button>
+                        <div class="value text-center"><h4>500dt</h4></div>
+                        <button type="button" class="btn btn-outline-danger plus"
+                                style="right: 35px;"><h4>+</h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="title"></div>
+</div>
+<div class="covered container">
+    <div class="title"><h3><b>أنت مؤمّن من</b></h3></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/fire.png" alt="">
+                </div>
+                <div class="header"><h4><b>حريق</b></h4></div>
+                <div class="parag"><p>.في حالة وجود مطالبة بالحريق ، سنقوم برد القيمة الحالية للسيارة</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/disaster.png" alt="">
+                </div>
+                <div class="header"><h4><b>الكوارث الطبيعية</b></h4></div>
+                <div class="parag"><p>.سيارتك مغطاة بسبب أي كارثة طبيعية</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/civil.png" alt="">
+                </div>
+                <div class="header"><h4><b>المسؤولية المدنية عن جولان العربة</b></h4></div>
+                <div class="parag"><p>.مهما كانت طبيعة نشاطك ، فأنت معرض لمخاطر قد تنطوي على مسؤوليتك المدنية</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/theif.png" alt="">
+                </div>
+                <div class="header"><h4><b>الجريمة والتخريب</b></h4></div>
+                <div class="parag"><p>.نحن تغطي سيارتك في حال سرقتها أو تلفها</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="not covered container">
+    <div class="title"><h3><b>أنت لست مؤمن من</b></h3></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/breakdown.png" alt="">
+                </div>
+                <div class="header"><h4><b>أعطال فنية</b></h4></div>
+                <div class="parag"><p>.لم يتم تضمين تغطية الأعطال الفنية في سياستنا الأساسية</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/carspeaker.png" alt="">
+                </div>
+                <div class="header"><h4><b>الملحقات المضافة</b></h4></div>
+                <div class="parag"><p>.لنفترض أنك تريد تخصيص سيارتك واشتريت نظامًا موسيقيًا جديدًا وشاشة ديفيدي رائعة. لن يتم تغطية هذه العناصر لأنها مصنفة كأغراض شخصية</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/othercar.png" alt="">
+                </div>
+                <div class="header"><h4><b>قيادة سيارة غير مملوكة</b></h4></div>
+                <div class="parag"><p>.إذا كنت تقود سيارة لا تملكها وتعرضت لحادث ، فلن تتم تغطيتك. إذا كانت هذه السيارة موجودة بالفعل على بوليصة تأمين أخرى ، فيجب أن تكون مغطى</p></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="etiquette">
+                <div class="image-container">
+                    <img src="/static/images/items.png" alt="">
+                </div>
+                <div class="header"><h4><b>الأشياء الشخصية داخل السيارة</b></h4></div>
+                <div class="parag"><p> .إذا سُرقت سيارتك أو تعرضت للتلف ، وكذلك أغراضك الشخصية التي تركتها بالداخل ، فلن تتم تغطية هذه الأشياء</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+<a class="topnav" style="display: none" data-toggle="modal" data-target="#payment" href="">
+    {% if lang == "english" %}
+    <tag>PAY</tag>
+    {% else %}{% if lang == "french" %}
+    <tag>PAYEZ</tag>
+    {% else %}{% if lang == "arabe" %}
+    <tag>إدفع</tag>
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    <number>45dt</number>
+    <div class="otherpreloader" style="display: none">
+        <img src="/static/images/black-hole-pink.gif" style="width: 30px" alt="">
+    </div>
+    <tag>/MONTH</tag>
+</a>
+<a class="myBtn" onclick="topFunction()">&#9651;</a>
+<!-- Modal -->
+
+
+<!-- Payment Modal -->
+{% if lang == "english" %}
+<div class="modal fade" id="payment" tabindex="-1" role="dialog" aria-labelledby="paymentModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="corps container">
+                    <h4>PAYMENT DETAILS</h4>
+                    <form action="/pay_voiture/{{lang}}" method="post">
+                        <div class="form-group">
+                            <select class="form-control" id="sel2">
+                                <option value="month">MONTHLY</option>
+                                <option value="annual">ANNUAL</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="card_num" style="background-image: url(/static/images/card.png);
+                                        padding-left: 38px;
+                                        background-position: 5px;
+                                        background-size: 28px;
+                                        background-repeat: no-repeat;"
+                                   class="form-control" placeholder="Enter Card Number">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="date_carte" class="form-control" style="background-image: url(/static/images/calendar.png);
+                                        padding-left: 38px;
+                                        background-position: 5px;
+                                        background-size: 28px;
+                                        background-repeat: no-repeat;"
+                                   placeholder="Date">
+                        </div>
+                        <div class="form-group ">
+                            <input type="text" name="cvc" class="form-control" style="background-image: url(/static/images/lock.png);
+                                        padding-left: 38px;
+                                        background-position: 5px;
+                                        background-size: 28px;
+                                        background-repeat: no-repeat;"
+                                   placeholder="CVC">
+                        </div>
+                        <div class="row">
+                            <button id="pay_button" type="submit" class="btn btn-primary">Pay
+                                <number>45dt</number>
+                                <tag>/month</tag>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}{% if lang == "french" %}
+<div class="modal fade" id="payment" tabindex="-1" role="dialog" aria-labelledby="paymentModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="corps container">
+                    <h4>DETAILS DE PAIEMENT</h4>
+                    <form action="/pay_voiture/{{lang}}" method="post">
+                        <div class="form-group">
+                            <select class="form-control" id="sel2">
+                                <option value="month">PAR MOIS</option>
+                                <option value="annual">ANNUEL</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="card_num" style="background-image: url(/static/images/card.png);
+                                        padding-left: 38px;
+                                        background-position: 5px;
+                                        background-size: 28px;
+                                        background-repeat: no-repeat;"
+                                   class="form-control" placeholder="Numero de la carte">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="date_carte" class="form-control" style="background-image: url(/static/images/calendar.png);
+                                        padding-left: 38px;
+                                        background-position: 5px;
+                                        background-size: 28px;
+                                        background-repeat: no-repeat;"
+                                   placeholder="Date">
+                        </div>
+                        <div class="form-group ">
+                            <input type="text" name="cvc" class="form-control" style="background-image: url(/static/images/lock.png);
+                                        padding-left: 38px;
+                                        background-position: 5px;
+                                        background-size: 28px;
+                                        background-repeat: no-repeat;"
+                                   placeholder="CVC">
+                        </div>
+                        <div class="row">
+                            <button id="pay_button" type="submit" class="btn btn-primary">Payez
+                                <number>45dt</number>
+                                <tag>/mois</tag>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% else %}{% if lang == "arabe" %}
+<div class="modal fade" id="payment" tabindex="-1" role="dialog" aria-labelledby="paymentModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: 400px" role="document">
+        <div class="modal-content">
+            <div class="modal-body bbbb">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="corps container">
+                    <h4>تفاصيل الدفع</h4>
+                    <form action="/pay_voiture/{{lang}}" method="post">
+                        <div class="form-group">
+                            <select class="form-control" id="sel2">
+                                <option value="month">شهريا</option>
+                                <option value="annual">سنويا</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="card_num" style="background-image: url(/static/images/card.png);
+                                        padding-left: 38px;
+                                        background-position: 5px;
+                                        background-size: 28px;
+                                        background-repeat: no-repeat;"
+                                   class="form-control" placeholder="أدخل رقم البطاقة">
+                        </div>
+                        <div class="form-group ">
+                            <input type="text" name="date_carte" class="form-control" style="background-image: url(/static/images/calendar.png);
+                                        padding-left: 38px;
+                                        background-position: 5px;
+                                        background-size: 28px;
+                                        background-repeat: no-repeat;"
+                                   placeholder="تاريخ انتهاء الصلاحية">
+                        </div>
+                        <div class="form-group ">
+                            <input type="text" name="cvc" class="form-control" style="background-image: url(/static/images/lock.png);
+                                        padding-left: 38px;
+                                        background-position: 5px;
+                                        background-size: 28px;
+                                        background-repeat: no-repeat;"
+                                   placeholder="CVC">
+                        </div>
+                        <div class="row">
+                            <button id="pay_button" type="submit" class="btn btn-primary">إدفع
+                                <number>45دت</number>
+                                <tag> شهريا</tag>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script charset="utf-8" type="text/javascript">
+    var fullDate = new Date()
+    var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+    var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+    if (fullDate.getDate() < 10) {
+        currentDate = "0" + currentDate;
+    }
+    $('#sandbox-container input').datepicker({
+        format: "dd/mm/yyyy",
+        startDate: currentDate,
+        orientation: "bottom right"
+    });
+    var annual = "annual";
+    {% if lang == "french" %}
+    annual = "annuel";
+    {% endif %}
+    {% if lang == "arabe" %}
+    annual = "السنوي";
+    {% endif %}
+    var permonth = "per month";
+    var monthly = "monthly";
+    {% if lang == "french" %}
+    permonth = "par mois";
+    monthly = "par mois";
+    {% endif %}
+    {% if lang == "arabe" %}
+    permonth = "شهريا";
+    monthly = "شهريا";
+    {% endif %}
+    var year = "yr"
+    {% if lang == "french" %}
+    year = "an";
+    {% endif %}
+    {% if lang == "arabe" %}
+    year = "سنة";
+    {% endif %}
+    var add = "add"
+    {% if lang == "french" %}
+    add = "ajouter";
+    {% endif %}
+    {% if lang == "arabe" %}
+    add = "زيد";
+    {% endif %}
+    var dt = "dt"
+    {% if lang == "arabe" %}
+    dt = "دت";
+    {% endif %}
+
+    $('#sandbox-container input').val(currentDate)
+    var month = document.querySelector(".monthan .month");
+    var an = document.querySelector(".monthan .an");
+    var show = document.querySelector(".monthan .show");
+    month.addEventListener('click', function () {
+        month.style.width = "0";
+        month.style.visibility = "hidden";
+        month.style.padding = "0";
+        an.style.width = "145px";
+        an.style.visibility = "visible";
+        an.style.padding = "10px 15px";
+        show.innerHTML = monthly.toUpperCase();
+        show.style.boxShadow = "7px 0 8px -4px #733838";
+    });
+    an.addEventListener('click', function () {
+        an.style.width = "0";
+        an.style.visibility = "hidden";
+        an.style.padding = "0";
+        month.style.width = "100px";
+        month.style.visibility = "visible";
+        month.style.padding = "10px 15px";
+        show.innerHTML = annual.toUpperCase();
+        show.style.boxShadow = "-7px 0 8px -4px #733838";
+    });
+
+    // mybutton = document.querySelector(".myBtn");
+    mybutton = $('.myBtn');
+    otherbutton = $('.topnav');
+    console.log(mybutton)
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+            mybutton.css('display', 'unset');
+            otherbutton.css('display', 'unset');
+            if ($(window).width() < 768) {
+                otherbutton.css('transform', 'translate(0px, 54px) scale(0.8)')
+            } else {
+                otherbutton.css('transform', 'translate(0px, 54px)')
+            }
+        } else {
+            mybutton.css('display', 'none');
+            otherbutton.css('display', 'none');
+            if ($(window).width() < 768) {
+                otherbutton.css('transform', 'translate(0,-54px) scale(0.8)')
+            } else {
+                otherbutton.css('transform', 'translate(0,-54px)')
+            }
+
+        }
+    }
+
+    function topFunction() {
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+
+    // normalement fi app.js
+
+    $(function () {
+        function sendRequest() {
+            //jewelry = 200
+            //if ($(".imagebox button[data-target='#jewelrymodal'].clos").length) {
+            //    jewelry = parseInt($('#jewelrymodal .quantity').val())
+            //    console.log(jewelry)
+            //}
+            //fineart = 200
+            //if ($(".imagebox button[data-target='#fineartmodal'].clos").length) {
+            //    fineart = parseInt($('#fineartmodal .quantity').val())
+            //}
+            //bikes = 200
+            //if ($(".imagebox button[data-target='#bikesmodal'].clos").length) {
+            //    bikes = parseInt($('#bikesmodal .quantity').val())
+            //}
+            //cameras = 200
+            //if ($(".imagebox button[data-target='#camerasmodal'].clos").length) {
+            //    cameras = parseInt($('#camerasmodal .quantity').val())
+            //}
+            //instruments = 200
+            //if ($(".imagebox button[data-target='#instrumentsmodal'].clos").length) {
+            //    instruments = parseInt($('#instrumentsmodal .quantity').val())
+            //}
+            req = $.ajax({
+                url: '/vars_voiture', // à revenir !!
+                type: 'POST',
+                data: {
+                    
+                    car_damaged: parseInt($('#car_damaged').children('.value').children().text().replace('dt', '')),
+                    medical: parseInt($('#medical').children('.value').children().text().replace('dt', '')),
+                    
+                    
+                },
+                beforeSend: function () {
+                    $('.otherpreloader').css('display', 'inline');
+                    $('.pay_button number').hide();
+                    $('.topnav number').hide();
+                    $('price').hide();
+                    $('price+small').hide();
+                    $('#preloader').show();
+                },
+                complete: function () {
+                    $('.otherpreloader').hide();
+                    $('.pay_button number').show();
+                    $('.topnav number').show();
+                    $('price').show();
+                    $('price+small').show();
+                    $('#preloader').show();
+                }
+            })
+            return req;
+        }
+
+        
+        //req = $.ajax({
+        //    url: '/vars',
+        //    type: 'POST',
+        //    data: {
+        //        deductible: parseInt($('#sel1').val().replace('dt', '')),
+        //        properties: parseInt($('#properties').children('.value').children().text().replace('dt', '')),
+        //        liability: parseInt($('#liability').children('.value').children().text().replace('dt', '')),
+        //        medical: parseInt($('#medical').children('.value').children().text().replace('dt', '')),
+        //        house_loss: parseInt($('#house_loss').children('.value').children().text().replace('dt', '')),
+        //        jewelry: jewelry,
+        //        fineart: fineart,
+        //        bikes: bikes,
+        //        cameras: cameras,
+        //        instruments: instruments,
+        //    },
+        //    beforeSend: function () {
+        //        $('#preloader').show();
+        //        
+        //    },
+        //    complete: function () {
+        //        $('#preloader').hide();
+        //        
+        //    }
+        //});
+        req.done(function (data) {
+            var month_price = data.month_price
+            var year_price = data.year_price
+            var year_discount = data.year_discount
+            if (($('.month').css('width') === '0px')) {
+                $(".shape price").text(Math.round(month_price * 100) / 100 + dt);
+                $(".shape small").text(permonth);
+                {% if lang != "arabe" %}
+                $('.monthan .an').text(annual.toUpperCase() + "(-" + Math.round(year_discount * 100) / 100 + 'dt)');
+                {% else %}
+                $('.monthan .an').text(annual.toUpperCase() + "(" + Math.round(year_discount * 100) / 100 + '- دت)');
+                {% endif %}
+                $('.topnav').children('number').text(Math.round(month_price * 100) / 100 + ' ' + dt).parent().children('tag').last().text(permonth.toUpperCase());
+                $('.pay_button').children('number').text(Math.round(month_price * 100) / 100 + ' ' + dt).parent().children('tag').last().text(permonth.toUpperCase());
+                $('#pay_button number').text(Math.round(month_price * 100) / 100 + ' ' + dt);
+                $('select discount').text(' -' + Math.round(year_discount * 100) / 100 + dt)
+            }
+        })
+
+
+        $("form .plusminus button[onclick]").on('click', function () {
+            str = $(this).parents('.modal.fade.show').attr('id');
+            $(this).parents('form').children('.modal-footer').children('.btn').text(add + " " + (parseInt($('#' + str + ' .quantity').val()) / 20).toString() + dt + "/" + year);
+        })
+        
+
+        $('#sel2').on('change', function () {
+            a = $(this)
+            
+            req = $.ajax({
+                url: '/vars_voiture', // a revenir
+                type: 'POST',
+                data: {
+                    car_damaged: parseInt($('#car_damaged').children('.value').children().text().replace('dt', '')),
+                    medical: parseInt($('#medical').children('.value').children().text().replace('dt', '')),
+                },
+            })
+
+            req.done(function (data) {
+                var month_price = data.month_price
+                var year_price = data.year_price
+                var year_discount = data.year_discount
+                if (a.val() === 'month') {
+                    $('#pay_button number').text(Math.round(month_price * 100) / 100)
+                    $('#pay_button tag').text(permonth)
+                } else {
+                    $('#pay_button number').text(Math.round((year_price - year_discount) * 100) / 100 + dt)
+                    $('#pay_button tag').text(year)
+                }
+            })
+
+        })
+
+        var classes = ['.month', '.an']
+        for (classe in classes) {
+            $(classes[classe]).click(function (event) {
+                console.log(annual)
+                req = sendRequest();
+                req.done(function (data) {
+                    var month_price = data.month_price
+                    var year_price = data.year_price
+                    var year_discount = data.year_discount
+                    console.log($('#sel1').val())
+                    if (event.target.className === 'month') {
+                        $(".shape price").text(Math.round(month_price * 100) / 100 + dt);
+                        $(".shape small").text(permonth);
+                        $('.pay_button').children('number').text(Math.round(month_price * 100) / 100 + ' ' + dt).parent().children('tag').last().text(permonth.toUpperCase());
+                        $('.topnav').children('number').text(Math.round(month_price * 100) / 100 + ' ' + dt).parent().children('tag').last().text(permonth.toUpperCase());
+                    } else {
+                        {% if lang != "arabe" %}
+                        $(".shape price").text(Math.round(year_price * 100) / 100 + dt);
+                        $(".shape small").text(annual + '(-' + Math.round(year_discount * 100) / 100 + 'dt)');
+                        $(".an").text(annual.toUpperCase() + '(-' + Math.round(year_discount * 100) / 100 + 'dt)');
+                        $('.monthan .show').text(annual.toUpperCase() + "(-" + Math.round(year_discount * 100) / 100 + 'dt)');
+                        $('.pay_button').children('number').text(Math.round((year_price - year_discount) * 100) / 100 + "dt").parent().children('tag').last().text('');
+                        $('.topnav').children('number').text(Math.round((year_price - year_discount) * 100) / 100 + "dt").parent().children('tag').last().text('');
+                        {% else %}
+                        $(".shape price").text(Math.round(year_price * 100) / 100 + ' دت');
+                        $(".shape small").text(annual + '(' + Math.round(year_discount * 100) / 100 + '- دت)');
+                        $(".an").text(annual.toUpperCase() + '(' + Math.round(year_discount * 100) / 100 + '- دت)');
+                        $('.monthan .show').text(annual.toUpperCase() + "(" + Math.round(year_discount * 100) / 100 + '- دت)');
+                        $('.pay_button').children('number').text(Math.round((year_price - year_discount) * 100) / 100 + " دت").parent().children('tag').last().text('');
+                        $('.topnav').children('number').text(Math.round((year_price - year_discount) * 100) / 100 + " دت").parent().children('tag').last().text('');
+                        {% endif %}
+                    }
+                })
+            })
+        }
+        $(".card .minus").click(function () {
+            amount = $(this).parent().children('.value').children().text();
+            $(this).parent().children('.value').html("<h4>" + (parseInt(amount.substring(0, amount.length - 2)) - 100) + "dt</h4>");
+            updateit();
+        });
+        $(".card .plus").click(function () {
+            amount = $(this).parent().children('.value').children().text();
+            $(this).parent().children('.value').html("<h4>" + (parseInt(amount.substring(0, amount.length - 2)) + 100) + "dt</h4>");
+            updateit();
+        });
+        $('#sel1').on('change', function () {
+            updateit();
+        })
+
+        function updateit() {
+            req = sendRequest();
+            req.done(function (data) {
+                var month_price = data.month_price
+                var year_price = data.year_price
+                var year_discount = data.year_discount
+                if (($('.month').css('width') === '0px')) {
+                    {% if lang != "arabe" %}
+                    $(".shape price").text(Math.round(month_price * 100) / 100 + 'dt');
+                    $(".shape small").text(permonth);
+                    $('.monthan .an').text(annual.toUpperCase() + "(-" + Math.round(year_discount * 100) / 100 + 'dt)');
+                    $('.pay_button').children('number').text(Math.round(month_price * 100) / 100 + "dt");
+                    $('.topnav').children('number').text(Math.round(month_price * 100) / 100 + "dt");
+                    $('select discount').text(Math.round(month_price * 100) / 100 + "dt");
+                    {% else %}
+                    $(".shape price").text(Math.round(month_price * 100) / 100 + ' دت');
+                    $(".shape small").text(permonth);
+                    $('.monthan .an').text(annual.toUpperCase() + "(" + Math.round(year_discount * 100) / 100 + '- دت)');
+                    $('.pay_button').children('number').text(Math.round(month_price * 100) / 100 + " دت");
+                    $('.topnav').children('number').text(Math.round(month_price * 100) / 100 + " دت");
+                    $('select discount').text(Math.round(month_price * 100) / 100 + " دت");
+                    {% endif %}
+                } else {
+                    {% if lang != "arabe" %}
+                    $(".shape price").text(Math.round(year_price * 100) / 100 + 'dt');
+                    $(".shape small").text(annual + '(-' + Math.round(year_discount * 100) / 100 + 'dt)');
+                    $(".an").text(annual.toUpperCase() + '(-' + Math.round(year_discount * 100) / 100 + 'dt)');
+                    $('.monthan .show').text(annual + "(-" + Math.round(year_discount * 100) / 100 + 'dt)');
+                    $('.pay_button').children('number').text(Math.round((year_price - year_discount) * 100) / 100 + "dt");
+                    $('.topnav').children('number').text(Math.round((year_price - year_discount) * 100) / 100 + "dt");
+                    $('select discount').text(annual + "(-" + Math.round(year_discount * 100) / 100 + 'dt)');
+                    {% else %}
+                    $(".shape price").text(Math.round(year_price * 100) / 100 + ' دت');
+                    $(".shape small").text(annual + '(' + Math.round(year_discount * 100) / 100 + '- دت)');
+                    $(".an").text(annual.toUpperCase() + '(' + Math.round(year_discount * 100) / 100 + '- دت)');
+                    $('.monthan .show').text(annual + "(" + Math.round(year_discount * 100) / 100 + '- دت)');
+                    $('.pay_button').children('number').text(Math.round((year_price - year_discount) * 100) / 100 + " دت");
+                    $('.topnav').children('number').text(Math.round((year_price - year_discount) * 100) / 100 + " دت");
+                    $('select discount').text(annual + "(" + Math.round(year_discount * 100) / 100 + '- دت)');
+                    {% endif %}
+                }
+            
+            })
+            
+            req = $.ajax({
+                url: '/vars_voiture', // a revenir
+                type: 'POST',
+                data: {
+                    car_damaged: parseInt($('#car_damaged').children('.value').children().text().replace('dt', '')),
+                    medical: parseInt($('#medical').children('.value').children().text().replace('dt', '')),
+                },
+            });
+        }
+    })
+</script>
+{% endblock %}

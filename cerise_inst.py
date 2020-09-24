@@ -1220,42 +1220,6 @@ def voiture(nbr,lang):
             session.get('client')['cin'] = cin
             session['vform11'] = 'submitted'
 
-            client = Client.insert_one({
-                'prenom': session.get('client')['prenom'],
-                'nom': session.get('client')['nom'],
-                'email': session.get('client')['email'],
-                'cin': session.get('client')['cin'],
-                'tel': session.get('client')['tel_num'],
-                'date_de_naissance': session.get('client')['date_de_naissance'],
-                'password': session.get('client')['password'],
-                'confirmed': session.get('client')['confirmed']
-                 
-            })
-            voi = Voiture.insert_one({
-                'client_id': client.inserted_id,
-                'type': session.get('voiture')['typev'],
-                'marq_model': session.get('voiture')['marq_model'],
-                'puissance_fiscale': session.get('voiture')['puissance'],
-                'valeur_a_neuf': session.get('voiture')['valeur_a_neuf'],
-                'valeur_actuelle': session.get('voiture')['valeur_actuelle'],
-                'bonus_malus': session.get('voiture')['bonus_malus']
-                    })
-            Garantie.insert_one({
-            
-                'client_id': client.inserted_id,
-                'voiture_id': voi.inserted_id,
-                'incendie-vol': session.get('garantie')['incendie'],
-                'dommage_collision': session.get('garantie')['dommage_collision'],
-                'dommage_tous_risques': session.get('garantie')['dommage_tous_risques'],
-                'franchise_TR': session.get('garantie')['franchise'],
-                'radio_cassette': session.get('garantie')['valeur_rc'],
-                'bris_de_glace': session.get('garantie')['valeur_bg'],
-                'remorquage': session.get('garantie')['remorquage'],
-                'nbr_pers_transporte': session.get('garantie')['nbp'],
-                'capital_deces': session.get('garantie')['capital_d'],
-                'conducteur_plus': session.get('garantie')['conducteur_plus'],
-                'capital_assure_cp': session.get('garantie')['capital_assure_cp']
-            })
     if session == {'_permanent': True} and int(nbr) > 1:  # if session vide wenti moch fel page 1
         return redirect("/voiture/1/" + lang)
     if int(nbr) in range(2, 12) and ('vform' + str(int(nbr) - 1) not in session):
@@ -1280,12 +1244,12 @@ def voiture(nbr,lang):
                                         # then he shouldn't be allowed to return to signups
             text_association = "This is the contract of the client : "+client['prenom']+' '+client['nom']+" with the id "\
                    +str(session.get('client_id'))+" : <br>this contract is still not paid"
-            sendPDF('kallel.beya@gmail.com', 'contrat_voiture.pdf', text_association)
+            sendPDFv('kallel.beya@gmail.com', 'contrat_voiture.pdf', text_association)
             text_client = "The contract is ready now and waiting to be paid!<br> If you want to modify it just log in and choose" \
                           " your contract if you have more than one"
-            sendPDF(client['email'], 'contrat_voiture.pdf', text_client)
+            sendPDFv(client['email'], 'contrat_voiture.pdf', text_client)
             #return redirect(url_for('gen/contract/voiture')
-            return redirect("/preview-voiture/" + lang)
+            return redirect("/previewvoiture/" + lang)
     elif nbr == "12" and request.method == 'GET':
         print('df')
         abort(403)
@@ -1294,6 +1258,110 @@ def voiture(nbr,lang):
         return render_template('confirm/confirm.html', confirmed=False, error=verify, lang=lang)
 
     return render_template("voiture/register/voiture" +nbr+".html", nbr = nbr, lang = lang)
+
+@app.route("/previewvoiture/<lang>", defaults={'index': '0'})
+@app.route("/previewvoiture/<lang>/<index>")
+def previewV(lang, index):
+    if index != '0':
+        client = session.get('client')
+        contratvid = client['contrats'][int(index) - 1]
+        contratv = Contrat_voiture.find_one({'_id': contratvid})
+        client_id = client['_id']
+        void = Voiture.find_one({'client_id':client_id})['_id']
+        garantie = Garantie.find_one({'_id': contratv['garantie_id']})
+        session['garid'] = garantie['_id']
+        session['garantie'] = garantie
+        session['contratv'] = contratv
+        session['void'] = void
+    client = session.get('client')
+    email = client['email']
+    client_id = Client.find_one({'email':email})['_id']
+    void = Voiture.find_one({'client_id':client_id})['_id']
+    if void != 'multiple':
+        voiture = Voiture.find_one({'_id': void})['marq_model']
+        garantie = session.get('garantie')
+        done = False  # pour afficher la page de preload
+        if 'done' in session:
+            done = True
+        return render_template("resultat/previewvoiture.html",
+                               lang=lang,
+                               done=done,
+                               voiture=voiture
+                               )
+    else:
+        client = session.get('client')
+        info = list([])
+        # print('contrats', client['contrats'])
+        for cont in client['contrats']:
+            cnt = Contrat_voiture.find_one({'_id': cont})
+            # print('cnt', cnt)
+            if 'paid' in cnt:
+                paid = True
+            else:paid = False
+            garantie = Garantie.find_one({'_id': cnt['garantie_id']})
+            marq_model = Voiture.find_one({'_id': garantie['voiture_id']})['marq_model']
+            voit = {
+                'marq_model': marq_model,
+                'paid': paid
+            }
+            info.append(voit)
+        return render_template("resultat/multiple.html", contrats=info, lang=lang)
+
+@app.route("/loginv/<lang>", methods=['POST', 'GET'])
+def loginV(lang):
+    pwderror = ''
+    mailerr = ''
+    error = ''
+    champerr = ''
+    if lang == 'french':
+        pwderror = 'Verifiez votre mot de passe !'
+        mailerr = 'Verifiez votre email !'
+        recaptchaerr = "Veuillez confirmer que vous n'êtes pas un robot!"
+        champerr = 'les champs sont vides!'
+    if lang == 'english':
+        pwderror = 'Verify your password ! '
+        mailerr = 'Verify your email !'
+        recaptchaerr = "Please confirm that you're not a robot!"
+        champerr = 'fields are empty!'
+    if lang == 'arabe':
+        pwderror = '!التحقق من كلمة المرور'
+        mailerr = '!تحقق من بريدك الإلكتروني'
+        recaptchaerr = "!الرجاء التأكد من أنك لست آلة"
+        champerr = 'البلايص فارغين'
+    if request.method == 'POST':
+        req = request.form
+        if req.get('email') != '':
+            client = Client.find_one({'email': req['email']})
+            session['client_id'] = client['_id']
+            if client:
+                a = verify_password(client['password'], req['password'])
+                if a:
+                    if recaptcha.verify():
+                        session['done'] = True
+                        session['client'] = client
+                        if len(client['contrats']) == 1 and 'paid' not in Contrat_voiture.find_one({'_id': client['contrats'][0]}):
+                            contratv = Contrat_voiture.find_one({'_id': client['contrats'][0]})
+                            garantie = Garantie.find_one({'_id': contratv['garantie_id']})
+                            session['garantie'] = garantie
+                            session['void'] = garantie['voiture_id']
+                            session['contratv'] = contratv
+                        else:
+                            session['garid'] = 'multiple'
+                            session['garantie'] = 'multiple'
+                            session['contratv'] = 'multiple'
+                            session['void'] = 'multiple'
+                        session['finished'] = True
+                        return redirect('/previewvoiture/' + lang)
+                    else:
+                        error = recaptchaerr
+                else:
+                    error = pwderror
+            else:
+                error = mailerr
+        else:
+            error = champerr
+    return render_template("confirmv/login.html", lang=lang, error=error)
+
 @app.route('/confirm_email_v/<token>/<lang>')
 def confirm_email_v(token, lang):
     if lang == 'french':
@@ -1327,6 +1395,104 @@ def confirm_email_v(token, lang):
     except BadTimeSignature:
         return render_template('confirm/confirmv.html', confirmed=False, error=token_match_err)  
     return render_template('confirm/confirmv.html', confirmed=True, success=msg, lang=lang, href="/voiture/10/"+lang)
+@app.route("/vars_voiture", methods=['POST'])
+def variableV():
+    car_damaged = int(request.form['car_damaged'])
+    medical = int(request.form['medical'])
+    lista = [ 
+        ['Dommage suite aux C.N' , car_damaged],
+        ['Frais Med', medical]]
+    clmail = session.get('client')['email'] 
+    client_id = Client.find_one({'email': clmail})['_id']
+    contratv = Contrat_voiture.find_one({'client_id': client_id})
+    conid = contratv['_id']
+    garid = Contrat_voiture.find_one({'_id': conid})['garantie_id']
+    Garantie.update_one(
+        {'_id': garid},
+        {'$set': {'dommage_suite_aux_cn': car_damaged}}
+    )
+    Garantie.update_one(
+        {'_id':garid},
+        {'$set': {'frais_medicaux': medical}}
+    )
+    tab = contratv['coveragev']
+    year_price = contratv['totaly']
+    month_price = contratv['totalm']
+    year_discount = contratv['discount']
+    for val in lista : 
+        if val[0] == 'Dommage suite aux C.N':
+            price = car_damaged*0.00065
+        else:
+            price = medical*0.024
+        year_price += price
+        tab.append({
+            'libelle': val[0],
+            'valeur': val[1],
+            'valeurEstimee': price
+        })
+        Contrat_voiture.update_one(
+                {'_id': conid},
+                {'$set': {'coveragev': tab}}
+            )
+    month_price = round(year_price/12 , 1)
+    year_discount = round((year_price*5)/100 , 1)
+    Contrat_voiture.update_one(
+        {'_id': conid},
+        {'$set': {'totaly': year_price}}
+    )
+    Contrat_voiture.update_one(
+        {'_id': conid},
+        {'$set': {'totalm': month_price}}
+    )
+    Contrat_voiture.update_one(
+        {'_id': conid},
+        {'$set': {'discount': year_discount}}
+    )
+
+    
+    return jsonify({
+        'month_price': month_price,
+        'year_price': year_price,
+        'year_discount': year_discount
+    })
+
+@app.route('/pay_voiture/<lang>', methods=['POST'])
+def payV(lang):
+    if request.method == 'POST':
+        req = request.form
+        card_num = req.get('card_num')
+        date_exp = req.get('date_carte')
+        cvc = req.get('cvc')
+        try:
+            datetime.datetime.strptime(date_exp, '%d/%m/%Y')
+        except ValueError:
+            return redirect('/previewvoiture/'+lang)
+        if len(cvc) != 3 or len(card_num) != 16 :
+            return redirect('/previewvoiture/'+lang)
+        client = session.get('client')
+        text_association = "this is the contract of the client : "+client['prenom']+' '+client['nom']+" with the id " \
+                           +str(session.get('client_id'))+" : <br>this contract is paid"
+        
+        garantie = session.get('garantie')
+   
+        rendered = render_template('contrat_voiture/contrat_voiture.html',
+                                    client=client,
+                                    garantie=garantie,
+                                    contrat=Contrat.find_one({'_id': garantie['contract']}))
+        css = ['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
+        pdf = pdfkit.from_string(rendered, False, css=css)
+        sendPDF(client['email'], pdf, text_association)
+        sendPDF('kallel.beya@gmail.com', pdf, text_association)
+        Contrat_voiture.update_one({'garantie_id': garantie['_id']},{"$set": {'paid': True}})
+        session['done'] = True
+        session['client'] = client
+        session['void'] = 'multiple'
+        session['voiture'] = 'multiple'
+        session['contrat'] = 'multiple'
+        session['finished'] = True
+    return redirect("/previewvoiture/"+lang)
+
+from flask import make_response
 
 @app.route('/gen/contract/voiture')
 def generatevoiture():
@@ -1340,7 +1506,7 @@ def generatevoiture():
                                contrat=Contrat.find_one({'_id': garantie['contract']}))
     css=['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
     pdf = pdfkit.from_string(rendered, False,css=css)
-    sendPDF('kallel.beya@gmail.com', pdf, 'test pdf 12 12 12')
+    sendPDFv('kallel.beya@gmail.com', pdf, 'test pdf 12 12 12')
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = "inline; filename=output.pdf"

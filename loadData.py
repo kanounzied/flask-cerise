@@ -1,6 +1,6 @@
 import binascii, hashlib, os
 import datetime
-
+import math
 from db_maker import *
 
 
@@ -156,22 +156,63 @@ def loadAuto(client, voiture, garantie):
     dbclient = Client.find_one({
         'email': client['email'],
     })
-    client = dbclient
-    client_id = client['_id']
+    from cerise_inst import session
+    if dbclient is None:
+        client = Client.insert_one({
+                'prenom': session.get('client')['prenom'],
+                'nom': session.get('client')['nom'],
+                'email': session.get('client')['email'],
+                'cin': session.get('client')['cin'],
+                'tel': session.get('client')['tel_num'],
+                'date_de_naissance': session.get('client')['date_de_naissance'],
+                'password': session.get('client')['password'],
+                'confirmed': session.get('client')['confirmed']
+                 
+            })
+        client_id = client.inserted_id
+    else: 
+        client = dbclient
+        client_id = client['_id']
 
     client = Client.find_one({'_id': client_id})
-    voiture = Voiture.find_one({'client_id': client_id})
 
-    void = voiture['_id']
-    garantie = Garantie.find_one({'client_id': client_id})
-    garid = garantie['_id']
-    from cerise_inst import session
-    session['void'] = garid
+    voiture = Voiture.insert_one({
+                'client_id': client_id,
+                'type': session.get('voiture')['typev'],
+                'marq_model': session.get('voiture')['marq_model'],
+                'puissance_fiscale': session.get('voiture')['puissance'],
+                'valeur_a_neuf': session.get('voiture')['valeur_a_neuf'],
+                'valeur_actuelle': session.get('voiture')['valeur_actuelle'],
+                'bonus_malus': session.get('voiture')['bonus_malus']
+                    })
+
+    void = voiture.inserted_id
+
+    garantie = Garantie.insert_one({
+            
+                'client_id': client_id,
+                'voiture_id': void,
+                'incendie-vol': session.get('garantie')['incendie'],
+                'dommage_collision': session.get('garantie')['dommage_collision'],
+                'dommage_tous_risques': session.get('garantie')['dommage_tous_risques'],
+                'franchise_TR': session.get('garantie')['franchise'],
+                'radio_cassette': session.get('garantie')['valeur_rc'],
+                'bris_de_glace': session.get('garantie')['valeur_bg'],
+                'remorquage': session.get('garantie')['remorquage'],
+                'nbr_pers_transporte': session.get('garantie')['nbp'],
+                'capital_deces': session.get('garantie')['capital_d'],
+                'conducteur_plus': session.get('garantie')['conducteur_plus'],
+                'capital_assure_cp': session.get('garantie')['capital_assure_cp']
+            })
+
+    garid = garantie.inserted_id
+    session['garid'] = garid
     session['client_id'] = client_id
+    session['void'] = void
     x = datetime.datetime.now()
 
     contratv = Contrat_voiture.insert_one(
-        {'client_id': client_id, 'voiture_id': void, 'date_de_debut_du_contrat': x.strftime("%d" + "/" + "%m" + "/" + "%Y") }
+        {'client_id': client_id, 'garantie_id': garid, 'date_de_debut_du_contrat': x.strftime("%d" + "/" + "%m" + "/" + "%Y") }
     )
 
     session['contv_id'] = contratv.inserted_id
@@ -205,7 +246,7 @@ def loadAuto(client, voiture, garantie):
 
 
     if 'coveragev' not in Contrat_voiture.find_one({'_id': contratv.inserted_id}):
-        somme = 0
+        sommey = 0
         for val in list_garantie : 
          
             tab = list([])
@@ -234,7 +275,7 @@ def loadAuto(client, voiture, garantie):
                 price = int(val[1])*0.0016
             elif val[0] == "Capital Assure conducteurplus" and val[1] != "EXCLUE":
                 price= int(val[1])*0.001
-            somme += price 
+            sommey += price 
             tab.append({
                 'libelle': val[0],
                 'valeur': val[1],
@@ -246,5 +287,13 @@ def loadAuto(client, voiture, garantie):
                 {'_id': contratv.inserted_id},
                 {'$set': {'coveragev': tab}}
             )
-    if 'total' not in Contrat_voiture.find_one({'_id': contratv.inserted_id}):
-        Contrat_voiture.update_one({'_id': contratv.inserted_id}, {'$set': {'total': somme}})
+        sommem = round(sommey/12,1) 
+        dis = round((sommey*5)/100,1)
+        
+    if 'totaly' not in Contrat_voiture.find_one({'_id': contratv.inserted_id}):
+        Contrat_voiture.update_one({'_id': contratv.inserted_id}, {'$set': {'totaly': sommey}})
+    if 'discount' not in Contrat_voiture.find_one({'_id': contratv.inserted_id}):
+        Contrat_voiture.update_one({'_id': contratv.inserted_id}, {'$set': {'discount': dis}})
+    if 'totalm' not in Contrat_voiture.find_one({'_id': contratv.inserted_id}):
+        Contrat_voiture.update_one({'_id': contratv.inserted_id}, {'$set': {'totalm': sommem}})
+    
