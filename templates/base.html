@@ -33,7 +33,7 @@
         <div class="dropright btn-group show">
             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false" style="margin: 10px 25px;">
-                {% block lang %}{% endblock %}
+                {% block lang %}{{lang}}{% endblock %}
             </a>
             {% block dropdown %}
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -92,17 +92,19 @@
     </div>
     {% block body %}
     {% endblock %}
-    <div class="cars">
-        <img src="/static/images/car.png" alt="">
-    </div>
 </div>
-{% block scripts %}
-{% endblock %}
+
 <script>
 
     window.onscroll = function () {
         myFunction();
-        scrollFunction();
+        try {
+            scrollFunction();
+        }catch (e) {
+            console.log('scrollFunction err!')
+        }
+        paragscroll();
+
     };
 
 
@@ -139,6 +141,7 @@
     })
 
 </script>
-
+{% block scripts %}
+{% endblock %}
 </body>
 </html>

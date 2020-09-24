@@ -12,7 +12,6 @@ def sendConfirm(receiver_mail,link):
     port = 465  # For SSL
     password = "Ds3X8afA"  # getpass.getpass("Type your password : ")
     sender_mail = "artzy.proj@gmail.com"
-    # receiver_mail = "zied.kanoun6@gmail.com"
     subject = "verification mail"
 
     message = MIMEMultipart("alternative")

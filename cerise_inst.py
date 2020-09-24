@@ -82,9 +82,13 @@ def clear():  # vider la session client
     session.clear()
     return redirect('/')
 
+@app.route('/about/<lang>')
+def about(lang):
+    return render_template('home/aboutUs.html', lang=lang)
+
 @app.route("/prints")
 def prints():  # vider la session client
-    # # print(session)
+    print(session)
     return "str(session)"
 
 @app.route("/signup/<nbr>/<lang>", methods=['GET', 'POST'])
@@ -1586,7 +1590,7 @@ def vie2():
             session['vie2'] = True
             return redirect(url_for("vie22"))
         else:
-            erreur = {'fr':"L'age doit être une valeur numerique non vide",'en':"Enter a non void number",'ar':"أدخل رقما"}
+            erreur = {'fr':"L'age doit être une valeur numerique entre 0 et 100",'en':"Enter a number between 0 and 100",'ar':"أدخل رقما بين 0 و 100"}
     if not (session['vie1']):
         return redirect(url_for("vie1"))
     return render_template('vie/vie2.html', lang=session['lang'], error=erreur)
