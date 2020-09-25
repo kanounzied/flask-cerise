@@ -38,6 +38,12 @@
     .form-check-label{
         height: 225px!important;
     }
+    picture+h2 {
+        margin-top: -10px;
+    }
+    .btn-primary {
+        margin-top: -40px;
+    }
 
 </style>
 {% endblock %}
@@ -66,20 +72,19 @@
                     Passenger
                 </label>
             </div>
-                <div class="form-check col-md-4">
-                    <label class="form-check-label with_img" for="taxi">
-                        <picture>
-                            <source class="source _2" srcset="/static/images/cab.png">
-                            <img src="/static/images/cab.png" alt="ownimage">
-                        </picture>
-                        <h2>Taxi</h2>
-                    </label>
-                    <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="taxi" value="taxi"
-                           name="typev" style="margin-bottom: 10px;" hidden >
-                    <label style="display: none" class="form-check-label without" for="taxi">
-                        Taxi
-                    </label>
-
+            <div class="form-check col-md-4">
+                <label class="form-check-label with_img" for="taxi">
+                    <picture>
+                        <source class="source _2" srcset="/static/images/cab.png">
+                        <img src="/static/images/cab.png" alt="ownimage">
+                    </picture>
+                    <h2>Taxi</h2>
+                </label>
+                <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="taxi" value="taxi"
+                       name="typev" style="margin-bottom: 10px;" hidden >
+                <label style="display: none" class="form-check-label without" for="taxi">
+                    Taxi
+                </label>
             </div>
             <div class="form-check col-md-4">
                 <label class="form-check-label with_img" for="commercial">
@@ -94,7 +99,6 @@
                 <label style="display: none" class="form-check-label without" for="commercial">
                     Commercial
                 </label>
-
             </div>
         </div>
         <div class="row">
@@ -139,7 +143,7 @@
                     تاكسي
                 </label>
 
-        </div>
+            </div>
             <div class="form-check col-md-4">
                 <label class="form-check-label with_img" for="commercial">
                     <picture>
@@ -197,7 +201,7 @@
                 <label style="display: none" class="form-check-label without" for="taxi"> Taxi
                 </label>
 
-        </div>
+            </div>
             <div class="form-check col-md-4">
                 <label class="form-check-label with_img" for="commercial">
                     <picture>

@@ -1018,6 +1018,7 @@ def voiture(nbr,lang):
             session.get('voiture')['valeur_actuelle'] = valeur_actuelle
             session['vform3']='submitted'
         if 'vform4' in req:
+            immatricule = req.get('immatricule')
             marque = req.get('marque')
             modele = req.get('modele')
             if marque == "Select brand" or marque == "Sélectionner la marque" or marque == "إختار الماركة" : 
