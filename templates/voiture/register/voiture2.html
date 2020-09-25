@@ -4,17 +4,17 @@
 {% if lang == "english" %}
 <a href="/home/english">Home</a>
 <a href="#">About Us</a>
-<!--    <a href="#">Claims</a>-->
+<a href="#">Claims</a>
 <a href="#">My account</a>
 {% else %}{% if lang =="arabe" %}
 <a href="/home/arabe">الرئيسية</a>
 <a href="#">معلومات</a>
-<!--    <a href="#">مطالب</a>-->
+<a href="#">مطالب</a>
 <a href="#">حسابي</a>
 {% else %}{% if lang=="french" %}
 <a href="/home/french">Acceuil</a>
 <a href="#">Informations</a>
-<!--    <a href="#">Réclamations</a>-->
+<a href="#">Réclamations</a>
 <a href="#">Mon compte</a>
 {% endif %}
 {% endif %}
@@ -37,6 +37,12 @@
     
     .form-check-label{
         height: 225px!important;
+    }
+    picture+h2 {
+        margin-top: -10px;
+    }
+    .btn-primary {
+        margin-top: -40px;
     }
 
 </style>
@@ -66,20 +72,19 @@
                     Passenger
                 </label>
             </div>
-                <div class="form-check col-md-4">
-                    <label class="form-check-label with_img" for="taxi">
-                        <picture>
-                            <source class="source _2" srcset="/static/images/cab.png">
-                            <img src="/static/images/cab.png" alt="ownimage">
-                        </picture>
-                        <h2>Taxi</h2>
-                    </label>
-                    <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="taxi" value="taxi"
-                           name="typev" style="margin-bottom: 10px;" hidden >
-                    <label style="display: none" class="form-check-label without" for="taxi">
-                        Taxi
-                    </label>
-
+            <div class="form-check col-md-4">
+                <label class="form-check-label with_img" for="taxi">
+                    <picture>
+                        <source class="source _2" srcset="/static/images/cab.png">
+                        <img src="/static/images/cab.png" alt="ownimage">
+                    </picture>
+                    <h2>Taxi</h2>
+                </label>
+                <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="taxi" value="taxi"
+                       name="typev" style="margin-bottom: 10px;" hidden >
+                <label style="display: none" class="form-check-label without" for="taxi">
+                    Taxi
+                </label>
             </div>
             <div class="form-check col-md-4">
                 <label class="form-check-label with_img" for="commercial">
@@ -94,7 +99,6 @@
                 <label style="display: none" class="form-check-label without" for="commercial">
                     Commercial
                 </label>
-
             </div>
         </div>
         <div class="row">
@@ -139,7 +143,7 @@
                     تاكسي
                 </label>
 
-        </div>
+            </div>
             <div class="form-check col-md-4">
                 <label class="form-check-label with_img" for="commercial">
                     <picture>
@@ -197,7 +201,7 @@
                 <label style="display: none" class="form-check-label without" for="taxi"> Taxi
                 </label>
 
-        </div>
+            </div>
             <div class="form-check col-md-4">
                 <label class="form-check-label with_img" for="commercial">
                     <picture>
