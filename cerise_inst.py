@@ -1224,42 +1224,6 @@ def voiture(nbr,lang):
             session.get('client')['cin'] = cin
             session['vform11'] = 'submitted'
 
-            client = Client.insert_one({
-                'prenom': session.get('client')['prenom'],
-                'nom': session.get('client')['nom'],
-                'email': session.get('client')['email'],
-                'cin': session.get('client')['cin'],
-                'tel': session.get('client')['tel_num'],
-                'date_de_naissance': session.get('client')['date_de_naissance'],
-                'password': session.get('client')['password'],
-                'confirmed': session.get('client')['confirmed']
-                 
-            })
-            voi = Voiture.insert_one({
-                'client_id': client.inserted_id,
-                'type': session.get('voiture')['typev'],
-                'marq_model': session.get('voiture')['marq_model'],
-                'puissance_fiscale': session.get('voiture')['puissance'],
-                'valeur_a_neuf': session.get('voiture')['valeur_a_neuf'],
-                'valeur_actuelle': session.get('voiture')['valeur_actuelle'],
-                'bonus_malus': session.get('voiture')['bonus_malus']
-                    })
-            Garantie.insert_one({
-            
-                'client_id': client.inserted_id,
-                'voiture_id': voi.inserted_id,
-                'incendie-vol': session.get('garantie')['incendie'],
-                'dommage_collision': session.get('garantie')['dommage_collision'],
-                'dommage_tous_risques': session.get('garantie')['dommage_tous_risques'],
-                'franchise_TR': session.get('garantie')['franchise'],
-                'radio_cassette': session.get('garantie')['valeur_rc'],
-                'bris_de_glace': session.get('garantie')['valeur_bg'],
-                'remorquage': session.get('garantie')['remorquage'],
-                'nbr_pers_transporte': session.get('garantie')['nbp'],
-                'capital_deces': session.get('garantie')['capital_d'],
-                'conducteur_plus': session.get('garantie')['conducteur_plus'],
-                'capital_assure_cp': session.get('garantie')['capital_assure_cp']
-            })
     if session == {'_permanent': True} and int(nbr) > 1:  # if session vide wenti moch fel page 1
         return redirect("/voiture/1/" + lang)
     if int(nbr) in range(2, 12) and ('vform' + str(int(nbr) - 1) not in session):
@@ -1440,11 +1404,10 @@ def vie22():
             session['vie22'] = True
             return redirect(url_for("vie3"))
         else:
-            error = {'fr': "choose an option please !", 'en': "choisissez une option s'il vous plaît!",
-                     'ar': 'لازم تختار!'}
+            error = {'fr':"",'en':"",'ar':""}
     if not (session['vie2']):
         return redirect(url_for("vie2"))
-    return render_template('vie/vie22.html', lang=session['lang'], error=error)
+    return render_template('vie/vie22.html', lang=session['lang'])
 
 
 @app.route('/vie/3/', methods=['POST', 'GET'])
@@ -1469,36 +1432,28 @@ def vie3():
 
 @app.route('/vie/33/', methods=['POST', 'GET'])
 def vie33():
-    error = ''
     session_lang()
     if request.method == 'POST' and session['vie3']:
         session['smoke'] = request.form.get('smoke')
         if session['smoke']:
             session['vie33'] = True
             return redirect(url_for('vie333'))
-        else:
-            error = {'fr': "choose an option please !", 'en': "choisissez une option s'il vous plaît!",
-                     'ar': 'لازم تختار!'}
     if not (session['vie3']):
         return redirect(url_for("vie3"))
-    return render_template('vie/vie33.html', lang=session['lang'],error=error)
+    return render_template('vie/vie33.html', lang=session['lang'])
 
 
 @app.route('/vie/333/', methods=['POST', 'GET'])
 def vie333():
-    error = ''
     session_lang()
     if request.method == 'POST' and session['vie33']:
         session['drink'] = request.form.get('drink')
         if session['drink']:
             session['vie333'] = True
             return redirect(url_for('vie4'))
-        else:
-            error = {'fr': "choose an option please !", 'en': "choisissez une option s'il vous plaît!",
-                     'ar': 'لازم تختار!'}
     if not (session['vie33']):
         return redirect(url_for("vie33"))
-    return render_template('vie/vie333.html', lang=session['lang'], error=error)
+    return render_template('vie/vie333.html', lang=session['lang'])
 
 
 @app.route('/vie/4/', methods=['POST', 'GET'])
@@ -1601,7 +1556,7 @@ def vie6():
                  'children': session['children'],
                  'salary': session['salary'],
                  'debt': session['debt'],
-                 'file': string}        # erreur à reviser
+                 'file': string}
             )
             print(session['adresse'])
             return redirect(url_for('result', lang=session['lang']))
@@ -1659,10 +1614,10 @@ def generatevie():
     text_client = "the contract is ready now and waiting to be paid!<br> if you want to modify it just log in and choose" \
                   " your contract if you have more than one"
     client = dict()
-    client['email'] = 'zied.kanoun6@gmail.com'
+    client['email'] = 'ahmed2bouali@gmail.com'
     sendPDF(client['email'], 'contrat.pdf', text_client)
     return send_file('contrat.pdf',
-                     mimetype='application/pdf')
+                     mimetype='application/pdf',)
 
 ############### end of 5edma ##############
 ############### 5edmet jaabiri ##############
@@ -2127,4 +2082,4 @@ def addreport(nbr,lang):
 ############### end of 5edma ##############
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run()
