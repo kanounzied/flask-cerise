@@ -1440,10 +1440,11 @@ def vie22():
             session['vie22'] = True
             return redirect(url_for("vie3"))
         else:
-            error = {'fr':"",'en':"",'ar':""}
+            error = {'fr': "choose an option please !", 'en': "choisissez une option s'il vous plaît!",
+                     'ar': 'لازم تختار!'}
     if not (session['vie2']):
         return redirect(url_for("vie2"))
-    return render_template('vie/vie22.html', lang=session['lang'])
+    return render_template('vie/vie22.html', lang=session['lang'], error=error)
 
 
 @app.route('/vie/3/', methods=['POST', 'GET'])
@@ -1468,28 +1469,36 @@ def vie3():
 
 @app.route('/vie/33/', methods=['POST', 'GET'])
 def vie33():
+    error = ''
     session_lang()
     if request.method == 'POST' and session['vie3']:
         session['smoke'] = request.form.get('smoke')
         if session['smoke']:
             session['vie33'] = True
             return redirect(url_for('vie333'))
+        else:
+            error = {'fr': "choose an option please !", 'en': "choisissez une option s'il vous plaît!",
+                     'ar': 'لازم تختار!'}
     if not (session['vie3']):
         return redirect(url_for("vie3"))
-    return render_template('vie/vie33.html', lang=session['lang'])
+    return render_template('vie/vie33.html', lang=session['lang'],error=error)
 
 
 @app.route('/vie/333/', methods=['POST', 'GET'])
 def vie333():
+    error = ''
     session_lang()
     if request.method == 'POST' and session['vie33']:
         session['drink'] = request.form.get('drink')
         if session['drink']:
             session['vie333'] = True
             return redirect(url_for('vie4'))
+        else:
+            error = {'fr': "choose an option please !", 'en': "choisissez une option s'il vous plaît!",
+                     'ar': 'لازم تختار!'}
     if not (session['vie33']):
         return redirect(url_for("vie33"))
-    return render_template('vie/vie333.html', lang=session['lang'])
+    return render_template('vie/vie333.html', lang=session['lang'], error=error)
 
 
 @app.route('/vie/4/', methods=['POST', 'GET'])
@@ -1592,7 +1601,7 @@ def vie6():
                  'children': session['children'],
                  'salary': session['salary'],
                  'debt': session['debt'],
-                 'file': string}
+                 'file': string}        # erreur à reviser
             )
             print(session['adresse'])
             return redirect(url_for('result', lang=session['lang']))
@@ -1650,10 +1659,10 @@ def generatevie():
     text_client = "the contract is ready now and waiting to be paid!<br> if you want to modify it just log in and choose" \
                   " your contract if you have more than one"
     client = dict()
-    client['email'] = 'ahmed2bouali@gmail.com'
+    client['email'] = 'zied.kanoun6@gmail.com'
     sendPDF(client['email'], 'contrat.pdf', text_client)
     return send_file('contrat.pdf',
-                     mimetype='application/pdf',)
+                     mimetype='application/pdf')
 
 ############### end of 5edma ##############
 ############### 5edmet jaabiri ##############
@@ -2118,4 +2127,4 @@ def addreport(nbr,lang):
 ############### end of 5edma ##############
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')

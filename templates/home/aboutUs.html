@@ -45,6 +45,9 @@
         transform: translateY(200px);
         transition: 1.2s all cubic-bezier(.66,.12,.34,1.68);
     }
+    #heart{
+        transition: all ease-in-out 1s;
+    }
     @media screen and (max-width: 768px) {
     }
 </style>
@@ -53,7 +56,7 @@
 {% if lang == 'english' %}
 <a href="/home/english">Home</a>
 <!--<a href="/login/english">My account</a>-->
-<!--<a href="#">Claims</a>-->
+<!--<!--    <a href="#">Claims</a>-->-->
 {% else %}{% if lang == 'french' %}
 <a href="/home/french">Acceuil</a>
 <a href="#">Informations</a>
@@ -136,7 +139,7 @@
     <a href="#">About Us </a>
 </li>
 <!--    <li>-->
-<!--        <a href="#">Claims</a>-->
+<!--        <!--    <a href="#">Claims</a>-->-->
 <!--    </li>-->
 <li>
     <a href="/addreport/1/english">Car Report</a>
@@ -173,7 +176,7 @@
             By injecting technology and transparency into an industry that often lacks both,
             we’re creating an insurance experience that is fast, affordable, and hassle free.
             We currently offer renters, homeowners, automobile and health insurance. </p>
-        <img style="float: right" src="/static/images/insured-red.png" alt="">
+        <img style="float: right" src="/static/images/aboutus/insured-red.png" alt="">
     </div>
     <div class="paragraphe _2" style="margin-top: 50px">
         <p style="float: right">Cerise changes the traditional insurance model.
@@ -184,7 +187,7 @@
     </div>
     <div  style="margin-top: 50px">
         <img style="margin: 30px 0" src="/static/images/aboutus/temporary.PNG" alt=""><br>
-        <img style="margin: 30px 0" src="/static/images/aboutus/heart.PNG" alt="">
+        <img id="heart" style="margin: 30px 0" src="/static/images/aboutus/heart.png" alt="">
         <h2>JOIN THE CERISE MOUVEMENT !</h2>
     </div>
 
@@ -213,5 +216,10 @@
             }
         }
     }
+    $('#heart').mouseenter(function () {
+        $(this).attr('src', '/static/images/aboutus/heart-colored.png')
+    }).mouseout(function () {
+        $(this).attr('src', '/static/images/aboutus/heart.png')
+    })
 </script>
 {% endblock %}
