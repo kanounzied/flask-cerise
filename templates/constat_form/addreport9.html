@@ -1,4 +1,4 @@
-{% extends 'constat_form/sign.html' %}
+{% extends '/constat_form/sign.html' %}
 {% block nbr %}{{ nbr }}{% endblock %}
 {% block style %}
 <style>
@@ -44,7 +44,7 @@
             <img id="insuranceimg"  src="/static/images/company.png" alt="insurance">               
     </div>
 
-    <form class="first_form" method="post" action="/addreport/10/{{lang}}">
+    <form class="first_form" autocomplete="off" method="post" action="/addreport/10/{{lang}}">
         <div class="row">
             <div class="form-group col-12 ">
                 <input type="text" class="form-control" name="names" id="names"
@@ -102,13 +102,13 @@
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-6 ">
+            <div class="form-group col-md-6 " >
                 <input type="text" class="form-control" name="adressag" id="adressag"
-                       placeholder="Adress">
+                       placeholder="neighborhood ,City ,State">
             </div>
             <div class="form-group col-md-6 ">
-                <input type="text" class="form-control" name="countryag" id="countryag"
-                       placeholder="Country">
+                <input type="text" class="form-control" name="adrag" id="adrag"
+                       placeholder="adress">
             </div>
         </div>
         <div class="row">
@@ -128,6 +128,33 @@
     </form>
     <div class="back"><a href="/addreport/8/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
+<div class="pop_pres" style="display: flex;height: 110%;">
+    <form action="/addreport/10/{{lang}}" method="post">
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="content">
+            <h4 style="margin-top: 30px;font-size: 1rem">Do you want the insurance company Informations to be filled
+            automaticly</h4>
+        </div>
+        <div class="row">
+        <div class="form-group col-6">
+            <button type="button" id="closer"  class="btn btn-danger">no</button>
+        </div>
+        <div class="form-group col-6">
+            <button type="submit" name="form109b" class="btn" style="
+                position:unset;
+                bottom:auto;
+                right:auto;
+                width:auto;
+                padding: .375rem .75rem;
+                background-color: green;
+                color: white;
+                " >confirm</button>
+            </div>
+        </div> 
+    </div>
+</div>
 {% else %}{% if lang =="arabe" %}
 <div class="arab container-fluid">
     <div class="content">
@@ -136,7 +163,7 @@
             <img id="insuranceimg"  src="/static/images/company.png" alt="insurance">                
     </div>
 
-    <form class="first_form" method="post" action="/addreport/10/{{lang}}">
+    <form class="first_form" autocomplete="off" method="post" action="/addreport/10/{{lang}}">
         <div class="row">
             <div class="form-group col-12 ">
                 <input type="text" class="form-control" name="names" id="names"
@@ -196,11 +223,11 @@
         <div class="row">
             <div class="form-group col-md-6 ">
                 <input type="text" class="form-control" name="adressag" id="adressag"
-                       placeholder="العنوان">
+                placeholder="منطقه ، المدينة ،الولاية">
             </div>
             <div class="form-group col-md-6 ">
-                <input type="text" class="form-control" name="countryag" id="countryag"
-                       placeholder="البلد">
+                <input type="text" class="form-control" name="adrag" id="adrag"
+                       placeholder="العنوان">
             </div>
         </div>
         <div class="row">
@@ -220,6 +247,33 @@
     </form>
     <div class="back"><a href="/addreport/8/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
+<div class="pop_pres" style="display: flex;height: 110%;">
+    <form action="/addreport/10/{{lang}}" method="post">
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="content">
+            <h4 style="margin-top: 30px;font-size: 1rem">هل تريد ملء معلومات شركة التأمين
+            يدويا</h4>
+        </div>
+        <div class="row">
+        <div class="form-group col-6">
+            <button type="button" id="closer"  class="btn btn-danger">yes</button>
+        </div>
+        <div class="form-group col-6">
+            <button type="submit" name="form109b" class="btn" style="
+                position:unset;
+                bottom:auto;
+                right:auto;
+                width:auto;
+                padding: .375rem .75rem;
+                background-color: green;
+                color: white;
+                " >no</button>
+            </div>
+        </div> 
+    </div>
+</div>
 {% else %}{% if lang=="french" %}
 <div class="french container-fluid">
     <div class="content">
@@ -228,7 +282,7 @@
             <img id="insuranceimg"  src="/static/images/company.png" alt="insurance">                
     </div>
 
-    <form class="first_form" method="post" action="/addreport/10/{{lang}}">
+    <form class="first_form" autocomplete="off" method="post" action="/addreport/10/{{lang}}">
         <div class="row">
             <div class="form-group col-12 ">
                 <input type="text" class="form-control" name="names" id="names"
@@ -288,11 +342,11 @@
         <div class="row">
             <div class="form-group col-md-6 ">
                 <input type="text" class="form-control" name="adressag" id="adressag"
-                       placeholder="Adresse">
+                       placeholder="Quartier ,Ville ,Gouvernorat">
             </div>
             <div class="form-group col-md-6 ">
-                <input type="text" class="form-control" name="countryag" id="countryag"
-                       placeholder="Pays">
+                <input type="text" class="form-control" name="adrag" id="adrag"
+                       placeholder="adresse">
             </div>
         </div>
         <div class="row">
@@ -312,11 +366,46 @@
     </form>
     <div class="back"><a href="/addreport/8/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
+<div class="pop_pres" style="display: flex;height: 110%;">
+    <form action="/addreport/10/{{lang}}" method="post">
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="content">
+            <h4 style="margin-top: 30px;font-size: 1rem">Voulez-vous que les informations de la compagnie d'assurance soient remplies
+            automatiquement</h4>
+        </div>
+        <div class="row">
+        <div class="form-group col-6">
+            <button type="button" id="closer"  class="btn btn-danger">non</button>
+        </div>
+        <div class="form-group col-6">
+            <button type="submit" name="form109b" class="btn" style="
+                position:unset;
+                bottom:auto;
+                right:auto;
+                width:auto;
+                padding: .375rem .75rem;
+                background-color: green;
+                color: white;
+                " >oui</button>
+            </div>
+        </div> 
+    </div>
+</div>
 {% endif %}
 {% endif %}
 {%endif%}
 {%endblock%}
 {% block scripts %}
+<script>
+    $('.pop_pres .close').on('click', function () {
+        $('.pop_pres').css('display', 'none')
+    })
+    $('#closer').on('click', function () {
+        $('.pop_pres').css('display', 'none')
+    })
+</script>
 <script>
     $(document).ready(function(){
         $("input").change(function(){
@@ -343,4 +432,128 @@
         orientation: "bottom right"
     });
 </script>
+<script type="text/javascript">
+    function myFunc(vars) {
+        return vars
+    }
+
+    function autocomplete(inp, arr) {
+        /*the autocomplete function takes two arguments,
+        the text field element and an array of possible autocompleted values:*/
+        var currentFocus;
+        /*execute a function when someone writes in the text field:*/
+        inp.addEventListener("input", function (e) {
+            var a, b, i, val = this.value;
+            /*close any already open lists of autocompleted values*/
+            closeAllLists();
+            if (!val) {
+                return false;
+            }
+            currentFocus = -1;
+            /*create a DIV element that will contain the items (values):*/
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items anyClass");
+            /*append the DIV element as a child of the autocomplete container:*/
+            this.parentNode.appendChild(a);
+            /*for each item in the array...*/
+            for (i = 0; i < arr.length; i++) {
+                /*check if the item starts with the same letters as the text field value:*/
+                // if (arr[i].substr(0, val.length).toUpperCase() === val.toUpperCase()) {
+                ind = arr[i].toUpperCase().indexOf(val.toUpperCase())
+                if (ind >= 0) {
+                    /*create a DIV element for each matching element:*/
+                    b = document.createElement("DIV");
+                    /*make the matching letters bold:*/
+                    if (ind === 0) {
+                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                        b.innerHTML += arr[i].substr(val.length);
+                        /*insert a input field that will hold the current array item's value:*/
+                    }
+                    else {
+                        b.innerHTML =arr[i].substr(0,ind);
+                        b.innerHTML += "<strong>" + arr[i].substr(ind, val.length) + "</strong>";
+                        b.innerHTML += arr[i].substr(ind+val.length);
+                        /*insert a input field that will hold the current array item's value:*/
+                    }
+                    b.innerHTML += "<input type='hidden' value='" + arr[i].replace("'", "&apos;") + "'>";
+                    /*execute a function when someone clicks on the item value (DIV element):*/
+                    b.addEventListener("click", function (e) {
+                        /*insert the value for the autocomplete text field:*/
+                        inp.value = this.getElementsByTagName("input")[0].value;
+                        /*close the list of autocompleted values,
+                        (or any other open lists of autocompleted values:*/
+                        closeAllLists();
+                    });
+                    a.appendChild(b);
+                }
+            }
+        });
+        /*execute a function presses a key on the keyboard:*/
+        inp.addEventListener("keydown", function (e) {
+            var x = document.getElementById(this.id + "autocomplete-list");
+            if (x) x = x.getElementsByTagName("div");
+            if (e.keyCode === 40) {
+                /*If the arrow DOWN key is pressed,
+                increase the currentFocus variable:*/
+                currentFocus++;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode === 38) { //up
+                /*If the arrow UP key is pressed,
+                decrease the currentFocus variable:*/
+                currentFocus--;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode === 13) {
+                /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                e.preventDefault();
+                if (currentFocus > -1) {
+                    /*and simulate a click on the "active" item:*/
+                    if (x) x[currentFocus].click();
+                }
+            }
+        });
+
+        function addActive(x) {
+            /*a function to classify an item as "active":*/
+            if (!x) return false;
+            /*start by removing the "active" class on all items:*/
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            /*add class "autocomplete-active":*/
+            x[currentFocus].classList.add("autocomplete-active");
+        }
+
+        function removeActive(x) {
+            /*a function to remove the "active" class from all autocomplete items:*/
+            for (var i = 0; i < x.length; i++) {
+                x[i].classList.remove("autocomplete-active");
+            }
+        }
+
+        function closeAllLists(elmnt) {
+            /*close all autocomplete lists in the document,
+            except the one passed as an argument:*/
+            var x = document.getElementsByClassName("autocomplete-items");
+            for (var i = 0; i < x.length; i++) {
+                if (elmnt !== x[i] && elmnt !== inp) {
+                    x[i].parentNode.removeChild(x[i]);
+                }
+            }
+        }
+
+        /*execute a function when someone clicks in the document:*/
+        document.addEventListener("click", function (e) {
+            closeAllLists(e.target);
+        });
+    }
+</script>
+    {% if data is defined %}
+    <script>
+    var countries = myFunc({{data|tojson}})
+    autocomplete(document.getElementById("adressag"), countries);
+</script>
+    {% endif %}
 {% endblock %}
