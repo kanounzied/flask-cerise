@@ -1039,36 +1039,12 @@
 
     $(function () {
         function sendRequest() {
-            //jewelry = 200
-            //if ($(".imagebox button[data-target='#jewelrymodal'].clos").length) {
-            //    jewelry = parseInt($('#jewelrymodal .quantity').val())
-            //    console.log(jewelry)
-            //}
-            //fineart = 200
-            //if ($(".imagebox button[data-target='#fineartmodal'].clos").length) {
-            //    fineart = parseInt($('#fineartmodal .quantity').val())
-            //}
-            //bikes = 200
-            //if ($(".imagebox button[data-target='#bikesmodal'].clos").length) {
-            //    bikes = parseInt($('#bikesmodal .quantity').val())
-            //}
-            //cameras = 200
-            //if ($(".imagebox button[data-target='#camerasmodal'].clos").length) {
-            //    cameras = parseInt($('#camerasmodal .quantity').val())
-            //}
-            //instruments = 200
-            //if ($(".imagebox button[data-target='#instrumentsmodal'].clos").length) {
-            //    instruments = parseInt($('#instrumentsmodal .quantity').val())
-            //}
             req = $.ajax({
                 url: '/vars_voiture', // à revenir !!
                 type: 'POST',
                 data: {
-                    
                     car_damaged: parseInt($('#car_damaged').children('.value').children().text().replace('dt', '')),
                     medical: parseInt($('#medical').children('.value').children().text().replace('dt', '')),
-                    
-                    
                 },
                 beforeSend: function () {
                     $('.otherpreloader').css('display', 'inline');
@@ -1115,7 +1091,9 @@
         //        
         //    }
         //});
+    req = sendRequest();
         req.done(function (data) {
+            //console.log(data.month_price)
             var month_price = data.month_price
             var year_price = data.year_price
             var year_discount = data.year_discount
@@ -1213,9 +1191,6 @@
             $(this).parent().children('.value').html("<h4>" + (parseInt(amount.substring(0, amount.length - 2)) + 100) + "dt</h4>");
             updateit();
         });
-        $('#sel1').on('change', function () {
-            updateit();
-        })
 
         function updateit() {
             req = sendRequest();

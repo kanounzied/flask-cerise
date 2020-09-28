@@ -42,7 +42,7 @@ assets.register('scss_all', scss)
 Session(app)
 s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 #---------------------------------------------add-------------------------------
-app.config['UPLOAD_FOLDER'] = app.instance_path+'\\..\\static\\public'#UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #-------------------------------------------------end----------------------------------------
 
 
@@ -62,7 +62,6 @@ def arab():
 
 @app.route("/home/<lang>")
 def home(lang):
-    session.clear()
     return render_template("/home/" + lang + ".html", lang=lang)
 
 
@@ -453,9 +452,9 @@ def signup(nbr, lang):
             session['loaded'] = True
             session['done'] = True
             session['finished'] = True  # finished is for when the client submits the last form (passwords) and from
-                                        # then he shouldn't be allowed to return to signups
-            text_association = "this is the contract of the client : "+client['nom']+' '+client['prenom']+" with the id "\
-                   +str(session.get('clid'))+" : <br>this contract is still not paid"
+            # then he shouldn't be allowed to return to signups
+            text_association = "this is the contract of the client : "+client['nom']+' '+client['prenom']+" with the id " \
+                               +str(session.get('clid'))+" : <br>this contract is still not paid"
             sendPDF('zied.kanoun6@gmail.com', 'demande_de_stage.pdf', text_association)
             text_client = "the contract is ready now and waiting to be paid!<br> if you want to modify it just log in and choose" \
                           " your contract if you have more than one"
@@ -577,7 +576,6 @@ def login(lang):
                             contrat = Contrat.find_one({'_id': client['contrats'][0]})
                             apartement = Propriete.find_one({'_id': contrat['prop_id']})
                             session['apt'] = apartement
-                            print(session['apt'])
                             session['adr_id'] = apartement['adr_id']
                             session['contrat'] = contrat
                         else:
@@ -836,19 +834,18 @@ def pay(lang):
         text_association = "this is the contract of the client : "+client['nom']+' '+client['prenom']+" with the id " \
                            +str(session.get('clid'))+" : <br>this contract is paid"
         apt = session.get('apt')
-        prints()
         adresse = apt['apt_unit'] + ', ' + apt['rue'] + ', ' + Adresse.find_one({'_id': session.get('adr_id')})[
             'adresse']
         autre = []
         # print(apt)
         for one in apt['autres_biens']:
             autre.append(AutresBiens.find_one({'_id': one}))
-        rendered = render_template("contrat/contrat.html",
+        rendered = render_template('contrat/contrat.html',
                                    client=client,
                                    adresse=adresse,
                                    valuables=apt['valuables'],
                                    autres_biens=autre,
-                                    contrat=Contrat.find_one({'_id': apt['contrat']}))
+                                   contrat=Contrat.find_one({'_id': apt['contrat']}))
         css = ['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
         pdf = pdfkit.from_string(rendered, False, css=css)
         sendPDF(client['email'], pdf, text_association)
@@ -930,7 +927,7 @@ def voiture(nbr,lang):
         emailexisterr = u"Cet email est déja dans la base de données veuillez saisir un autre email!"
         pwderr = u"votre mot de passe n'est pas le méme!"
         pwdregex = u"mot de passe doit avoir une lettre miniscule, une lettre majuscule, un chiffre, et l'un des " \
-            u"charactéres suivants @#$%^&+= "
+                   u"charactéres suivants @#$%^&+= "
         posterr = u"le code postal doit contenir 4 chiffres, si vous avez modifié le code postal, retournez à la page" \
                   u" précédente et choisissez la bonne adresse"
         verify = u"Nous vous avons envoyé un mail pour confirmer votre adresse email !"
@@ -942,7 +939,7 @@ def voiture(nbr,lang):
         champwrg4 = 'Please enter only numbers!'
         emailexisterr = "This email is already in data base please type another email!"
         pwdregex = "your password must have a miniscule letter, a capital letter, a number, and one of the following " \
-            "characters @#$%^&+=" 
+                   "characters @#$%^&+="
         pwderr = "your password doesn't match!"
         posterr = "postal code must contain 4 numbers, if you have changed the postcode go back to the previous page " \
                   "and choose the right address"
@@ -967,7 +964,7 @@ def voiture(nbr,lang):
             if nom == "" or prenom == "":
                 return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=champerr)
-            
+
             client = Client_(prenom, nom)
             session['client'] = client.__dict__
             print('client created')
@@ -1002,12 +999,12 @@ def voiture(nbr,lang):
             for i in range(len(valeur_a_neuf)):
                 if valeur_a_neuf[i].isalpha():
                     return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
-                                       error=champwrg4)
+                                           error=champwrg4)
             for j in range(len(valeur_actuelle)):
                 if valeur_actuelle[j].isalpha():
                     return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
-                                       error=champwrg4)
-            
+                                           error=champwrg4)
+
             session.get('voiture')['valeur_a_neuf'] = valeur_a_neuf
             session.get('voiture')['valeur_actuelle'] = valeur_actuelle
             session['vform3']='submitted'
@@ -1015,18 +1012,18 @@ def voiture(nbr,lang):
             immatricule = req.get('immatricule')
             marque = req.get('marque')
             modele = req.get('modele')
-            if marque == "Select brand" or marque == "Sélectionner la marque" or marque == "إختار الماركة" : 
+            if marque == "Select brand" or marque == "Sélectionner la marque" or marque == "إختار الماركة" :
                 return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
-                                    error=chooseerr)
-            if modele == "Select model" or modele == "Sélectionner le modèle" or modele == "إختار موديل" : 
+                                       error=chooseerr)
+            if modele == "Select model" or modele == "Sélectionner le modèle" or modele == "إختار موديل" :
                 return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
-                                    error=chooseerr)
+                                       error=chooseerr)
             session.get('voiture')['marq_model'] = marque + " " + modele
             session['vform4'] = 'submitted'
         if 'vform5' in req:
             classe = req.get('classe')
-                  
-            if classe == "Select a class" or classe == "Sélectionner la classe" or classe == "إختار القسم": 
+
+            if classe == "Select a class" or classe == "Sélectionner la classe" or classe == "إختار القسم":
                 return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=chooseerr)
             nbcv = req.get('nbcv')
@@ -1051,12 +1048,12 @@ def voiture(nbr,lang):
             if pers_trans == 'pers_trans_oui':
                 if nbp == "Select" or nbp == "Sélectionner" or nbp == "إختار" :
                     return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
-                                       error=chooseerr)
+                                           error=chooseerr)
             if pers_trans == "pers_trans_non":
                 pers_trans = "EXCLUE"
                 nbp = "EXCLUE"
                 capital_d = "EXCLUE"
-            
+
             session['pers_trans'] = pers_trans
             garantie = GarantieAuto_(remorquage, nbp, capital_d)
             session['garantie'] = garantie.__dict__
@@ -1071,21 +1068,21 @@ def voiture(nbr,lang):
             else:
                 if valeur_bg == "":
                     return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
-                                       error=champerr)
+                                           error=champerr)
                 for i in range(len(valeur_bg)):
                     if valeur_bg[i].isalpha():
                         return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
-                                       error=champwrg4)
+                                               error=champwrg4)
             if radio_ca7 == 'radio_ca7_non':
                 valeur_rc = "EXCLUE"
             else:
                 if valeur_rc == "" :
                     return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
-                                       error=champerr)
-                for j in range(len(valeur_rc)): 
+                                           error=champerr)
+                for j in range(len(valeur_rc)):
                     if valeur_rc[j].isalpha():
                         return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
-                                       error=champwrg4)
+                                               error=champwrg4)
             session['bris_glace'] = bris_glace
             session.get('garantie')['valeur_bg'] = valeur_bg
             session['radio_ca7'] = radio_ca7
@@ -1099,7 +1096,7 @@ def voiture(nbr,lang):
             if conducteur_plus == "conducteur_plus_non":
                 conducteur_plus = "EXCLUE"
                 capital_assure_cp = "EXCLUE"
-            else : 
+            else :
                 conducteur_plus = "OUI"
             damage = req.get('damage')
             incendie = session.get('voiture')['valeur_actuelle']
@@ -1145,7 +1142,7 @@ def voiture(nbr,lang):
             #session['email'] = email
             session['vform9'] = 'submitted'
             return render_template('confirm/confirmv.html', confirmed=False, error=verify, lang=lang)
-            
+
         if 'vform9b' in req:
             pwderror = ''
             mailerr = ''
@@ -1231,7 +1228,7 @@ def voiture(nbr,lang):
         return redirect("/voiture/" + form + "/" + lang)
 
     if nbr == "12" and request.method == 'POST':
-    
+
         if session.get('client')['confirmed']:
             voiture = session.get('voiture')
             client = session.get('client')
@@ -1240,23 +1237,24 @@ def voiture(nbr,lang):
             session['loaded'] = True
             session['done'] = True
             session['finished'] = True  # finished is for when the client submits the last form (passwords) and from
-                                        # then he shouldn't be allowed to return to signups
-            text_association = "This is the contract of the client : "+client['prenom']+' '+client['nom']+" with the id "\
-                   +str(session.get('client_id'))+" : <br>this contract is still not paid"
-            sendPDF('kallel.beya@gmail.com', 'contrat_voiture.pdf', text_association)
+            # then he shouldn't be allowed to return to signups
+            text_association = "This is the contract of the client : "+client['prenom']+' '+client['nom']+" with the id " \
+                               +str(session.get('client_id'))+" : <br>this contract is still not paid"
+            sendPDFv('kallel.beya@gmail.com', 'contrat_voiture.pdf', text_association)
             text_client = "The contract is ready now and waiting to be paid!<br> If you want to modify it just log in and choose" \
                           " your contract if you have more than one"
-            sendPDF(client['email'], 'contrat_voiture.pdf', text_client)
+            sendPDFv(client['email'], 'contrat_voiture.pdf', text_client)
             #return redirect(url_for('gen/contract/voiture')
             return redirect("/previewvoiture/" + lang)
     elif nbr == "12" and request.method == 'GET':
         print('df')
         abort(403)
-        
+
     if int(nbr) > 9 and session.get('client')['confirmed'] == False:
         return render_template('confirm/confirm.html', confirmed=False, error=verify, lang=lang)
 
     return render_template("voiture/register/voiture" +nbr+".html", nbr = nbr, lang = lang)
+
 @app.route("/previewvoiture/<lang>", defaults={'index': '0'})
 @app.route("/previewvoiture/<lang>/<index>")
 def previewV(lang, index):
@@ -1305,6 +1303,61 @@ def previewV(lang, index):
             info.append(voit)
         return render_template("resultat/multiple.html", contrats=info, lang=lang)
 
+@app.route("/loginv/<lang>", methods=['POST', 'GET'])
+def loginV(lang):
+    pwderror = ''
+    mailerr = ''
+    error = ''
+    champerr = ''
+    if lang == 'french':
+        pwderror = 'Verifiez votre mot de passe !'
+        mailerr = 'Verifiez votre email !'
+        recaptchaerr = "Veuillez confirmer que vous n'êtes pas un robot!"
+        champerr = 'les champs sont vides!'
+    if lang == 'english':
+        pwderror = 'Verify your password ! '
+        mailerr = 'Verify your email !'
+        recaptchaerr = "Please confirm that you're not a robot!"
+        champerr = 'fields are empty!'
+    if lang == 'arabe':
+        pwderror = '!التحقق من كلمة المرور'
+        mailerr = '!تحقق من بريدك الإلكتروني'
+        recaptchaerr = "!الرجاء التأكد من أنك لست آلة"
+        champerr = 'البلايص فارغين'
+    if request.method == 'POST':
+        req = request.form
+        if req.get('email') != '':
+            client = Client.find_one({'email': req['email']})
+            session['client_id'] = client['_id']
+            if client:
+                a = verify_password(client['password'], req['password'])
+                if a:
+                    if recaptcha.verify():
+                        session['done'] = True
+                        session['client'] = client
+                        if len(client['contrats']) == 1 and 'paid' not in Contrat_voiture.find_one({'_id': client['contrats'][0]}):
+                            contratv = Contrat_voiture.find_one({'_id': client['contrats'][0]})
+                            garantie = Garantie.find_one({'_id': contratv['garantie_id']})
+                            session['garantie'] = garantie
+                            session['void'] = garantie['voiture_id']
+                            session['contratv'] = contratv
+                        else:
+                            session['garid'] = 'multiple'
+                            session['garantie'] = 'multiple'
+                            session['contratv'] = 'multiple'
+                            session['void'] = 'multiple'
+                        session['finished'] = True
+                        return redirect('/previewvoiture/' + lang)
+                    else:
+                        error = recaptchaerr
+                else:
+                    error = pwderror
+            else:
+                error = mailerr
+        else:
+            error = champerr
+    return render_template("confirmv/login.html", lang=lang, error=error)
+
 @app.route('/confirm_email_v/<token>/<lang>')
 def confirm_email_v(token, lang):
     if lang == 'french':
@@ -1336,22 +1389,120 @@ def confirm_email_v(token, lang):
     except SignatureExpired:
         return render_template('confirm/confirmv.html', confirmed=False, error=token_expired)
     except BadTimeSignature:
-        return render_template('confirm/confirmv.html', confirmed=False, error=token_match_err)  
+        return render_template('confirm/confirmv.html', confirmed=False, error=token_match_err)
     return render_template('confirm/confirmv.html', confirmed=True, success=msg, lang=lang, href="/voiture/10/"+lang)
+@app.route("/vars_voiture", methods=['POST'])
+def variableV():
+    car_damaged = int(request.form['car_damaged'])
+    medical = int(request.form['medical'])
+    lista = [
+        ['Dommage suite aux C.N' , car_damaged],
+        ['Frais Med', medical]]
+    clmail = session.get('client')['email']
+    client_id = Client.find_one({'email': clmail})['_id']
+    contratv = Contrat_voiture.find_one({'client_id': client_id})
+    conid = contratv['_id']
+    garid = Contrat_voiture.find_one({'_id': conid})['garantie_id']
+    Garantie.update_one(
+        {'_id': garid},
+        {'$set': {'dommage_suite_aux_cn': car_damaged}}
+    )
+    Garantie.update_one(
+        {'_id':garid},
+        {'$set': {'frais_medicaux': medical}}
+    )
+    tab = contratv['coveragev']
+    year_price = contratv['totaly']
+    month_price = contratv['totalm']
+    year_discount = contratv['discount']
+    for val in lista :
+        if val[0] == 'Dommage suite aux C.N':
+            price = car_damaged*0.00065
+        else:
+            price = medical*0.024
+        year_price += price
+        tab.append({
+            'libelle': val[0],
+            'valeur': val[1],
+            'valeurEstimee': price
+        })
+        Contrat_voiture.update_one(
+            {'_id': conid},
+            {'$set': {'coveragev': tab}}
+        )
+    month_price = round(year_price/12 , 1)
+    year_discount = round((year_price*5)/100 , 1)
+    Contrat_voiture.update_one(
+        {'_id': conid},
+        {'$set': {'totaly': year_price}}
+    )
+    Contrat_voiture.update_one(
+        {'_id': conid},
+        {'$set': {'totalm': month_price}}
+    )
+    Contrat_voiture.update_one(
+        {'_id': conid},
+        {'$set': {'discount': year_discount}}
+    )
+
+
+    return jsonify({
+        'month_price': month_price,
+        'year_price': year_price,
+        'year_discount': year_discount
+    })
+
+@app.route('/pay_voiture/<lang>', methods=['POST'])
+def payV(lang):
+    if request.method == 'POST':
+        req = request.form
+        card_num = req.get('card_num')
+        date_exp = req.get('date_carte')
+        cvc = req.get('cvc')
+        try:
+            datetime.datetime.strptime(date_exp, '%d/%m/%Y')
+        except ValueError:
+            return redirect('/previewvoiture/'+lang)
+        if len(cvc) != 3 or len(card_num) != 16 :
+            return redirect('/previewvoiture/'+lang)
+        client = session.get('client')
+        text_association = "this is the contract of the client : "+client['prenom']+' '+client['nom']+" with the id " \
+                           +str(session.get('client_id'))+" : <br>this contract is paid"
+
+        garantie = session.get('garantie')
+
+        rendered = render_template('contrat_voiture/contrat_voiture.html',
+                                   client=client,
+                                   garantie=garantie,
+                                   contrat=Contrat.find_one({'_id': garantie['contract']}))
+        css = ['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
+        pdf = pdfkit.from_string(rendered, False, css=css)
+        sendPDF(client['email'], pdf, text_association)
+        sendPDF('kallel.beya@gmail.com', pdf, text_association)
+        Contrat_voiture.update_one({'garantie_id': garantie['_id']},{"$set": {'paid': True}})
+        session['done'] = True
+        session['client'] = client
+        session['void'] = 'multiple'
+        session['voiture'] = 'multiple'
+        session['contrat'] = 'multiple'
+        session['finished'] = True
+    return redirect("/previewvoiture/"+lang)
+
+from flask import make_response
 
 @app.route('/gen/contract/voiture')
 def generatevoiture():
     print('fgr')
     client = session.get('client')
     garantie = session.get('garantie')
-   
+
     rendered = render_template('contrat_voiture/contrat_voiture.html',
                                client=client,
                                garantie=garantie,
                                contrat=Contrat.find_one({'_id': garantie['contract']}))
     css=['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
     pdf = pdfkit.from_string(rendered, False,css=css)
-    sendPDF('kallel.beya@gmail.com', pdf, 'test pdf 12 12 12')
+    sendPDFv('kallel.beya@gmail.com', pdf, 'test pdf 12 12 12')
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = "inline; filename=output.pdf"
@@ -1613,7 +1764,7 @@ def result(lang):
     price = formule(int(session['salary']), int(session['debt']), int(session['age']))
     print(price)
     if request.method == 'POST':
-        return redirect(url_for("generatevie"))
+        return redirect(url_for("generate"))
     return render_template("resultat/preview-vie.html", lang=lang, adresse=session['adresse'], price=price)
 
 def formule(x,y,z):
@@ -1776,13 +1927,13 @@ def addreport(nbr,lang):
             session['form107'] = 'submitted'
         if 'form108' in req:
             vehicles = Voiture.find({
-            "client_id":session["clid"]
+                "client_id":session["clid"]
             })
             typev_a = req.get('typev')
             brandv_a = req.get('brand')
             typeim = req.get('typeim')
             matriculev_a = req.get('matricule')
-            countryv_a = req.get('countryv')       
+            countryv_a = req.get('countryv')
             if typev_a =="normalv":
                 if brandv_a=="" or matriculev_a=="" or countryv_a=="":
                     return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
@@ -1806,11 +1957,11 @@ def addreport(nbr,lang):
         if 'form108b' in req:
             vehicle_id=req.get('cars')
             vehicles = Voiture.find({
-            "client_id":session["clid"]
+                "client_id":session["clid"]
             })
             if vehicle_id==None:
                 return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
-                                           vehicles=vehicles,error=champerr)
+                                       vehicles=vehicles,error=champerr)
             vehicle=Voiture.find_one({"_id":vehicle_id})
             session["vehicle_id"]=vehicle_id
             session["matriculev_a"] = vehicle['matricule']
@@ -1905,7 +2056,7 @@ def addreport(nbr,lang):
                                        error=champerr,data=data)
             if emaildr_a=="" and teldr_a=="":
                 return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
-                                       error=contacterr,data=data) 
+                                       error=contacterr,data=data)
             adresseObj = Adresse.find_one(
                 {
                     'adresse': adressdr_a
@@ -1966,7 +2117,7 @@ def addreport(nbr,lang):
             brandv_b = req.get('brand')
             typeim = req.get('typeim')
             matriculev_b = req.get('matricule')
-            countryv_b = req.get('countryv')       
+            countryv_b = req.get('countryv')
             if typev_b =="normalv":
                 if brandv_b=="" or matriculev_b=="" or countryv_b=="":
                     return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
@@ -2117,7 +2268,7 @@ def addreport(nbr,lang):
                 session["accident_sketch"]=filename
                 session['form115'] = 'submitted'
                 completed=True
-#----------------------------control of access to reports pages---------------------------------------------- 
+    #----------------------------control of access to reports pages----------------------------------------------
     if session.get('acctype')=="one":
         if (int(nbr) in range(2, 15)or(int(nbr)==24)) and ('form' + str(int(nbr)+99) not in session):
             form = "1"
@@ -2128,7 +2279,7 @@ def addreport(nbr,lang):
             for k in range(23, 24):
                 v=k+100
                 if ('form' + str(v)) in session:
-                    form = str(k+1)    
+                    form = str(k+1)
             return redirect("/addreport/" + form + "/" + lang)
         if int(nbr) in range(15, 23):
             return redirect("/addreport/1/" + lang)
@@ -2147,7 +2298,7 @@ def addreport(nbr,lang):
                 if ('form' + str(v)) in session:
                     form = str(k+1)
             return redirect("/addreport/" + form + "/" + lang)
-#----------------------------end control----------------------------------------------
+    #----------------------------end control----------------------------------------------
     if completed:
         j = 1
         # wnames=""
@@ -2268,7 +2419,7 @@ def addreport(nbr,lang):
                     "brand":session["brandv_b"],
                     "registration_number":session["matriculev_b"],
                     "country":session["countryv_b"]
-                 },
+                },
                 "insurance_society_B":{
                     "name":session["names_b"],
                     "number_of_contract":session["nb_contract_b"],
@@ -2281,7 +2432,7 @@ def addreport(nbr,lang):
                     "email":session["emailag_b"],
                     "phone":session["phoneag_b"],
                     "material_damage_insured":session["damageins_b"]
-                 },
+                },
                 "driver_B":{
                     "name":session["namedr_b"],
                     "birthday":session["birthdaydr_b"],
@@ -2308,7 +2459,7 @@ def addreport(nbr,lang):
             "client_id":session["clid"]
         })
         return render_template("/constat_form/addreport"+nbr+".html",lang=lang,
-                           nbr=nbr,acctype=session.get('acctype'),data=data,vehicles=vehicles)
+                               nbr=nbr,acctype=session.get('acctype'),data=data,vehicles=vehicles)
     return render_template("/constat_form/addreport"+nbr+".html",lang=lang,
                            nbr=nbr,acctype=session.get('acctype'),data=data)
 #----------------end-----------------------------------------------------------------------------------
@@ -2324,13 +2475,13 @@ def getit():
     nbcurc_a = getthat['circumstances_A'].count(";")
     if session['acctype']=="one":
         return render_template("/constat_form/constatvoitureone.html",report=getthat,nba=nbcurc_a,
-        insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos)
+                               insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos)
     nbcurc_b = getthat['circumstances_B'].count(";")
     # with open("/Users/ahmed/Desktop/flaskone/public/"+getthat['accident_sketch'], "rb") as image_file:
     #     encoded_string = base64.b64encode(image_file.read())
     # return json.dumps(getthat, default=json_util.default)
     return render_template("/constat_form/constat_voiture.html",report=getthat,nba=nbcurc_a,nbb=nbcurc_b,
-    insured_A=insured_A)
+                           insured_A=insured_A)
     #  allcars = list(collection.find({}))
     #  return json.dumps(allcars, default=json_util.default)
 #------------------------------------------------------------------end---------------------------------------------------
@@ -2338,4 +2489,3 @@ def getit():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
-#dernier test le 26 septembre 10h
