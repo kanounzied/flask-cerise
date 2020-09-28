@@ -42,7 +42,7 @@ assets.register('scss_all', scss)
 Session(app)
 s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 #---------------------------------------------add-------------------------------
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = app.instance_path+'\\..\\static\\public'#UPLOAD_FOLDER
 #-------------------------------------------------end----------------------------------------
 
 
@@ -74,6 +74,7 @@ def arab():
 
 @app.route("/home/<lang>")
 def home(lang):
+    session.clear()
     return render_template("/home/" + lang + ".html", lang=lang)
 
 
@@ -534,18 +535,21 @@ def preview(lang, index):
         proprietes = list([])
         # print('contrats', client['contrats'])
         for cont in client['contrats']:
-            cnt = Contrat.find_one({'_id': cont})
-            # print('cnt', cnt)
-            if 'paid' in cnt:
-                paid = True
-            else:paid = False
-            apt = Propriete.find_one({'_id': cnt['prop_id']})
-            adresse = Adresse.find_one({'_id': apt['adr_id']})['adresse']
-            prop = {
-                'adresse': apt['apt_unit'] + ", " + apt['rue'] + "  " + adresse,
-                'paid': paid
-            }
-            proprietes.append(prop)
+            try:
+                cnt = Contrat.find_one({'_id': cont})
+                print('cnt', cont)
+                if 'paid' in cnt:
+                    paid = True
+                else:paid = False
+                apt = Propriete.find_one({'_id': cnt['prop_id']})
+                adresse = Adresse.find_one({'_id': apt['adr_id']})['adresse']
+                prop = {
+                    'adresse': apt['apt_unit'] + ", " + apt['rue'] + "  " + adresse,
+                    'paid': paid
+                }
+                proprietes.append(prop)
+            except:
+                print(cont,' not found in Contrat')
         return render_template("resultat/multiple.html", contrats=proprietes, lang=lang)
 
 
@@ -585,6 +589,7 @@ def login(lang):
                             contrat = Contrat.find_one({'_id': client['contrats'][0]})
                             apartement = Propriete.find_one({'_id': contrat['prop_id']})
                             session['apt'] = apartement
+                            print(session['apt'])
                             session['adr_id'] = apartement['adr_id']
                             session['contrat'] = contrat
                         else:
@@ -843,13 +848,14 @@ def pay(lang):
         text_association = "this is the contract of the client : "+client['nom']+' '+client['prenom']+" with the id " \
                            +str(session.get('clid'))+" : <br>this contract is paid"
         apt = session.get('apt')
+        prints()
         adresse = apt['apt_unit'] + ', ' + apt['rue'] + ', ' + Adresse.find_one({'_id': session.get('adr_id')})[
             'adresse']
         autre = []
         # print(apt)
         for one in apt['autres_biens']:
             autre.append(AutresBiens.find_one({'_id': one}))
-        rendered = render_template('contrat/contrat.html',
+        rendered = render_template("contrat/contrat.html",
                                    client=client,
                                    adresse=adresse,
                                    valuables=apt['valuables'],
@@ -1254,7 +1260,7 @@ def voiture(nbr,lang):
                           " your contract if you have more than one"
             sendPDF(client['email'], 'contrat_voiture.pdf', text_client)
             #return redirect(url_for('gen/contract/voiture')
-            return redirect("/preview-voiture/" + lang)
+            return redirect("/previewvoiture/" + lang)
     elif nbr == "12" and request.method == 'GET':
         print('df')
         abort(403)
@@ -1263,6 +1269,54 @@ def voiture(nbr,lang):
         return render_template('confirm/confirm.html', confirmed=False, error=verify, lang=lang)
 
     return render_template("voiture/register/voiture" +nbr+".html", nbr = nbr, lang = lang)
+@app.route("/previewvoiture/<lang>", defaults={'index': '0'})
+@app.route("/previewvoiture/<lang>/<index>")
+def previewV(lang, index):
+    if index != '0':
+        client = session.get('client')
+        contratvid = client['contrats'][int(index) - 1]
+        contratv = Contrat_voiture.find_one({'_id': contratvid})
+        client_id = client['_id']
+        void = Voiture.find_one({'client_id':client_id})['_id']
+        garantie = Garantie.find_one({'_id': contratv['garantie_id']})
+        session['garid'] = garantie['_id']
+        session['garantie'] = garantie
+        session['contratv'] = contratv
+        session['void'] = void
+    client = session.get('client')
+    email = client['email']
+    client_id = Client.find_one({'email':email})['_id']
+    void = Voiture.find_one({'client_id':client_id})['_id']
+    if void != 'multiple':
+        voiture = Voiture.find_one({'_id': void})['marq_model']
+        garantie = session.get('garantie')
+        done = False  # pour afficher la page de preload
+        if 'done' in session:
+            done = True
+        return render_template("resultat/previewvoiture.html",
+                               lang=lang,
+                               done=done,
+                               voiture=voiture
+                               )
+    else:
+        client = session.get('client')
+        info = list([])
+        # print('contrats', client['contrats'])
+        for cont in client['contrats']:
+            cnt = Contrat_voiture.find_one({'_id': cont})
+            # print('cnt', cnt)
+            if 'paid' in cnt:
+                paid = True
+            else:paid = False
+            garantie = Garantie.find_one({'_id': cnt['garantie_id']})
+            marq_model = Voiture.find_one({'_id': garantie['voiture_id']})['marq_model']
+            voit = {
+                'marq_model': marq_model,
+                'paid': paid
+            }
+            info.append(voit)
+        return render_template("resultat/multiple.html", contrats=info, lang=lang)
+
 @app.route('/confirm_email_v/<token>/<lang>')
 def confirm_email_v(token, lang):
     if lang == 'french':
@@ -1571,7 +1625,7 @@ def result(lang):
     price = formule(int(session['salary']), int(session['debt']), int(session['age']))
     print(price)
     if request.method == 'POST':
-        return redirect(url_for("generate"))
+        return redirect(url_for("generatevie"))
     return render_template("resultat/preview-vie.html", lang=lang, adresse=session['adresse'], price=price)
 
 def formule(x,y,z):
@@ -2083,4 +2137,5 @@ def addreport(nbr,lang):
 ############### end of 5edma ##############
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
+#dernier test le 26 septembre 10h

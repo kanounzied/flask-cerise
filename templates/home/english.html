@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block title %}english home{% endblock %}
 {% block sidenav %}
     <a href="/home/english">Home</a>
@@ -25,7 +24,7 @@
         <a href="/about/english">About Us </a>
     </li>
 <!--    <li>-->
-<!--        <!--    <a href="#">Claims</a>-->-->
+<!--           <a href="#">Claims</a>-->
 <!--    </li>-->
     <li>
         <a href="/addreport/1/english">Car Report</a>
@@ -34,7 +33,6 @@
         <a href="/login/english">My account</a>
     </li>
     <li class="pull-right">
-        <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
         <div class="dropdown show">
             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -49,10 +47,10 @@
         </div>
     </li>
     <li class="pull-right">
-        <a href="/voiture/1/english" class="insurence-btn">Auto Insurance</a>
+        <a href="/voiture/1/english" onclick="callimg(this.innerHTML.replace('Insurance', ''),event)" class="insurence-btn">Auto Insurance</a>
     </li>
     <li class="pull-right">
-        <a href="/vie" class="insurence-btn">Life Insurance</a>
+        <a href="/vie" onclick="callimg(this.innerHTML.replace('Insurance', ''),event)" class="insurence-btn">Life Insurance</a>
     </li>
 
 {% endblock %}
@@ -61,8 +59,53 @@
         <h1>Forget Everything You </h1>
 		<h1>Know About Insurance </h1>
         <p>Instant everything. No brainer prices. Big heart. </p>
-        <a href="/signup/1/{{ lang }}">
+        <a id="target" href="/signup/1/{{ lang }}" >
             <button class="btn btn-primary">Check our prices</button>
         </a>
+        <br>
+        <img id="fixcar" src="/static/images/fixcar.png" style="width: 200px;position: inherit" alt="">
+        <img id="fixhome" src="/static/images/fixhome.png" style="width: 200px;position: inherit" alt="">
+        <img id="fixlife" src="/static/images/fixlife.png" style="width: 200px" alt="">
     </div>
+{% endblock %}
+{% block scripts %}
+<script>
+    var outbutton = ['Home ', '/signup/1/{{lang}}']
+    function callimg(id,ev) {
+        ev.preventDefault();
+        out = document.activeElement.innerHTML.replace('Insurance', '');
+        href = document.activeElement.getAttribute('href');
+        console.log(out, href);
+        document.activeElement.innerHTML=outbutton[0]+'Insurance';
+        document.activeElement.setAttribute('href', outbutton[1])
+        document.getElementById('target').setAttribute('href', href)
+        outbutton[0]=out;
+        outbutton[1]=href;
+        console.log(outbutton)
+        if (id == 'Auto '){
+            document.getElementById('fixcar').style.transform = "translateY(-50px)";
+            document.getElementById('fixhome').style.transform = "translateY(200px)";
+            document.getElementById('fixlife').style.transform = "translateY(200px)";
+            document.getElementById('fixhome').style.opacity = "0";
+            document.getElementById('fixlife').style.opacity = "0";
+            document.getElementById('fixcar').style.opacity = "1";
+        }
+        else if (id == 'Life '){
+            document.getElementById('fixlife').style.transform = "translateY(-50px)";
+            document.getElementById('fixhome').style.transform = "translateY(200px)";
+            document.getElementById('fixcar').style.transform = "translateY(200px)";
+            document.getElementById('fixhome').style.opacity = "0";
+            document.getElementById('fixcar').style.opacity = "0";
+            document.getElementById('fixlife').style.opacity = "1";
+        }
+        else {
+            document.getElementById('fixhome').style.transform = "translateY(-50px)";
+            document.getElementById('fixcar').style.transform = "translateY(200px)";
+            document.getElementById('fixlife').style.transform = "translateY(200px)";
+            document.getElementById('fixcar').style.opacity = "0";
+            document.getElementById('fixlife').style.opacity = "0";
+            document.getElementById('fixhome').style.opacity = "1";
+        }
+    }
+</script>
 {% endblock %}

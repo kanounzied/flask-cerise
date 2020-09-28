@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block title %}arabe home{% endblock %}
 {% block sidenav %}
     <a href="/home/arabe">الرئيسية</a>
@@ -13,6 +12,9 @@
 <style>
     .container-fluid{
         padding-top: 50px;
+    }
+    .navbar a{
+        font-size: 2.7vh;
     }
 </style>
 {% endblock %}
@@ -48,19 +50,64 @@
     </div>
 </li>
 <li class="pull-right">
-    <a href="/voiture/1/arabe" class="insurence-btn">تأمين سيارات</a>
+    <a href="/voiture/1/arabe" onclick="callimg(this.innerHTML.replace('تأمين ', ''),event)" class="insurence-btn">تأمين سيارات</a>
 </li>
 <li class="pull-right">
-    <a href="/vie" class="insurence-btn">تأمين حياة</a>
+    <a href="/vie" onclick="callimg(this.innerHTML.replace('تأمين ', ''),event)" class="insurence-btn">تأمين حياة</a>
 </li>
 {% endblock %}
 {% block body %}
 <div class="container-fluid">
     <h1>أمّن دارك واطمان على صغارك </h1>
     <p>بقلب كبير وبثمن صغير أمن دارك في وقت قصير </p>
-    <a href="/signup/1/{{ lang }}">
+    <a id="target" href="/signup/1/{{ lang }}">
         <button class="btn btn-primary">خوذ فكرة على السوم</button>
     </a>
+    <br>
+    <img id="fixcar" src="/static/images/fixcar.png" style="width: 200px;position: inherit" alt="">
+    <img id="fixhome" src="/static/images/fixhome.png" style="width: 200px;position: inherit" alt="">
+    <img id="fixlife" src="/static/images/fixlife.png" style="width: 200px" alt="">
 </div>
+{% endblock %}
+{% block scripts %}
+<script>
+    var outbutton = ['منزل', '/signup/1/{{lang}}']
+    function callimg(id,ev) {
+        ev.preventDefault();
+        out = document.activeElement.innerHTML.replace('تأمين ', '');
+        href = document.activeElement.getAttribute('href');
+        console.log(out, href);
+        document.activeElement.innerHTML='تأمين '+outbutton[0];
+        document.activeElement.setAttribute('href', outbutton[1])
+        document.getElementById('target').setAttribute('href', href)
+        outbutton[0]=out;
+        outbutton[1]=href;
+        console.log(outbutton)
+        if (id == 'سيارات'){
+            document.getElementById('fixcar').style.transform = "translateY(-50px)";
+            document.getElementById('fixhome').style.transform = "translateY(200px)";
+            document.getElementById('fixlife').style.transform = "translateY(200px)";
+            document.getElementById('fixhome').style.opacity = "0";
+            document.getElementById('fixlife').style.opacity = "0";
+            document.getElementById('fixcar').style.opacity = "1";
+        }
+        else if (id == 'حياة'){
+            document.getElementById('fixlife').style.transform = "translateY(-50px)";
+            document.getElementById('fixhome').style.transform = "translateY(200px)";
+            document.getElementById('fixcar').style.transform = "translateY(200px)";
+            document.getElementById('fixhome').style.opacity = "0";
+            document.getElementById('fixcar').style.opacity = "0";
+            document.getElementById('fixlife').style.opacity = "1";
+        }
+        else {
+            document.getElementById('fixhome').style.transform = "translateY(-50px)";
+            document.getElementById('fixcar').style.transform = "translateY(200px)";
+            document.getElementById('fixlife').style.transform = "translateY(200px)";
+            document.getElementById('fixcar').style.opacity = "0";
+            document.getElementById('fixlife').style.opacity = "0";
+            document.getElementById('fixhome').style.opacity = "1";
+        }
+    }
+</script>
 {% endblock %}
 

@@ -46,18 +46,63 @@
         </div>
     </li>
     <li class="pull-right">
-        <a href="/voiture/1/french" class="insurence-btn">Assurence Auto</a>
+        <a href="/voiture/1/french" onclick="callimg(this.innerHTML.replace('Assurence ', ''),event)" class="insurence-btn">Assurence Auto</a>
     </li>
     <li class="pull-right">
-        <a href="/vie" class="insurence-btn">Assurence Vie</a>
+        <a href="/vie" onclick="callimg(this.innerHTML.replace('Assurence ', ''),event)" class="insurence-btn">Assurence Vie</a>
     </li>
 {% endblock %}
 {% block body %}
     <div class="container-fluid">
         <h1>Rassurez vous et soyez sécurisés </h1>
         <p> Grand Coeur, Prix Imbattable, Courte Durée</p>
-        <a href="/signup/1/french">
+        <a id="target" href="/signup/1/french">
             <button class="btn btn-primary">calculer votre prix</button>
         </a>
+        <br>
+        <img id="fixcar" src="/static/images/fixcar.png" style="width: 200px;position: inherit" alt="">
+        <img id="fixhome" src="/static/images/fixhome.png" style="width: 200px;position: inherit" alt="">
+        <img id="fixlife" src="/static/images/fixlife.png" style="width: 200px" alt="">
     </div>
+{% endblock %}
+{% block scripts %}
+<script>
+    var outbutton = ['Maison', '/signup/1/{{lang}}']
+    function callimg(id,ev) {
+        ev.preventDefault();
+        out = document.activeElement.innerHTML.replace('Assurence ', '');
+        href = document.activeElement.getAttribute('href');
+        console.log(out, href);
+        document.activeElement.innerHTML='Assurence ' + outbutton[0];
+        document.activeElement.setAttribute('href', outbutton[1])
+        document.getElementById('target').setAttribute('href', href)
+        outbutton[0]=out;
+        outbutton[1]=href;
+        console.log(outbutton)
+        if (id == 'Auto'){
+            document.getElementById('fixcar').style.transform = "translateY(-50px)";
+            document.getElementById('fixhome').style.transform = "translateY(200px)";
+            document.getElementById('fixlife').style.transform = "translateY(200px)";
+            document.getElementById('fixhome').style.opacity = "0";
+            document.getElementById('fixlife').style.opacity = "0";
+            document.getElementById('fixcar').style.opacity = "1";
+        }
+        else if (id == 'Vie'){
+            document.getElementById('fixlife').style.transform = "translateY(-50px)";
+            document.getElementById('fixhome').style.transform = "translateY(200px)";
+            document.getElementById('fixcar').style.transform = "translateY(200px)";
+            document.getElementById('fixhome').style.opacity = "0";
+            document.getElementById('fixcar').style.opacity = "0";
+            document.getElementById('fixlife').style.opacity = "1";
+        }
+        else {
+            document.getElementById('fixhome').style.transform = "translateY(-50px)";
+            document.getElementById('fixcar').style.transform = "translateY(200px)";
+            document.getElementById('fixlife').style.transform = "translateY(200px)";
+            document.getElementById('fixcar').style.opacity = "0";
+            document.getElementById('fixlife').style.opacity = "0";
+            document.getElementById('fixhome').style.opacity = "1";
+        }
+    }
+</script>
 {% endblock %}
