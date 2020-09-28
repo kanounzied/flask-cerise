@@ -1,4 +1,4 @@
-{% extends 'constat_form/sign.html' %}
+{% extends '/constat_form/sign.html' %}
 {% block nbr %}{{ nbr }}{% endblock %}
 {% block style %}
 <!-- <style>
@@ -13,17 +13,17 @@
 {% if lang == "english" %}
 <a href="/home/english">Home</a>
 <a href="#">About Us</a>
-<!--    <a href="#">Claims</a>-->
+<a href="#">Claims</a>
 <a href="#">My account</a>
 {% else %}{% if lang =="arabe" %}
 <a href="/home/arabe">الرئيسية</a>
 <a href="#">معلومات</a>
-<!--    <a href="#">مطالب</a>-->
+<a href="#">مطالب</a>
 <a href="#">حسابي</a>
 {% else %}{% if lang=="french" %}
 <a href="/home/french">Acceuil</a>
 <a href="#">Informations</a>
-<!--    <a href="#">Réclamations</a>-->
+<a href="#">Réclamations</a>
 <a href="#">Mon compte</a>
 {% endif %}
 {% endif %}
@@ -39,8 +39,11 @@
 {% if lang == "english" %}
 <div class="english container-fluid">
     <div class="content">
+        <!-- style="display: block;
+            margin-left: auto;
+            margin-right: auto; width: 20%;" -->
             <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">Vehicle B</h1>
-            <img id="carimg"  src="/static/images/car - Copie.png" alt="car">               
+            <img id="carimg"   src="/static/images/car - Copie.png" alt="car">               
     </div>
 
     <form class="first_form" method="post" action="/addreport/17/{{lang}}">
@@ -48,7 +51,7 @@
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="typev" id="normalv" value="normalv" checked>
                 <label class="form-check-label" for="normalv">
-                  Normal vehicule
+                  Normal vehicle
                 </label>
               </div>
             <div class="form-check">
@@ -66,14 +69,29 @@
         </div>
         <div class="row">
             <div class="form-group col-12 ">
-                <input type="text" class="form-control" name="matricule" id="matricule"
-                       placeholder="Registration number">
+            <select class="form-control"  id="typeim" name="typeim">
+              <option value="tunis" selected>tunis</option>
+              <option value="NT">Nt</option>
+              <option value="other">other</option>
+            </select>
+        </div>
+        </div>
+        <div class="row" id="mat">
+            <div class='form-group col-5'>
+                <input type='text' class='form-control' name='matricule_s' id='matricule_s'
+                       placeholder='series number'>
+            </div>
+            <div class='form-group col-2' style='text-align: center;'>tunis</div>
+                
+            <div class='form-group col-5'>
+                <input type='text' class='form-control' name='matricule' id='matricule'
+                placeholder='Registration number'>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-12 ">
                 <input type="text" class="form-control" name="countryv" id="countryv"
-                        placeholder="Country of registration number">
+                        placeholder="Country of registration number" value='tunisia' style="display: none;">
             </div>
         </div>
         <div class="row">
@@ -87,7 +105,7 @@
 <div class="arab container-fluid">
     <div class="content">
             <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">السيارة ب</h1>
-            <img id="carimg"  src="/static/images/car - Copie.png" alt="car">              
+            <img id="carimg"   src="/static/images/car - Copie.png" alt="car">          
     </div>
 
     <form class="first_form" method="post" action="/addreport/17/{{lang}}">
@@ -113,14 +131,29 @@
         </div>
         <div class="row">
             <div class="form-group col-12 ">
-                <input type="text" class="form-control" name="matricule" id="matricule"
-                       placeholder="رقم التسجيل">
+            <select class="form-control"  id="typeim" name="typeim">
+              <option value="tunis" selected>تونس</option>
+              <option value="NT">نت</option>
+              <option value="other">آخر</option>
+            </select>
+        </div>
+        </div>
+        <div class="row" id="mat">
+            <div class='form-group col-5'>
+                <input type='text' class='form-control' name='matricule_s' id='matricule_s'
+                       placeholder='رقم سري'>
+            </div>
+            <div class='form-group col-2' style='text-align: center;'>تونس</div>
+                
+            <div class='form-group col-5'>
+                <input type='text' class='form-control' name='matricule' id='matricule'
+                placeholder="رقم التسجيل">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-12 ">
                 <input type="text" class="form-control" name="countryv" id="countryv"
-                        placeholder="بلد رقم التسجيل">
+                        placeholder="بلد رقم التسجيل" value='تونس' style="display: none;">
             </div>
         </div>
         <div class="row">
@@ -133,8 +166,8 @@
 {% else %}{% if lang=="french" %}
 <div class="french container-fluid">
     <div class="content">
-        <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">Véhicule B</h1>
-        <img id="carimg"  src="/static/images/car - Copie.png" alt="car">                 
+            <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">Véhicule B</h1>
+            <img id="carimg"   src="/static/images/car - Copie.png" alt="car">          
     </div>
 
     <form class="first_form" method="post" action="/addreport/17/{{lang}}">
@@ -160,14 +193,29 @@
         </div>
         <div class="row">
             <div class="form-group col-12 ">
-                <input type="text" class="form-control" name="matricule" id="matricule"
-                       placeholder="n° d'immatriculation ">
+            <select class="form-control"  id="typeim" name="typeim">
+              <option value="tunis" selected>tunis</option>
+              <option value="NT">Nt</option>
+              <option value="other">autre</option>
+            </select>
+        </div>
+        </div>
+        <div class="row" id="mat">
+            <div class='form-group col-5'>
+                <input type='text' class='form-control' name='matricule_s' id='matricule_s'
+                       placeholder='numéro de série'>
+            </div>
+            <div class='form-group col-2' style='text-align: center;'>tunis</div>
+                
+            <div class='form-group col-5'>
+                <input type='text' class='form-control' name='matricule' id='matricule'
+                placeholder="Numéro d'enregistrement">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-12 ">
                 <input type="text" class="form-control" name="countryv" id="countryv"
-                        placeholder="Pays d'immatriculation">
+                        placeholder="Pays d'immatriculation" value='tunisie' style="display: none;">
             </div>
         </div>
         <div class="row">
@@ -187,13 +235,71 @@
         $("input").change(function(){
             // Change src attribute of image
             $( "img[alt='car']" ).attr("src", "/static/images/car.png");
-        });
+        });  
         $('#trailer').click(function(){
-            $('#brand').attr("style","display:none;");
+            $('#brand').hide();
         });
         $('#normalv').click(function(){
-            $('#brand').attr("style","display:");
-        });    
+            $('#brand').show();
+        });
     });
 </script>
+
+{% if lang == "english" %}
+<script>
+$('select').change(function(){
+    if((this.value)=="NT"){
+        $('#countryv').hide();
+        $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s'    placeholder='series number'></div><div class='form-group col-2' style='text-align: center;'>NT</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='Registration number'></div>");
+    }
+    else if((this.value)=="tunis"){
+        $('#countryv').hide();
+        $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s'    placeholder='series number'></div><div class='form-group col-2' style='text-align: center;'>tunis</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='Registration number'></div>");
+    }
+    else{
+        $('#countryv').show();
+        $('#countryv').val('');
+        $('#mat').html("<div class='form-group col-12'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='Registration number'> </div>");     
+    }
+});    
+</script>
+{% endif %}
+{% if lang =="arabe" %}
+<script>
+$('select').change(function(){
+    if((this.value)=="NT"){
+        $('#countryv').hide();
+        $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s'    placeholder='رقم '></div><div class='form-group col-2' style='text-align: center;'>نت</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='رقم التسجيل'></div>");
+    }
+    else if((this.value)=="tunis"){
+        $('#countryv').hide();
+        $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s' placeholder='رقم '></div><div class='form-group col-2' style='text-align: center;'>تونس</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='رقم التسجيل'></div>");
+    }
+    else{
+        $('#countryv').show();
+        $('#countryv').val('');
+        $('#mat').html("<div class='form-group col-12'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='رقم التسجيل'> </div>");     
+    }
+});  
+    </script>
+{% endif %}
+{% if lang=="french" %}
+<script>
+    $('select').change(function(){
+        if((this.value)=="NT"){
+            $('#countryv').hide();
+            $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s'    placeholder='numéro de série'></div><div class='form-group col-2' style='text-align: center;'>NT</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='Numéro d&#39enregistrement'></div>");
+        }
+        else if((this.value)=="tunis"){
+            $('#countryv').hide();
+            $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s' placeholder='numéro de série'></div><div class='form-group col-2' style='text-align: center;'>tunis</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='Numéro d&#39enregistrement'></div>");
+        }
+        else{
+            $('#countryv').show();
+            $('#countryv').val('');
+            $('#mat').html("<div class='form-group col-12'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='n° d&#39immatriculation'> </div>");
+        }
+    });    
+    </script>
+{% endif %}
 {% endblock %}

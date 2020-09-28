@@ -1,4 +1,4 @@
-{% extends "constat_form/sign.html" %}
+{% extends "/constat_form/sign.html" %}
 {% block title %} add report {% endblock %}
 {% block body %}
 {% if error %}
@@ -7,9 +7,15 @@
 {% if lang == "english" %}
 <div class="english container-fluid">
     <div class="content">
-        <h1 class="center-text">Hour of the accident!</h1>
+        <h1 class="center-text">Date and hour of the accident!</h1>
     </div>
     <form class="first_form" method="post" action="/addreport/3/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="date" id="date" max="2020-09-03"
+                       placeholder="Accident date" required>
+            </div>
+        </div>
         <div class="row">
             <div class="form-group col-12 ">
             <input type="time" class="form-control" name="time" id="time"
@@ -26,9 +32,15 @@
 {% else %}{% if lang =="arabe" %}
 <div class="arab container-fluid">
     <div class="content">
-        <h1 class="center-text">!ساعة الحادث</h1>
+        <h1 class="center-text">!تاريخ و وقت الحادث</h1>
     </div>
     <form class="first_form" method="post" action="/addreport/3/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="date" id="date" max="2020-09-03"
+                       placeholder="dd/mm/yyyy" required>
+            </div>
+        </div>
         <div class="row">
             <div class="form-group col-12 ">
             <input type="time" class="form-control" name="time" id="time"
@@ -45,9 +57,15 @@
 {% else %}{% if lang=="french" %}
 <div class="french container-fluid">
     <div class="content">
-        <h1 class="center-text">Heure de l'accident!</h1>
+        <h1 class="center-text">date et heure de l'accident!</h1>
     </div>
     <form class="first_form" method="post" action="/addreport/3/{{lang}}">
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="date" id="date" max="2020-09-03"
+                       placeholder="date de l'accident" required>
+            </div>
+        </div>
         <div class="row">
             <div class="form-group col-12 ">
             <input type="time" class="form-control" name="time" id="time"
@@ -66,4 +84,21 @@
 {% endif %}
 {%endblock%}
 {% block scripts %}
+<script>
+    var fullDate = new Date()
+    var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+    var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+    fullDate.setDate(fullDate.getDate()-5);
+    var fivedaysbefore = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+    if (fullDate.getDate() < 10) {
+        currentDate = "0" + currentDate;
+    }
+    $('#date').datepicker({
+        format: "dd/mm/yyyy",
+        startDate: fivedaysbefore,
+        endDate: currentDate,
+        orientation: "bottom right"
+    });
+
+</script>
 {%endblock%}
