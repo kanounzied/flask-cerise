@@ -1817,7 +1817,6 @@ def generatevie():
 ############### end of 5edma ##############
 ############### 5edmet jaabiri ##############
 #------------------------------------------el route mta3 constat add ahbet lel e5er ---------------------------------------------------
-@app.route("/addreport/<nbr>/<lang>",methods=["POST","GET"])
 def addreport(nbr,lang):
     if lang == 'english':
         adrnotfound = "Your address is not registered in the database!"
@@ -2078,6 +2077,33 @@ def addreport(nbr,lang):
             session["categoryp_a"] = categoryp_a
             session["validp_a"] = validp_a
             session['form111'] = 'submitted'
+        if 'form111b' in req:
+            if "clid" in session:
+                driver= Client.find_one({"_id":session["clid"]})
+                contrat_cl = Contrat.find_one({"client_id":session['clid']})
+                prop_A = Propriete.find_one({"_id":contrat_cl['prop_id']})
+                adrins_A = Adresse.find_one({"_id":prop_A['adr_id']})
+                insured_A_adr= adrins_A['adresse']+','+prop_A['apt_unit']+','+prop_A['rue']
+            else:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       data=data,
+                                       error="you're not connected")
+            permis_a = req.get('permis')
+            categoryp_a = req.get('categoryp')
+            validp_a = req.get('validp')
+            if permis_a=="" or categoryp_a=="" or validp_a=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr,data=data)
+            session["namedr_a"]= driver['prenom']+' '+driver['nom']
+            session["birthdaydr_a"]= driver['date_de_naissance']
+            session["adressdr_a"]=insured_A_adr
+            session["countrydr_a"]= "tunisia"
+            session["emaildr_a"]= driver['email']
+            session["teldr_a"]= driver['tel_num']
+            session["permis_a"]=permis_a
+            session["categoryp_a"]=categoryp_a
+            session["validp_a"]=validp_a
+            session['form111']='submitted'
         if 'form112' in req:
             chocside_a = req.get('chocside')
             chocpt_a = req.get('chocpt')
