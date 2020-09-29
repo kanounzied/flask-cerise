@@ -45,6 +45,7 @@
         margin-top: -40px;
     }
 
+
 </style>
 {% endblock %}
 {% block body %}
@@ -67,7 +68,7 @@
                     <h2>Passenger</h2>
                 </label>
                 <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="passenger" value="passenger"
-                       name="typev" style="margin-bottom: 10px;" hidden >
+                       name="typev">
                 <label style="display: none" class="form-check-label without" for="passenger">
                     Passenger
                 </label>
@@ -81,7 +82,7 @@
                     <h2>Taxi</h2>
                 </label>
                 <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="taxi" value="taxi"
-                       name="typev" style="margin-bottom: 10px;" hidden >
+                       name="typev">
                 <label style="display: none" class="form-check-label without" for="taxi">
                     Taxi
                 </label>
@@ -95,7 +96,7 @@
                     <h2>Commercial</h2>
                 </label>
                 <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="commercial" value="commercial"
-                       name="typev"style="margin-bottom: 10px;" hidden>
+                       name="typev">
                 <label style="display: none" class="form-check-label without" for="commercial">
                     Commercial
                 </label>
@@ -126,7 +127,7 @@
                      سيارة راكب
                 </label>
                 <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="passenger" value="passenger"
-                       name="typev" style="margin-bottom: 10px;" hidden >
+                       name="typev">
             </div>
 
             <div class="form-check col-md-4">
@@ -138,9 +139,8 @@
                     <h2>تاكسي</h2>
                 </label>
                 <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="taxi" value="taxi"
-                       name="typev" style="margin-bottom: 10px;" hidden >
-                <label style="display: none" class="form-check-label without" for="taxi">
-                    تاكسي
+                       name="typev" style="float: right; margin-left: 4px;">
+                <label style="display: none" class="form-check-label without" for="taxi"> تاكسي
                 </label>
 
             </div>
@@ -156,7 +156,7 @@
                     سيارة تجارية
                 </label>
                 <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="commercial" value="commercial"
-                       name="typev" style="margin-bottom: 10px;" hidden >
+                       name="typev">
             </div>
         </div>
         <div class="row">
@@ -181,7 +181,7 @@
                     <h2 id="h2fr1">Voyageur</h2>
                 </label>
                 <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="passenger" value="passenger"
-                       name="typev" style="margin-bottom: 10px;" hidden>
+                       name="typev"  "   >
                 <label style="display: none" class="form-check-label without" for="passenger">
                     Voyageur
                 </label>
@@ -197,7 +197,7 @@
                     <h2>Taxi</h2>
                 </label>
                 <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="taxi" value="taxi"
-                       name="typev" style="margin-bottom: 10px;" hidden>
+                       name="typev">
                 <label style="display: none" class="form-check-label without" for="taxi"> Taxi
                 </label>
 
@@ -211,7 +211,7 @@
                     <h2 id="h2fr2">Commerciale</h2>
                 </label>
                 <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="commercial" value="commercial"
-                       name="typev" style="margin-bottom: 10px;" hidden>
+                       name="typev">
                 <label style="display: none" class="form-check-label without" for="commercial">
                     Commerciale
                 </label>
