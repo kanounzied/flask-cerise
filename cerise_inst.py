@@ -1817,6 +1817,7 @@ def generatevie():
 ############### end of 5edma ##############
 ############### 5edmet jaabiri ##############
 #------------------------------------------el route mta3 constat add ahbet lel e5er ---------------------------------------------------
+@app.route("/addreport/<nbr>/<lang>",methods=["POST","GET"])
 def addreport(nbr,lang):
     if lang == 'english':
         adrnotfound = "Your address is not registered in the database!"
