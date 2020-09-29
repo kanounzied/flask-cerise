@@ -1,77 +1,181 @@
-{% extends "constat_form/sign.html" %}
+{% extends 'sign.html' %}
+{% block nbr %} {% endblock %}
 {% block style %}
 <style>
-    /* Set the size of the div element that contains the map */
-   #map {
-     height: 500px;  /* The height is 400 pixels */
-     width: 100%;  /* The width is the width of the web page */
+    @media screen and (max-width: 768px){
+        input{
+            display: inline-block!important;
+        }
     }
- </style>
- {% endblock %}
+</style>
+{% endblock %}
+{% block sidenav %}
+{% if lang == "english" %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<!-- <a href="#">Claims</a> -->
+<a href="#">My account</a>
+{% else %}{% if lang =="arabe" %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="#">معلومات</a>
+<!-- <a href="#">مطالب</a> -->
+<a href="#">حسابي</a>
+{% else %}{% if lang=="french" %}
+<a href="/home/french">Acceuil</a>
+<a href="#">Informations</a>
+<!-- <a href="#">Réclamations</a> -->
+<a href="#">Mon compte</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block lang %}
+{{lang}}
+{% endblock %}
 {% block body %}
-<button onclick="doCapture();">capture</button>
-<img src="" id="img">
-<section id="bro">
-<h3>My Google Maps Demo</h3>
-    <!--The div element for the map -->
-    <div id="map"></div>
-</section>
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid">
+    <div class="content">
+        <h1 class="center-text">the accident involves one vehicle or two vehicles ?</h1>
+    </div>
+    <form class="fifth-form" method="post" action="/addreport/2/{{lang}}">
+        <div class="row">
+            <div class="form-check col-md-6">
+                <label class="form-check-label with_img" for="one">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/1car.png">
+                        <img src="/static/images/1car.png" alt="1carimg">
+                    </picture>
+                </label>
+                <input onchange="hide('1')" type="radio" style="display: none" class="form-check-input with-gap" id="one" value="one"
+                       name="type">
+                <label style="display: none" class="form-check-label without" for="one">
+                    one car
+                </label>
+
+            </div>
+            <div class="form-check col-md-6">
+                <label class="form-check-label with_img" for="two">
+                    <picture>
+                        <source class="source _2" srcset="/static/images/2cars.png">
+                        <img src="/static/images/2cars.png" alt="2carsimg">
+                    </picture>
+                </label>
+                <input onchange="hide('2')" type="radio" style="display: none" class="form-check-input with-gap" id="two" value="two"
+                       name="type">
+                <label style="display: none" class="form-check-label without" for="two">
+                    two cars
+                </label>
+
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form101" class="btn btn-primary col-2">Next</button>
+        </div>
+    </form>
+    <div class="back"><a href="/home/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang =="arabe" %}
+<div class="arab container-fluid">
+    <div class="content">
+        <h1 class="center-text">الحادث مابين زوز كراهب والا كرهبة وحدة</h1>
+    </div>
+    <form class="fifth-form" method="post" action="/addreport/5/{{lang}}">
+        <div class="row">
+            <div class="form-check col-md-6">
+              <label class="form-check-label with_img" for="one">
+                <picture>
+                    <source class="source _1" srcset="/static/images/1car.png">
+                    <img src="/static/images/1car.png" alt="1carimg">
+                </picture>
+            </label>
+            <input onchange="hide('1')" type="radio" style="display: none" class="form-check-input with-gap" id="one" value="one"
+                   name="type">
+            <label style="display: none" class="form-check-label without" for="one">
+                  كرهبة وحدة
+                </label>
+
+            </div>
+            <div class="form-check col-md-6">
+              <label class="form-check-label with_img" for="two">
+                <picture>
+                    <source class="source _2" srcset="/static/images/2cars.png">
+                    <img src="/static/images/2cars.png" alt="2carsimg">
+                </picture>
+            </label>
+            <input onchange="hide('2')" type="radio" style="display: none" class="form-check-input with-gap" id="two" value="two"
+                   name="type">
+            <label style="display: none" class="form-check-label without" for="two">
+                  زوز كراهب
+                </label>
+
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form104" class="btn btn-primary col-2">Next</button>
+        </div>
+    </form>
+    <div class="back"><a href="/addreport/3/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% else %}{% if lang=="french" %}
+<div class="french container-fluid">
+  <div class="content">
+    <h1 class="center-text">l'accident implique une véhicule ou deux véhicules ?</h1>
+</div>
+<form class="fifth-form" method="post" action="/addreport/2/{{lang}}">
+    <div class="row">
+        <div class="form-check col-md-6">
+            <label class="form-check-label with_img" for="one">
+                <picture>
+                    <source class="source _1" srcset="/static/images/1car.png">
+                    <img src="/static/images/1car.png" alt="1carimg">
+                </picture>
+            </label>
+            <input onchange="hide('1')" type="radio" style="display: none" class="form-check-input with-gap" id="one" value="one"
+                   name="type">
+            <label style="display: none" class="form-check-label without" for="one">
+                une véhicule
+            </label>
+
+        </div>
+        <div class="form-check col-md-6">
+            <label class="form-check-label with_img" for="two">
+                <picture>
+                    <source class="source _2" srcset="/static/images/2cars.png">
+                    <img src="/static/images/2cars.png" alt="2carsimg">
+                </picture>
+            </label>
+            <input onchange="hide('2')" type="radio" style="display: none" class="form-check-input with-gap" id="two" value="two"
+                   name="type">
+            <label style="display: none" class="form-check-label without" for="two">
+                deux véhicules
+            </label>
+
+        </div>
+    </div>
+    <div class="row">
+        <button type="submit" name="form101" class="btn btn-primary col-2">Next</button>
+    </div>
+</form>
+<div class="back"><a href="/home/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+{% endif %}
+{% endif %}
+{%endif%}
 {%endblock%}
 {% block scripts %}
 <script>
-      // Note: This example requires that you consent to location sharing when
-      // prompted by your browser. If you see the error "The Geolocation service
-      // failed.", it means you probably did not give permission for the browser to
-      // locate you.
-      var map, infoWindow;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 25
-        });
-        infoWindow = new google.maps.InfoWindow;
-
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('locate place of accident to draw sketch on');
-            infoWindow.open(map);
-            map.setCenter(pos);
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-          });
-        } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
+    function hide(x) {
+        var subs = document.querySelector("._" + x).attributes[1].value;
+        var sources = document.querySelectorAll(".source")
+        for (var i = 0; i < 2; i++) {
+            val = sources[i].attributes[1].value;
+            sources[i].attributes[1].value = val.replace("-colored", "");
         }
-      }
-
-      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-                              'Error: please allow the app to discover your position.' :
-                              'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
-      }
+        document.querySelector("._" + x).attributes[1].value = subs.replace(".png", "") + "-colored" + ".png";
+    }
 </script>
-     <script>
-    img = document.getElementById("img");
-     function doCapture(){
-         html2canvas(document.getElementById("bro"),{
-          useCORS: true,
-         }).then(function(canvas){
-           img.setAttribute("src",canvas.toDataURL("image/jpeg",1));
-            console.log(canvas.toDataURL("image/jpeg",1));
-         });
-     }
- </script>
-    <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1SIgj2nZHrNMQN9dbYBSzkHsV8QF5kdw&callback=initMap">
-    </script>
-{%endblock%}
+{% endblock %}

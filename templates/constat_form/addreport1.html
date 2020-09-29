@@ -1,102 +1,181 @@
-{% extends "constat_form/sign.html" %}
-{% block title %} add report {% endblock %}
+{% extends '/constat_form/sign.html' %}
+{% block nbr %} {% endblock %}
+{% block style %}
+<style>
+    @media screen and (max-width: 768px){
+        input{
+            display: inline-block!important;
+        }
+    }
+</style>
+{% endblock %}
+{% block sidenav %}
+{% if lang == "english" %}
+<a href="/home/english">Home</a>
+<a href="#">About Us</a>
+<!-- <a href="#">Claims</a> -->
+<a href="#">My account</a>
+{% else %}{% if lang =="arabe" %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="#">معلومات</a>
+<!-- <a href="#">مطالب</a> -->
+<a href="#">حسابي</a>
+{% else %}{% if lang=="french" %}
+<a href="/home/french">Acceuil</a>
+<a href="#">Informations</a>
+<!-- <a href="#">Réclamations</a> -->
+<a href="#">Mon compte</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block lang %}
+{{lang}}
+{% endblock %}
 {% block body %}
 {% if error %}
-<div class="alert alert-danger">{{error}}</div>
+<div class="alert alert-dark">{{error}}</div>
 {% endif %}
 {% if lang == "english" %}
 <div class="english container-fluid">
     <div class="content">
-        <h1 class="center-text">Date of the accident!</h1>
+        <h1 class="center-text">the accident involves one vehicle or two vehicles ?</h1>
     </div>
-    <form class="first_form" method="post" action="/addreport/2/{{lang}}">
+    <form class="fifth-form" method="post" action="/addreport/2/{{lang}}">
         <div class="row">
-            <div class="form-group col-12 ">
-                <input type="text" class="form-control" name="date" id="date" max="2020-09-03"
-                       placeholder="Accident date" required>
+            <div class="form-check col-md-6">
+                <label class="form-check-label with_img" for="one">
+                    <picture>
+                        <source class="source _1" srcset="/static/images/1car.png">
+                        <img src="/static/images/1car.png" alt="1carimg">
+                    </picture>
+                </label>
+                <input onchange="hide('1')" type="radio" style="display: none" class="form-check-input with-gap" id="one" value="one"
+                       name="type">
+                <label style="display: none" class="form-check-label without" for="one">
+                    one car
+                </label>
+
+            </div>
+            <div class="form-check col-md-6">
+                <label class="form-check-label with_img" for="two">
+                    <picture>
+                        <source class="source _2" srcset="/static/images/2cars.png">
+                        <img src="/static/images/2cars.png" alt="2carsimg" style="width:200px;">
+                    </picture>
+                </label>
+                <input onchange="hide('2')" type="radio" style="display: none" class="form-check-input with-gap" id="two" value="two"
+                       name="type">
+                <label style="display: none" class="form-check-label without" for="two">
+                    two cars
+                </label>
+
             </div>
         </div>
         <div class="row">
-            <button type="submit" name="form101" class="btn btn-primary col-2">Next!</button>
-            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+            <button type="submit" name="form101" class="btn btn-primary col-2">Next</button>
         </div>
     </form>
-    <div class="back"><a href="/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a>
-    </div>
+    <div class="back"><a href="/home/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
 {% else %}{% if lang =="arabe" %}
 <div class="arab container-fluid">
     <div class="content">
-        <h1 class="center-text">!تاريخ الحادث</h1>
+        <h1 class="center-text">الحادث مابين زوز كراهب والا كرهبة وحدة</h1>
     </div>
-    <form class="first_form" method="post" action="/addreport/2/{{lang}}">
+    <form class="fifth-form" method="post" action="/addreport/2/{{lang}}">
         <div class="row">
-            <div class="form-group col-12 ">
-                <input type="text" class="form-control" name="date" id="date" max="2020-09-03"
-                       placeholder="dd/mm/yyyy" required>
+            <div class="form-check col-md-6">
+              <label class="form-check-label with_img" for="one">
+                <picture>
+                    <source class="source _1" srcset="/static/images/1car.png">
+                    <img src="/static/images/1car.png" alt="1carimg">
+                </picture>
+            </label>
+            <input onchange="hide('1')" type="radio" style="display: none" class="form-check-input with-gap" id="one" value="one"
+                   name="type">
+            <label style="display: none" class="form-check-label without" for="one">
+                  كرهبة وحدة
+                </label>
+
+            </div>
+            <div class="form-check col-md-6">
+              <label class="form-check-label with_img" for="two">
+                <picture>
+                    <source class="source _2" srcset="/static/images/2cars.png">
+                    <img src="/static/images/2cars.png" alt="2carsimg" style="width:200px;">
+                </picture>
+            </label>
+            <input onchange="hide('2')" type="radio" style="display: none" class="form-check-input with-gap" id="two" value="two"
+                   name="type">
+            <label style="display: none" class="form-check-label without" for="two">
+                  زوز كراهب
+                </label>
+
             </div>
         </div>
         <div class="row">
-            <button type="submit" name="form101" class="btn btn-primary col-2">Next!</button>
-            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+            <button type="submit" name="form101" class="btn btn-primary col-2">Next</button>
         </div>
     </form>
-    <div class="back"><a href="/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a>
-    </div>
+    <div class="back"><a href="/addreport/3/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
 {% else %}{% if lang=="french" %}
 <div class="french container-fluid">
-    <div class="content">
-        <h1 class="center-text">Date de l'accident!</h1>
-    </div>
-    <form class="first_form" method="post" action="/addreport/2/{{lang}}">
-        <div class="row">
-            <div class="form-group col-12 ">
-                <input type="text" class="form-control" name="date" id="date" max="2020-09-03"
-                       placeholder="date de l'accident" required>
-            </div>
+  <div class="content">
+    <h1 class="center-text">l'accident implique une véhicule ou deux véhicules ?</h1>
+</div>
+<form class="fifth-form" method="post" action="/addreport/2/{{lang}}">
+    <div class="row">
+        <div class="form-check col-md-6">
+            <label class="form-check-label with_img" for="one">
+                <picture>
+                    <source class="source _1" srcset="/static/images/1car.png">
+                    <img src="/static/images/1car.png" alt="1carimg">
+                </picture>
+            </label>
+            <input onchange="hide('1')" type="radio" style="display: none" class="form-check-input with-gap" id="one" value="one"
+                   name="type">
+            <label style="display: none" class="form-check-label without" for="one">
+                une véhicule
+            </label>
+
         </div>
-        <div class="row">
-            <button type="submit" name="form101" class="btn btn-primary col-2">Next!</button>
-            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        <div class="form-check col-md-6">
+            <label class="form-check-label with_img" for="two">
+                <picture>
+                    <source class="source _2" srcset="/static/images/2cars.png">
+                    <img src="/static/images/2cars.png" alt="2carsimg" style="width:200px;">
+                </picture>
+            </label>
+            <input onchange="hide('2')" type="radio" style="display: none" class="form-check-input with-gap" id="two" value="two"
+                   name="type">
+            <label style="display: none" class="form-check-label without" for="two">
+                deux véhicules
+            </label>
+
         </div>
-    </form>
-    <div class="back"><a href="/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a>
     </div>
+    <div class="row">
+        <button type="submit" name="form101" class="btn btn-primary col-2">Next</button>
+    </div>
+</form>
+<div class="back"><a href="/home/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
 {% endif %}
 {% endif %}
-{% endif %}
+{%endif%}
 {%endblock%}
 {% block scripts %}
 <script>
-n =  new Date();
-y = n.getFullYear();
-m = n.getMonth() + 1;
-if ((m/10)<1){
-    m = "0"+m;
-}
-d = n.getDate();
-if ((d/10)<1){
-    d = "0"+d;
-}
-document.getElementById("date").setAttribute("max",y + "-" + m + "-" + d);
-</script>
-<script>
-    var fullDate = new Date()
-    var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
-    var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
-    fullDate.setDate(fullDate.getDate()-5);
-    var fivedaysbefore = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
-    if (fullDate.getDate() < 10) {
-        currentDate = "0" + currentDate;
+    function hide(x) {
+        var subs = document.querySelector("._" + x).attributes[1].value;
+        var sources = document.querySelectorAll(".source")
+        for (var i = 0; i < 2; i++) {
+            val = sources[i].attributes[1].value;
+            sources[i].attributes[1].value = val.replace("-colored", "");
+        }
+        document.querySelector("._" + x).attributes[1].value = subs.replace(".png", "") + "-colored" + ".png";
     }
-    $('input').datepicker({
-        format: "dd/mm/yyyy",
-        startDate: fivedaysbefore,
-        endDate: currentDate,
-        orientation: "bottom right"
-    });
-
 </script>
-{%endblock%}
+{% endblock %}

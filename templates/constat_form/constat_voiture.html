@@ -34,7 +34,7 @@ body {margin-top: 0px;margin-left: 0px;}
     <!-- partie lfou9 ------------------------------------------------------------------------------------------------------->
     <p style="position: absolute;top: 46px;left: 23px;">{{report.date}}</p>
     <p style="position: absolute;top: 46px;left: 145px;">{{report.time}}</p>
-    <p style="position: absolute;top: 46px;left: 242px;">{{report.adress}}</p>
+    <p style="position: absolute;top: 40px;left: 321px;max-width: 126px;font-size: x-small;">{{report.adress}}</p>
     {% if report.injuries == "no" %}
     <img src="/static/images/x_icon.png" style="position: absolute;top: 46px;left: 481px;height: 47px;">
     {%else%}
@@ -51,6 +51,13 @@ body {margin-top: 0px;margin-left: 0px;}
     <img src="/static/images/x_icon.png" style="position: absolute;top: 106px;left: 214px;height: 47px;">
     {% endif %}
     <p style="position: absolute;top: 85px;left: 288px;" >{{report.witnesses}}</p>
+    <!-- insured A ----------------------------------------------------------------------------------------------->
+    <p style="position: absolute;top: 178px;left: 47px;" >{{insured_A.nom}}</p>
+    <p style="position: absolute;top: 196px;left: 51px;" >{{insured_A.prenom}}</p>
+    <p style="position: absolute;top: 226px;left: 51px;font-size: xx-small;" >{{ins_A_adr}}</p>
+    <p style="position: absolute;top: 231px;left: 65px;" >{{ins_A_pos}}</p>
+    <p style="position: absolute;top: 231px;left: 158px;" >tunisie</p>
+    <p style="position: absolute;top: 249px;left: 83px;" >{{insured_A.tel_num}}</p>
     <!-- vehicule A ----------------------------------------------------------------------------------------------->
     {% if report.vehicle_A.type == "normalv" %}
     <p style="position: absolute;top: 321px;left: 10px;" >{{report.vehicle_A.brand}}</p>
@@ -69,7 +76,7 @@ body {margin-top: 0px;margin-left: 0px;}
     <p style="position: absolute;top: 505px;left: 151px;" >{{report.insurance_society_A.type_insurance}}
     </p>
     <p style="position: absolute;top: 520px;left: 53px;" >{{report.insurance_society_A.name_of_type}}</p>
-    <p style="position: absolute;top: 538px;left: 53px;" >{{report.insurance_society_A.adress}}</p>
+    <p style="position: absolute;top: 538px;left: 53px;max-width: 227px;word-break: break-all;" >{{report.insurance_society_A.adress}}</p>
     <p style="position: absolute;top: 571px;left: 77px;" >{{report.insurance_society_A.email}}/
     {{report.insurance_society_A.phone}}</p>
     {% if report.insurance_society_A.material_damage_insured == "no" %}
@@ -81,7 +88,7 @@ body {margin-top: 0px;margin-left: 0px;}
     <p style="position: absolute;top: 652px;left: 38px;" >{{report.driver_A.name}}</p>
     <p style="position: absolute;top: 669px;left: 51px;" ><!--prenom--></p>
     <p style="position: absolute;top: 686px;left: 91px;;" >{{report.driver_A.birthday}}</p>
-    <p style="position: absolute;top: 704px;left: 55px;" >{{report.driver_A.adress}}</p>
+    <p style="position: absolute;top: 704px;left: 55px;max-width: 227px;word-break: break-all;" >{{report.driver_A.adress}}</p>
     <p style="position: absolute;top: 738px;left: 81px;" >{{report.driver_A.email}}/
         {{report.driver_A.phone}}</p>
     <p style="position: absolute;top: 755px;left: 103px;" >{{report.driver_A.permis}}</p>
@@ -131,92 +138,6 @@ body {margin-top: 0px;margin-left: 0px;}
     <p style="position: absolute;top: 997px;max-width: 143px;left: 9px;word-break: break-all;">{{report.damage_apparent_A}}</p>
     <!-- observation A -------------------------------------------------------------------------------------------------------->
     <p style="position: absolute;top: 1065px;max-width: 238px;left: 9px;word-break: break-all;">{{report.observations_A}}</p>
-    <!-- assuré B -------------------------------------------------------------------------------------------------------->
-    <p style="position: absolute;top: 177px;left: 548px;">{{report.insured_B.name}}</p>
-    <p style="position: absolute;top: 212px;left: 548px;">{{report.insured_B.adress}}</p>
-    <p style="position: absolute;top: 229px;left: 564px;">{{report.insured_B.postal_code}}</p>
-    <p style="position: absolute;top: 247px;left: 579px;">{{report.insured_B.email}}/
-        {{report.insured_B.phone}}</p>
-    <!-- vehicule B ----------------------------------------------------------------------------------------------->
-    {% if report.vehicle_A.type == "normalv" %}
-    <p style="position: absolute;top: 319px;left: 510px;" >{{report.vehicle_B.brand}}</p>
-    <p style="position: absolute;top: 349px;left: 510px;" >{{report.vehicle_B.registration_number}}</p>
-    <p style="position: absolute;top: 380px;left: 510px;" >{{report.vehicle_B.country}}</p>
-    {%else%}
-    <p style="position: absolute;top: 348px;left: 650px;" >{{report.vehicle_B.registration_number}}</p>
-    <p style="position: absolute;top: 378px;left: 650px;" >{{report.vehicle_B.country}}</p>
-    {% endif %}
-    <!-- société assurance B ----------------------------------------------------------------------------------------->
-    <p style="position: absolute;top: 424px;left: 539px;" >{{report.insurance_society_B.name}}</p>
-    <p style="position: absolute;top: 440px;left: 568px;" >{{report.insurance_society_B.number_of_contract}}</p>
-    <p style="position: absolute;top: 457px;left: 587px;" >{{report.insurance_society_B.number_of_greencard}}</p>
-    <p style="position: absolute;top: 490px;left: 612px;" >{{report.insurance_society_B.starting_date}}</p>
-    <p style="position: absolute;top: 490px;left: 703px;" >{{report.insurance_society_B.ending_date}}</p>
-    <p style="position: absolute;top: 505px;left: 652px;" >{{report.insurance_society_B.type_insurance}}
-    </p>
-    <p style="position: absolute;top: 520px;left: 554px;" >{{report.insurance_society_B.name_of_type}}</p>
-    <p style="position: absolute;top: 538px;left: 554px;" >{{report.insurance_society_B.adress}}</p>
-    <p style="position: absolute;top: 571px;left: 578px;" >{{report.insurance_society_B.email}}/
-    {{report.insurance_society_B.phone}}</p>
-    {% if report.insurance_society_B.material_damage_insured == "no" %}
-    <img src="/static/images/x_icon.png" style="position: absolute;top: 604px;left: 610px;height: 47px;">
-    {%else%}
-    <img src="/static/images/x_icon.png" style="position: absolute;top: 604px;left: 692px;height: 47px;">
-    {% endif %}
-    <!-- conducteur B ------------------------------------------------------------------------------------------------------>
-    <p style="position: absolute;top: 652px;left: 538px;" >{{report.driver_B.name}}</p>
-    <p style="position: absolute;top: 669px;left: 551px;" ><!--prenom--></p>
-    <p style="position: absolute;top: 686px;left: 591px;;" >{{report.driver_B.birthday}}</p>
-    <p style="position: absolute;top: 704px;left: 555px;" >{{report.driver_B.adress}}</p>
-    <p style="position: absolute;top: 738px;left: 581px;" >{{report.driver_B.email}}/
-        {{report.driver_B.phone}}</p>
-    <p style="position: absolute;top: 755px;left: 603px;" >{{report.driver_B.permis}}</p>
-    <p style="position: absolute;top: 772px;left: 593px;" >{{report.driver_B.category}}</p>
-    <p style="position: absolute;top: 789px;left: 611px;" >{{report.driver_B.available_until}}</p>
-    <!-- point de choc B ------------------------------------------------------------------------------------------------------------->
-    {% if report.shock_point_car_B== "right, right" %}
-    <img src="/static/images/x_icon.png" style="position: absolute;top: 885px;left: 686px;height: 47px;">
-    {%else%}{% if report.shock_point_car_B== "right, middle" %}
-    <img src="/static/images/x_icon.png" style="position: absolute;top: 909px;left: 686px;height: 47px;">
-    {%else%}{% if report.shock_point_car_B== "right, left" %}
-    <img src="/static/images/x_icon.png" style="position: absolute;top: 936px;left: 686px;height: 47px;">
-    <!-- front ------------>
-    {%else%}{% if report.shock_point_car_B== "front, right" %}
-    <img src="/static/images/x_icon.png" style="position: absolute;top: 871px;left: 682px;height: 47px;">
-    {%else%}{% if report.shock_point_car_B== "front, middle" %}
-    <img src="/static/images/x_icon.png" style="position: absolute;top: 871px;left: 673px;height: 47px;">
-    {%else%}{% if report.shock_point_car_B== "front, left" %}
-    <img src="/static/images/x_icon.png" style="position: absolute;top: 871px;left: 664px;height: 47px;">
-    <!-- left ------------>
-    {%else%}{% if report.shock_point_car_B== "left, left" %}
-    <img src="/static/images/x_icon.png" style="position: absolute;top: 885px;left: 659px;height: 47px;">
-    {%else%}{% if report.shock_point_car_B== "left, left" %}
-    <img src="/static/images/x_icon.png" style="position: absolute;top: 909px;left: 659px;height: 47px;">
-    {%else%}{% if report.shock_point_car_B== "left, left" %}
-    <img src="/static/images/x_icon.png" style="position: absolute;top: 936px;left: 659px;height: 47px;">
-    <!-- back ------------>
-    {%else%}{% if report.shock_point_car_B== "back, right" %}
-    <img src="/static/images/x_icon.png" style="position: absolute;top: 948px;left: 682px;height: 47px;">
-    {%else%}{% if report.shock_point_car_B== "back, middle" %}
-    <img src="/static/images/x_icon.png" style="position: absolute;top: 948px;left: 673px;height: 47px;">
-    {%else%}{% if report.shock_point_car_B== "back, left" %}
-    <img src="/static/images/x_icon.png" style="position: absolute;top: 948px;left: 664px;height: 47px;">
-    {% endif %}
-    {% endif %}
-    {% endif %}
-    {% endif %}
-    {% endif %}
-    {% endif %}
-    {% endif %}
-    {% endif %}
-    {% endif %}
-    {% endif %}
-    {% endif %}
-    {% endif %}
-    <!-- dégats apparent B -------------------------------------------------------------------------------------------------------->
-    <p style="position: absolute;top: 997px;max-width: 143px;left: 635px;word-break: break-all;">{{report.damage_apparent_B}}</p>
-    <!-- observation B -------------------------------------------------------------------------------------------------------->
-    <p style="position: absolute;top: 1065px;max-width: 238px;left: 535px;word-break: break-all;">{{report.observations_B}}</p>
     <!-- curcumstances A -------------------------------------------------------------------------------------------------------->
     {% if (("1" in report.circumstances_A|first) and ("x" not in report.circumstances_A|replace("11;","x")|first)) %}
     <img src="/static/images/x_icon.png" style="position: absolute;top: 202px;left: 271px;height: 47px;">
@@ -270,6 +191,92 @@ body {margin-top: 0px;margin-left: 0px;}
     <img src="/static/images/x_icon.png" style="position: absolute;top: 678px;left: 271px;height: 47px;">
     {% endif %}
     <p style="position: absolute;top: 716px;left: 290px;">{{ nba }}</p>
+    <!-- assuré B -------------------------------------------------------------------------------------------------------->
+    <p style="position: absolute;top: 177px;left: 548px;">{{report.insured_B.name}}</p>
+    <p style="position: absolute;top: 212px;left: 548px;max-width: 227px;word-break: break-all;">{{report.insured_B.adress}}</p>
+    <p style="position: absolute;top: 229px;left: 564px;">{{report.insured_B.postal_code}}</p>
+    <p style="position: absolute;top: 247px;left: 579px;">{{report.insured_B.email}}/
+        {{report.insured_B.phone}}</p>
+    <!-- vehicule B ----------------------------------------------------------------------------------------------->
+    {% if report.vehicle_A.type == "normalv" %}
+    <p style="position: absolute;top: 319px;left: 510px;" >{{report.vehicle_B.brand}}</p>
+    <p style="position: absolute;top: 349px;left: 510px;" >{{report.vehicle_B.registration_number}}</p>
+    <p style="position: absolute;top: 380px;left: 510px;" >{{report.vehicle_B.country}}</p>
+    {%else%}
+    <p style="position: absolute;top: 348px;left: 650px;" >{{report.vehicle_B.registration_number}}</p>
+    <p style="position: absolute;top: 378px;left: 650px;" >{{report.vehicle_B.country}}</p>
+    {% endif %}
+    <!-- société assurance B ----------------------------------------------------------------------------------------->
+    <p style="position: absolute;top: 424px;left: 539px;" >{{report.insurance_society_B.name}}</p>
+    <p style="position: absolute;top: 440px;left: 568px;" >{{report.insurance_society_B.number_of_contract}}</p>
+    <p style="position: absolute;top: 457px;left: 587px;" >{{report.insurance_society_B.number_of_greencard}}</p>
+    <p style="position: absolute;top: 490px;left: 612px;" >{{report.insurance_society_B.starting_date}}</p>
+    <p style="position: absolute;top: 490px;left: 703px;" >{{report.insurance_society_B.ending_date}}</p>
+    <p style="position: absolute;top: 505px;left: 652px;" >{{report.insurance_society_B.type_insurance}}
+    </p>
+    <p style="position: absolute;top: 520px;left: 554px;" >{{report.insurance_society_B.name_of_type}}</p>
+    <p style="position: absolute;top: 538px;left: 554px;max-width: 227px;word-break: break-all;" >{{report.insurance_society_B.adress}}</p>
+    <p style="position: absolute;top: 571px;left: 578px;" >{{report.insurance_society_B.email}}/
+    {{report.insurance_society_B.phone}}</p>
+    {% if report.insurance_society_B.material_damage_insured == "no" %}
+    <img src="/static/images/x_icon.png" style="position: absolute;top: 604px;left: 610px;height: 47px;">
+    {%else%}
+    <img src="/static/images/x_icon.png" style="position: absolute;top: 604px;left: 692px;height: 47px;">
+    {% endif %}
+    <!-- conducteur B ------------------------------------------------------------------------------------------------------>
+    <p style="position: absolute;top: 652px;left: 538px;" >{{report.driver_B.name}}</p>
+    <p style="position: absolute;top: 669px;left: 551px;" ><!--prenom--></p>
+    <p style="position: absolute;top: 686px;left: 591px;;" >{{report.driver_B.birthday}}</p>
+    <p style="position: absolute;top: 704px;left: 555px;max-width: 227px;word-break: break-all;" >{{report.driver_B.adress}}</p>
+    <p style="position: absolute;top: 738px;left: 581px;" >{{report.driver_B.email}}/
+        {{report.driver_B.phone}}</p>
+    <p style="position: absolute;top: 755px;left: 603px;" >{{report.driver_B.permis}}</p>
+    <p style="position: absolute;top: 772px;left: 593px;" >{{report.driver_B.category}}</p>
+    <p style="position: absolute;top: 789px;left: 611px;" >{{report.driver_B.available_until}}</p>
+    <!-- point de choc B ------------------------------------------------------------------------------------------------------------->
+    {% if report.shock_point_car_B== "right, right" %}
+    <img src="/static/images/x_icon.png" style="position: absolute;top: 885px;left: 686px;height: 47px;">
+    {%else%}{% if report.shock_point_car_B== "right, middle" %}
+    <img src="/static/images/x_icon.png" style="position: absolute;top: 909px;left: 686px;height: 47px;">
+    {%else%}{% if report.shock_point_car_B== "right, left" %}
+    <img src="/static/images/x_icon.png" style="position: absolute;top: 936px;left: 686px;height: 47px;">
+    <!-- front ------------>
+    {%else%}{% if report.shock_point_car_B== "front, right" %}
+    <img src="/static/images/x_icon.png" style="position: absolute;top: 871px;left: 682px;height: 47px;">
+    {%else%}{% if report.shock_point_car_B== "front, middle" %}
+    <img src="/static/images/x_icon.png" style="position: absolute;top: 871px;left: 673px;height: 47px;">
+    {%else%}{% if report.shock_point_car_B== "front, left" %}
+    <img src="/static/images/x_icon.png" style="position: absolute;top: 871px;left: 664px;height: 47px;">
+    <!-- left ------------>
+    {%else%}{% if report.shock_point_car_B== "left, left" %}
+    <img src="/static/images/x_icon.png" style="position: absolute;top: 885px;left: 659px;height: 47px;">
+    {%else%}{% if report.shock_point_car_B== "left, left" %}
+    <img src="/static/images/x_icon.png" style="position: absolute;top: 909px;left: 659px;height: 47px;">
+    {%else%}{% if report.shock_point_car_B== "left, left" %}
+    <img src="/static/images/x_icon.png" style="position: absolute;top: 936px;left: 659px;height: 47px;">
+    <!-- back ------------>
+    {%else%}{% if report.shock_point_car_B== "back, right" %}
+    <img src="/static/images/x_icon.png" style="position: absolute;top: 948px;left: 682px;height: 47px;">
+    {%else%}{% if report.shock_point_car_B== "back, middle" %}
+    <img src="/static/images/x_icon.png" style="position: absolute;top: 948px;left: 673px;height: 47px;">
+    {%else%}{% if report.shock_point_car_B== "back, left" %}
+    <img src="/static/images/x_icon.png" style="position: absolute;top: 948px;left: 664px;height: 47px;">
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    <!-- dégats apparent B -------------------------------------------------------------------------------------------------------->
+    <p style="position: absolute;top: 997px;max-width: 143px;left: 635px;word-break: break-all;">{{report.damage_apparent_B}}</p>
+    <!-- observation B -------------------------------------------------------------------------------------------------------->
+    <p style="position: absolute;top: 1065px;max-width: 238px;left: 535px;word-break: break-all;">{{report.observations_B}}</p>
     <!-- curcumstances B -------------------------------------------------------------------------------------------------------->
     {% if (("1" in report.circumstances_B|first) and ("x" not in report.circumstances_B|replace("11;","x")|first)) %}
     <img src="/static/images/x_icon.png" style="position: absolute;top: 202px;left: 466px;height: 47px;">

@@ -1,29 +1,38 @@
-{% extends 'constat_form/sign.html' %}
+{% extends '/constat_form/sign.html' %}
 {% block nbr %}{{ nbr }}{% endblock %}
 {% block style %}
-<!-- <style>
+<style>
     @media screen and (max-width: 768px){
         input{
             display: inline-block!important;
         }
     }
-</style> -->
+    .pop_pres button[type='submit']{
+     position:none !important;
+     bottom:none !important; 
+     right:none !important; 
+     width:none !important; 
+     padding:none !important; 
+     background-color:none!important; 
+     color:none!important;
+}
+</style>
 {% endblock %}
 {% block sidenav %}
 {% if lang == "english" %}
 <a href="/home/english">Home</a>
 <a href="#">About Us</a>
-<a href="#">Claims</a>
+<!-- <a href="#">Claims</a> -->
 <a href="#">My account</a>
 {% else %}{% if lang =="arabe" %}
 <a href="/home/arabe">الرئيسية</a>
 <a href="#">معلومات</a>
-<a href="#">مطالب</a>
+<!-- <a href="#">مطالب</a> -->
 <a href="#">حسابي</a>
 {% else %}{% if lang=="french" %}
 <a href="/home/french">Acceuil</a>
 <a href="#">Informations</a>
-<a href="#">Réclamations</a>
+<!-- <a href="#">Réclamations</a> -->
 <a href="#">Mon compte</a>
 {% endif %}
 {% endif %}
@@ -69,14 +78,29 @@
         </div>
         <div class="row">
             <div class="form-group col-12 ">
-                <input type="text" class="form-control" name="matricule" id="matricule"
-                       placeholder="Registration number">
+            <select class="form-control"  id="typeim" name="typeim">
+              <option value="tunis" selected>tunis</option>
+              <option value="NT">Nt</option>
+              <option value="other">other</option>
+            </select>
+        </div>
+        </div>
+        <div class="row" id="mat">
+            <div class='form-group col-5'>
+                <input type='text' class='form-control' name='matricule_s' id='matricule_s'
+                       placeholder='series number'>
+            </div>
+            <div class='form-group col-2' style='text-align: center;'>tunis</div>
+                
+            <div class='form-group col-5'>
+                <input type='text' class='form-control' name='matricule' id='matricule'
+                placeholder='Registration number'>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-12 ">
-                <input type="text" class="form-control" name="countryv" id="countryv"
-                        placeholder="Country of registration number">
+                <input type='text' class='form-control' name='countryv' id='countryv'
+                        placeholder='Country of registration number' value='tunisia' style="display: none;">
             </div>
         </div>
         <div class="row">
@@ -85,6 +109,44 @@
         </div>
     </form>
     <div class="back"><a href="/addreport/7/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+<div class="pop_pres" style="display: flex;height: 110%;">
+    <form action="/addreport/9/{{lang}}" method="post">
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="content">
+            <h4 style="margin-top: 30px;font-size: 1rem">vehicle A already insured ? if yes choose it !</h4>
+        </div>
+        <div class="row">
+            <div class="form-group col-12">
+                <select class="form-control" id="cars" name="cars">
+                    {%for vehicle in vehicles%}
+                    <option value="{{ vehicle._id}}">{{ vehicle.marq_model}}</option>
+                    {% endfor %}
+                </select>
+              </div>
+        </div>
+        <div class="row">
+        <div class="form-group col-6">
+            <button type="button" id="closer"  class="btn btn-danger">no</button>
+        </div>
+        <div class="form-group col-6">
+            <button type="submit" name="form108b" class="btn" style="
+                position:unset;
+                bottom:auto;
+                right:auto;
+                width:auto;
+                padding: .375rem .75rem;
+                background-color: green;
+                color: white;
+                " >confirm</button>
+            </div>
+        </div>
+        
+    </div>
+
+<!--        <button type="submit" name="code_form" class="btn">Send</button>-->
 </div>
 {% else %}{% if lang =="arabe" %}
 <div class="arab container-fluid">
@@ -116,14 +178,31 @@
         </div>
         <div class="row">
             <div class="form-group col-12 ">
-                <input type="text" class="form-control" name="matricule" id="matricule"
-                       placeholder="رقم التسجيل">
+            <select class="form-control"  id="typeim" name="typeim">
+              <option value="tunis" selected>تونس</option>
+              <option value="NT">نت</option>
+              <option value="other">آخر</option>
+            </select>
+        </div>
+        </div>
+        <div class="row" id="mat">
+            <div class='form-group col-5'>
+                <input type='text' class='form-control' name='matricule_s' id='matricule_s'
+                       placeholder='رقم سري'>
+            </div>
+            <div class='form-group col-2' style='text-align: center;'>
+                تونس
+            </div>
+                
+            <div class='form-group col-5'>
+                <input type='text' class='form-control' name='matricule' id='matricule'
+                placeholder="رقم التسجيل">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-12 ">
                 <input type="text" class="form-control" name="countryv" id="countryv"
-                        placeholder="بلد رقم التسجيل">
+                        placeholder="بلد رقم التسجيل" value='تونس' style="display: none;">
             </div>
         </div>
         <div class="row">
@@ -132,6 +211,41 @@
         </div>
     </form>
     <div class="back"><a href="/addreport/7/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+<div class="pop_pres" style="display: flex;height: 110%;">
+    <form action="/addreport/9/{{lang}}" method="post">
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="content">
+            <h4 style="margin-top: 30px;font-size: 1rem">السيارة أ مؤمنة ؟ إذا كانت الإجابة بنعم ، فاخترها</h4>
+        </div>
+        <div class="row">
+            <div class="form-group col-12">
+                <select class="form-control" id="cars" name="cars">
+                    {%for vehicle in vehicles%}
+                    <option value="{{ vehicle._id}}">{{ vehicle.marq_model}}</option>
+                    {% endfor %}
+                </select>
+              </div>
+        </div>
+        <div class="row">
+        <div class="form-group col-6">
+            <button type="button" id="closer"  class="btn btn-danger">no</button>
+        </div>
+        <div class="form-group col-6">
+            <button type="submit" name="form108b" class="btn" style="
+                position:unset;
+                bottom:auto;
+                right:auto;
+                width:auto;
+                padding: .375rem .75rem;
+                background-color: green;
+                color: white;
+                " >confirm</button>
+            </div>
+        </div>     
+    </div>
 </div>
 {% else %}{% if lang=="french" %}
 <div class="french container-fluid">
@@ -163,14 +277,29 @@
         </div>
         <div class="row">
             <div class="form-group col-12 ">
-                <input type="text" class="form-control" name="matricule" id="matricule"
-                       placeholder="n° d'immatriculation ">
+            <select class="form-control"  id="typeim" name="typeim">
+              <option value="tunis" selected>tunis</option>
+              <option value="NT">Nt</option>
+              <option value="other">autre</option>
+            </select>
+        </div>
+        </div>
+        <div class="row" id="mat">
+            <div class='form-group col-5'>
+                <input type='text' class='form-control' name='matricule_s' id='matricule_s'
+                       placeholder='numéro de série'>
+            </div>
+            <div class='form-group col-2' style='text-align: center;'>tunis</div>
+                
+            <div class='form-group col-5'>
+                <input type='text' class='form-control' name='matricule' id='matricule'
+                placeholder="Numéro d'enregistrement">
             </div>
         </div>
         <div class="row">
             <div class="form-group col-12 ">
                 <input type="text" class="form-control" name="countryv" id="countryv"
-                        placeholder="Pays d'immatriculation">
+                        placeholder="Pays d'immatriculation" value='tunisie' style="display: none;">
             </div>
         </div>
         <div class="row">
@@ -180,11 +309,57 @@
     </form>
     <div class="back"><a href="/addreport/7/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
+<div class="pop_pres" style="display: flex;height: 110%;">
+    <form action="/addreport/9/{{lang}}" method="post">
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="content">
+            <h4 style="margin-top: 30px;font-size: 1rem">véhicule A déja assuré ? si oui selectionner le !</h4>
+        </div>
+        <div class="row">
+            <div class="form-group col-12">
+                <select class="form-control" id="cars" name="cars">
+                    {%for vehicle in vehicles%}
+                    <option value="{{ vehicle._id}}">{{ vehicle.marq_model}}</option>
+                    {% endfor %}
+                </select>
+              </div>
+        </div>
+        <div class="row">
+        <div class="form-group col-6">
+            <button type="button" id="closer"  class="btn btn-danger">no</button>
+        </div>
+        <div class="form-group col-6">
+            <button type="submit" name="form108b" class="btn" style="
+                position:unset;
+                bottom:auto;
+                right:auto;
+                width:auto;
+                padding: .375rem .75rem;
+                background-color: green;
+                color: white;
+                " >confirm</button>
+            </div>
+        </div>
+        
+    </div>
+
+<!--        <button type="submit" name="code_form" class="btn">Send</button>-->
+</div>
 {% endif %}
 {% endif %}
 {%endif%}
 {%endblock%}
 {% block scripts %}
+<script>
+    $('.pop_pres .close').on('click', function () {
+        $('.pop_pres').css('display', 'none')
+    })
+    $('#closer').on('click', function () {
+        $('.pop_pres').css('display', 'none')
+    })
+</script>
 <script>
     $(document).ready(function(){
         $("input").change(function(){
@@ -198,6 +373,63 @@
             $('#brand').attr("style","display:");
         });
     });
-  
 </script>
+
+{% if lang == "english" %}
+<script>
+$('#typeim').change(function(){
+    if((this.value)=="NT"){
+        $('#countryv').hide();
+        $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s'    placeholder='series number'></div><div class='form-group col-2' style='text-align: center;'>NT</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='Registration number'></div>");
+    }
+    else if((this.value)=="tunis"){
+        $('#countryv').hide();
+        $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s' placeholder='series number'></div><div class='form-group col-2' style='text-align: center;'>tunis</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='Registration number'></div>");
+    }
+    else{
+        $('#countryv').show();
+        $('#countryv').val('');
+        $('#mat').html("<div class='form-group col-12'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='Registration number'> </div>");     
+    }
+});    
+</script>
+{% endif %}
+{% if lang =="arabe" %}
+<script>
+$('#typeim').change(function(){
+    if((this.value)=="NT"){
+        $('#countryv').hide();
+        $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s'    placeholder='رقم '></div><div class='form-group col-2' style='text-align: center;'>نت</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='رقم التسجيل'></div>");
+    }
+    else if((this.value)=="tunis"){
+        $('#countryv').hide();
+        $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s' placeholder='رقم '></div><div class='form-group col-2' style='text-align: center;'>تونس</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='رقم التسجيل'></div>");
+    }
+    else{
+        $('#countryv').show();
+        $('#countryv').val('');
+        $('#mat').html("<div class='form-group col-12'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='رقم التسجيل'> </div>");     
+    }
+});  
+    </script>
+{% endif %}
+{% if lang=="french" %}
+<script>
+    $('#typeim').change(function(){
+        if((this.value)=="NT"){
+            $('#countryv').hide();
+            $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s'    placeholder='numéro de série'></div><div class='form-group col-2' style='text-align: center;'>NT</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='Numéro d&#39enregistrement'></div>");
+        }
+        else if((this.value)=="tunis"){
+            $('#countryv').hide();
+            $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s' placeholder='numéro de série'></div><div class='form-group col-2' style='text-align: center;'>tunis</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='Numéro d&#39enregistrement'></div>");
+        }
+        else{
+            $('#countryv').show();
+            $('#countryv').val('');
+            $('#mat').html("<div class='form-group col-12'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='n° d&#39immatriculation'> </div>");
+        }
+    });    
+    </script>
+{% endif %}
 {% endblock %}
