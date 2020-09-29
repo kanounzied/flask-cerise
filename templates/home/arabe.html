@@ -16,6 +16,9 @@
     .navbar a{
         font-size: 2.7vh;
     }
+    #line1,#line2{
+        transition: all ease-in-out 0.4s;
+    }
 </style>
 {% endblock %}
 {% block lang %}Ar{% endblock %}
@@ -58,8 +61,8 @@
 {% endblock %}
 {% block body %}
 <div class="container-fluid">
-    <h1>أمّن دارك واطمان على صغارك </h1>
-    <p>بقلب كبير وبثمن صغير أمن دارك في وقت قصير </p>
+    <h1 id="line1">أمّن دارك واطمان على صغارك </h1>
+    <p id="line2">بقلب كبير وبثمن صغير أمن دارك في وقت قصير </p>
     <a id="target" href="/signup/1/{{ lang }}">
         <button class="btn btn-primary">خوذ فكرة على السوم</button>
     </a>
@@ -90,6 +93,14 @@
             document.getElementById('fixhome').style.opacity = "0";
             document.getElementById('fixlife').style.opacity = "0";
             document.getElementById('fixcar').style.opacity = "1";
+            document.getElementById('line1').style.opacity = "0";
+            document.getElementById('line2').style.opacity = "0";
+            setTimeout(function () {
+                document.getElementById('line1').innerHTML = "امن كرهبتك و اطمان و اقصد طريق الأمان";
+                document.getElementById('line2').innerHTML = "بقلب كبير وبثمن صغير أمن كرهبتك في وقت قصير ";
+                document.getElementById('line1').style.opacity = "1";
+                document.getElementById('line2').style.opacity = "1";
+            },400)
         }
         else if (id == 'حياة'){
             document.getElementById('fixlife').style.transform = "translateY(-50px)";
@@ -98,6 +109,14 @@
             document.getElementById('fixhome').style.opacity = "0";
             document.getElementById('fixcar').style.opacity = "0";
             document.getElementById('fixlife').style.opacity = "1";
+            document.getElementById('line1').style.opacity = "0";
+            document.getElementById('line2').style.opacity = "0";
+            setTimeout(function () {
+                document.getElementById('line1').innerHTML = "امن حياتك و اتهنى على مستقبلك و مستقبل صغارك";
+                document.getElementById('line2').innerHTML = "بقلب كبير وبثمن صغير أمن حياتك في وقت قصير ";
+                document.getElementById('line1').style.opacity = "1";
+                document.getElementById('line2').style.opacity = "1";
+            },400)
         }
         else {
             document.getElementById('fixhome').style.transform = "translateY(-50px)";
@@ -106,6 +125,14 @@
             document.getElementById('fixcar').style.opacity = "0";
             document.getElementById('fixlife').style.opacity = "0";
             document.getElementById('fixhome').style.opacity = "1";
+            document.getElementById('line1').style.opacity = "0";
+            document.getElementById('line2').style.opacity = "0";
+            setTimeout(function () {
+                document.getElementById('line1').innerHTML = "أمّن دارك واطمان على صغارك";
+                document.getElementById('line2').innerHTML = "بقلب كبير وبثمن صغير أمن دارك في وقت قصير ";
+                document.getElementById('line1').style.opacity = "1";
+                document.getElementById('line2').style.opacity = "1";
+            },400)
         }
     }
 </script>
