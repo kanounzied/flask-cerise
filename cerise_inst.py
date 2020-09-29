@@ -933,6 +933,8 @@ def voiture(nbr,lang):
         champwrg2 = u'S.V.P verifiez vos informations! La valeur actuelle ne peut pas être superieure à la valeur à neuf!'
         champwrg3 = u'Les valeurs ne peuvent pas être moins de 1000DT!'
         champwrg4 = u'Veuillez saisir que des lettres!'
+        champwrg5 = u'Veuillez écrire votre numéro d\'immatriculation de la même manière que l\'exemple! N\'oubliez pas les espaces.'
+        champwrg6 = u'Vous avez peut-être fait une erreur de frappe! Veuillez écrire correctement votre numéro d\'immatriculation!'
         emailexisterr = u"Cet email est déja dans la base de données veuillez saisir un autre email!"
         pwderr = u"votre mot de passe n'est pas le méme!"
         pwdregex = u"mot de passe doit avoir une lettre miniscule, une lettre majuscule, un chiffre, et l'un des " \
@@ -946,6 +948,8 @@ def voiture(nbr,lang):
         champwrg2 = 'Please verify your information! The current value cannot be higher than the new vehicle value!'
         champwrg3 = 'The values cannot be less than 1000DT!'
         champwrg4 = 'Please enter only numbers!'
+        champwrg5 = 'Please write your registration number as the same way as the example! Don\'t forget the spaces.'
+        champwrg6 = 'You may be made a typing error! Please write your registration number correctly!'
         emailexisterr = "This email is already in data base please type another email!"
         pwdregex = "your password must have a miniscule letter, a capital letter, a number, and one of the following " \
             "characters @#$%^&+=" 
@@ -959,6 +963,8 @@ def voiture(nbr,lang):
         champwrg2 = '!زيد ثبت! قيمة الكرهبة الحالية ما تنجمش تكون أكبر من قيمة الكرهبة وهي جديدة'
         champwrg3 = '!القيمتين ما ينجموش يكونوا أقل من 1000 دينار'
         champwrg4 = '!الرجاء إدخال أرقام فقط'
+        champwrg5 = '.يرجى كتابة رقم التسجيل الخاص بك بنفس طريقة المثال! لا تنس المساحات'
+        champwrg6 = '!ربما تكون قد ارتكبت خطأ في الكتابة! الرجاء كتابة رقم التسجيل الخاص بك بشكل صحيح'
         emailexisterr = "!هذا البريد الإلكتروني موجود في قاعدة البيانات، الرجاء كتابة بريد إلكتروني آخر"
         pwderr = "كلمة المرور الخاصة بك لا تتطابق!"
         pwdregex = "يجب أن تحتوي كلمة المرور على الأقل على حرف صغير[a .. z]، حرف كبير[A .. Z]، رقم، واحد من الرموز التالية @#$%^&+="
@@ -1018,9 +1024,70 @@ def voiture(nbr,lang):
             session.get('voiture')['valeur_actuelle'] = valeur_actuelle
             session['vform3']='submitted'
         if 'vform4' in req:
-            immatricule = req.get('immatricule')
+            matricule = req.get('matricule')
             marque = req.get('marque')
             modele = req.get('modele')
+            if matricule == "":
+                return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr)
+            if lang == 'arabe':
+                word = matricule.split(" ")
+                if word[0] == matricule:
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg5)
+                if len(word[0]) > 3 :
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg6)
+                if len(word[0]) < 2 :
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg6)
+                for j in range(len(word[0])):
+                    if word[0][j].isalpha():
+                        return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg5)
+                if word[1] != 'تونس' :
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg5)
+                if len(word[2]) > 4 :
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg6)
+                if len(word[2]) < 1 : 
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg6)
+                for m in range(len(word[2])):
+                    if word[2][m].isalpha():
+                        return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg5)
+            else: 
+                word = matricule.split(" ")
+                if word[0] == matricule:
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg5)
+                if len(word[0]) > 3 :
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg6)
+                if len(word[0]) < 2 :
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg6)
+                for j in range(len(word[0])):
+                    if word[0][j].isalpha():
+                        print('aaa')
+                        return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg5)
+                if word[1] != 'TUN' :
+                    print('bbb')
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg5)
+                if len(word[2]) > 4 :
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg6)
+                if len(word[2]) < 1 : 
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg6)
+                for m in range(len(word[2])):
+                    if word[2][m].isalpha():
+                        return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg5)
             if marque == "Select brand" or marque == "Sélectionner la marque" or marque == "إختار الماركة" : 
                 return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                     error=chooseerr)
@@ -1028,6 +1095,7 @@ def voiture(nbr,lang):
                 return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                     error=chooseerr)
             session.get('voiture')['marq_model'] = marque + " " + modele
+            session.get('voiture')['matricule'] = matricule
             session['vform4'] = 'submitted'
         if 'vform5' in req:
             classe = req.get('classe')
@@ -1175,7 +1243,7 @@ def voiture(nbr,lang):
                 champerr = 'البلايص فارغين'
             if req.get('email') != '':
                 client = Client.find_one({'email': req['email']})
-                session['clid'] = client['_id']
+                session['client_id'] = client['_id']
                 if client:
                     a = verify_password(client['password'], req.get('password'))
                     if a:
@@ -1283,7 +1351,7 @@ def previewV(lang, index):
     client_id = Client.find_one({'email':email})['_id']
     void = Voiture.find_one({'client_id':client_id})['_id']
     if void != 'multiple':
-        voiture = Voiture.find_one({'_id': void})['marq_model']
+        voiture = Voiture.find_one({'_id': void})['marq_model'] + " " + Voiture.find_one({'_id': void})['matricule']
         garantie = session.get('garantie')
         done = False  # pour afficher la page de preload
         if 'done' in session:
@@ -1304,9 +1372,9 @@ def previewV(lang, index):
                 paid = True
             else:paid = False
             garantie = Garantie.find_one({'_id': cnt['garantie_id']})
-            marq_model = Voiture.find_one({'_id': garantie['voiture_id']})['marq_model']
+            marq_model_mat = Voiture.find_one({'_id': garantie['voiture_id']})['marq_model'] + " " + Voiture.find_one({'_id': garantie['voiture_id']})['matricule']
             voit = {
-                'marq_model': marq_model,
+                'voiture': marq_model_mat,
                 'paid': paid
             }
             info.append(voit)
@@ -1404,9 +1472,7 @@ def confirm_email_v(token, lang):
 def variableV():
     car_damaged = int(request.form['car_damaged'])
     medical = int(request.form['medical'])
-    lista = [ 
-        ['Dommage suite aux C.N' , car_damaged],
-        ['Frais Med', medical]]
+    
     clmail = session.get('client')['email'] 
     client_id = Client.find_one({'email': clmail})['_id']
     contratv = Contrat_voiture.find_one({'client_id': client_id})
@@ -1420,41 +1486,98 @@ def variableV():
         {'_id':garid},
         {'$set': {'frais_medicaux': medical}}
     )
-    tab = contratv['coveragev']
-    year_price = contratv['totaly']
-    month_price = contratv['totalm']
-    year_discount = contratv['discount']
-    for val in lista : 
-        if val[0] == 'Dommage suite aux C.N':
-            price = car_damaged*0.00065
-        else:
-            price = medical*0.024
-        year_price += price
-        tab.append({
-            'libelle': val[0],
-            'valeur': val[1],
-            'valeurEstimee': price
-        })
-        Contrat_voiture.update_one(
-                {'_id': conid},
-                {'$set': {'coveragev': tab}}
-            )
-    month_price = round(year_price/12 , 1)
-    year_discount = round((year_price*5)/100 , 1)
-    Contrat_voiture.update_one(
-        {'_id': conid},
-        {'$set': {'totaly': year_price}}
-    )
-    Contrat_voiture.update_one(
-        {'_id': conid},
-        {'$set': {'totalm': month_price}}
-    )
-    Contrat_voiture.update_one(
-        {'_id': conid},
-        {'$set': {'discount': year_discount}}
-    )
+    list_garantie = [['Incendie/Vol' , Garantie.find_one({'_id': garid})['incendie-vol']],
+        ['Dommage Collision', Garantie.find_one({'_id': garid})['dommage_collision']],
+        ['Dommage Tous Risques', Garantie.find_one({'_id': garid})['dommage_tous_risques']],
+        ['Franchise Dommage Tous Risque', Garantie.find_one({'_id': garid})['franchise_TR']],
+        ['Radio Cassette', Garantie.find_one({'_id': garid})['radio_cassette']],
+        ['Bris de Glace', Garantie.find_one({'_id': garid})['bris_de_glace']],  
+        ['Remorquage', Garantie.find_one({'_id': garid})['remorquage']],
+        ['Nombre de personnes transportees', Garantie.find_one({'_id': garid})['nbr_pers_transporte']],
+        ['Capital Deces', Garantie.find_one({'_id': garid})['capital_deces']],
+        ['Conducteur Plus', Garantie.find_one({'_id': garid})['conducteur_plus']],
+        ['Capital Assure conducteurplus', Garantie.find_one({'_id': garid})['capital_assure_cp']],
+        ['Dommage suite aux C.N' , car_damaged],
+        ['Frais Med', medical]]
 
+    clmail = session.get('client')['email'] 
+    client_id = Client.find_one({'email': clmail})['_id']
+    contratv = Contrat_voiture.find_one({'client_id': client_id})
+    conid = contratv['_id']
+    print(conid)
+    garid = Contrat_voiture.find_one({'_id': conid})['garantie_id']
+    Garantie.update_one(
+        {'_id': garid},
+        {'$set': {'dommage_suite_aux_cn': car_damaged}}
+    )
+    Garantie.update_one(
+        {'_id':garid},
+        {'$set': {'frais_medicaux': medical}}
+    )
     
+    print('dkfj')
+
+    if 'coveragev' not in Contrat_voiture.find_one({'_id': conid}):
+        
+        year_price = 0
+        for val in list_garantie : 
+         
+            tab = list([])
+            contratv2 = Contrat_voiture.find_one({'_id': conid})
+            if 'coveragev' not in contratv2: 
+                Contrat_voiture.update_one(
+                    {'_id': conid},
+                    {'$set': {'coveragev': tab}}
+                )
+            else:
+                print('aaaa')
+                tab = contratv2['coveragev']
+            price = 0
+            if val[0] == "Incendie/Vol":
+                price= int(val[1])*0.005
+    
+            elif val[0] == "Dommage Collision" and val[1] != "EXCLUE":
+                price= int(val[1])*0.1
+
+            elif val[0] == "Dommage Tous Risque" and val[1] != "EXCLUE":
+                price= int(val[1])*0.02453
+            elif val[0] == "Radio Cassette" and val[1]!="EXCLUE":
+                price= int(val[1])*0.07
+            elif val[0] == "Bris de Glace" and val[1]!="EXCLUE":
+                price= int(val[1])*0.07   
+            elif val[0] == "Capital Deces" and val[1] != "EXCLUE":
+                price = int(val[1])*0.0016
+            elif val[0] == "Capital Assure conducteurplus" and val[1] != "EXCLUE":
+                price= int(val[1])*0.001
+            elif val[0] == 'Dommage suite aux C.N':
+                price = car_damaged*0.0065
+            elif val[0] == 'Frais Med':
+                price = medical*0.024
+            year_price += price
+            print(year_price)
+            print('lkjf')
+            tab.append({
+                'libelle': val[0],
+                'valeur': val[1],
+                'valeurEstimee': price
+            })
+            Contrat_voiture.update_one(
+                    {'_id': conid},
+                    {'$set': {'coveragev': tab}}
+                )
+
+        month_price = round(year_price/12, 1)
+        year_discount = round((year_price*5)/100, 1)
+        print(year_price)
+        print(month_price)
+        print(year_discount)
+
+    if 'year_price' not in Contrat_voiture.find_one({'_id': conid}):
+        Contrat_voiture.update_one({'_id': conid}, {'$set': {'year_price': year_price}})
+    if 'year_discount' not in Contrat_voiture.find_one({'_id': conid}):
+        Contrat_voiture.update_one({'_id': conid}, {'$set': {'year_discount': year_discount}})
+    if 'month_price' not in Contrat_voiture.find_one({'_id': conid}):
+        Contrat_voiture.update_one({'_id': conid}, {'$set': {'month_price': month_price}})
     return jsonify({
         'month_price': month_price,
         'year_price': year_price,
