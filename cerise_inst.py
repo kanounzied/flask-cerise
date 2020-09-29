@@ -12,6 +12,7 @@ from flask_recaptcha import ReCaptcha
 from flask_session import Session
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
 from werkzeug.utils import secure_filename
+from bson.objectid import ObjectId
 
 # --------------------------add w badel lpath mta3 upload lfile ------------------------------
 UPLOAD_FOLDER = '/Users/Zied/Dropbox/Portail_Assurance/cerise_flask/static/public'
@@ -1962,8 +1963,8 @@ def addreport(nbr,lang):
             if vehicle_id==None:
                 return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        vehicles=vehicles,error=champerr)
-            vehicle=Voiture.find_one({"_id":vehicle_id})
-            session["vehicle_id"]=vehicle_id
+            vehicle=Voiture.find_one({"_id":ObjectId(vehicle_id)})
+            session["vehicle_id"]=ObjectId(vehicle_id)
             session["matriculev_a"] = vehicle['matricule']
             session["countryv_a"] = "tunisia"
             session["typev_a"] = "normalv"
@@ -2014,15 +2015,16 @@ def addreport(nbr,lang):
             session['form109'] = 'submitted'
         if 'form109b' in req:
             if "vehicle_id" in session:
-                contrat = Contrat_vehicule.find({"vehicle_id":session["vehicle_id"]})
-                session["nb_contract_a"] = contrat['_id']
+                garantie = Garantie.find_one({"voiture_id":session["vehicle_id"]})
+                contrat = Contrat_voiture.find_one({"_id":garantie['contract']})
+                session["nb_contract_a"] = garantie['contract']
+                session["date_b_a"] =contrat['date_de_debut_du_contrat']
             else:
                 return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error="you didnt choose a vehicle",data=data)
             # insurance_soc_A from database----------------------------------------------------------------------------------
             session["names_a"] ="constante"
             session["nb_greencard_a"] =""
-            session["date_b_a"] =""
             session["date_e_a"] =""
             session["typeinsurance_a"] = "agency"
             session["nameag_a"] = "constante"
