@@ -46,6 +46,7 @@ class Voiture_:
     def __init__(self, typev):
         self.typev = typev 
         self.marq_model = ""
+        self.matricule = ""
         self.puissance = ""
         self.valeur_a_neuf = ""
         self.valeur_actuelle = ""

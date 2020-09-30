@@ -180,6 +180,7 @@ def loadAuto(client, voiture, garantie):
                 'client_id': client_id,
                 'type': session.get('voiture')['typev'],
                 'marq_model': session.get('voiture')['marq_model'],
+                'matricule': session.get('voiture')['matricule'],
                 'puissance_fiscale': session.get('voiture')['puissance'],
                 'valeur_a_neuf': session.get('voiture')['valeur_a_neuf'],
                 'valeur_actuelle': session.get('voiture')['valeur_actuelle'],
@@ -229,71 +230,4 @@ def loadAuto(client, voiture, garantie):
         voitab.append(garid)
     else:
         voitab = list([garid])
-    Voiture.update_one({'_id': void}, {'$set': {'garanties': voitab}})
-
-
-    list_garantie = [['Incendie/Vol' , Garantie.find_one({'_id': garid})['incendie-vol']],
-        ['Dommage Collision', Garantie.find_one({'_id': garid})['dommage_collision']],
-        ['Dommage Tous Risques', Garantie.find_one({'_id': garid})['dommage_tous_risques']],
-        ['Franchise Dommage Tous Risque', Garantie.find_one({'_id': garid})['franchise_TR']],
-        ['Radio Cassette', Garantie.find_one({'_id': garid})['radio_cassette']],
-        ['Bris de Glace', Garantie.find_one({'_id': garid})['bris_de_glace']],  
-        ['Remorquage', Garantie.find_one({'_id': garid})['remorquage']],
-        ['Nombre de personnes transportees', Garantie.find_one({'_id': garid})['nbr_pers_transporte']],
-        ['Capital Deces', Garantie.find_one({'_id': garid})['capital_deces']],
-        ['Conducteur Plus', Garantie.find_one({'_id': garid})['conducteur_plus']],
-        ['Capital Assure conducteurplus', Garantie.find_one({'_id': garid})['capital_assure_cp']]]
-
-
-    if 'coveragev' not in Contrat_voiture.find_one({'_id': contratv.inserted_id}):
-        sommey = 0
-        for val in list_garantie : 
-         
-            tab = list([])
-            contratv2 = Contrat_voiture.find_one({'_id': contratv.inserted_id})
-            if 'coveragev' not in contratv2: 
-                Contrat_voiture.update_one(
-                    {'_id': contratv.inserted_id},
-                    {'$set': {'coveragev': tab}}
-                )
-            else:
-                tab = contratv2['coveragev']
-            price = 0
-            if val[0] == "Incendie/Vol":
-                price= int(val[1])*0.005
-    
-            elif val[0] == "Dommage Collision" and val[1] != "EXCLUE":
-                price= int(val[1])*0.1
-
-            elif val[0] == "Dommage Tous Risque" and val[1] != "EXCLUE":
-                price= int(val[1])*0.02453
-            elif val[0] == "Radio Cassette" and val[1]!="EXCLUE":
-                price= int(val[1])*0.07
-            elif val[0] == "Bris de Glace" and val[1]!="EXCLUE":
-                price= int(val[1])*0.07   
-            elif val[0] == "Capital Deces" and val[1] != "EXCLUE":
-                price = int(val[1])*0.0016
-            elif val[0] == "Capital Assure conducteurplus" and val[1] != "EXCLUE":
-                price= int(val[1])*0.001
-            sommey += price 
-            tab.append({
-                'libelle': val[0],
-                'valeur': val[1],
-                'valeurEstimee': price
-            })
-           
-
-            Contrat_voiture.update_one(
-                {'_id': contratv.inserted_id},
-                {'$set': {'coveragev': tab}}
-            )
-        sommem = round(sommey/12,1) 
-        dis = round((sommey*5)/100,1)
-        
-    if 'totaly' not in Contrat_voiture.find_one({'_id': contratv.inserted_id}):
-        Contrat_voiture.update_one({'_id': contratv.inserted_id}, {'$set': {'totaly': sommey}})
-    if 'discount' not in Contrat_voiture.find_one({'_id': contratv.inserted_id}):
-        Contrat_voiture.update_one({'_id': contratv.inserted_id}, {'$set': {'discount': dis}})
-    if 'totalm' not in Contrat_voiture.find_one({'_id': contratv.inserted_id}):
-        Contrat_voiture.update_one({'_id': contratv.inserted_id}, {'$set': {'totalm': sommem}})
-    
+    Voiture.update_one({'_id': void}, {'$set': {'garanties': voitab}})    

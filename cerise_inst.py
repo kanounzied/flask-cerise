@@ -925,6 +925,8 @@ def voiture(nbr,lang):
         champwrg2 = u'S.V.P verifiez vos informations! La valeur actuelle ne peut pas être superieure à la valeur à neuf!'
         champwrg3 = u'Les valeurs ne peuvent pas être moins de 1000DT!'
         champwrg4 = u'Veuillez saisir que des lettres!'
+        champwrg5 = u'Veuillez écrire votre numéro d\'immatriculation de la même manière que l\'exemple! N\'oubliez pas les espaces.'
+        champwrg6 = u'Vous avez peut-être fait une erreur de frappe! Veuillez écrire correctement votre numéro d\'immatriculation!'
         emailexisterr = u"Cet email est déja dans la base de données veuillez saisir un autre email!"
         pwderr = u"votre mot de passe n'est pas le méme!"
         pwdregex = u"mot de passe doit avoir une lettre miniscule, une lettre majuscule, un chiffre, et l'un des " \
@@ -936,6 +938,8 @@ def voiture(nbr,lang):
         champwrg2 = 'Please verify your information! The current value cannot be higher than the new vehicle value!'
         champwrg3 = 'The values cannot be less than 1000DT!'
         champwrg4 = 'Please enter only numbers!'
+        champwrg5 = 'Please write your registration number as the same way as the example! Don\'t forget the spaces.'
+        champwrg6 = 'You may be made a typing error! Please write your registration number correctly!'
         emailexisterr = "This email is already in data base please type another email!"
         pwdregex = "your password must have a miniscule letter, a capital letter, a number, and one of the following " \
                    "characters @#$%^&+="
@@ -947,6 +951,8 @@ def voiture(nbr,lang):
         champwrg2 = '!زيد ثبت! قيمة الكرهبة الحالية ما تنجمش تكون أكبر من قيمة الكرهبة وهي جديدة'
         champwrg3 = '!القيمتين ما ينجموش يكونوا أقل من 1000 دينار'
         champwrg4 = '!الرجاء إدخال أرقام فقط'
+        champwrg5 = '.يرجى كتابة رقم التسجيل الخاص بك بنفس طريقة المثال! لا تنس المساحات'
+        champwrg6 = '!ربما تكون قد ارتكبت خطأ في الكتابة! الرجاء كتابة رقم التسجيل الخاص بك بشكل صحيح'
         emailexisterr = "!هذا البريد الإلكتروني موجود في قاعدة البيانات، الرجاء كتابة بريد إلكتروني آخر"
         pwderr = "كلمة المرور الخاصة بك لا تتطابق!"
         pwdregex = "يجب أن تحتوي كلمة المرور على الأقل على حرف صغير[a .. z]، حرف كبير[A .. Z]، رقم، واحد من الرموز التالية @#$%^&+="
@@ -1004,16 +1010,78 @@ def voiture(nbr,lang):
             session.get('voiture')['valeur_actuelle'] = valeur_actuelle
             session['vform3']='submitted'
         if 'vform4' in req:
-            immatricule = req.get('immatricule')
+            matricule = req.get('matricule')
             marque = req.get('marque')
             modele = req.get('modele')
-            if marque == "Select brand" or marque == "Sélectionner la marque" or marque == "إختار الماركة" :
+            if matricule == "":
+                return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr)
+            if lang == 'arabe':
+                word = matricule.split(" ")
+                if word[0] == matricule:
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg5)
+                if len(word[0]) > 3 :
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg6)
+                if len(word[0]) < 2 :
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg6)
+                for j in range(len(word[0])):
+                    if word[0][j].isalpha():
+                        return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg5)
+                if word[1] != 'تونس' :
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg5)
+                if len(word[2]) > 4 :
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg6)
+                if len(word[2]) < 1 : 
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg6)
+                for m in range(len(word[2])):
+                    if word[2][m].isalpha():
+                        return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg5)
+            else: 
+                word = matricule.split(" ")
+                if word[0] == matricule:
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg5)
+                if len(word[0]) > 3 :
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg6)
+                if len(word[0]) < 2 :
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg6)
+                for j in range(len(word[0])):
+                    if word[0][j].isalpha():
+                        print('aaa')
+                        return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg5)
+                if word[1] != 'TUN' :
+                    print('bbb')
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg5)
+                if len(word[2]) > 4 :
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg6)
+                if len(word[2]) < 1 : 
+                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg6)
+                for m in range(len(word[2])):
+                    if word[2][m].isalpha():
+                        return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champwrg5)
+            if marque == "Select brand" or marque == "Sélectionner la marque" or marque == "إختار الماركة" : 
                 return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=chooseerr)
             if modele == "Select model" or modele == "Sélectionner le modèle" or modele == "إختار موديل" :
                 return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=chooseerr)
             session.get('voiture')['marq_model'] = marque + " " + modele
+            session.get('voiture')['matricule'] = matricule
             session['vform4'] = 'submitted'
         if 'vform5' in req:
             classe = req.get('classe')
@@ -1289,14 +1357,14 @@ def previewV(lang, index):
             # print('cnt', cnt)
             if 'paid' in cnt:
                 paid = True
-            else:paid = False
-            garantie = Garantie.find_one({'_id': cnt['garantie_id']})
-            marq_model = Voiture.find_one({'_id': garantie['voiture_id']})['marq_model']
-            voit = {
-                'marq_model': marq_model,
+            else: paid = False
+            voit = Voiture.find_one({'_id': session.get('void')})
+            voiture = voit['marq_model'] + " " + voit['matricule']
+            vhc = {
+                'voiture': voiture,
                 'paid': paid
             }
-            info.append(voit)
+            info.append(vhc)
         return render_template("resultat/multiple.html", contrats=info, lang=lang)
 
 @app.route("/loginv/<lang>", methods=['POST', 'GET'])
