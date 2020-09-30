@@ -1270,11 +1270,7 @@ def previewV(lang, index):
     voit = Voiture.find_one({'_id': session.get('void')})
     void = voit['_id']
     if void != 'multiple':
-<<<<<<< HEAD
         voiture = voit['marq_model'] + " " + voit['matricule']
-=======
-        voiture = Voiture.find_one({'_id': void})['marq_model']
->>>>>>> ec0dd17004a52384a41bb902ff1bfc6c76c40e16
         garantie = session.get('garantie')
         done = False  # pour afficher la page de preload
         if 'done' in session:
@@ -2068,15 +2064,8 @@ def addreport(nbr,lang):
             session['form109'] = 'submitted'
         if 'form109b' in req:
             if "vehicle_id" in session:
-<<<<<<< HEAD
                 contrat = Contrat_voiture.find({"vehicle_id":session["vehicle_id"]})
                 session["nb_contract_a"] = contrat['_id']
-=======
-                garantie = Garantie.find_one({"voiture_id":session["vehicle_id"]})
-                contrat = Contrat_voiture.find_one({"_id":garantie['contract']})
-                session["nb_contract_a"] = garantie['contract']
-                session["date_b_a"] =contrat['date_de_debut_du_contrat']
->>>>>>> ec0dd17004a52384a41bb902ff1bfc6c76c40e16
             else:
                 return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error="you didnt choose a vehicle",data=data)
