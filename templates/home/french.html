@@ -13,6 +13,9 @@
     .container-fluid{
         padding-top: 50px;
     }
+    #line1,#line2{
+        transition: all ease-in-out 0.4s;
+    }
 </style>
 {% endblock %}
 {% block lang %}Fr{% endblock %}
@@ -54,8 +57,8 @@
 {% endblock %}
 {% block body %}
     <div class="container-fluid">
-        <h1>Rassurez vous et soyez sécurisés </h1>
-        <p> Grand Coeur, Prix Imbattable, Courte Durée</p>
+        <h1 id="line1">Rassurez vous et soyez sécurisés </h1>
+        <p id="line2"> Grand Coeur, Prix Imbattable, Courte Durée</p>
         <a id="target" href="/signup/1/french">
             <button class="btn btn-primary">calculer votre prix</button>
         </a>
@@ -79,6 +82,7 @@
         outbutton[0]=out;
         outbutton[1]=href;
         console.log(outbutton)
+        //Une Assurance Auto innovante        sur-mesure
         if (id == 'Auto'){
             document.getElementById('fixcar').style.transform = "translateY(-50px)";
             document.getElementById('fixhome').style.transform = "translateY(200px)";
@@ -86,7 +90,15 @@
             document.getElementById('fixhome').style.opacity = "0";
             document.getElementById('fixlife').style.opacity = "0";
             document.getElementById('fixcar').style.opacity = "1";
+            document.getElementById('line1').style.opacity = "0";
+            document.getElementById('line2').style.opacity = "0";
+            setTimeout(function () {
+                document.getElementById('line1').innerHTML = "Une Assurance Auto innovante sur-mesure";
+                document.getElementById('line1').style.opacity = "1";
+                document.getElementById('line2').style.opacity = "1";
+            },400)
         }
+        //on rend l'assurance vie accessible à tous
         else if (id == 'Vie'){
             document.getElementById('fixlife').style.transform = "translateY(-50px)";
             document.getElementById('fixhome').style.transform = "translateY(200px)";
@@ -94,6 +106,13 @@
             document.getElementById('fixhome').style.opacity = "0";
             document.getElementById('fixcar').style.opacity = "0";
             document.getElementById('fixlife').style.opacity = "1";
+            document.getElementById('line1').style.opacity = "0";
+            document.getElementById('line2').style.opacity = "0";
+            setTimeout(function () {
+                document.getElementById('line1').innerHTML = "On Rend L'assurance Vie Accessible à Tous";
+                document.getElementById('line1').style.opacity = "1";
+                document.getElementById('line2').style.opacity = "1";
+            },400)
         }
         else {
             document.getElementById('fixhome').style.transform = "translateY(-50px)";
@@ -102,6 +121,13 @@
             document.getElementById('fixcar').style.opacity = "0";
             document.getElementById('fixlife').style.opacity = "0";
             document.getElementById('fixhome').style.opacity = "1";
+            document.getElementById('line1').style.opacity = "0";
+            document.getElementById('line2').style.opacity = "0";
+            setTimeout(function () {
+                document.getElementById('line1').innerHTML = "Rassurez vous et soyez sécurisés";
+                document.getElementById('line1').style.opacity = "1";
+                document.getElementById('line2').style.opacity = "1";
+            },400)
         }
     }
 </script>
