@@ -1270,11 +1270,8 @@ def previewV(lang, index):
     voit = Voiture.find_one({'_id': session.get('void')})
     void = voit['_id']
     if void != 'multiple':
-<<<<<<< HEAD
         voiture = voit['marq_model'] + " " + voit['matricule']
-=======
         voiture = Voiture.find_one({'_id': void})['marq_model']
->>>>>>> ec0dd17004a52384a41bb902ff1bfc6c76c40e16
         garantie = session.get('garantie')
         done = False  # pour afficher la page de preload
         if 'done' in session:
@@ -1652,7 +1649,7 @@ def vie22():
             session['vie22'] = True
             return redirect(url_for("vie3"))
         else:
-            error = {'fr':"",'en':"",'ar':""}
+            error = {'fr': "Choisissez une option", 'en': "Choose un option", 'ar': "إختر خانة"}
     if not (session['vie2']):
         return redirect(url_for("vie2"))
     return render_template('vie/vie22.html', lang=session['lang'])
@@ -1686,6 +1683,8 @@ def vie33():
         if session['smoke']:
             session['vie33'] = True
             return redirect(url_for('vie333'))
+        else:
+            error = {'fr': "Choisissez une option", 'en': "Choose un option", 'ar': "إختر خانة"}
     if not (session['vie3']):
         return redirect(url_for("vie3"))
     return render_template('vie/vie33.html', lang=session['lang'])
@@ -1699,6 +1698,8 @@ def vie333():
         if session['drink']:
             session['vie333'] = True
             return redirect(url_for('vie4'))
+        else:
+            error = {'fr': "Choisissez une option", 'en': "Choose un option", 'ar': "إختر خانة"}
     if not (session['vie33']):
         return redirect(url_for("vie33"))
     return render_template('vie/vie333.html', lang=session['lang'])
@@ -1712,6 +1713,8 @@ def vie4():
         if session['status']:
             session['vie4'] = True
             return redirect(url_for('vie44'))
+        else:
+            error = {'fr': 'Selectionnez une option', 'en': 'Select an option', 'ar': 'إختر من القائمة'}
     if not (session['vie333']):
         return redirect(url_for("vie333"))
     return render_template('vie/vie4.html', lang=session['lang'])
@@ -1739,12 +1742,12 @@ def vie5():
     error = ''
     if request.method == 'POST' and session['vie44']:
         session['salary'] = request.form.get('salary')
-        if session['salary'].isnumeric():
+        if session['salary'].isnumeric() and int(session['salary'])>500:
             session['vie5'] = True
             return redirect(url_for('vie55'))
         else:
-            error = {"fr":"Taper un entier positif ou nul" ,"en":"Type a positif or null integer","ar":"أدخل رقما أكبر أو يساوي صفر" }
-
+            error = {"fr": "Taper un entier supérieur à 500", "en": "Type a positif integer greater than 500",
+                     "ar": "أدخل رقما أكبر أو يساوي 500"}
     if not (session['vie44']):
         return redirect(url_for("vie44"))
     return render_template('vie/vie5.html', lang=session['lang'], error=error)
@@ -2068,15 +2071,12 @@ def addreport(nbr,lang):
             session['form109'] = 'submitted'
         if 'form109b' in req:
             if "vehicle_id" in session:
-<<<<<<< HEAD
                 contrat = Contrat_voiture.find({"vehicle_id":session["vehicle_id"]})
                 session["nb_contract_a"] = contrat['_id']
-=======
                 garantie = Garantie.find_one({"voiture_id":session["vehicle_id"]})
                 contrat = Contrat_voiture.find_one({"_id":garantie['contract']})
                 session["nb_contract_a"] = garantie['contract']
                 session["date_b_a"] =contrat['date_de_debut_du_contrat']
->>>>>>> ec0dd17004a52384a41bb902ff1bfc6c76c40e16
             else:
                 return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error="you didnt choose a vehicle",data=data)
@@ -2575,4 +2575,4 @@ def getit():
 ############### end of 5edma ##############
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host ='0.0.0.0')
