@@ -13,17 +13,17 @@
 {% if lang == "english" %}
 <a href="/home/english">Home</a>
 <a href="#">About Us</a>
-<!-- <a href="#">Claims</a> -->
+<a href="#">Claims</a>
 <a href="#">My account</a>
 {% else %}{% if lang =="arabe" %}
 <a href="/home/arabe">الرئيسية</a>
 <a href="#">معلومات</a>
-<!-- <a href="#">مطالب</a> -->
+<a href="#">مطالب</a>
 <a href="#">حسابي</a>
 {% else %}{% if lang=="french" %}
 <a href="/home/french">Acceuil</a>
 <a href="#">Informations</a>
-<!-- <a href="#">Réclamations</a> -->
+<a href="#">Réclamations</a>
 <a href="#">Mon compte</a>
 {% endif %}
 {% endif %}
@@ -128,34 +128,7 @@
     </form>
     <div class="back"><a href="/addreport/8/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
-<div class="pop_pres" style="display: flex;height: 110%;">
-    <form action="/addreport/10/{{lang}}" method="post">
-        <button type="button" class="close" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        <div class="content">
-            <h4 style="margin-top: 30px;font-size: 1rem">Do you want the insurance company Informations to be filled
-            automaticly</h4>
-        </div>
-        <div class="row">
-        <div class="form-group col-6">
-            <button type="button" id="closer"  class="btn btn-danger">no</button>
-        </div>
-        <div class="form-group col-6">
-            <button type="submit" name="form109b" class="btn" style="
-                position:unset;
-                bottom:auto;
-                right:auto;
-                width:auto;
-                padding: .375rem .75rem;
-                background-color: green;
-                color: white;
-                " >confirm</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="pop_pres" style="display: flex;height: 110%;">
+<div class="pop_pres" style="display: block;height: 200%;">
     <form action="/addreport/10/{{lang}}" method="post">
         <button type="button" class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -274,34 +247,7 @@
     </form>
     <div class="back"><a href="/addreport/8/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
-<div class="pop_pres" style="display: flex;height: 110%;">
-    <form action="/addreport/10/{{lang}}" method="post">
-        <button type="button" class="close" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        <div class="content">
-            <h4 style="margin-top: 30px;font-size: 1rem">هل تريد ملء معلومات شركة التأمين
-            يدويا</h4>
-        </div>
-        <div class="row">
-        <div class="form-group col-6">
-            <button type="button" id="closer"  class="btn btn-danger">yes</button>
-        </div>
-        <div class="form-group col-6">
-            <button type="submit" name="form109b" class="btn" style="
-                position:unset;
-                bottom:auto;
-                right:auto;
-                width:auto;
-                padding: .375rem .75rem;
-                background-color: green;
-                color: white;
-                " >no</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="pop_pres" style="display: flex;height: 110%;">
+<div class="pop_pres" style="display: block;height: 200%;">
     <form action="/addreport/10/{{lang}}" method="post">
         <button type="button" class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -420,34 +366,7 @@
     </form>
     <div class="back"><a href="/addreport/8/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
-<div class="pop_pres" style="display: flex;height: 110%;">
-    <form action="/addreport/10/{{lang}}" method="post">
-        <button type="button" class="close" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        <div class="content">
-            <h4 style="margin-top: 30px;font-size: 1rem">Voulez-vous que les informations de la compagnie d'assurance soient remplies
-            automatiquement</h4>
-        </div>
-        <div class="row">
-        <div class="form-group col-6">
-            <button type="button" id="closer"  class="btn btn-danger">non</button>
-        </div>
-        <div class="form-group col-6">
-            <button type="submit" name="form109b" class="btn" style="
-                position:unset;
-                bottom:auto;
-                right:auto;
-                width:auto;
-                padding: .375rem .75rem;
-                background-color: green;
-                color: white;
-                " >oui</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="pop_pres" style="display: flex;height: 110%;">
+<div class="pop_pres" style="display: block;height: 200%;">
     <form action="/addreport/10/{{lang}}" method="post">
         <button type="button" class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>

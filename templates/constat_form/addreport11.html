@@ -101,6 +101,50 @@
     </form>
     <div class="back"><a href="/addreport/10/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
+<div class="pop_pres" style="display: block;height: 160%;">
+    <form action="/addreport/12/{{lang}}" method="post">
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="content">
+            <h4 style="margin-top: 30px;font-size: 1rem">Are you the driver of vehicle A ?</h4>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="number" class="form-control" name="permis" id="permis"
+                        placeholder="driver's license number">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="categoryp" id="categoryp"
+                        placeholder="driver's license Categoty">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <h6>Valid until</h6>
+                <input type="text" class="form-control" name="validp" id="validpp">
+            </div>
+        </div>
+        <div class="row">
+        <div class="form-group col-6">
+            <button type="button" id="closer"  class="btn btn-danger">No</button>
+        </div>
+        <div class="form-group col-6">
+            <button type="submit" name="form111b" class="btn" style="
+                position:unset;
+                bottom:auto;
+                right:auto;
+                width:auto;
+                padding: .375rem .75rem;
+                background-color: green;
+                color: white;
+                " >Yes</button>
+            </div>
+        </div> 
+    </div>
+</div>
 {% else %}{% if lang =="arabe" %}
 <div class="arab container-fluid">
     <div class="content">
@@ -165,6 +209,50 @@
         </div>
     </form>
     <div class="back"><a href="/addreport/10/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+<div class="pop_pres" style="display: block;height: 160%;">
+    <form action="/addreport/12/{{lang}}" method="post">
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="content">
+            <h4 style="margin-top: 30px;font-size: 1rem">هل أنت سائق السيارة أ؟</h4>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="number" class="form-control" name="permis" id="permis"
+                        placeholder="رقم رخصة القيادة">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="categoryp" id="categoryp"
+                        placeholder="فئة رخصة القيادة">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <h6>صالح حتى</h6>
+                <input type="text" class="form-control" name="validp" id="validpp">
+            </div>
+        </div>
+        <div class="row">
+        <div class="form-group col-6">
+            <button type="button" id="closer"  class="btn btn-danger">لا</button>
+        </div>
+        <div class="form-group col-6">
+            <button type="submit" name="form111b" class="btn" style="
+                position:unset;
+                bottom:auto;
+                right:auto;
+                width:auto;
+                padding: .375rem .75rem;
+                background-color: green;
+                color: white;
+                " >نعم</button>
+            </div>
+        </div> 
+    </div>
 </div>
 {% else %}{% if lang=="french" %}
 <div class="french container-fluid">
@@ -231,11 +319,63 @@
     </form>
     <div class="back"><a href="/addreport/10/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
+<div class="pop_pres" style="display: block;height: 160%;">
+    <form action="/addreport/12/{{lang}}" method="post">
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="content">
+            <h4 style="margin-top: 30px;font-size: 1rem">Êtes-vous le conducteur du véhicule A?</h4>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="number" class="form-control" name="permis" id="permis"
+                        placeholder="Numéro de permis de conduire">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="categoryp" id="categoryp"
+                        placeholder="Catégorie de permis de conduire">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <h6>Valable jusqu'au</h6>
+                <input type="text" class="form-control" name="validp" id="validpp">
+            </div>
+        </div>
+        <div class="row">
+        <div class="form-group col-6">
+            <button type="button" id="closer"  class="btn btn-danger">Non</button>
+        </div>
+        <div class="form-group col-6">
+            <button type="submit" name="form111b" class="btn" style="
+                position:unset;
+                bottom:auto;
+                right:auto;
+                width:auto;
+                padding: .375rem .75rem;
+                background-color: green;
+                color: white;
+                " >oui</button>
+            </div>
+        </div> 
+    </div>
+</div>
 {% endif %}
 {% endif %}
 {%endif%}
 {%endblock%}
 {% block scripts %}
+<script>
+    $('.pop_pres .close').on('click', function () {
+        $('.pop_pres').css('display', 'none')
+    })
+    $('#closer').on('click', function () {
+        $('.pop_pres').css('display', 'none')
+    })
+</script>
 <script>
     $(document).ready(function(){
         $("input").change(function(){
@@ -258,6 +398,11 @@
          orientation: "bottom right"
      });
      $('#validp').datepicker({
+         format: "dd/mm/yyyy",
+         startDate: currentDate ,
+         orientation: "top right"
+     });
+     $('#validpp').datepicker({
          format: "dd/mm/yyyy",
          startDate: currentDate ,
          orientation: "bottom right"

@@ -110,7 +110,7 @@
     </form>
     <div class="back"><a href="/addreport/7/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
-<div class="pop_pres" style="display: flex;height: 110%;">
+<div class="pop_pres" style="display: flex;height: 890px;">
     <form action="/addreport/9/{{lang}}" method="post">
         <button type="button" class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -212,7 +212,7 @@
     </form>
     <div class="back"><a href="/addreport/7/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
-<div class="pop_pres" style="display: flex;height: 110%;">
+<div class="pop_pres" style="display: flex;height: 890px;">
     <form action="/addreport/9/{{lang}}" method="post">
         <button type="button" class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -224,7 +224,7 @@
             <div class="form-group col-12">
                 <select class="form-control" id="cars" name="cars">
                     {%for vehicle in vehicles%}
-                    <option value="{{ vehicle._id}}">{{ vehicle.marq_model}}</option>
+                    <option value="{{vehicle._id}}">{{ vehicle.marq_model}}</option>
                     {% endfor %}
                 </select>
               </div>
@@ -309,7 +309,7 @@
     </form>
     <div class="back"><a href="/addreport/7/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
-<div class="pop_pres" style="display: flex;height: 110%;">
+<div class="pop_pres" style="display: flex;height: 890px;">
     <form action="/addreport/9/{{lang}}" method="post">
         <button type="button" class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
