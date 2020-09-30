@@ -34,10 +34,14 @@
     label h5{
         background-color: white;
     }
-    label h6{
-        background-color: white;
+    .box-row-label{
+        background-color:#f5a6a6; 
+        color: #4a4a4a; 
+        border: 1px solid #4a4a4a; 
+        width: auto; 
+        border-radius: 5px; 
+        height: 35px;
     }
-
 </style>
 {% endblock %}
 {% block body %}
@@ -63,13 +67,16 @@
                     Towing
                 </label>
                 <br/>
-                <div class="box">
-                    
-                    <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage1" value="remorquage_non" onchange="hideR('1','1')" checked> 
-                    <label for="remorquage1" class="form-check-label without"><h6>No</h6></label>
+                <div class="box row">
+                    <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage1" value="remorquage_non" onchange="hideR('1','1')" checked onclick="clickchange()" hidden> 
+                    <label for="remorquage1" id = "no1" class="form-check-label without col-md-4" style="background-color:#f5a6a6; color: #4a4a4a; 
+                    border: 1px solid #4a4a4a; width: auto; border-radius: 5px; height: 35px; 
+                    padding: 6px; margin: auto;"><h6>No</h6></label>
                     <br/>
-                    <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage2" value="remorquage_oui" onchange="hideR('1','2')">     
-                    <label for="remorquage2" class="form-check-label without"><h6>Yes</h6></label>
+                    <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage2" value="remorquage_oui" onchange="hideR('1','2')" onclick="clickchange()" hidden>     
+                    <label for="remorquage2" id = "yes1" class="form-check-label without col-md-4" style="background-color:#e0f3e0; color: #4a4a4a; 
+                    border: 1px solid #4a4a4a; width: auto; border-radius: 5px; height: 35px; 
+                    padding: 6px; margin: auto;"><h6>Yes</h6></label>
                 </div>
             </div>
             <div class="form-group col-md-6">
@@ -84,11 +91,18 @@
                     People transported
                 </label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap"  name="pers_trans" id="pers_trans1" value="pers_trans_non" onchange="hideP('2','1')" onclick="pers_t(1)" checked > 
-                <label for="pers_trans1" class="form-check-label without"><h6>No</h6></label>
-                <br/>
-                <input type = "radio" class="form-check-input with-gap"  name="pers_trans" id="pers_trans2" value="pers_trans_oui" onchange="hideP('2','2')" onclick="pers_t(0)">         
-                <label for="pers_trans2" class="form-check-label without"><h6>Yes</h6></label>
+                <div class="box row">
+                    <input type = "radio" class="form-check-input with-gap"  name="pers_trans" id="pers_trans1" value="pers_trans_non" onchange="hideP('2','1')" onclick="pers_t(1)"   checked = "checked" hidden> 
+                    <label for="pers_trans1" id = "no2" class="form-check-label without col-md-4" style="background-color:#f3e0e0; color: #4a4a4a; 
+                    border: 1px solid #4a4a4a; width: auto; border-radius: 5px; height: 35px; 
+                    padding: 6px; margin: auto;"><h6>No</h6></label>
+                    <br/>
+                    <input type = "radio" class="form-check-input with-gap"  name="pers_trans" id="pers_trans2" value="pers_trans_oui" onchange="hideP('2','2')" onclick="pers_t(0)"  hidden>          
+                    <label for="pers_trans2" id="yes2" class="form-check-label without col-md-4" style="background-color:#e0f3e0; color: #4a4a4a; 
+                    border: 1px solid #4a4a4a; width: auto; 
+                    border-radius: 5px; height: 35px; 
+                    padding: 6px; margin: auto;"><h6>Yes</h6></label>
+                </div>
             </div>
             <div class="form-group col-md-6">
                 <label style="display: none;" for="classe" id="text1"><h6>Nbr of pple in the gray card</h6></label>
@@ -161,7 +175,7 @@
                     رمركاج
                 </label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap"  name="remorquage" id="remorquage1" value="remorquage_non" onchange="hideR('1','1')" checked> 
+                <input type = "radio" class="form-check-input with-gap"  name="remorquage" id="remorquage1" value="remorquage_non" onchange="hideR('1','1')"  checked = "checked"> 
                 <label for="remorquage1" class="form-check-label without"><h6>لا</h6></label>
                 <br/>
                 <input type = "radio" class="form-check-input with-gap"  name="remorquage" id="remorquage2" value="remorquage_oui" onchange="hideR('1','2')">     
@@ -179,7 +193,7 @@
                     نقل الناس 
                 </label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap" name="pers_trans" id="pers_trans1" value="pers_trans_non" onchange="hideP('2','1')" onclick="pers_t(1)"  checked> 
+                <input type = "radio" class="form-check-input with-gap" name="pers_trans" id="pers_trans1" value="pers_trans_non" onchange="hideP('2','1')" onclick="pers_t(1)"   checked = "checked"> 
                 <label for="pers_trans1" class="form-check-label without"><h6>لا</h6></label>
                 <br/>
                 <input type = "radio" class="form-check-input with-gap" name="pers_trans" id="pers_trans2" value="pers_trans_oui" onchange="hideP('2','2')" onclick="pers_t(0)" >       
@@ -254,7 +268,7 @@
                         Remorquage
                     </label>
                     <br/>
-                    <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage1" value="remorquage_non" onchange="hideR('1','1')" checked> 
+                    <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage1" value="remorquage_non" onchange="hideR('1','1')"  checked = "checked"> 
                     <label for="remorquage1" class="form-check-label without"><h6>Non</h6></label>
                     <br/>
                     <input type = "radio" class="form-check-input with-gap" name="remorquage" id="remorquage2" value="remorquage_oui" onchange="hideR('1','2')">  
@@ -272,7 +286,7 @@
                         Personnes transportées
                     </label>
                     <br/>
-                    <input type = "radio" class="form-check-input with-gap" name="pers_trans" id="pers_trans1" value="pers_trans_non" onchange="hideP('2','1')" onclick="pers_t(1)"  checked> 
+                    <input type = "radio" class="form-check-input with-gap" name="pers_trans" id="pers_trans1" value="pers_trans_non" onchange="hideP('2','1')" onclick="pers_t(1)"   checked = "checked"> 
                     <label for="pers_trans1" class="form-check-label without"><h6>Non</h6></label>
                     <br/>
                     <input type = "radio" class="form-check-input with-gap" name="pers_trans" id="pers_trans2" value="pers_trans_oui" onchange="hideP('2','2')" onclick="pers_t(0)" >         
@@ -336,6 +350,52 @@
 {% block scripts %}
 
 <script>
+function clickchange(){
+    console.log('aaaa')
+    var btnNo1 = document.querySelector('#no1');
+    console.log(btnNo1)
+    var btnYes1 = document.querySelector('#yes1');
+    console.log(btnYes1)
+    console.log(document.querySelector('#remorquage2').checked)
+    if (document.querySelector('#remorquage2').checked) {
+        console.log(btnYes1.style.backgroundColor);
+        btnYes1.addEventListener('click', () => btnYes1.style.backgroundColor = '#bceeaa');
+        console.log(btnYes1.style.backgroundColor);
+        btnNo1.addEventListener('click', () => btnNo1.style.backgroundColor = '#f3e0e0');
+    }
+    else {
+        console.log(document.querySelector('#remorquage2').checked)
+        btnNo1.addEventListener('click', () => btnNo1.style.backgroundColor = '#f5c0c0');
+        console.log(btnNo1.style.backgroundColor);
+        btnYes1.addEventListener('click', () => btnYes1.style.backgroundColor = '#e0f3e0');
+    }
+    
+}
+
+
+
+//document.addEventListener("DOMContentLoaded", function() {
+//    document.getElementById('remorquage1').addEventListener("change", function(){
+//
+//        if (this.checked) {
+//            this.parentNode.style.color = '#f5c0c0';
+//        } else {
+//            this.parentNode.style.color = '#4a4a4a';
+//        }
+//    }, false);
+//});
+//
+//
+//document.addEventListener("DOMContentLoaded", function() {
+//    document.getElementById('remorquage2').addEventListener("change", function(){
+//    
+//        if (this.checked) {
+//            this.parentNode.style.color = '#bceeaa';
+//        } else {
+//            this.parentNode.style.color = '#4a4a4a';
+//        }
+//    }, false);
+//});
 
 function pers_t(x)
 {

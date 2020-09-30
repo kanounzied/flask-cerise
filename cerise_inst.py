@@ -930,8 +930,6 @@ def voiture(nbr,lang):
         pwderr = u"votre mot de passe n'est pas le méme!"
         pwdregex = u"mot de passe doit avoir une lettre miniscule, une lettre majuscule, un chiffre, et l'un des " \
                    u"charactéres suivants @#$%^&+= "
-        posterr = u"le code postal doit contenir 4 chiffres, si vous avez modifié le code postal, retournez à la page" \
-                  u" précédente et choisissez la bonne adresse"
         verify = u"Nous vous avons envoyé un mail pour confirmer votre adresse email !"
     elif lang == "english":
         champerr = 'Fields are empty!'
@@ -945,8 +943,6 @@ def voiture(nbr,lang):
         pwdregex = "your password must have a miniscule letter, a capital letter, a number, and one of the following " \
                    "characters @#$%^&+="
         pwderr = "your password doesn't match!"
-        posterr = "postal code must contain 4 numbers, if you have changed the postcode go back to the previous page " \
-                  "and choose the right address"
         verify = "We've sent you a verification mail for your email address !"
     else:
         champerr = 'البلايص فارغين'
@@ -959,8 +955,6 @@ def voiture(nbr,lang):
         emailexisterr = "!هذا البريد الإلكتروني موجود في قاعدة البيانات، الرجاء كتابة بريد إلكتروني آخر"
         pwderr = "كلمة المرور الخاصة بك لا تتطابق!"
         pwdregex = "يجب أن تحتوي كلمة المرور على الأقل على حرف صغير[a .. z]، حرف كبير[A .. Z]، رقم، واحد من الرموز التالية @#$%^&+="
-        posterr = "!يجب أن يحتوي الرقم البريدي على 4 أرقام، إذا قمت بتغيير رقم البريد" \
-                  " انتقل إلى الصفحة السابقة واختر العنوان الصحيح"
         verify = "!لقد أرسلنا لك بريد التحقق من عنوان البريد الإلكتروني الخاص بك"
     if request.method == "POST":
         req = request.form
@@ -1340,9 +1334,10 @@ def previewV(lang, index):
     client = session.get('client')
     email = client['email']
     client_id = Client.find_one({'email':email})['_id']
-    void = Voiture.find_one({'client_id':client_id})['_id']
+    voit = Voiture.find_one({'_id': session.get('void')})
+    void = voit['_id']
     if void != 'multiple':
-        voiture = Voiture.find_one({'_id': void})['marq_model'] + " " + Voiture.find_one({'_id': void})['matricule']
+        voiture = voit['marq_model'] + " " + voit['matricule']
         garantie = session.get('garantie')
         done = False  # pour afficher la page de preload
         if 'done' in session:
@@ -1464,10 +1459,13 @@ def variableV():
     car_damaged = int(request.form['car_damaged'])
     medical = int(request.form['medical'])
     
-    clmail = session.get('client')['email'] 
-    client_id = Client.find_one({'email': clmail})['_id']
-    contratv = Contrat_voiture.find_one({'client_id': client_id})
+    #clmail = session.get('client')['email'] 
+    #client_id = Client.find_one({'email': clmail})['_id']
+    #contratv = Contrat_voiture.find({'client_id': client_id})
+    #print(contratv)
+    contratv = Contrat_voiture.find_one({'_id': session.get('contv_id')})
     conid = contratv['_id']
+    print(conid)
     garid = Contrat_voiture.find_one({'_id': conid})['garantie_id']
     Garantie.update_one(
         {'_id': garid},
@@ -1491,77 +1489,73 @@ def variableV():
         ['Dommage suite aux C.N' , car_damaged],
         ['Frais Med', medical]]
 
-    clmail = session.get('client')['email'] 
-    client_id = Client.find_one({'email': clmail})['_id']
-    contratv = Contrat_voiture.find_one({'client_id': client_id})
-    conid = contratv['_id']
-    print(conid)
-    garid = Contrat_voiture.find_one({'_id': conid})['garantie_id']
-    Garantie.update_one(
-        {'_id': garid},
-        {'$set': {'dommage_suite_aux_cn': car_damaged}}
-    )
-    Garantie.update_one(
-        {'_id':garid},
-        {'$set': {'frais_medicaux': medical}}
-    )
+    #clmail = session.get('client')['email'] 
+    #client_id = Client.find_one({'email': clmail})['_id']
+    #contratv = Contrat_voiture.find_one({'client_id': client_id})
+    #print (contratv)
+    #conid = contratv['_id']
+    #print(conid)
+    #garid = Contrat_voiture.find_one({'_id': conid})['garantie_id']
+    #Garantie.update_one(
+    #    {'_id': garid},
+    #    {'$set': {'dommage_suite_aux_cn': car_damaged}}
+    #)
+    #Garantie.update_one(
+    #    {'_id':garid},
+    #    {'$set': {'frais_medicaux': medical}}
+    #)
     
     print('dkfj')
+    tab = list([])
 
-    if 'coveragev' not in Contrat_voiture.find_one({'_id': conid}):
-        
-        year_price = 0
-        for val in list_garantie : 
-         
-            tab = list([])
-            contratv2 = Contrat_voiture.find_one({'_id': conid})
-            if 'coveragev' not in contratv2: 
-                Contrat_voiture.update_one(
-                    {'_id': conid},
-                    {'$set': {'coveragev': tab}}
-                )
-            else:
-                print('aaaa')
-                tab = contratv2['coveragev']
-            price = 0
-            if val[0] == "Incendie/Vol":
-                price= int(val[1])*0.005
+    Contrat_voiture.update_one(
+        {'_id': conid},
+        {'$set': {'coveragev': tab}}
+    )
+    year_price = 0
+
+    for val in list_garantie : 
+
+        price = 0
+
+        if val[0] == "Incendie/Vol":
+            price= int(val[1])*0.005
     
-            elif val[0] == "Dommage Collision" and val[1] != "EXCLUE":
-                price= int(val[1])*0.1
+        elif val[0] == "Dommage Collision" and val[1] != "EXCLUE":
+            price= int(val[1])*0.1
 
-            elif val[0] == "Dommage Tous Risque" and val[1] != "EXCLUE":
-                price= int(val[1])*0.02453
-            elif val[0] == "Radio Cassette" and val[1]!="EXCLUE":
-                price= int(val[1])*0.07
-            elif val[0] == "Bris de Glace" and val[1]!="EXCLUE":
-                price= int(val[1])*0.07   
-            elif val[0] == "Capital Deces" and val[1] != "EXCLUE":
-                price = int(val[1])*0.0016
-            elif val[0] == "Capital Assure conducteurplus" and val[1] != "EXCLUE":
-                price= int(val[1])*0.001
-            elif val[0] == 'Dommage suite aux C.N':
-                price = car_damaged*0.0065
-            elif val[0] == 'Frais Med':
-                price = medical*0.024
-            year_price += price
-            print(year_price)
-            print('lkjf')
-            tab.append({
-                'libelle': val[0],
-                'valeur': val[1],
-                'valeurEstimee': price
-            })
-            Contrat_voiture.update_one(
-                    {'_id': conid},
-                    {'$set': {'coveragev': tab}}
-                )
-
-        month_price = round(year_price/12, 1)
-        year_discount = round((year_price*5)/100, 1)
+        elif val[0] == "Dommage Tous Risque" and val[1] != "EXCLUE":
+            price= int(val[1])*0.02453
+        elif val[0] == "Radio Cassette" and val[1]!="EXCLUE":
+            price= int(val[1])*0.07
+        elif val[0] == "Bris de Glace" and val[1]!="EXCLUE":
+            price= int(val[1])*0.07   
+        elif val[0] == "Capital Deces" and val[1] != "EXCLUE":
+            price = int(val[1])*0.0016
+        elif val[0] == "Capital Assure conducteurplus" and val[1] != "EXCLUE":
+            price= int(val[1])*0.001
+        elif val[0] == 'Dommage suite aux C.N':
+            price = car_damaged*0.0065
+        elif val[0] == 'Frais Med':
+            price = medical*0.024
+        year_price += round(price, 1)
         print(year_price)
-        print(month_price)
-        print(year_discount)
+        print('lkjf')
+        tab.append({
+            'libelle': val[0],
+            'valeur': val[1],
+            'valeurEstimee': price
+        })
+        Contrat_voiture.update_one(
+                {'_id': conid},
+                {'$set': {'coveragev': tab}}
+            )
+    
+    month_price = round(year_price/12, 1)
+    year_discount = round((year_price*5)/100, 1)
+    print(year_price)
+    print(month_price)
+    print(year_discount)
 
     if 'year_price' not in Contrat_voiture.find_one({'_id': conid}):
         Contrat_voiture.update_one({'_id': conid}, {'$set': {'year_price': year_price}})
@@ -2137,7 +2131,7 @@ def addreport(nbr,lang):
             session['form109'] = 'submitted'
         if 'form109b' in req:
             if "vehicle_id" in session:
-                contrat = Contrat_vehicule.find({"vehicle_id":session["vehicle_id"]})
+                contrat = Contrat_voiture.find({"vehicle_id":session["vehicle_id"]})
                 session["nb_contract_a"] = contrat['_id']
             else:
                 return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,

@@ -68,7 +68,7 @@
                     <h2>Passenger</h2>
                 </label>
                 <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="passenger" value="passenger"
-                       name="typev">
+                       name="typev" style="float: right; margin-left: 4px;">
                 <label style="display: none" class="form-check-label without" for="passenger">
                     Passenger
                 </label>
@@ -82,7 +82,7 @@
                     <h2>Taxi</h2>
                 </label>
                 <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="taxi" value="taxi"
-                       name="typev">
+                       name="typev" style="float: right; margin-left: 4px;">
                 <label style="display: none" class="form-check-label without" for="taxi">
                     Taxi
                 </label>
@@ -96,7 +96,7 @@
                     <h2>Commercial</h2>
                 </label>
                 <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="commercial" value="commercial"
-                       name="typev">
+                       name="typev"   style="float: right; margin-left: 4px;">
                 <label style="display: none" class="form-check-label without" for="commercial">
                     Commercial
                 </label>
@@ -127,7 +127,7 @@
                      سيارة راكب
                 </label>
                 <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="passenger" value="passenger"
-                       name="typev">
+                       name="typev"   style="float: right; margin-left: 4px;">
             </div>
 
             <div class="form-check col-md-4">
@@ -139,7 +139,7 @@
                     <h2>تاكسي</h2>
                 </label>
                 <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="taxi" value="taxi"
-                       name="typev" style="float: right; margin-left: 4px;">
+                       name="  typev"   style="float: right; margin-left: 4px;">
                 <label style="display: none" class="form-check-label without" for="taxi"> تاكسي
                 </label>
 
@@ -156,7 +156,7 @@
                     سيارة تجارية
                 </label>
                 <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="commercial" value="commercial"
-                       name="typev">
+                       name="typev"   style="float: right; margin-left: 4px;">
             </div>
         </div>
         <div class="row">
@@ -181,7 +181,7 @@
                     <h2 id="h2fr1">Voyageur</h2>
                 </label>
                 <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="passenger" value="passenger"
-                       name="typev"  "   >
+                       name="typev"   style="float: right; margin-left: 4px;">
                 <label style="display: none" class="form-check-label without" for="passenger">
                     Voyageur
                 </label>
@@ -197,7 +197,7 @@
                     <h2>Taxi</h2>
                 </label>
                 <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="taxi" value="taxi"
-                       name="typev">
+                       name="typev"   style="float: right; margin-left: 4px;">
                 <label style="display: none" class="form-check-label without" for="taxi"> Taxi
                 </label>
 
@@ -211,7 +211,7 @@
                     <h2 id="h2fr2">Commerciale</h2>
                 </label>
                 <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="commercial" value="commercial"
-                       name="typev">
+                       name="typev"    style="float: right; margin-left: 4px;">
                 <label style="display: none" class="form-check-label without" for="commercial">
                     Commerciale
                 </label>
@@ -239,5 +239,25 @@
         }
         document.querySelector("._" + x).attributes[1].value = subs.replace(".png", "") + "-colored" + ".png";
     }
+
+    function eetHiden(){
+        console.log("fsdg")
+        document.getElementById("commercial").style.display= "none"
+        document.getElementById("taxi").style.display="none"
+        document.getElementById("passenger").style.display="none"
+        if(document.documentElement.clientWidth>770){
+            console.log("Gdsgsd")
+            document.getElementById("commercial").style.display= "none"
+            document.getElementById("taxi").style.display="none"
+            document.getElementById("passenger").style.display="none"
+        }
+        else {
+            document.getElementById("commercial").style.display="flex"
+            document.getElementById("taxi").style.display="flex"
+            document.getElementById("passenger").style.display="flex"
+        }
+    }
+
+    window.addEventListener("resize", eetHiden);
 </script>
 {% endblock %}
