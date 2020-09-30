@@ -37,6 +37,7 @@
     label h6{
         background-color: white;
     }
+
 </style>
 {% endblock %}
 {% block body %}
@@ -63,11 +64,17 @@
                     Broken glass
                 </label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="bris_g(1)" name="bris_glace" id="bris_glace1" value="bris_glace_non" onchange="hideR('1','1')" checked> 
-                <label for="bris_glace1" class="form-check-label without"><h6>No</h6></label>
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="bris_g(0)" name="bris_glace" id="bris_glace2" value="bris_glace_oui" onchange="hideR('1','2')">       
-                <label for="bris_glace2" class="form-check-label without"><h6>Yes</h6></label>
+                <div class="row">
+                    <input type = "radio" class="form-check-input with-gap" onclick="bris_g(1)" name="bris_glace" id="bris_glace1" value="bris_glace_non" onchange="hideR('1','1')" checked hidden> 
+                    <label for="bris_glace1" class="form-check-label without col-md-4" id="no1" style="background-color:#f39090; color: #4a4a4a; 
+                    border: 1px solid #4a4a4a; width: auto; border-radius: 5px; height: 35px; 
+                    padding: 6px; margin: auto;">No</label>
+                    <br/>
+                    <input type = "radio" class="form-check-input with-gap" onclick="bris_g(0)" name="bris_glace" id="bris_glace2" value="bris_glace_oui" onchange="hideR('1','2')" hidden>       
+                    <label for="bris_glace2" class="form-check-label without col-md-4" id="yes1" style="background-color:#edf3ed; color: #4a4a4a; 
+                    border: 1px solid #4a4a4a; width: auto; border-radius: 5px; height: 35px; 
+                    padding: 6px; margin: auto;">Yes</label>
+                </div>
             </div>
 
             <div class="form-group col-md-6">
@@ -82,11 +89,17 @@
                     Tape player
                 </label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="radio_c(1)" name="radio_ca7" id="radio_ca71" value="radio_ca7_non" onchange="hideP('2','1')" checked> 
-                <label for="radio_ca71" class="form-check-label without"><h6>No</h6></label>
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="radio_c(0)" name="radio_ca7" id="radio_ca72" value="radio_ca7_oui" onchange="hideP('2','2')">       
-                <label for="radio_ca72" class="form-check-label without"><h6>Yes</h6></label>
+                <div class="row">
+                    <input type = "radio" class="form-check-input with-gap" onclick="radio_c(1)" name="radio_ca7" id="radio_ca71" value="radio_ca7_non" onchange="hideP('2','1')" checked hidden> 
+                    <label for="radio_ca71" class="form-check-label without col-md-4" id="no2" style="background-color:#f39090; color: #4a4a4a; 
+                    border: 1px solid #4a4a4a; width: auto; border-radius: 5px; height: 35px; 
+                    padding: 6px; margin: auto;" >No</label>
+                    <br/>
+                    <input type = "radio" class="form-check-input with-gap" onclick="radio_c(0)" name="radio_ca7" id="radio_ca72" value="radio_ca7_oui" onchange="hideP('2','2')" hidden>       
+                    <label for="radio_ca72" class="form-check-label without col-md-4" id="yes2" style="background-color:#edf3ed; color: #4a4a4a; 
+                    border: 1px solid #4a4a4a; width: auto; border-radius: 5px; height: 35px; 
+                    padding: 6px; margin: auto;">Yes</label>
+                </div>
             </div>
             
             <div class="form-group col-md-6">
@@ -95,7 +108,7 @@
                 placeholder="Exp: 500DT">
             </div>
             <div class="form-group col-md-6">
-                <label style="display: none;" id="text4" for="valeur_bg"><h6>Tape player value</h6></label>
+                <label style="display: none;" id="text4" for="valeur_rc"><h6>Tape player value</h6></label>
                 <input style="display: none;" type="text" style="float: right;" class="form-control" name="valeur_rc" id="valeur_rc" value="{{valeur_rc|string}}"
                 placeholder="Exp: 500DT">
             </div>
@@ -128,11 +141,17 @@
                     بلار مكسور
                 </label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="bris_g(1)" name="bris_glace" id="bris_glace1" value="bris_glace_non" onchange="hideR('1','1')" checked> 
-                <label for="bris_glace1" class="form-check-label without"><h6>لا</h6></label>
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="bris_g(0)" name="bris_glace" id="bris_glace2" value="bris_glace_oui" onchange="hideR('1','2')">       
-                <label for="bris_glace2" class="form-check-label without"><h6>نعم</h6></label>
+                <div class="row">
+                    <input type = "radio" class="form-check-input with-gap" onclick="bris_g(1)" name="bris_glace" id="bris_glace1" value="bris_glace_non" onchange="hideR('1','1')" checked hidden> 
+                    <label for="bris_glace1" class="form-check-label without col-md-4" id="no1" style="background-color:#f39090; color: #4a4a4a; 
+                    border: 1px solid #4a4a4a; width: auto; border-radius: 5px; height: 35px; 
+                    padding: 6px; margin: auto;">لا</label>
+                    <br/>
+                    <input type = "radio" class="form-check-input with-gap" onclick="bris_g(0)" name="bris_glace" id="bris_glace2" value="bris_glace_oui" onchange="hideR('1','2')" hidden>       
+                    <label for="bris_glace2" class="form-check-label without col-md-4" id="yes1" style="background-color:#edf3ed; color: #4a4a4a; 
+                    border: 1px solid #4a4a4a; width: auto; border-radius: 5px; height: 35px; 
+                    padding: 6px; margin: auto;">نعم</label>
+                </div>
             </div>
 
             <div class="form-group col-md-6">
@@ -147,11 +166,17 @@
                     راديو كاست
                </label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="radio_c(1)" name="radio_ca7" id="radio_ca71" value="radio_ca7_non" onchange="hideP('2','1')" checked> 
-                <label for="radio_ca71" class="form-check-label without"><h6>لا</h6></label>
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="radio_c(0)" name="radio_ca7" id="radio_ca72" value="radio_ca7_oui" onchange="hideP('2','2')">       
-                <label for="radio_ca72" class="form-check-label without"><h6>نعم</h6></label>
+                <div class="row">
+                    <input type = "radio" class="form-check-input with-gap" onclick="radio_c(1)" name="radio_ca7" id="radio_ca71" value="radio_ca7_non" onchange="hideP('2','1')" checked hidden> 
+                    <label for="radio_ca71" class="form-check-label without col-md-4" id="no2" style="background-color:#f39090; color: #4a4a4a; 
+                    border: 1px solid #4a4a4a; width: auto; border-radius: 5px; height: 35px; 
+                    padding: 6px; margin: auto;">لا</label>
+                    <br/>
+                    <input type = "radio" class="form-check-input with-gap" onclick="radio_c(0)" name="radio_ca7" id="radio_ca72" value="radio_ca7_oui" onchange="hideP('2','2')" hidden>       
+                    <label for="radio_ca72" class="form-check-label without col-md-4" id="yes2" style="background-color:#edf3ed; color: #4a4a4a; 
+                    border: 1px solid #4a4a4a; width: auto; border-radius: 5px; height: 35px; 
+                    padding: 6px; margin: auto;">نعم</label>
+                </div>
             </div>
             <div class="form-group col-md-6">
                 <label style="display: none;" id="text3" for="valeur_bg"><h6>قيمة البلار المكسور</h6></label>
@@ -159,7 +184,7 @@
                 placeholder="500DT : مثال">
             </div>
             <div class="form-group col-md-6">
-                <label style="display: none;" id="text4" for="valeur_bg"><h6>قيمة راديو كاست</h6></label>
+                <label style="display: none;" id="text4" for="valeur_rc"><h6>قيمة راديو كاست</h6></label>
                 <input style="display: none;" type="text" style="float: right;" class="form-control" name="valeur_rc" id="valeur_rc" value="{{valeur_rc|string}}"
                 placeholder="500DT : مثال">
             </div>
@@ -189,11 +214,17 @@
                     Bris de glace
                 </label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="bris_g(1)" name="bris_glace" id="bris_glace1" value="bris_glace_non" onchange="hideR('1','1')" checked> 
-                <label for="bris_glace1" class="form-check-label without"><h6>Non</h6></label>
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="bris_g(0)" name="bris_glace" id="bris_glace2" value="bris_glace_oui" onchange="hideR('1','2')">       
-                <label for="bris_glace2" class="form-check-label without"><h6>Oui</h6></label>
+                <div class="box row">
+                    <input type = "radio" class="form-check-input with-gap" onclick="bris_g(1)" name="bris_glace" id="bris_glace1" value="bris_glace_non" onchange="hideR('1','1')" checked hidden> 
+                    <label for="bris_glace1" class="form-check-label without col-md-4" id="no1" style="background-color:#f39090; color: #4a4a4a; 
+                    border: 1px solid #4a4a4a; width: auto; border-radius: 5px; height: 35px; 
+                    padding: 6px; margin: auto;">Non</label>
+                    <br/>
+                    <input type = "radio" class="form-check-input with-gap" onclick="bris_g(0)" name="bris_glace" id="bris_glace2" value="bris_glace_oui" onchange="hideR('1','2')" hidden>       
+                    <label for="bris_glace2" class="form-check-label without col-md-4" id="yes1" style="background-color:#edf3ed; color: #4a4a4a; 
+                    border: 1px solid #4a4a4a; width: auto; border-radius: 5px; height: 35px; 
+                    padding: 6px; margin: auto;">Oui</label>
+                </div>
             </div>
 
             <div class="form-group col-md-6">
@@ -208,20 +239,25 @@
                     Radio cassette
                 </label>
                 <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="radio_c(1)" name="radio_ca7" id="radio_ca71" value="radio_ca7_non" onchange="hideP('2','1')" checked> 
-                <label for="radio_ca71" class="form-check-label without"><h6>Non</h6></label>
-                <br/>
-                <input type = "radio" class="form-check-input with-gap" onclick="radio_c(0)" name="radio_ca7" id="radio_ca72" value="radio_ca7_oui" onchange="hideP('2','2')">       
-                <label for="radio_ca72" class="form-check-label without"><h6>Oui</h6></label>
+                <div class="box row">
+                    <input type = "radio" class="form-check-input with-gap" onclick="radio_c(1)" name="radio_ca7" id="radio_ca71" value="radio_ca7_non" onchange="hideP('2','1')" checked hidden> 
+                    <label for="radio_ca71" class="form-check-label without col-md-4" id="no2" style="background-color:#f39090; color: #4a4a4a; 
+                    border: 1px solid #4a4a4a; width: auto; border-radius: 5px; height: 35px; 
+                    padding: 6px; margin: auto;">Non</label>
+                    <br/>
+                    <input type = "radio" class="form-check-input with-gap" onclick="radio_c(0)" name="radio_ca7" id="radio_ca72" value="radio_ca7_oui" onchange="hideP('2','2')" hidden>       
+                    <label for="radio_ca72" class="form-check-label without col-md-4" id="yes2" style="background-color:#edf3ed; color: #4a4a4a; 
+                    border: 1px solid #4a4a4a; width: auto; border-radius: 5px; height: 35px; 
+                    padding: 6px; margin: auto;">Oui</label>
+                </div>
             </div>
-
             <div class="form-group col-md-6">
                 <label style="display: none;" id="text3" for="valeur_bg"><h6>Valeur de bris de glace</h6></label>
                 <input style="display: none;" type="text" style="float: right;" class="form-control" name="valeur_bg" id="valeur_bg" value="{{valeur_bg|string}}"
                 placeholder="Exp: 500DT">
             </div>
             <div class="form-group col-md-6">
-                <label style="display: none;" id="text4" for="valeur_bg"><h6>Valeur de radio cassette</h6></label>
+                <label style="display: none;" id="text4" for="valeur_rc"><h6>Valeur de radio cassette</h6></label>
                 <input style="display: none;" type="text" style="float: right;" class="form-control" name="valeur_rc" id="valeur_rc" value="{{valeur_rc|string}}"
                 placeholder="Exp: 500DT">
             </div>
@@ -266,6 +302,16 @@ function radio_c(x)
 }
 
 function hideR(x,y) {
+    var btnNo1 = document.querySelector('#no1');
+    var btnYes1 = document.querySelector('#yes1');
+    if (document.querySelector('#bris_glace2').checked) {
+        btnYes1.style.backgroundColor = '#8bee8b';
+        btnNo1.style.backgroundColor = '#f3e8e8';
+    }
+    else {
+        btnNo1.style.backgroundColor = '#f39090';
+        btnYes1.style.backgroundColor = '#edf3ed';
+    }
     var valeur = document.getElementById('bris_glace'+y).getAttribute('value')
     var subs = document.querySelector("._" + x).attributes[1].value
     var sources = document.querySelectorAll(".source")
@@ -280,6 +326,16 @@ function hideR(x,y) {
 }
 
 function hideP(x,y) {
+    var btnNo2 = document.querySelector('#no2');
+    var btnYes2 = document.querySelector('#yes2');
+    if (document.querySelector('#radio_ca72').checked) {
+        btnYes2.style.backgroundColor = '#8bee8b';
+        btnNo2.style.backgroundColor = '#f3e8e8';
+    }
+    else {
+        btnNo2.style.backgroundColor = '#f39090';
+        btnYes2.style.backgroundColor = '#edf3ed';
+    }
     var valeur = document.getElementById('radio_ca7'+y).getAttribute('value')
     var subs = document.querySelector("._" + x).attributes[1].value
     var sources = document.querySelectorAll(".source")
