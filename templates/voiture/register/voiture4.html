@@ -4,7 +4,7 @@
 {% if lang == "english" %}
 <a href="/home/english">Home</a>
 <a href="#">About Us</a>
-<!-- <a href="#">Claims</a>-->
+<a href="#">Claims</a>
 <a href="#">My account</a>
 {% else %}{% if lang =="arabe" %}
 <a href="/home/arabe">الرئيسية</a>
@@ -48,7 +48,11 @@
     </div>
     <form class="third-form" method="post" action="/voiture/5/{{lang}}">
         <div class="row" style="text-align: center;">
-
+            <div class="form-group col-md-12">
+                <label for="matricule">Registration number</label>
+                <input type="text" style="float: right;" class="form-control" name="matricule" id="matricule" value="{{matricule|string}}"
+                placeholder="Example: 100 TUN 2000">
+            </div>
             <div class="form-group col-md-6">
                 <label for="marque">Vehicle brand</label>
                 <select class="form-control" style="float: right;" name="marque" id="marque" onchange="option()">
@@ -107,11 +111,6 @@
                 </select>
                 
             </div>
-            <div class="form-group col-md-12">
-            <label for="immatricule">Registration number</label>
-            <input type="text" style="float: right;" class="form-control" name="immatricule" id="immatricule" value="{{immatricule|string}}"
-                   placeholder="Example: 100TUN2000">
-        </div>
         </div>
         <div class="row">
             <button type="submit" name="vform4" class="btn btn-primary col-2">Next</button>
@@ -129,7 +128,11 @@
     </div>
     <form class="third-form" method="post" action="/voiture/5/{{lang}}">
         <div class="row"  style="text-align: center;">
-
+            <div class="form-group col-md-12">
+                <label for="matricule">رقم التسجيل</label>
+                <input type="text" style="float: right;" class="form-control" name="matricule" id="matricule" value="{{matricule|string}}"
+                placeholder="مثال:2000 تونس 100 ">
+            </div>
             <div class="form-group col-md-6">
              
                 <label for="marque">ماركة الكرهبة</label>
@@ -190,11 +193,6 @@
                 </select>
                 
             </div>
-            <div class="form-group col-md-12">
-            <label for="immatricule">رقم التسجيل</label>
-            <input type="text" style="float: right;" class="form-control" name="immatricule" id="immatricule" value="{{immatricule|string}}"
-                   placeholder="مثال:2000 تونس 100 ">
-        </div>
         </div>
         <div class="row">
             <button type="submit" name="vform4" class="btn btn-primary col-2">التالي</button>
@@ -210,7 +208,11 @@
         </div>
         <form class="third-form" method="post" action="/voiture/5/{{lang}}">
             <div class="row" style="text-align: center;">
-
+                <div class="form-group col-md-12">
+                    <label for="matricule">Numéro d'immatriculation</label>
+                    <input type="text" style="float: right;" class="form-control" name="matricule" id="matricule" value="{{matricule|string}}"
+                    placeholder="Exemple: 100 TUN 2000">
+                </div>
                 <div class="form-group col-md-6">
                     <label for="marque">La marque du véhicule</label>
                     <select class="form-control" style="float: left;" name="marque" id="marque" onchange="option()">
@@ -269,11 +271,6 @@
                     </select>
                     
                 </div>
-                <div class="form-group col-md-12">
-                <label for="immatricule">Numéro d'immatriculation</label>
-                <input type="text" style="float: right;" class="form-control" name="immatricule" id="immatricule" value="{{immatricule|string}}"
-                       placeholder="Exemple: 100TUN2000">
-            </div>
 
             </div>
             <div class="row">
