@@ -12,7 +12,7 @@
     <form class="first_form" method="post" action="/addreport/3/{{lang}}">
         <div class="row">
             <div class="form-group col-12 ">
-                <input type="text" class="form-control" name="date" id="date" max="2020-09-03"
+                <input type="text" class="form-control" name="date" id="date" 
                        placeholder="Accident date" required>
             </div>
         </div>
@@ -37,7 +37,7 @@
     <form class="first_form" method="post" action="/addreport/3/{{lang}}">
         <div class="row">
             <div class="form-group col-12 ">
-                <input type="text" class="form-control" name="date" id="date" max="2020-09-03"
+                <input type="text" class="form-control" name="date" id="date" 
                        placeholder="dd/mm/yyyy" required>
             </div>
         </div>
@@ -62,7 +62,7 @@
     <form class="first_form" method="post" action="/addreport/3/{{lang}}">
         <div class="row">
             <div class="form-group col-12 ">
-                <input type="text" class="form-control" name="date" id="date" max="2020-09-03"
+                <input type="text" class="form-control" name="date" id="date" 
                        placeholder="date de l'accident" required>
             </div>
         </div>
@@ -88,11 +88,13 @@
     var fullDate = new Date()
     var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
     var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
-    fullDate.setDate(fullDate.getDate()-5);
-    var fivedaysbefore = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
     if (fullDate.getDate() < 10) {
         currentDate = "0" + currentDate;
     }
+    fullDate.setDate(fullDate.getDate()-5);
+    twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+    var fivedaysbefore = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+    console.log(fivedaysbefore);
     $('#date').datepicker({
         format: "dd/mm/yyyy",
         startDate: fivedaysbefore,

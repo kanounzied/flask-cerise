@@ -38,57 +38,245 @@
 {% endif %}
 {% if lang == "english" %}
 <div class="english container-fluid">
-    <div class="content">
-        <h1 class="center-text">Initial impact to vehicle B</h1>
-    </div>
-    <form class="fifth-form" method="post" action="/addreport/21/{{lang}}">
-          <div class="form-group">
-            <label for="chocside">the initial side of impact</label>
-            <select class="form-control" id="chocside" name="chocside">
-              <option value="front">Front</option>
-              <option value="right">Right side</option>
-              <option value="left">Left side</option>
-              <option value="back">Rear</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="chocpt">standing in front of that side where exactly is the impact point</label>
-            <select class="form-control" id="chocpt" name="chocpt">
-              <option value="right">Right</option>
-              <option value="middle">Middle</option>
-              <option value="left">Left</option>
-            </select>
-          </div>
-        <div class="row">
-            <button type="submit" name="form120" class="btn btn-primary col-2">Next</button>
-        </div>
-    </form>
-    <div class="back"><a href="/addreport/19/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+  <div class="content">
+      <h1 class="center-text">Initial impact point on vehicle A?</h1>
+  </div>
+  <form class="fifth-form" method="post" action="/addreport/21/{{lang}}">
+      <div class="row" style="position: relative;">
+          <img src="/static/images/car-top-view.png" id="car" style="position: absolute;height: 250px;top: 77px;">
+<!-- FRont ----------------------------------------------------------------------------------------------------------------->
+              <label  for="square1">
+                  <picture>
+                      <source class="source _1" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="front,left" style="height: 50px;left: 49px;position: absolute;top: 36px;">
+                  </picture>
+              </label>
+              <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="square1" value="front, left" name="type"
+              style="display: none;">
+
+              <label  for="square2">
+                  <picture>
+                      <source class="source _2" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="front,middle" style="height: 50px;left: 100px;position: absolute;top: 36px;">
+                  </picture>
+              </label>
+              <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="square2" value="front, middle" name="type"
+              style="display: none;">
+
+              <label  for="square3">
+                  <picture>
+                      <source class="source _3" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="front,right" style="height: 50px;left: 151px;position: absolute;top: 36px;">
+                  </picture>
+              </label>
+              <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="square3" value="front, right" name="type"
+              style="display: none;">
+              <!-- Right side------------------------------------------------------------------------------------------- -->
+              <label  for="square4">
+                  <picture>
+                      <source class="source _4" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="right,right" style="height: 50px;left: 179px;position: absolute;top: 88px;">
+                  </picture>
+              </label>
+              <input onchange="hide('4')" type="radio" class="form-check-input with-gap" id="square4" value="right, right" name="type"
+              style="display: none;">
+
+              <label  for="square5">
+                  <picture>
+                      <source class="source _5" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="right,middle" style="height: 132px;width: 50px;left: 179px;position: absolute;top: 141px;">
+                  </picture>
+              </label>
+              <input onchange="hide('5')" type="radio" class="form-check-input with-gap" id="square5" value="right, middle" name="type"
+              style="display: none;">
+
+              <label  for="square6">
+                  <picture>
+                      <source class="source _6" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="right,left" style="height: 50px;left: 179px;position: absolute;top: 275px;">
+                  </picture>
+              </label>
+              <input onchange="hide('6')" type="radio" class="form-check-input with-gap" id="square6" value="right, left" name="type"
+              style="display: none;">
+              <!-- Left side------------------------------------------------------------------------------------------- -->
+              <label  for="square7">
+                  <picture>
+                      <source class="source _7" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="left,left" style="height: 50px;left: 20px;position: absolute;top: 88px;">
+                  </picture>
+              </label>
+              <input onchange="hide('7')" type="radio" class="form-check-input with-gap" id="square7" value="left, left" name="type"
+              style="display: none;">
+
+              <label  for="square8">
+                  <picture>
+                      <source class="source _8" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="left,middle" style="height: 132px;width: 50px;left: 20px;position: absolute;top: 141px;">
+                  </picture>
+              </label>
+              <input onchange="hide('8')" type="radio" class="form-check-input with-gap" id="square8" value="left, middle" name="type"
+              style="display: none;">
+
+              <label  for="square9">
+                  <picture>
+                      <source class="source _9" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="left,right" style="height: 50px;left: 20px;position: absolute;top: 275px;">
+                  </picture>
+              </label>
+              <input onchange="hide('9')" type="radio" class="form-check-input with-gap" id="square9" value="left, right" name="type"
+              style="display: none;">
+          <!-- back side------------------------------------------------------------------------------------------- -->
+          <label  for="square10">
+              <picture>
+                  <source class="source _10" srcset="/static/images/stop.png">
+                  <img src="/static/images/stop.png" alt="back,left" style="height: 50px;left: 49px;position: absolute;top: 324px;">
+              </picture>
+          </label>
+          <input onchange="hide('10')" type="radio" class="form-check-input with-gap" id="square10" value="back, left" name="type"
+          style="display: none;">
+
+          <label  for="square11">
+              <picture>
+                  <source class="source _11" srcset="/static/images/stop.png">
+                  <img src="/static/images/stop.png" alt="back,middle" style="height: 50px;left: 100px;position: absolute;top: 324px;">
+              </picture>
+          </label>
+          <input onchange="hide('11')" type="radio" class="form-check-input with-gap" id="square11" value="back, middle" name="type"
+          style="display: none;">
+
+          <label  for="square12">
+              <picture>
+                  <source class="source _12" srcset="/static/images/stop.png">
+                  <img src="/static/images/stop.png" alt="back,right" style="height: 50px;left: 151px;position: absolute;top: 324px;">
+              </picture>
+          </label>
+          <input onchange="hide('12')" type="radio" class="form-check-input with-gap" id="square12" value="back, right" name="type"
+          style="display: none;">
+      </div>  
+      <div class="row" style="position: relative;margin-top: 400px;">
+          <button type="submit" name="form120" class="btn btn-primary col-2">Next</button>
+      </div>
+  </form>
+  <div class="back"><a href="/addreport/19/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
 </div>
 {% else %}{% if lang =="arabe" %}
 <div class="arab container-fluid">
   <div class="content">
-      <h1 class="center-text">بلاصة الضربة الاولي على السيارة ب</h1>
+      <h1 class="center-text">بلاصة الضربة الاولي على السيارة أ</h1>
   </div>
   <form class="fifth-form" method="post" action="/addreport/21/{{lang}}">
-    <div class="form-group">
-      <label for="chocside">الجهة متاع الضربة</label>
-      <select class="form-control" id="chocside" name="chocside">
-        <option value="front">الخشم</option>
-        <option value="right">الجهة اليمنى</option>
-        <option value="left">الجهة اليسري</option>
-        <option value="back">منتالي</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="chocpt">و انت واقف قدام هاك الجهة فين بضبط الضربة</label>
-      <select class="form-control" id="chocpt" name="chocpt">
-        <option value="right">عاليمين</option>
-        <option value="middle">فالوسط</option>
-        <option value="left">عاليسار</option>
-      </select>
-    </div>
-      <div class="row">
+      <div class="row" style="position: relative;">
+          <img src="/static/images/car-top-view.png" id="car" style="position: absolute;height: 250px;top: 77px;">
+<!-- FRont ----------------------------------------------------------------------------------------------------------------->
+              <label  for="square1">
+                  <picture>
+                      <source class="source _1" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="front,left" style="height: 50px;left: 49px;position: absolute;top: 36px;">
+                  </picture>
+              </label>
+              <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="square1" value="front, left" name="type"
+              style="display: none;">
+
+              <label  for="square2">
+                  <picture>
+                      <source class="source _2" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="front,middle" style="height: 50px;left: 100px;position: absolute;top: 36px;">
+                  </picture>
+              </label>
+              <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="square2" value="front, middle" name="type"
+              style="display: none;">
+
+              <label  for="square3">
+                  <picture>
+                      <source class="source _3" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="front,right" style="height: 50px;left: 151px;position: absolute;top: 36px;">
+                  </picture>
+              </label>
+              <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="square3" value="front, right" name="type"
+              style="display: none;">
+              <!-- Right side------------------------------------------------------------------------------------------- -->
+              <label  for="square4">
+                  <picture>
+                      <source class="source _4" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="right,right" style="height: 50px;left: 179px;position: absolute;top: 88px;">
+                  </picture>
+              </label>
+              <input onchange="hide('4')" type="radio" class="form-check-input with-gap" id="square4" value="right, right" name="type"
+              style="display: none;">
+
+              <label  for="square5">
+                  <picture>
+                      <source class="source _5" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="right,middle" style="height: 132px;width: 50px;left: 179px;position: absolute;top: 141px;">
+                  </picture>
+              </label>
+              <input onchange="hide('5')" type="radio" class="form-check-input with-gap" id="square5" value="right, middle" name="type"
+              style="display: none;">
+
+              <label  for="square6">
+                  <picture>
+                      <source class="source _6" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="right,left" style="height: 50px;left: 179px;position: absolute;top: 275px;">
+                  </picture>
+              </label>
+              <input onchange="hide('6')" type="radio" class="form-check-input with-gap" id="square6" value="right, left" name="type"
+              style="display: none;">
+              <!-- Left side------------------------------------------------------------------------------------------- -->
+              <label  for="square7">
+                  <picture>
+                      <source class="source _7" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="left,left" style="height: 50px;left: 20px;position: absolute;top: 88px;">
+                  </picture>
+              </label>
+              <input onchange="hide('7')" type="radio" class="form-check-input with-gap" id="square7" value="left, left" name="type"
+              style="display: none;">
+
+              <label  for="square8">
+                  <picture>
+                      <source class="source _8" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="left,middle" style="height: 132px;width: 50px;left: 20px;position: absolute;top: 141px;">
+                  </picture>
+              </label>
+              <input onchange="hide('8')" type="radio" class="form-check-input with-gap" id="square8" value="left, middle" name="type"
+              style="display: none;">
+
+              <label  for="square9">
+                  <picture>
+                      <source class="source _9" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="left,right" style="height: 50px;left: 20px;position: absolute;top: 275px;">
+                  </picture>
+              </label>
+              <input onchange="hide('9')" type="radio" class="form-check-input with-gap" id="square9" value="left, right" name="type"
+              style="display: none;">
+          <!-- back side------------------------------------------------------------------------------------------- -->
+          <label  for="square10">
+              <picture>
+                  <source class="source _10" srcset="/static/images/stop.png">
+                  <img src="/static/images/stop.png" alt="back,left" style="height: 50px;left: 49px;position: absolute;top: 324px;">
+              </picture>
+          </label>
+          <input onchange="hide('10')" type="radio" class="form-check-input with-gap" id="square10" value="back, left" name="type"
+          style="display: none;">
+
+          <label  for="square11">
+              <picture>
+                  <source class="source _11" srcset="/static/images/stop.png">
+                  <img src="/static/images/stop.png" alt="back,middle" style="height: 50px;left: 100px;position: absolute;top: 324px;">
+              </picture>
+          </label>
+          <input onchange="hide('11')" type="radio" class="form-check-input with-gap" id="square11" value="back, middle" name="type"
+          style="display: none;">
+
+          <label  for="square12">
+              <picture>
+                  <source class="source _12" srcset="/static/images/stop.png">
+                  <img src="/static/images/stop.png" alt="back,right" style="height: 50px;left: 151px;position: absolute;top: 324px;">
+              </picture>
+          </label>
+          <input onchange="hide('12')" type="radio" class="form-check-input with-gap" id="square12" value="back, right" name="type"
+          style="display: none;">
+      </div>  
+      <div class="row" style="position: relative;margin-top: 400px;">
           <button type="submit" name="form120" class="btn btn-primary col-2">Next</button>
       </div>
   </form>
@@ -97,27 +285,121 @@
 {% else %}{% if lang=="french" %}
 <div class="french container-fluid">
   <div class="content">
-      <h1 class="center-text">Impact initial sur le véhicule B</h1>
+      <h1 class="center-text">Point de choc initial au vehicle A?</h1>
   </div>
   <form class="fifth-form" method="post" action="/addreport/21/{{lang}}">
-    <div class="form-group">
-      <label for="chocside">le côté initial de l'impact</label>
-      <select class="form-control" id="chocside" name="chocside">
-        <option value="front">De face</option>
-        <option value="right">Côté droit</option>
-        <option value="left">Côté gauche</option>
-        <option value="back">Arrière</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="chocpt">devant ce côté où se trouve exactement le point d'impact</label>
-      <select class="form-control" id="chocpt" name="chocpt">
-        <option value="right">à Droite</option>
-        <option value="middle">au Milieu</option>
-        <option value="left">à gauche</option>
-      </select>
-    </div>
-      <div class="row">
+      <div class="row" style="position: relative;">
+          <img src="/static/images/car-top-view.png" id="car" style="position: absolute;height: 250px;top: 77px;">
+<!-- FRont ----------------------------------------------------------------------------------------------------------------->
+              <label  for="square1">
+                  <picture>
+                      <source class="source _1" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="front,left" style="height: 50px;left: 49px;position: absolute;top: 36px;">
+                  </picture>
+              </label>
+              <input onchange="hide('1')" type="radio" class="form-check-input with-gap" id="square1" value="front, left" name="type"
+              style="display: none;">
+
+              <label  for="square2">
+                  <picture>
+                      <source class="source _2" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="front,middle" style="height: 50px;left: 100px;position: absolute;top: 36px;">
+                  </picture>
+              </label>
+              <input onchange="hide('2')" type="radio" class="form-check-input with-gap" id="square2" value="front, middle" name="type"
+              style="display: none;">
+
+              <label  for="square3">
+                  <picture>
+                      <source class="source _3" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="front,right" style="height: 50px;left: 151px;position: absolute;top: 36px;">
+                  </picture>
+              </label>
+              <input onchange="hide('3')" type="radio" class="form-check-input with-gap" id="square3" value="front, right" name="type"
+              style="display: none;">
+              <!-- Right side------------------------------------------------------------------------------------------- -->
+              <label  for="square4">
+                  <picture>
+                      <source class="source _4" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="right,right" style="height: 50px;left: 179px;position: absolute;top: 88px;">
+                  </picture>
+              </label>
+              <input onchange="hide('4')" type="radio" class="form-check-input with-gap" id="square4" value="right, right" name="type"
+              style="display: none;">
+
+              <label  for="square5">
+                  <picture>
+                      <source class="source _5" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="right,middle" style="height: 132px;width: 50px;left: 179px;position: absolute;top: 141px;">
+                  </picture>
+              </label>
+              <input onchange="hide('5')" type="radio" class="form-check-input with-gap" id="square5" value="right, middle" name="type"
+              style="display: none;">
+
+              <label  for="square6">
+                  <picture>
+                      <source class="source _6" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="right,left" style="height: 50px;left: 179px;position: absolute;top: 275px;">
+                  </picture>
+              </label>
+              <input onchange="hide('6')" type="radio" class="form-check-input with-gap" id="square6" value="right, left" name="type"
+              style="display: none;">
+              <!-- Left side------------------------------------------------------------------------------------------- -->
+              <label  for="square7">
+                  <picture>
+                      <source class="source _7" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="left,left" style="height: 50px;left: 20px;position: absolute;top: 88px;">
+                  </picture>
+              </label>
+              <input onchange="hide('7')" type="radio" class="form-check-input with-gap" id="square7" value="left, left" name="type"
+              style="display: none;">
+
+              <label  for="square8">
+                  <picture>
+                      <source class="source _8" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="left,middle" style="height: 132px;width: 50px;left: 20px;position: absolute;top: 141px;">
+                  </picture>
+              </label>
+              <input onchange="hide('8')" type="radio" class="form-check-input with-gap" id="square8" value="left, middle" name="type"
+              style="display: none;">
+
+              <label  for="square9">
+                  <picture>
+                      <source class="source _9" srcset="/static/images/stop.png">
+                      <img src="/static/images/stop.png" alt="left,right" style="height: 50px;left: 20px;position: absolute;top: 275px;">
+                  </picture>
+              </label>
+              <input onchange="hide('9')" type="radio" class="form-check-input with-gap" id="square9" value="left, right" name="type"
+              style="display: none;">
+          <!-- back side------------------------------------------------------------------------------------------- -->
+          <label  for="square10">
+              <picture>
+                  <source class="source _10" srcset="/static/images/stop.png">
+                  <img src="/static/images/stop.png" alt="back,left" style="height: 50px;left: 49px;position: absolute;top: 324px;">
+              </picture>
+          </label>
+          <input onchange="hide('10')" type="radio" class="form-check-input with-gap" id="square10" value="back, left" name="type"
+          style="display: none;">
+
+          <label  for="square11">
+              <picture>
+                  <source class="source _11" srcset="/static/images/stop.png">
+                  <img src="/static/images/stop.png" alt="back,middle" style="height: 50px;left: 100px;position: absolute;top: 324px;">
+              </picture>
+          </label>
+          <input onchange="hide('11')" type="radio" class="form-check-input with-gap" id="square11" value="back, middle" name="type"
+          style="display: none;">
+
+          <label  for="square12">
+              <picture>
+                  <source class="source _12" srcset="/static/images/stop.png">
+                  <img src="/static/images/stop.png" alt="back,right" style="height: 50px;left: 151px;position: absolute;top: 324px;">
+              </picture>
+          </label>
+          <input onchange="hide('12')" type="radio" class="form-check-input with-gap" id="square12" value="back, right" name="type"
+          style="display: none;">
+      </div>  
+      <div class="row" style="position: relative;margin-top: 400px;">
           <button type="submit" name="form120" class="btn btn-primary col-2">Next</button>
       </div>
   </form>
@@ -125,5 +407,24 @@
 </div>
 {% endif %}
 {% endif %}
-{%endif%}
-{%endblock%}
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+  $("input").change(function(){
+          // Change src attribute of image
+          $('#car').attr("src", "/static/images/car-top-view-colored.png");
+      });  
+</script>
+<script>
+  function hide(x) {
+      var subs=document.querySelector("._"+x).attributes[1].value;
+      var sources=document.querySelectorAll(".source")
+      for(var i=0;i<sources.length;i++){
+          val=sources[i].attributes[1].value;
+          sources[i].attributes[1].value=val.replace("-colored","");
+      }
+      document.querySelector("._"+x).attributes[1].value=subs.replace(".png","")+"-colored"+".png";
+  }
+</script>
+{% endblock %}
