@@ -2132,8 +2132,10 @@ def addreport(nbr,lang):
             session['form109'] = 'submitted'
         if 'form109b' in req:
             if "vehicle_id" in session:
-                contrat = Contrat_voiture.find({"vehicle_id":session["vehicle_id"]})
-                session["nb_contract_a"] = contrat['_id']
+                garantie = Garantie.find_one({"voiture_id":session["vehicle_id"]})
+                contrat = Contrat_voiture.find_one({"_id":garantie['contract']})
+                session["nb_contract_a"] = garantie['contract']
+                session["date_b_a"] =contrat['date_de_debut_du_contrat']
             else:
                 return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error="you didnt choose a vehicle",data=data)
@@ -2220,10 +2222,8 @@ def addreport(nbr,lang):
             session["categoryp_a"]=categoryp_a
             session["validp_a"]=validp_a
             session['form111']='submitted'
-        if 'form112' in req:
-            chocside_a = req.get('chocside')
-            chocpt_a = req.get('chocpt')
-            session["chocside_a"] = chocside_a
+        if 'form112' in req: 
+            chocpt_a = req.get('type')
             session["chocpt_a"] = chocpt_a
             session['form112'] = 'submitted'
         if 'form113' in req:
@@ -2370,9 +2370,7 @@ def addreport(nbr,lang):
             session["validp_b"] = validp_b
             session['form119'] = 'submitted'
         if 'form120' in req:
-            chocside_b = req.get('chocside')
-            chocpt_b = req.get('chocpt')
-            session["chocside_b"] = chocside_b
+            chocpt_b = req.get('type')
             session["chocpt_b"] = chocpt_b
             session['form120'] = 'submitted'
         if 'form121' in req:
@@ -2503,7 +2501,7 @@ def addreport(nbr,lang):
                     "category":session["categoryp_a"],
                     "available_until":session["validp_a"]
                 } ,
-                "shock_point_car_A":session["chocside_a"]+', '+session["chocpt_a"],
+                "shock_point_car_A":session["chocpt_a"],
                 "damage_apparent_A":session["appdamage_a"],
                 "observations_A":session["obs_a"],
                 "circumstances_A":curc_a,
@@ -2548,7 +2546,7 @@ def addreport(nbr,lang):
                     "category":session["categoryp_a"],
                     "available_until":session["validp_a"]
                 } ,
-                "shock_point_car_A":session["chocside_a"]+', '+session["chocpt_a"],
+                "shock_point_car_A":session["chocpt_a"],
                 "damage_apparent_A":session["appdamage_a"],
                 "observations_A":session["obs_a"],
                 "insured_B":{
@@ -2587,7 +2585,7 @@ def addreport(nbr,lang):
                     "category":session["categoryp_b"],
                     "available_until":session["validp_b"]
                 },
-                "shock_point_car_B":session["chocside_b"]+', '+session["chocpt_b"],
+                "shock_point_car_B":session["chocpt_b"],
                 "damage_apparent_B":session["appdamage_b"],
                 "observations_B":session["obs_b"],
                 "circumstances_A":curc_a,
