@@ -1592,7 +1592,7 @@ def payV(lang):
         rendered = render_template('contrat_voiture/contrat_voiture.html',
                                    client=client,
                                    garantie=garantie,
-                                   contrat=Contrat.find_one({'_id': garantie['contract']}))
+                                   contratv=Contrat.find_one({'_id': garantie['contract']}))
         css = ['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
         pdf = pdfkit.from_string(rendered, False, css=css)
         sendPDF(client['email'], pdf, text_association)
@@ -1617,7 +1617,7 @@ def generatevoiture():
     rendered = render_template('contrat_voiture/contrat_voiture.html',
                                client=client,
                                garantie=garantie,
-                               contrat=Contrat.find_one({'_id': garantie['contract']}))
+                               contratv=Contrat.find_one({'_id': garantie['contract']}))
     css=['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
     pdf = pdfkit.from_string(rendered, False,css=css)
     sendPDFv('kallel.beya@gmail.com', pdf, 'test pdf 12 12 12')
