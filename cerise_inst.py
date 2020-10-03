@@ -1031,7 +1031,7 @@ def voiture(nbr,lang):
                     if word[0][j].isalpha():
                         return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=champwrg5)
-                if word[1] != 'تونس' :
+                if word[1] not in ['تونس', 'tun', 'TUN']:
                     return render_template("/voiture/register/voiture" + str(int(nbr) - 1)  + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=champwrg5)
                 if len(word[2]) > 4 :
@@ -1303,7 +1303,7 @@ def voiture(nbr,lang):
             # then he shouldn't be allowed to return to signups
             text_association = "This is the contract of the client : "+client['prenom']+' '+client['nom']+" with the id " \
                                +str(session.get('client_id'))+" : <br>this contract is still not paid"
-            sendPDFv('kallel.beya@gmail.com', 'contrat_voiture.pdf', text_association)
+            sendPDFv('henimaher@gmail.com', 'contrat_voiture.pdf', text_association)
             text_client = "The contract is ready now and waiting to be paid!<br> If you want to modify it just log in and choose" \
                           " your contract if you have more than one"
             sendPDFv(client['email'], 'contrat_voiture.pdf', text_client)
@@ -1588,8 +1588,7 @@ def payV(lang):
         text_association = "this is the contract of the client : "+client['prenom']+' '+client['nom']+" with the id " \
                            +str(session.get('client_id'))+" : <br>this contract is paid"
 
-        garantie = session.get('garantie')
-
+        garantie = Garantie.find_one({'_id': session.get('garid')})
         rendered = render_template('contrat_voiture/contrat_voiture.html',
                                    client=client,
                                    garantie=garantie,
@@ -2631,4 +2630,4 @@ def getit():
 ############### end of 5edma ##############
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run()

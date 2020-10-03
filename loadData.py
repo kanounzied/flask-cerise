@@ -213,11 +213,14 @@ def loadAuto(client, voiture, garantie):
     x = datetime.datetime.now()
 
     contratv = Contrat_voiture.insert_one(
-        {'client_id': client_id, 'garantie_id': garid, 'date_de_debut_du_contrat': x.strftime("%d" + "/" + "%m" + "/" + "%Y") }
+        {'client_id': client_id,
+         'garantie_id': garid,
+         'date_de_debut_du_contrat': x.strftime("%d" + "/" + "%m" + "/" + "%Y") }
     )
 
     session['contv_id'] = contratv.inserted_id
     Garantie.update_one({'_id': garid}, {'$set': {'contract': contratv.inserted_id}})
+    session.get('garantie')['contract'] = contratv.inserted_id
     if 'contrats' in client:
         contab = client['contrats']
         contab.append(contratv.inserted_id)
