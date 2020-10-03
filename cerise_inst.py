@@ -2224,6 +2224,13 @@ def addreport(nbr,lang):
             session['form111']='submitted'
         if 'form112' in req:
             chocpt_a = req.get('type')
+            if chocpt_a == None:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=chooseerr)
+            if chocpt_a not in ['right, left', 'right, middle', 'right, right','left, right','left, middle','left, left'
+            ,'front, left','front, middle','front, right','back, left','back, middle','back, right']:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="don't change values please!")
             session["chocpt_a"] = chocpt_a
             session['form112'] = 'submitted'
         if 'form113' in req:
@@ -2371,6 +2378,13 @@ def addreport(nbr,lang):
             session['form119'] = 'submitted'
         if 'form120' in req:
             chocpt_b = req.get('type')
+            if chocpt_b == None:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=chooseerr)
+            if chocpt_b not in ['right, left', 'right, middle', 'right, right','left, right','left, middle','left, left'
+            ,'front, left','front, middle','front, right','back, left','back, middle','back, right']:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="don't change values please!")
             session["chocpt_b"] = chocpt_b
             session['form120'] = 'submitted'
         if 'form121' in req:
