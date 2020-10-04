@@ -1335,11 +1335,10 @@ def previewV(lang, index):
     client = session.get('client')
     email = client['email']
     client_id = Client.find_one({'email':email})['_id']
-    voit = Voiture.find_one({'_id': session.get('void')})
-    void = voit['_id']
+    void = session.get('void')
+    voit = Voiture.find_one({'_id': void})
     if void != 'multiple':
         voiture = voit['marq_model'] + " " + voit['matricule']
-        voiture = Voiture.find_one({'_id': void})['marq_model']
         garantie = session.get('garantie')
         done = False  # pour afficher la page de preload
         if 'done' in session:
