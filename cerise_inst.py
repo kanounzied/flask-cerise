@@ -1323,7 +1323,7 @@ def voiture(nbr,lang):
 def previewV(lang, index):
     if index != '0':
         client = session.get('client')
-        contratvid = client['contrats'][int(index) - 1]
+        contratvid = client['contratsV'][int(index) - 1]
         contratv = Contrat_voiture.find_one({'_id': contratvid})
         client_id = client['_id']
         void = Voiture.find_one({'client_id':client_id})['_id']
@@ -1351,10 +1351,10 @@ def previewV(lang, index):
     else:
         client = session.get('client')
         info = list([])
-        print('contrats', client['contrats'])
-        for cont in client['contrats']:
+        # print('contrats', client['contrats'])
+        for cont in client['contratsV']:
             cnt = Contrat_voiture.find_one({'_id': cont})
-            print('cnt', cont)
+            # print('cnt', cnt)
             if 'paid' in cnt:
                 paid = True
             else: paid = False
@@ -1399,8 +1399,8 @@ def loginV(lang):
                     if recaptcha.verify():
                         session['done'] = True
                         session['client'] = client
-                        if len(client['contrats']) == 1 and 'paid' not in Contrat_voiture.find_one({'_id': client['contrats'][0]}):
-                            contratv = Contrat_voiture.find_one({'_id': client['contrats'][0]})
+                        if len(client['contratsV']) == 1 and 'paid' not in Contrat_voiture.find_one({'_id': client['contrats'][0]}):
+                            contratv = Contrat_voiture.find_one({'_id': client['contratsV'][0]})
                             garantie = Garantie.find_one({'_id': contratv['garantie_id']})
                             session['garantie'] = garantie
                             session['void'] = garantie['voiture_id']

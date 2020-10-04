@@ -221,12 +221,12 @@ def loadAuto(client, voiture, garantie):
     session['contv_id'] = contratv.inserted_id
     Garantie.update_one({'_id': garid}, {'$set': {'contract': contratv.inserted_id}})
     session.get('garantie')['contract'] = contratv.inserted_id
-    if 'contrats' in client:
-        contab = client['contrats']
+    if 'contratsV' in client:
+        contab = client['contratsV']
         contab.append(contratv.inserted_id)
     else : 
         contab = list([contratv.inserted_id])
-    Client.update_one({'_id': client_id}, {'$set': {'contrats': contab}})
+    Client.update_one({'_id': client_id}, {'$set': {'contratsV': contab}})
     voit = Voiture.find_one({'_id': void})
     if 'garanties' in voit :
         voitab = voit['garanties']
