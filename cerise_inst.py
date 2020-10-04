@@ -1351,10 +1351,10 @@ def previewV(lang, index):
     else:
         client = session.get('client')
         info = list([])
-        # print('contrats', client['contrats'])
+        print('contrats', client['contrats'])
         for cont in client['contrats']:
             cnt = Contrat_voiture.find_one({'_id': cont})
-            # print('cnt', cnt)
+            print('cnt', cont)
             if 'paid' in cnt:
                 paid = True
             else: paid = False
@@ -1785,14 +1785,15 @@ def vie4():
 @app.route('/vie/44/', methods=['POST', 'GET'])
 def vie44():
     session_lang()
-    error=''
+    error = ''
     if request.method == 'POST' and session['vie4']:
         session['children'] = request.form.get('children')
-        if session['children'].isnumeric():
+        if session['children'].isnumeric() and int(session['children']) <= 10:
             session['vie44'] = True
             return redirect(url_for('vie5'))
         else:
-            error = {"fr":"Taper un entier positif ou nul" ,"en":"Type a positif or null integer","ar":"أدخل رقما أكبر أو يساوي صفر" }
+            error = {"fr": "Taper un entier positif ou nul inférieur à 10",
+                     "en": "Type a positif or null integer less than 10", "ar": "أدخل رقما موجب أصغر من 10"}
     if not (session['vie4']):
         return redirect(url_for("vie4"))
     return render_template('vie/vie44.html', lang=session['lang'], error=error)
@@ -1804,11 +1805,12 @@ def vie5():
     error = ''
     if request.method == 'POST' and session['vie44']:
         session['salary'] = request.form.get('salary')
-        if session['salary'].isnumeric():
+        if session['salary'].isnumeric() and int(session['salary'])>500:
             session['vie5'] = True
             return redirect(url_for('vie55'))
         else:
-            error = {"fr":"Taper un entier positif ou nul" ,"en":"Type a positif or null integer","ar":"أدخل رقما أكبر أو يساوي صفر" }
+            error = {"fr": "Taper un entier supérieur à 500", "en": "Type a positif integer greater than 500",
+                     "ar": "أدخل رقما أكبر أو يساوي 500"}
 
     if not (session['vie44']):
         return redirect(url_for("vie44"))
@@ -1825,7 +1827,8 @@ def vie55():
             session['vie55'] = True
             return redirect(url_for('vie6'))
         else:
-            error = {"fr":"Taper un entier positif ou nul" ,"en":"Type a positif or null integer","ar":"أدخل رقما أكبر أو يساوي صفر" }
+            error = {"fr": "Taper un entier positif ou nul", "en": "Type a positif or null integer",
+                     "ar": "أدخل رقما أكبر أو يساوي صفر"}
 
     if not (session['vie5']):
         return redirect(url_for("vie5"))
@@ -1878,13 +1881,28 @@ def vie6():
     return render_template('vie/vie6.html', lang=session['lang'], error=error)
 
 
+def isvalid(card_num,date_exp,cvc):
+    try:
+        datetime.datetime.strptime(date_exp, '%d/%m/%Y')
+    except ValueError:
+        return False
+    if len(cvc) != 3 or len(card_num) != 16:
+        return False
+    return True
+
 @app.route("/result/<lang>", methods=['POST', 'GET'])
 def result(lang):
+    error = ''
     price = formule(int(session['salary']), int(session['debt']), int(session['age']))
     print(price)
     if request.method == 'POST':
-        return redirect(url_for("generate"))
-    return render_template("resultat/preview-vie.html", lang=lang, adresse=session['adresse'], price=price)
+        if isvalid(request.form['card_num'],request.form['date_carte'],request.form['cvc']):
+            return redirect(url_for("generatevie"))
+        else:
+            error={'fr':'Entrez des données valides','en':'Provide valid card info', 'ar':'أدخل معطيات حقيقية'}
+            return render_template("resultat/preview-vie.html", lang=lang, adresse=session['adresse'], price=price, error=error)
+
+    return render_template("resultat/preview-vie.html", lang=lang, adresse=session['adresse'], price=price,error=error)
 
 def formule(x,y,z):
     return (x - 0.01*y)*(1+0.01*(100-z))
