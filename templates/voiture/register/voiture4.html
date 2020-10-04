@@ -4,17 +4,14 @@
 {% if lang == "english" %}
 <a href="/home/english">Home</a>
 <a href="#">About Us</a>
-<a href="#">Claims</a>
 <a href="#">My account</a>
 {% else %}{% if lang =="arabe" %}
 <a href="/home/arabe">الرئيسية</a>
 <a href="#">معلومات</a>
-<a href="#">مطالب</a>
 <a href="#">حسابي</a>
 {% else %}{% if lang=="french" %}
 <a href="/home/french">Acceuil</a>
 <a href="#">Informations</a>
-<a href="#">Réclamations</a>
 <a href="#">Mon compte</a>
 {% endif %}
 {% endif %}
@@ -47,12 +44,12 @@
         <h1 class="center-text-car">Vehicle brand and model?</h1>
     </div>
     <form class="third-form" method="post" action="/voiture/5/{{lang}}">
-        <div class="row" style="text-align: center;">
-            <div class="form-group col-md-12">
-                <label for="matricule">Registration number</label>
-                <input type="text" style="float: right;" class="form-control" name="matricule" id="matricule" value="{{matricule|string}}"
-                placeholder="Example: 100 TUN 2000">
-            </div>
+{#            <div class="form-group col-md-12">#}
+{#                <label for="matricule">Registration number</label>#}
+{#                <input type="text" style="float: right;" class="form-control" name="matricule" id="matricule" value="{{matricule|string}}"#}
+{#                placeholder="Example: 100 TUN 2000">#}
+{#            </div>#}
+        <div class="row" style="text-align: center">
             <div class="form-group col-md-6">
                 <label for="marque">Vehicle brand</label>
                 <select class="form-control" style="float: right;" name="marque" id="marque" onchange="option()">
@@ -110,6 +107,34 @@
                     
                 </select>
                 
+            </div>
+        </div>
+        <p style="text-align: center;">Registration number</p>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <select class="form-control"  id="typeim" name="typeim">
+                    <option value="tunis" selected>tunis</option>
+                    <option value="NT">Nt</option>
+                    <option value="other">other</option>
+                </select>
+            </div>
+        </div>
+        <div class="row" id="mat">
+            <div class='form-group col-md-5'>
+                <input type='text' class='form-control' name='matricule_s' id='matricule_s'
+                       placeholder='series number'>
+            </div>
+            <div class='form-group col-md-2' style='text-align: center;padding: 8px'>tunis</div>
+
+            <div class='form-group col-md-5'>
+                <input type='text' class='form-control' name='matricule' id='matricule'
+                       placeholder='Registration number'>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="countryv" id="countryv"
+                       placeholder="Country of registration number" value='tunisia' style="display: none;">
             </div>
         </div>
         <div class="row">
@@ -1008,4 +1033,76 @@ function option() {
 }
 
 </script>
+        <script>
+            $(document).ready(function(){
+                $("input").change(function(){
+                    // Change src attribute of image
+                    $( "img[alt='car']" ).attr("src", "/static/images/car.png");
+                });
+                $('#trailer').click(function(){
+                    $('#brand').hide();
+                });
+                $('#normalv').click(function(){
+                    $('#brand').show();
+                });
+            });
+        </script>
+
+        {% if lang == "english" %}
+            <script>
+                $('select').change(function(){
+                    if((this.value)=="NT"){
+                        $('#countryv').hide();
+                        $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s'    placeholder='series number'></div><div class='form-group col-2' style='text-align: center;'>NT</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='Registration number'></div>");
+                    }
+                    else if((this.value)=="tunis"){
+                        $('#countryv').hide();
+                        $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s'    placeholder='series number'></div><div class='form-group col-2' style='text-align: center;'>tunis</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='Registration number'></div>");
+                    }
+                    else{
+                        $('#countryv').show();
+                        $('#countryv').val('');
+                        $('#mat').html("<div class='form-group col-12'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='Registration number'> </div>");
+                    }
+                });
+            </script>
+        {% endif %}
+        {% if lang =="arabe" %}
+            <script>
+                $('select').change(function(){
+                    if((this.value)=="NT"){
+                        $('#countryv').hide();
+                        $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s'    placeholder='رقم '></div><div class='form-group col-2' style='text-align: center;'>نت</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='رقم التسجيل'></div>");
+                    }
+                    else if((this.value)=="tunis"){
+                        $('#countryv').hide();
+                        $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s' placeholder='رقم '></div><div class='form-group col-2' style='text-align: center;'>تونس</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='رقم التسجيل'></div>");
+                    }
+                    else{
+                        $('#countryv').show();
+                        $('#countryv').val('');
+                        $('#mat').html("<div class='form-group col-12'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='رقم التسجيل'> </div>");
+                    }
+                });
+            </script>
+        {% endif %}
+        {% if lang=="french" %}
+            <script>
+                $('select').change(function(){
+                    if((this.value)=="NT"){
+                        $('#countryv').hide();
+                        $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s'    placeholder='numéro de série'></div><div class='form-group col-2' style='text-align: center;'>NT</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='Numéro d&#39enregistrement'></div>");
+                    }
+                    else if((this.value)=="tunis"){
+                        $('#countryv').hide();
+                        $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s' placeholder='numéro de série'></div><div class='form-group col-2' style='text-align: center;'>tunis</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='Numéro d&#39enregistrement'></div>");
+                    }
+                    else{
+                        $('#countryv').show();
+                        $('#countryv').val('');
+                        $('#mat').html("<div class='form-group col-12'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='n° d&#39immatriculation'> </div>");
+                    }
+                });
+            </script>
+        {% endif %}
 {% endblock %}

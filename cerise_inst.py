@@ -1637,11 +1637,13 @@ d = dict(
 
 def session_lang():
     try:
-        session['lang'] = request.args.get('lang')
-        if not (session['lang']):
+        if not (request.args.get('lang')):
             raise Exception()
+        session['lang'] = request.args.get('lang')
     except:
-        session['lang'] = 'ar'
+        print(session['lang'])
+        if 'lang' not in session:
+            session['lang'] = 'ar'
 
 @app.route("/vie/", methods=['POST', 'GET'])
 def home1():
@@ -2644,4 +2646,4 @@ def getit():
 ############### end of 5edma ##############
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run()

@@ -6,7 +6,7 @@
 <!--    <a href="#">Réclamations</a>-->
     <a href="/login/french">Mon compte</a>
     <a href="/voiture/1/french" class="insurence-btn">Assurence Auto</a>
-    <a href="/vie" class="insurence-btn">Assurence Vie</a>
+    <a href="/vie/?lang=fr" class="insurence-btn">Assurence Vie</a>
 {% endblock %}
 {% block style %}
 <style>
@@ -52,7 +52,7 @@
         <a href="/voiture/1/french" onclick="callimg(this.innerHTML.replace('Assurence ', ''),event)" class="insurence-btn">Assurence Auto</a>
     </li>
     <li class="pull-right">
-        <a href="/vie" onclick="callimg(this.innerHTML.replace('Assurence ', ''),event)" class="insurence-btn">Assurence Vie</a>
+        <a href="/vie/?lang=fr" onclick="callimg(this.innerHTML.replace('Assurence ', ''),event)" class="insurence-btn">Assurence Vie</a>
     </li>
 {% endblock %}
 {% block body %}

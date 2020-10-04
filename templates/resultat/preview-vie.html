@@ -64,32 +64,40 @@
 </style>
 {% endblock %}
 {% block dropdown %}
-<div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
-    <a class="dropdown-item" href="/result/ar">Ar</a>
-    <a class="dropdown-item" href="/result/fr">Fr</a>
-    <a class="dropdown-item" href="/result/en">Eng</a>
-</div>
+    <div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
+        <a class="dropdown-item" href="/result/ar">Ar</a>
+        <a class="dropdown-item" href="/result/fr">Fr</a>
+        <a class="dropdown-item" href="/result/en">Eng</a>
+    </div>
 {% endblock %}
 {% block sidenav %}
-<a href="">Home</a>
-<a href="#">About Us</a>
-<!-- <a href="#">Claims</a>-->
-<a href="#">My account</a>
+    {% if lang == "en" %}
+        <a href="/home/english">Home</a>
+        <a href="/aboutus">About Us</a>
+        <a href="/login/{{ lang }}">My account</a>
+        {% else %}{% if lang =="ar" %}
+            <a href="/home/arabe">الرئيسية</a>
+            <a href="/aboutus">معلومات</a>
+            <a href="/login/{{ lang }}">حسابي</a>
+            {% else %}{% if lang=="fr" %}
+                <a href="/home/french">Acceuil</a>
+                <a href="/aboutus">Informations</a>
+                <a href="/login/{{ lang }}">Mon compte</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
 {% endblock %}
-{% block lang %}{{lang}}{% endblock %}
+{% block lang %}{{ lang }}{% endblock %}
 {% block navbarli %}
-{% if lang == "en" %}
-<li>
-    <a href="">Home</a>
-</li>
-<li>
-    <a href="#">About Us </a>
-</li>
-<li>
-    <!-- <a href="#">Claims</a>-->
-</li>
+    {% if lang == "en" %}
+        <li>
+            <a href="/home/english">Home</a>
+        </li>
+        <li>
+            <a href="/aboutus">About Us </a>
+        </li>
 <li class="pull-right">
-    <a href="#">My account</a>
+    <a href="/login/english">My account</a>
 </li>
 <li class="pull-right">
     <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
@@ -108,16 +116,13 @@
 </li>
 {% else %}{% if lang == "fr" %}
 <li>
-    <a href="">Acceuil</a>
+    <a href="/home/french">Acceuil</a>
 </li>
 <li>
-    <a href="#">Informations</a>
-</li>
-<li>
-    <a href="#">Réclamations</a>
+    <a href="/aboutus">Informations</a>
 </li>
 <li class="pull-right">
-    <a href="#">Mon compte</a>
+    <a href="/login/french">Mon compte</a>
 </li>
 <li class="pull-right">
     <div class="dropdown show">
