@@ -1538,7 +1538,7 @@
             an.style.padding = "10px 15px";
             show.innerHTML = monthly.toUpperCase();
             show.style.boxShadow = "7px 0 8px -4px #733838";
-            price.textContent = {{(price/12)|int}};
+            price.textContent = {{(price/12)|int}} +dt ;
             var p = {{(price/12)|int}} ;
             pr.textContent = pp+' '+ p +' '+ dt +' '+ monthly ;
 
@@ -1552,7 +1552,7 @@
             month.style.padding = "10px 15px";
             show.innerHTML = annual.toUpperCase();
             show.style.boxShadow = "-7px 0 8px -4px #733838";
-            price.textContent = {{price|int}};
+            price.textContent = {{price|int}} + dt;
             var p = {{price|int}} ;
             pr.textContent = pp+' '+p +' '+ dt +' '+ annual ;
 

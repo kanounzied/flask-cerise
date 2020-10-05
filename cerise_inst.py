@@ -112,7 +112,7 @@ def signup(nbr, lang):
         posterr = "postal code must contain 4 numbers, if you have changed the postcode go back to the previous page " \
                   "and choose the right address"
     else:
-        champerr = 'البلايص فارغين'
+        champerr = 'الرجاء ملء جميع المعطيات'
         adresserr = "لازم الادريسة هكا : (محافظه، وفد، منطقه)"
         adrnotfound = "عنوانك غير مسجل في قاعدة البيانات!"
         chooseerr = "لازم تختار!"
@@ -357,7 +357,7 @@ def signup(nbr, lang):
                 pwderror = '!التحقق من كلمة المرور'
                 mailerr = '!تحقق من بريدك الإلكتروني'
                 recaptchaerr = "!الرجاء التأكد من أنك لست آلة"
-                champerr = 'البلايص فارغين'
+                champerr = 'الرجاء ملء جميع المعطيات'
             if req.get('email') != '':
                 client = Client.find_one({'email': req['email']})
                 session['clid'] = client['_id']
@@ -561,7 +561,7 @@ def login(lang):
         pwderror = '!التحقق من كلمة المرور'
         mailerr = '!تحقق من بريدك الإلكتروني'
         recaptchaerr = "!الرجاء التأكد من أنك لست آلة"
-        champerr = 'البلايص فارغين'
+        champerr = 'الرجاء ملء جميع المعطيات'
     if request.method == 'POST':
         req = request.form
         if req.get('email') != '':
@@ -946,7 +946,7 @@ def voiture(nbr,lang):
         pwderr = "your password doesn't match!"
         verify = "We've sent you a verification mail for your email address !"
     else:
-        champerr = 'البلايص فارغين'
+        champerr = 'الرجاء ملء جميع المعطيات'
         chooseerr = "لازم تختار"
         champwrg2 = '!زيد ثبت! قيمة الكرهبة الحالية ما تنجمش تكون أكبر من قيمة الكرهبة وهي جديدة'
         champwrg3 = '!القيمتين ما ينجموش يكونوا أقل من 1000 دينار'
@@ -1226,7 +1226,7 @@ def voiture(nbr,lang):
                 pwderror = '!التحقق من كلمة المرور'
                 mailerr = '!تحقق من بريدك الإلكتروني'
                 recaptchaerr = "!الرجاء التأكد من أنك لست آلة"
-                champerr = 'البلايص فارغين'
+                champerr = 'الرجاء ملء جميع المعطيات'
             if req.get('email') != '':
                 client = Client.find_one({'email': req['email']})
                 session['clid'] = client['_id']
@@ -1387,7 +1387,7 @@ def loginV(lang):
         pwderror = '!التحقق من كلمة المرور'
         mailerr = '!تحقق من بريدك الإلكتروني'
         recaptchaerr = "!الرجاء التأكد من أنك لست آلة"
-        champerr = 'البلايص فارغين'
+        champerr = 'الرجاء ملء جميع المعطيات'
     if request.method == 'POST':
         req = request.form
         if req.get('email') != '':
@@ -1588,22 +1588,22 @@ def payV(lang):
                            +str(session.get('client_id'))+" : <br>this contract is paid"
 
         garantie = Garantie.find_one({'_id': session.get('garid')})
-        rendered = render_template('contrat_voiture/contrat_voiture.html',
+        return render_template('contrat_voiture/contrat_voiture.html',
                                    client=client,
                                    garantie=garantie,
                                    contratv=Contrat.find_one({'_id': garantie['contract']}))
-        css = ['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
-        pdf = pdfkit.from_string(rendered, False, css=css)
-        sendPDF(client['email'], pdf, text_association)
-        sendPDF('kallel.beya@gmail.com', pdf, text_association)
-        Contrat_voiture.update_one({'garantie_id': garantie['_id']},{"$set": {'paid': True}})
-        session['done'] = True
-        session['client'] = client
-        session['void'] = 'multiple'
-        session['voiture'] = 'multiple'
-        session['contrat'] = 'multiple'
-        session['finished'] = True
-    return redirect("/previewvoiture/"+lang)
+    #     css = ['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
+    #     pdf = pdfkit.from_string(rendered, False, css=css)
+    #     sendPDF(client['email'], pdf, text_association)
+    #     sendPDF('kallel.beya@gmail.com', pdf, text_association)
+    #     Contrat_voiture.update_one({'garantie_id': garantie['_id']},{"$set": {'paid': True}})
+    #     session['done'] = True
+    #     session['client'] = client
+    #     session['void'] = 'multiple'
+    #     session['voiture'] = 'multiple'
+    #     session['contrat'] = 'multiple'
+    #     session['finished'] = True
+    # return redirect("/previewvoiture/"+lang)
 
 from flask import make_response
 
@@ -1640,7 +1640,6 @@ def session_lang():
             raise Exception()
         session['lang'] = request.args.get('lang')
     except:
-        print(session['lang'])
         if 'lang' not in session:
             session['lang'] = 'ar'
 
@@ -1845,7 +1844,7 @@ def vie6():
         string = str(uuid.uuid4())
         session['file'] = string[0:7]+'.pdf'
         print("                                             ",session['file'])
-        f.save("{}.pdf".format(string[0:7]))
+        f.save("pdfs/{}.pdf".format(string[0:7]))
         try:
             PdfFileReader(open(f'{string[0:7]}.pdf', "rb"))
             print("VALID PDF FILE")
@@ -1935,11 +1934,11 @@ def generatevie():
     r = PdfFileReader(session['file'])
     print(session['file'])
     w = PdfFileWriter()
-    with open("contrat-vie/outputtt.pdf", "wb") as f:
+    with open("templates/contrat-vie/outputtt.pdf", "wb") as f:
         f.write(pdf)
 
     merger = PdfFileMerger()
-    merger.append(open("outputtt.pdf","rb"),import_bookmarks=False)
+    merger.append(open("templates/contrat-vie/outputtt.pdf","rb"),import_bookmarks=False)
     merger.append(open(session['file'],"rb"),import_bookmarks=False)
     merger.write("contrat.pdf")
     text_client = "the contract is ready now and waiting to be paid!<br> if you want to modify it just log in and choose" \
@@ -1965,7 +1964,7 @@ def addreport(nbr,lang):
     elif lang =='arabe':
         adrnotfound = "عنوانك غير مسجل في قاعدة البيانات!"
         chooseerr = "لازم تختار!"
-        champerr = 'البلايص فارغين'
+        champerr = 'الرجاء ملء جميع المعطيات'
         witnesserr='لا تضيف شاهد بدون معلومات كاملة'
         greenerr='أدخل البطاقة الخضراء أو العقد من فضلك'
         contacterr='حط حاجة نكنتاكتيوك/نكنتاكتيوه عليها'
@@ -2663,4 +2662,4 @@ def getit():
 ############### end of 5edma ##############
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')

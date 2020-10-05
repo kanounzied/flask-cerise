@@ -44,7 +44,7 @@
     <form class="fifth-form" method="post" action="#" enctype="multipart/form-data">
         <div class="form-group">
             <input type=file name=file>
-            <button type="submit" name="form124" class="btn btn-primary col-2">Finish</button>
+            <button type="submit" name="form124" class="btn btn-primary col-2">تحميل</button>
         </div>
     </form>
     <div class="back"><a href="/addreport/23/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
@@ -52,7 +52,7 @@
 {% else %}{% if lang =="arabe" %}
 <div class="english container-fluid">
     <div class="content">
-        <h1 class="center-text">Upload image of sketch of the accident at the time of impact </h1>
+        <h1 class="center-text">تحميل صورة رسم من الحادث في وقت الاصطدام </h1>
     </div>
     <form class="fifth-form" method="post" action="#" enctype="multipart/form-data">
         <div class="form-group">
@@ -65,7 +65,7 @@
 {% else %}{% if lang=="french" %}
 <div class="english container-fluid">
     <div class="content">
-        <h1 class="center-text">Upload image of sketch of the accident at the time of impact </h1>
+        <h1 class="center-text">Télécharger l’image du croquis de l’accident au moment de l’impact</h1>
     </div>
     <form class="fifth-form" method="post" action="#" enctype="multipart/form-data">
         <div class="form-group">
@@ -81,7 +81,3 @@
 {%endblock%}
 {% block scripts %}
 {% endblock %} 
-    <!-- <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input name="form124" type=submit value=Upload>
-    </form> -->
