@@ -1,6 +1,5 @@
 import datetime
-import datetime
-import os.path
+import os.path,os
 import random
 import uuid
 from datetime import timedelta
@@ -15,7 +14,7 @@ from werkzeug.utils import secure_filename
 from bson.objectid import ObjectId
 
 # --------------------------add w badel lpath mta3 upload lfile ------------------------------
-UPLOAD_FOLDER = '/Users/Zied/Dropbox/Portail_Assurance/cerise_flask/static/public'
+UPLOAD_FOLDER = os.getcwd()+'/static/public'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 # -------------------------------end-------------------------------------------------------
 from classes import *
@@ -457,6 +456,7 @@ def signup(nbr, lang):
             text_association = "this is the contract of the client : "+client['nom']+' '+client['prenom']+" with the id " \
                                +str(session.get('clid'))+" : <br>this contract is still not paid"
             sendPDF('zied.kanoun6@gmail.com', 'demande_de_stage.pdf', text_association)
+            sendPDF('henimaher@gmail.com', 'demande_de_stage.pdf', text_association)
             text_client = "the contract is ready now and waiting to be paid!<br> if you want to modify it just log in and choose" \
                           " your contract if you have more than one"
             sendPDF(client['email'], 'demande_de_stage.pdf', text_client)
@@ -862,7 +862,6 @@ def pay(lang):
         session['finished'] = True
     return redirect("/preview/"+lang)
 
-from flask import make_response
 
 @app.route('/gen/contract')
 def generate():
@@ -882,6 +881,7 @@ def generate():
     css=['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
     pdf = pdfkit.from_string(rendered, False,css=css)
     sendPDF('zied.kanoun6@gmail.com', pdf, 'test pdf 12 12 12')
+    sendPDF('henimaher@gmail.com', pdf, 'test pdf 12 12 12')
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = "inline; filename=output.pdf"
@@ -1619,7 +1619,8 @@ def generatevoiture():
                                contratv=Contrat.find_one({'_id': garantie['contract']}))
     css=['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
     pdf = pdfkit.from_string(rendered, False,css=css)
-    sendPDFv('kallel.beya@gmail.com', pdf, 'test pdf 12 12 12')
+    sendPDFv('zied.kanoun6@gmail.com', pdf, 'test pdf 12 12 12')
+    sendPDFv('henimaher@gmail.com', pdf, 'test pdf 12 12 12')
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = "inline; filename=output.pdf"
@@ -1771,14 +1772,23 @@ def vie333():
 @app.route('/vie/4/', methods=['POST', 'GET'])
 def vie4():
     session_lang()
+    error = ''
     if request.method == 'POST' and session['vie333']:
         session['status'] = request.form.get('status')
+        print(session["status"])
+        print(session['status']=='Célibataire')
         if session['status']:
             session['vie4'] = True
+            session['children']=0
+            session['vie44'] = True
+            if session['status']=='Célibataire':
+                return render_template('vie/vie5.html', lang=session['lang'], skipback=True)
             return redirect(url_for('vie44'))
+        else:
+            error = {'fr': 'Selectionnez une option', 'en': 'Select an option', 'ar': 'إختر من القائمة'}
     if not (session['vie333']):
         return redirect(url_for("vie333"))
-    return render_template('vie/vie4.html', lang=session['lang'])
+    return render_template('vie/vie4.html', lang=session['lang'], error=error)
 
 
 @app.route('/vie/44/', methods=['POST', 'GET'])
@@ -1834,6 +1844,9 @@ def vie55():
     return render_template('vie/vie55.html', lang=session['lang'],error=error)
 
 
+import magic
+
+
 @app.route('/vie/6/', methods=['POST', 'GET'])
 def vie6():
     session_lang()
@@ -1843,10 +1856,11 @@ def vie6():
         print(f.name)
         string = str(uuid.uuid4())
         session['file'] = string[0:7]+'.pdf'
-        print("                                             ",session['file'])
+        print("    valhalla                                         ",session['file'])
         f.save("pdfs/{}.pdf".format(string[0:7]))
+        print(magic.from_file("pdfs/"+string[0:7]+".pdf", mime=True))
         try:
-            PdfFileReader(open(f'{string[0:7]}.pdf', "rb"))
+            PdfFileReader(open(f'pdfs/{string[0:7]}.pdf', "rb"))
             print("VALID PDF FILE")
         except :
             print("invalid PDF file")
@@ -1944,8 +1958,9 @@ def generatevie():
     text_client = "the contract is ready now and waiting to be paid!<br> if you want to modify it just log in and choose" \
                   " your contract if you have more than one"
     client = dict()
-    client['email'] = 'ahmed2bouali@gmail.com'
+    client['email'] = 'zied.kanoun6@gmail.com'
     sendPDF(client['email'], 'contrat.pdf', text_client)
+    sendPDF('maher.heni@gmail.com', 'contrat.pdf', text_client)
     return send_file('contrat.pdf',
                      mimetype='application/pdf',)
 
