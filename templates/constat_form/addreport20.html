@@ -1,13 +1,6 @@
 {% extends '/constat_form/sign.html' %}
 {% block nbr %}{{ nbr }}{% endblock %}
 {% block style %}
-<style>
-    @media screen and (max-width: 768px){
-        input{
-            display: inline-block!important;
-        }
-    }
-</style>
 {% endblock %}
 {% block sidenav %}
 {% if lang == "english" %}
@@ -42,7 +35,7 @@
       <h1 class="center-text">Initial impact point on vehicle A?</h1>
   </div>
   <form class="fifth-form" method="post" action="/addreport/21/{{lang}}">
-      <div class="row" style="position: relative;">
+      <div class="row impact" >
           <img src="/static/images/car-top-view.png" id="car" style="position: absolute;height: 250px;top: 77px;">
 <!-- FRont ----------------------------------------------------------------------------------------------------------------->
               <label  for="square1">
@@ -165,7 +158,7 @@
       <h1 class="center-text">بلاصة الضربة الاولي على السيارة أ</h1>
   </div>
   <form class="fifth-form" method="post" action="/addreport/21/{{lang}}">
-      <div class="row" style="position: relative;">
+      <div class="row impact" >
           <img src="/static/images/car-top-view.png" id="car" style="position: absolute;height: 250px;top: 77px;">
 <!-- FRont ----------------------------------------------------------------------------------------------------------------->
               <label  for="square1">
@@ -288,7 +281,7 @@
       <h1 class="center-text">Point de choc initial au vehicle A?</h1>
   </div>
   <form class="fifth-form" method="post" action="/addreport/21/{{lang}}">
-      <div class="row" style="position: relative;">
+      <div class="row impact" >
           <img src="/static/images/car-top-view.png" id="car" style="position: absolute;height: 250px;top: 77px;">
 <!-- FRont ----------------------------------------------------------------------------------------------------------------->
               <label  for="square1">
