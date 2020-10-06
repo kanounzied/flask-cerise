@@ -9,11 +9,11 @@
     }
     .pop_pres button[type='submit']{
      position:none !important;
-     bottom:none !important; 
-     right:none !important; 
-     width:none !important; 
-     padding:none !important; 
-     background-color:none!important; 
+     bottom:none !important;
+     right:none !important;
+     width:none !important;
+     padding:none !important;
+     background-color:none!important;
      color:none!important;
 }
 </style>
@@ -21,19 +21,19 @@
 {% block sidenav %}
 {% if lang == "english" %}
 <a href="/home/english">Home</a>
-<a href="#">About Us</a>
+<a href="/about/{{lang}}">About Us</a>
 <!-- <a href="#">Claims</a> -->
-<a href="#">My account</a>
+<a href="/login/{{lang}}">My account</a>
 {% else %}{% if lang =="arabe" %}
 <a href="/home/arabe">الرئيسية</a>
-<a href="#">معلومات</a>
+<a href="/about/{{lang}}">معلومات</a>
 <!-- <a href="#">مطالب</a> -->
-<a href="#">حسابي</a>
+<a href="/login/{{lang}}">حسابي</a>
 {% else %}{% if lang=="french" %}
 <a href="/home/french">Acceuil</a>
-<a href="#">Informations</a>
+<a href="about/{{lang}}">Informations</a>
 <!-- <a href="#">Réclamations</a> -->
-<a href="#">Mon compte</a>
+<a href="/login/{{lang}}">Mon compte</a>
 {% endif %}
 {% endif %}
 {% endif %}

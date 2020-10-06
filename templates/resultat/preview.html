@@ -50,7 +50,7 @@
 {% block sidenav %}
 {% if lang == 'english' %}
 <a href="/home/english">Home</a>
-<a href="#">About Us</a>
+<a href="/about/{{lang}}">About Us</a>
 <!--    <a href="#">Claims</a>-->
 <a href="/clear">Logout</a>
 {% else %}{% if lang == 'arabe' %}
@@ -80,7 +80,7 @@
     <!--    <a href="#">Claims</a>-->
 </li>
 <li class="pull-right">
-    <a href="#">My account</a>
+    <a href="/login/{{lang}}">My account</a>
 </li>
 <li class="pull-right">
     <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
@@ -102,7 +102,7 @@
     <a href="/home/french">Acceuil</a>
 </li>
 <li>
-    <a href="#">Informations</a>
+    <a href="about/{{lang}}">Informations</a>
 </li>
 <li>
     <!--    <a href="#">Réclamations</a>-->
@@ -502,7 +502,7 @@
         <div class="col-md-6">
             <div class="etiquette">
                 <div class="image-container">
-                    <img src="/static/images/pipe.png" alt="">
+                    <img src="/static/images/waterpipe.png" alt="">
                 </div>
                 <div class="header"><h4><b>WATER DAMAGE</b></h4></div>
                 <div class="parag"><p>Your pipes may be feeling a chill, or your neighbor's bathtub is leaking through
@@ -755,7 +755,7 @@
         <div class="col-md-6">
             <div class="etiquette">
                 <div class="image-container">
-                    <img src="/static/images/pipe.png" alt="">
+                    <img src="/static/images/waterpipe.png" alt="">
                 </div>
                 <div class="header"><h4><b>DÉGÂTS D’EAU</b></h4></div>
                 <div class="parag"><p>Vos tuyaux peuvent se sentir un froid, ou la baignoire de votre voisin fuit à
@@ -1005,7 +1005,7 @@
         <div class="col-md-6">
             <div class="etiquette">
                 <div class="image-container">
-                    <img src="/static/images/pipe.png" alt="">
+                    <img src="/static/images/waterpipe.png" alt="">
                 </div>
                 <div class="header"><h4><b>أضرار قنوات المياه</b></h4></div>
                 <div class="parag"><p>قد تكون الأنابيب الخاصة بك معرّضة للتّلف، أو حوض استحمام جارك يسرّب المياه من خلال

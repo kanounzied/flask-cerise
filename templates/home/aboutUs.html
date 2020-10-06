@@ -56,12 +56,12 @@
 <!--  <a href="#">Claims</a>-->
 {% else %}{% if lang == 'french' %}
 <a href="/home/french">Acceuil</a>
-<a href="#">Informations</a>
+<a href="about/{{lang}}">Informations</a>
 <!--    <a href="#">Réclamations</a>-->
 <!--<a href="/login/french">Mon compte</a>-->
 {% else %}{% if lang == 'arabe' %}
 <a href="/home/arabe">الرئيسية</a>
-<a href="#">معلومات</a>
+<a href="/about/{{lang}}">معلومات</a>
 <!--    <a href="#">مطالب</a>-->
 <!--<a href="/login/arabe">حسابي</a>-->
 {% endif %}
