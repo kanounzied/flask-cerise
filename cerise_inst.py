@@ -2095,14 +2095,14 @@ def addreport(nbr,lang):
                 if matriculev_a=="" or countryv_a=="":
                     return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                            vehicles=vehicles,error=champerr)
-            if typeim=="other":
-                session["matriculev_a"] = matriculev_a
-            else:
+            if typeim=="tunis":
                 nserie = req.get('matricule_s')
                 if nserie=="":
                     return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                            vehicles=vehicles,error=champerr)
                 session["matriculev_a"]= nserie+typeim+matriculev_a
+            else:
+                session["matriculev_a"] =typeim+':'+matriculev_a 
             session["countryv_a"] = countryv_a
             session["typev_a"] = typev_a
             session["brandv_a"] = brandv_a
@@ -2312,14 +2312,14 @@ def addreport(nbr,lang):
                 if matriculev_b=="" or countryv_b=="":
                     return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                            error=champerr)
-            if typeim=="other":
-                session["matriculev_b"] = matriculev_b
-            else:
+            if typeim=="tunis":
                 nserie = req.get('matricule_s')
                 if nserie=="":
                     return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                            error=champerr)
                 session["matriculev_b"]= nserie+typeim+matriculev_b
+            else:
+                session["matriculev_b"] = typeim+':'+matriculev_b
             session["countryv_b"] = countryv_b
             session["typev_b"] = typev_b
             session["brandv_b"] = brandv_b
