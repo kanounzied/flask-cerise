@@ -1588,14 +1588,16 @@ def payV(lang):
                            +str(session.get('client_id'))+" : <br>this contract is paid"
 
         garantie = Garantie.find_one({'_id': session.get('garid')})
+        contratv = Contrat_voiture.find_one({'_id': session.get('contv_id')})
         rendered = render_template('contrat_voiture/contrat_voiture.html',
                                    client=client,
                                    garantie=garantie,
-                                   contratv=Contrat.find_one({'_id': garantie['contract']}))
+                                   contratv=contratv)
+    
         css = ['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
         pdf = pdfkit.from_string(rendered, False, css=css)
-        sendPDF(client['email'], pdf, text_association)
-        sendPDF('kallel.beya@gmail.com', pdf, text_association)
+        sendPDFv(client['email'], pdf, text_association)
+        sendPDFv('kallel.beya@gmail.com', pdf, text_association)
         Contrat_voiture.update_one({'garantie_id': garantie['_id']},{"$set": {'paid': True}})
         session['done'] = True
         session['client'] = client
@@ -1612,11 +1614,11 @@ def generatevoiture():
     print('fgr')
     client = session.get('client')
     garantie = session.get('garantie')
-
+    contratv = Contrat_voiture({'_id': session.get('contv_id')})
     rendered = render_template('contrat_voiture/contrat_voiture.html',
                                client=client,
                                garantie=garantie,
-                               contratv=Contrat.find_one({'_id': garantie['contract']}))
+                               contratv=contratv)
     css=['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
     pdf = pdfkit.from_string(rendered, False,css=css)
     sendPDFv('kallel.beya@gmail.com', pdf, 'test pdf 12 12 12')
