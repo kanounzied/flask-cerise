@@ -102,7 +102,7 @@
     <a href="/home/french">Acceuil</a>
 </li>
 <li>
-    <a href="about/{{lang}}">Informations</a>
+    <a href="/about/{{lang}}">Informations</a>
 </li>
 <li>
     <!--    <a href="#">Réclamations</a>-->
@@ -129,7 +129,7 @@
     <a class="arab" href="/home/arabe">الرئيسية</a>
 </li>
 <li>
-    <a class="arab" href="#">معلومات </a>
+    <a class="arab" href="/about/arabe">معلومات </a>
 </li>
 <li>
     <a class="arab" href="#">مطالب</a>
@@ -1830,7 +1830,8 @@
     if (fullDate.getDate() < 10) {
         currentDate = "0" + currentDate;
     }
-    $('#sandbox-container input').datepicker({
+    sci = $('#sandbox-container input')
+    sci.datepicker({
         format: "dd/mm/yyyy",
         startDate: currentDate,
         orientation: "bottom right"
@@ -1871,7 +1872,7 @@
     dt = "دت";
     {% endif %}
 
-    $('#sandbox-container input').val(currentDate)
+    sci.val(currentDate)
     var month = document.querySelector(".monthan .month");
     var an = document.querySelector(".monthan .an");
     var show = document.querySelector(".monthan .show");

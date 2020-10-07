@@ -160,14 +160,12 @@ def sendCode(receiver_mail,code):
         # print('connected!')
         server.sendmail(sender_mail, receiver_mail, message.as_string())
         # print('message sent!')
-
-
-def sendPDF(receiver_mail,pdf, text):
+def sendPDF(receiver_mail,pdf, text, type):
     port = 465  # For SSL
     password = "Ds3X8afA"  # getpass.getpass("Type your password : ")
     sender_mail = "artzy.proj@gmail.com"
     # receiver_mail = "zied.kanoun6@gmail.com"
-    subject = "contrat assurence immobiliere"
+    subject = "testing ... contrat assurence "+type
 
     message = MIMEMultipart("alternative")
     message['Subject'] = subject
@@ -237,9 +235,9 @@ def sendPDF(receiver_mail,pdf, text):
 
     with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
         server.login("artzy.proj@gmail.com", password)
-        # print('connected!')
+        print('connected!')
         server.sendmail(sender_mail, receiver_mail, message.as_string())
-        # print('message sent!')
+        print('message sent!')
 def sendPDFv(receiver_mail,pdf, text):
     port = 465  # For SSL
     password = "Ds3X8afA"  # getpass.getpass("Type your password : ")
