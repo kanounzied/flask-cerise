@@ -3,17 +3,17 @@
 {% block sidenav %}
 {% if lang == "english" %}
 <a href="/home/english">Home</a>
-<a href="#">About Us</a>
+<a href="/about/{{lang}}">About Us</a>
 <!--    <a href="#">Claims</a>-->
 <a href="/login/english">My account</a>
 {% else %}{%if lang =="arabe" %}
 <a href="/home/arabe">الرئيسية</a>
-<a href="#">معلومات</a>
+<a href="/about/{{lang}}">معلومات</a>
 <!--    <a href="#">مطالب</a>-->
 <a href="/login/arabe">حسابي</a>
 {% else %}{%if lang=="french" %}
 <a href="/home/french">Acceuil</a>
-<a href="#">Informations</a>
+<a href="about/{{lang}}">Informations</a>
 <!--    <a href="#">Réclamations</a>-->
 <a href="/login/french">Mon compte</a>
 {% endif %}
@@ -52,8 +52,8 @@
             </div>
         </div>
         <div class="row">
-            <button type="submit" name="reset_pwd" class="btn btn-primary col-2">Go!</button>
-            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+            <button type="submit" name="reset_pwd" class="btn btn-primary col-2">Go</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go</a>-->
         </div>
     </form>
 </div>
@@ -76,8 +76,8 @@
             </div>
         </div>
         <div class="row">
-            <button type="submit" name="reset_pwd" class="btn btn-primary col-2">Go!</button>
-            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+            <button type="submit" name="reset_pwd" class="btn btn-primary col-2">Go</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go</a>-->
         </div>
     </form>
 </div>
@@ -100,8 +100,8 @@
             </div>
         </div>
         <div class="row">
-            <button type="submit" name="reset_pwd" class="btn btn-primary col-2">Go!</button>
-            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+            <button type="submit" name="reset_pwd" class="btn btn-primary col-2">Go</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go</a>-->
         </div>
     </form>
 </div>

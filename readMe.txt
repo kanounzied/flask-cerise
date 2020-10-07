@@ -5,3 +5,9 @@ pour changer le nom du ficher d'adresses ouvrir adrCSV.py dans la ligne 63 chang
 aller dans mongodb et click sur add data import file csv file avec delimiteur = semicolon et browse
 ////////
 si jamais le serveur mongo refuse la connexion à la base de données aller dans services et activer le !
+
+pou MAGIC
+
+installer 
+pip install python-magic-bin==0.4.14
+

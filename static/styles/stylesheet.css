@@ -927,8 +927,6 @@ button[class='.btn-primary']{
         padding: 10px;
     }
 
-
-
     #construction{
         font-weight: 500;
         background-color: white;
@@ -1281,6 +1279,10 @@ button[class='.btn-primary']{
         padding-top: 20px;
         padding-bottom: 20px;
     }
+    .impact{
+        position: relative;
+        left: 35%;
+    }
 }
 @media screen and (max-width: 1000px) and (min-width: 768px) {
     #carimg{
@@ -1298,6 +1300,10 @@ button[class='.btn-primary']{
         padding-top: 20px;
         padding-bottom: 20px;
     }
+    .impact{
+        position: relative;
+        left: 32%;
+    }
 }
 @media screen and (max-width: 768px) {
     #carimg{
@@ -1314,6 +1320,16 @@ button[class='.btn-primary']{
         padding-top: 20px;
         padding-bottom: 20px;
     }
+    .impact{
+        position: relative;
+        left: 22%;
+    }
+}
+@media screen and (max-width: 500px) {
+    .impact{
+        position: relative;
+        left: auto;
+    }
 }
 @media screen and (min-width: 1400px){
     #insuranceimg, #driverimg,#insuredimg{
@@ -1323,5 +1339,9 @@ button[class='.btn-primary']{
         width: 20%;
         padding-top: 20px;
         padding-bottom: 20px;
+    }
+    .impact{
+        position: relative;
+        left: 35%;
     }
 }

@@ -3,19 +3,19 @@
 {% block sidenav %}
 {% if lang == "english" %}
 <a href="/home/english">Home</a>
-<a href="#">About Us</a>
+<a href="/about/{{lang}}">About Us</a>
 <!-- <a href="#">Claims</a> -->
-<a href="#">My account</a>
+<a href="/login/{{lang}}">My account</a>
 {% else %}{%if lang =="arabe" %}
 <a href="/home/arabe">الرئيسية</a>
-<a href="#">معلومات</a>
+<a href="/about/{{lang}}">معلومات</a>
 <!-- <a href="#">مطالب</a> -->
-<a href="#">حسابي</a>
+<a href="/login/{{lang}}">حسابي</a>
 {% else %}{%if lang=="french" %}
 <a href="/home/french">Acceuil</a>
-<a href="#">Informations</a>
+<a href="about/{{lang}}">Informations</a>
 <!-- <a href="#">Réclamations</a> -->
-<a href="#">Mon compte</a>
+<a href="/login/{{lang}}">Mon compte</a>
 {% endif %}
 {% endif %}
 {% endif %}
@@ -69,8 +69,7 @@
             </div>
         </div>
         <div class="row">
-            <button type="submit" name="form103" class="btn btn-primary col-2">Next</button>
-            <!--            <a href="/addreport/4/{{lang}}" class="btn btn-primary form-btn col-2">Next</a>-->
+            <button type="submit" name="form103" class="btn btn-primary col-2">التالي</button>
         </div>
     </form>
     <div class="back"><a href="/addreport/2/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
@@ -93,8 +92,7 @@
             </div>
         </div>
         <div class="row">
-            <button type="submit" name="form103" class="btn btn-primary col-2">Next</button>
-            <!--            <a href="/addreport/4/{{lang}}" class="btn btn-primary form-btn col-2">Next</a>-->
+            <button type="submit" name="form103" class="btn btn-primary col-2">Suivant</button>
         </div>
     </form>
     <div class="back"><a href="/addreport/2/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>

@@ -1,45 +1,43 @@
 {% extends '/vie/base.html' %}
 {% block title %}{{lang}} preview{% endblock %}
 {% block head %}
-{% assets "scss_all" %}
-<link href="/static/gen/all.css" rel="stylesheet">
-{% endassets %}
-<style>
-    .container-fluid {
-        text-align: center !important;
-    }
+    {% assets "scss_all" %}
+        <link href="/static/gen/all.css" rel="stylesheet">
+    {% endassets %}
+    <style>
+        .container-fluid {
+            text-align: center !important;
+        }
 
-    .container {
-        margin: 0;
-        max-width: 100%;
-    }
+        .container {
+            margin: 0;
+            max-width: 100%;
+        }
 
-    .couvrage-amounts, .deductible, .not.covered {
-        background-color: #f5f5f5;
-    }
+        .couvrage-amounts, .deductible, .not.covered {
+            background-color: #f5f5f5;
+        }
 
-    .card-img-top {
-        width: 150px;
-        margin: auto;
-    }
+        .card-img-top {
+            width: 150px;
+            margin: auto;
+        }
 
-    .card {
-        max-width: 80%;
-        min-height: 560px;
-        margin: auto;
-        margin-bottom: 20px;
-        padding-top: 10px;
-    }
+        .card {
+            max-width: 80%;
+            min-height: 560px;
+            margin: auto;
+            margin-bottom: 20px;
+            padding-top: 10px;
+        }
 
-    .card-body {
-        padding: 2.25rem;
-    }
+        .card-body {
+            padding: 2.25rem;
+        }
 
-    .card-footer {
-        border-top: 3px solid rgb(232 27 46);
-    }
-
-
+        .card-footer {
+            border-top: 3px solid rgb(232 27 46);
+        }
 
 
 
@@ -61,1506 +59,1537 @@
 
 
 
-</style>
+
+
+    </style>
 {% endblock %}
 {% block dropdown %}
-<div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
-    <a class="dropdown-item" href="/result/ar">Ar</a>
-    <a class="dropdown-item" href="/result/fr">Fr</a>
-    <a class="dropdown-item" href="/result/en">Eng</a>
-</div>
+    <div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
+        <a class="dropdown-item" href="/result/ar">Ar</a>
+        <a class="dropdown-item" href="/result/fr">Fr</a>
+        <a class="dropdown-item" href="/result/en">Eng</a>
+    </div>
 {% endblock %}
 {% block sidenav %}
-<a href="">Home</a>
-<a href="#">About Us</a>
-<!-- <a href="#">Claims</a>-->
-<a href="#">My account</a>
+    {% if lang == "en" %}
+        <a href="/home/english">Home</a>
+        <a href="/aboutus">About Us</a>
+        <a href="/login/{{ lang }}">My account</a>
+        {% else %}{% if lang =="ar" %}
+            <a href="/home/arabe">الرئيسية</a>
+            <a href="/aboutus">معلومات</a>
+            <a href="/login/{{ lang }}">حسابي</a>
+            {% else %}{% if lang=="fr" %}
+                <a href="/home/french">Acceuil</a>
+                <a href="/aboutus">Informations</a>
+                <a href="/login/{{ lang }}">Mon compte</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
 {% endblock %}
 {% block lang %}{{lang}}{% endblock %}
 {% block navbarli %}
-{% if lang == "en" %}
-<li>
-    <a href="">Home</a>
-</li>
-<li>
-    <a href="#">About Us </a>
-</li>
-<li>
-    <!-- <a href="#">Claims</a>-->
-</li>
-<li class="pull-right">
-    <a href="#">My account</a>
-</li>
-<li class="pull-right">
-    <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
-    <div class="dropdown show">
-        <a aria-expanded="false" aria-haspopup="true" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
-           href="#" id="dropdownMenuLink" role="button">
-            Eng
-        </a>
+    {% if lang == "en" %}
+        <li>
+            <a href="/home/english">Home</a>
+        </li>
+        <li>
+            <a href="/aboutus">About Us </a>
+        </li>
+        <li class="pull-right">
+            <a href="/login/english">My account</a>
+        </li>
+        <li class="pull-right">
+            <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
+            <div class="dropdown show">
+                <a aria-expanded="false" aria-haspopup="true" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                   href="#" id="dropdownMenuLink" role="button">
+                    Eng
+                </a>
 
-        <div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
-            <a class="dropdown-item" href="/preview/arabe">Ar</a>
-            <a class="dropdown-item" href="/preview/french">Fr</a>
-            <a class="dropdown-item" href="/preview/english">Eng</a>
-        </div>
-    </div>
-</li>
-{% else %}{% if lang == "fr" %}
-<li>
-    <a href="">Acceuil</a>
-</li>
-<li>
-    <a href="#">Informations</a>
-</li>
-<li>
-    <a href="#">Réclamations</a>
-</li>
-<li class="pull-right">
-    <a href="#">Mon compte</a>
-</li>
-<li class="pull-right">
-    <div class="dropdown show">
-        <a aria-expanded="false" aria-haspopup="true" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
-           href="#"
-           id="dropdownMenuLink" role="button">
-            Fr
-        </a>
+                <div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
+                    <a class="dropdown-item" href="/preview/arabe">Ar</a>
+                    <a class="dropdown-item" href="/preview/french">Fr</a>
+                    <a class="dropdown-item" href="/preview/english">Eng</a>
+                </div>
+            </div>
+        </li>
+        {% else %}{% if lang == "fr" %}
+            <li>
+                <a href="/home/french">Acceuil</a>
+            </li>
+            <li>
+                <a href="/aboutus">Informations</a>
+            </li>
+            <li class="pull-right">
+                <a href="/login/french">Mon compte</a>
+            </li>
+            <li class="pull-right">
+                <div class="dropdown show">
+                    <a aria-expanded="false" aria-haspopup="true" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                       href="#"
+                       id="dropdownMenuLink" role="button">
+                        Fr
+                    </a>
 
-        <div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
-            <a class="dropdown-item" href="/result/ar">Ar</a>
-            <a class="dropdown-item" href="/result/fr">Fr</a>
-            <a class="dropdown-item" href="/result/en">Eng</a>
-        </div>
-    </div>
-</li>
-{% else %} {% if lang == "ar" %}
-<li>
-    <a class="arab" href="">الرئيسية</a>
-</li>
-<li>
-    <a class="arab" href="#">معلومات </a>
-</li>
-<li>
-    <a class="arab" href="#">مطالب</a>
-</li>
-<li class="pull-right">
-    <a href="#">حسابي</a>
-</li>
-<li class="pull-right">
-    <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
-    <div class="dropdown show">
-        <a aria-expanded="false" aria-haspopup="true" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
-           href="#"
-           id="dropdownMenuLink" role="button">
-            Ar
-        </a>
+                    <div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
+                        <a class="dropdown-item" href="/result/ar">Ar</a>
+                        <a class="dropdown-item" href="/result/fr">Fr</a>
+                        <a class="dropdown-item" href="/result/en">Eng</a>
+                    </div>
+                </div>
+            </li>
+        {% else %} {% if lang == "ar" %}
+                <li>
+                    <a class="arab" href="">الرئيسية</a>
+                </li>
+                <li>
+                    <a class="arab" href="#">معلومات </a>
+                </li>
+                <li>
+                    <a class="arab" href="#">مطالب</a>
+                </li>
+                <li class="pull-right">
+                    <a href="/login/{{lang}}">حسابي</a>
+                </li>
+                <li class="pull-right">
+                    <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
+                    <div class="dropdown show">
+                        <a aria-expanded="false" aria-haspopup="true" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                           href="#"
+                           id="dropdownMenuLink" role="button">
+                            Ar
+                        </a>
 
-        <div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
-            <a class="dropdown-item" href="/result/ar">Ar</a>
-            <a class="dropdown-item" href="/result/fr">Fr</a>
-            <a class="dropdown-item" href="/result/en">Eng</a>
-        </div>
-    </div>
-</li>
-{% endif %}
-{% endif %}
-{% endif %}
+                        <div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
+                            <a class="dropdown-item" href="/result/ar">Ar</a>
+                            <a class="dropdown-item" href="/result/fr">Fr</a>
+                            <a class="dropdown-item" href="/result/en">Eng</a>
+                        </div>
+                    </div>
+                </li>
+            {% endif %}
+        {% endif %}
+    {% endif %}
 
 {% endblock %}
 {% block preloader %}
-<div id="preloader" style="margin: 200px auto;width:fit-content;display: none">
-    <div class="plzwait">
-        {% if lang == "en" %}
-        <span>Please wait until we calculate your payment!</span>
-        {% else %} {% if lang == "fr" %}
-        <span>Veuillez attendre , nous calculons votre payement!</span>
-        {% else %} {% if lang == "ar" %}
-        <span>يرجى الانتظار حتى نقوم بحساب الدفع!</span>
-        {% endif %}
-        {% endif %}
-        {% endif %}
+    <div id="preloader" style="margin: 200px auto;width:fit-content;display: none">
+        <div class="plzwait">
+            {% if lang == "en" %}
+                <span>Please wait until we calculate your payment!</span>
+            {% else %} {% if lang == "fr" %}
+                <span>Veuillez attendre , nous calculons votre payement!</span>
+            {% else %} {% if lang == "ar" %}
+                    <span>يرجى الانتظار حتى نقوم بحساب الدفع!</span>
+                {% endif %}
+            {% endif %}
+            {% endif %}
+        </div>
+        <div class="loading">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <div class="after-pre">
+            <img alt="" src="">
+            <p>loading addres ...</p>
+        </div>
     </div>
-    <div class="loading">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-    </div>
-    <div class="after-pre">
-        <img alt="" src="">
-        <p>loading addres ...</p>
-    </div>
-</div>
 {% endblock %}
 {% block bg_box %}
-{% if lang == "en" %}
-<div class="box" id="backgroung-merged2">
-    <div class="container-fluid" style="position: unset">
-        <h1>Cerise Life Insurance</h1>
-        <p>{{adresse}}</p>
-        <div class="monthan">
-            <div class="month" style="width: 0; padding: 0; visibility: hidden"> MONTHLY
-            </div>
-            <div class="show">
-                <div class="otherpreloader" style="display: none">
-                    <img alt="" src="/static/images/black-hole-white.gif" style="width: 30px">
-                </div>
-                MONTHLY
-            </div>
-            <div class="an">ANNUAL
-                <discount>-12dt</discount>
-            </div>
-
-        </div>
-        <div class="shape">
-            <price>{{(price/12)|int}}</price>
-            <small>per month</small>
-            <div class="otherpreloader" style="display: none">
-                <img alt="" src="/static/images/black-hole-pink.gif">
-            </div>
-        </div>
-        <div class="calendar" id="sandbox-container">
-            <form action="" method="POST"  id="final">
-                <div class="form-group ">
-                    <div class="container">
-                <label class="col-form-label" for="date"><b>start date: </b></label>
-                <input class="col-form-label" id="date" style="max-width: 110px; margin-left: 15px" type="text" value="">
+    {% if lang == "en" %}
+        <div class="box" id="backgroung-merged2">
+            <div class="container-fluid" style="position: unset">
+                {% if error %}
+                    <div class="alert alert-dark">{{error['en']}}</div>
+                {% endif %}
+                <h1>Cerise Life Insurance</h1>
+                <p>{{adresse}}</p>
+                <div class="monthan">
+                    <div class="month" style="width: 0; padding: 0; visibility: hidden"> MONTHLY
                     </div>
+                    <div class="show">
+                        <div class="otherpreloader" style="display: none">
+                            <img alt="" src="/static/images/black-hole-white.gif" style="width: 30px">
+                        </div>
+                        MONTHLY
+                    </div>
+                    <div class="an">ANNUAL
+                        <discount>-12dt</discount>
+                    </div>
+
+                </div>
+                <div class="shape">
+                    <price>{{(price/12)|int}}TND</price>
+                    <small>per month</small>
+                    <div class="otherpreloader" style="display: none">
+                        <img alt="" src="/static/images/black-hole-pink.gif">
+                    </div>
+                </div>
+                <div class="calendar" id="sandbox-container">
+                    <div class="form-group ">
+                        <div class="container">
+                            <label class="col-form-label" for="date"><b>start date: </b></label>
+                            <input class="form-control" id="date" style="display: inline-block;max-width: 110px; margin-left: 15px" type="text" value="">
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary pay_button" data-target="#payment" data-toggle="modal"
-                style="margin-top: 0" >
-            <tag>PAY</tag>
-            <div class="otherpreloader" style="display: none">
-                <img alt="" src="/static/images/black-hole-pink.gif" style="width: 30px">
-            </div>
-        </button>
-            </form>
-        </div>
-        <br>
+                            style="margin-top: 0" >
+                        <tag>PAY</tag>
 
-    </div>
-</div>
-{% else %}{% if lang == "fr" %}
-<div class="box" id="backgroung-merged2">
-    <div class="container-fluid" style="position: unset">
-        <h1>Cerise Assurance de Vie</h1>
-        <p>{{adresse}}</p>
-        <div class="monthan">
-            <div class="month" style="width: 0; padding: 0; visibility: hidden"> MENSUEL
-            </div>
-            <div class="show">
-                <div class="otherpreloader" style="display: none">
-                    <img alt="" src="/static/images/black-hole-white.gif" style="width: 30px">
+
+
+
+                        <div class="otherpreloader" style="display: none">
+                            <img alt="" src="/static/images/black-hole-pink.gif" style="width: 30px">
+                        </div>
+                    </button>
                 </div>
-                MENSUEL
-            </div>
-            <div class="an">ANNUEL
-                <discount>-12dt</discount>
-            </div>
+                <br>
 
-        </div>
-        <div class="shape">
-            <price>{{(price/12)|int}}</price>
-            <small>Mensuel</small>
-            <div class="otherpreloader" style="display: none">
-                <img alt="" src="/static/images/black-hole-pink.gif">
             </div>
         </div>
-        <div class="calendar" id="sandbox-container">
-            <form action="" method="POST"  id="final">
-    <div class="form-group">
-        <div class="container">
-                <label class="col-form-label" for="date"><b>Date de début: </b></label>
-                <input class="col-form-label" id="date" style="max-width: 110px; margin-left: 15px" type="text" value="">
-        </div>
-        </div>
-        <button type="submit" class="btn btn-primary pay_button" data-target="#payment" data-toggle="modal"
-                style="margin-top: 0">
-            <tag>PAYEZ</tag>
-            <div class="otherpreloader" style="display: none">
-                <img alt="" src="/static/images/black-hole-pink.gif" style="width: 30px">
-            </div>
-        </button>
-            </form>
-        </div>
-        <br>
+        {% else %}{% if lang == "fr" %}
+            <div class="box" id="backgroung-merged2">
+                <div class="container-fluid" style="position: unset">
+                    {% if error %}
+                        <div class="alert alert-dark">{{error['fr']}}</div>
+                    {% endif %}
+                    <h1>Cerise Assurance de Vie</h1>
 
-    </div>
-</div>
-{% else %}{% if lang == "ar" %}
-<div class="box" id="backgroung-merged2">
-    <div class="container-fluid" style="position: unset">
-        <h1>سوريز للتأمين على الحياة</h1>
-        <p>{{adresse}}</p>
-        <div class="monthan">
-            <div class="month" style="width: 0; padding: 0; visibility: hidden"> شهريا
-            </div>
-            <div class="show">
-                <div class="otherpreloader" style="display: none">
-                    <img alt="" src="/static/images/black-hole-white.gif" style="width: 30px">
+                    <p>{{adresse}}</p>
+                    <div class="monthan">
+                        <div class="month" style="width: 0; padding: 0; visibility: hidden"> MENSUEL
+                        </div>
+                        <div class="show">
+                            <div class="otherpreloader" style="display: none">
+                                <img alt="" src="/static/images/black-hole-white.gif" style="width: 30px">
+                            </div>
+                            MENSUEL
+                        </div>
+                        <div class="an">ANNUEL
+                            <discount>-12dt</discount>
+                        </div>
+
+                    </div>
+                    <div class="shape">
+                        <price>{{(price/12)|int}}DT</price>
+                        <small>Mensuel</small>
+                        <div class="otherpreloader" style="display: none">
+                            <img alt="" src="/static/images/black-hole-pink.gif">
+                        </div>
+                    </div>
+                    <div class="calendar" id="sandbox-container">
+                        <div class="form-group">
+                            <div class="container">
+                                <label class="col-form-label" for="date"><b>Date de début: </b></label>
+                                <input class="form-control" id="date" style="display: inline-block;max-width: 110px; margin-left: 15px" type="text" value="">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary pay_button" data-target="#payment" data-toggle="modal"
+                                style="margin-top: 0">
+                            <tag>PAYEZ </tag>
+                            <div class="otherpreloader" style="display: none">
+                                <img alt="" src="/static/images/black-hole-pink.gif" style="width: 30px">
+                            </div>
+                        </button>
+                    </div>
+                    <br>
+
                 </div>
-                شهريا
             </div>
-            <div class="an">
-                <discount>-12dt</discount>
-                السنوي
-            </div>
+            {% else %}{% if lang == "ar" %}
+                <div class="box" id="backgroung-merged2">
+                    <div class="container-fluid" style="position: unset">
+                        <h1>سوريز للتأمين على الحياة</h1>
+                        {% if error %}
+                            <div class="alert alert-dark">{{error['ar']}}</div>
+                        {% endif %}
+                        <p>{{adresse}}</p>
+                        <div class="monthan">
+                            <div class="month" style="width: 0; padding: 0; visibility: hidden"> شهريا
+                            </div>
+                            <div class="show">
+                                <div class="otherpreloader" style="display: none">
+                                    <img alt="" src="/static/images/black-hole-white.gif" style="width: 30px">
+                                </div>
+                                شهريا
+                            </div>
+                            <div class="an">
+                                <discount>-12dt</discount>
+                                السنوي
+                            </div>
 
-        </div>
-        <div class="shape">
-            <price>{{(price/12)|int}}</price>
-            <small>شهريا</small>
-            <div class="otherpreloader" style="display: none">
-                <img alt="" src="/static/images/black-hole-pink.gif">
-            </div>
-        </div>
-        <div class="calendar"  id="sandbox-container">
-            <form action="" method="POST"  id="final">
-                <div class="form-group ">
-                    <div class="container">
-                <input class="col-form-label" id="date" style="max-width: 110px; margin-right: 15px" type="text" value="">
-                <label class="col-form-label" for="date"><b>:تاريخ البدئ </b></label>
-                    </div>
-                    </div>
-             <button type="submit" class="btn btn-primary pay_button" data-target="#payment" data-toggle="modal"
-                style="margin-top: 0">
-            <tag>إدفع</tag>
-            <div class="otherpreloader" style="display: none">
-                <img alt="" src="/static/images/black-hole-pink.gif" style="width: 30px">
-            </div>
-        </button>
-            </form>
-        </div>
-        <br>
+                        </div>
+                        <div class="shape">
+                            <price>{{(price/12)|int}}دت</price>
+                            <small>شهريا</small>
+                            <div class="otherpreloader" style="display: none">
+                                <img alt="" src="/static/images/black-hole-pink.gif">
+                            </div>
+                        </div>
+                        <div class="calendar"  id="sandbox-container">
+                            <div class="form-group ">
+                                <div class="container">
+                                    <input class="form-control" id="date" style="max-width: 110px; margin-right: 15px; display: inline-block" type="text" value="">
+                                    <label class="col-form-label" for="date"><b>:تاريخ البدئ </b></label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary pay_button" data-target="#payment" data-toggle="modal"
+                                    style="margin-top: 0">
+                                <tag>إدفع</tag>
+                                <div class="otherpreloader" style="display: none">
+                                    <img alt="" src="/static/images/black-hole-pink.gif" style="width: 30px">
+                                </div>
+                            </button>
+                        </div>
+                        <br>
 
-    </div>
-</div>
-{% endif %}
-{% endif %}
-{% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endif %}
 {% endblock %}
 {% block body %}
-{% if lang == "en" %}
-
-<div class="covered container">
-    <div class="title"><h3><b>What's covered</b></h3></div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/rip.png">
-                </div>
-                <div class="header"><h4><b>END OF LIFE EXPENSES</b></h4></div>
-                <div class="parag"><p>An obvious use for a life insurance policy is to cover end-of-life costs,
-                    including funeral and burial expenses. If you’ve never given much thought to what that costs, it
-                    might surprise you to know that the average funeral can have a 1 month's revenue price tag.
-
-                </p></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/lease.png">
-                </div>
-                <div class="header"><h4><b>The mortgage</b></h4></div>
-                <div class="parag"><p>For many people, a house is one of their most significant assets and a key to
-                    their family’s financial stability for years to come. If you died and your partner faced the
-                    payments without your income, a life insurance policy could help protect your partner’s ability to
-                    pay the mortgage.y.</p></div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/pharmacy.png">
-                </div>
-                <div class="header"><h4><b>Medical expenses or long-term care, while you’re still living.</b></h4></div>
-                <div class="parag"><p>Most life insurance policies offer an accelerated death benefit rider that allows
-                    the policy owner to access a portion of your death benefit before you die if you are diagnosed with
-                    a terminal illness. That could help you pay your medical care expenses during a time when you can’t
-                    work.</p></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/inheritance.png">
-                </div>
-                <div class="header"><h4><b>Leaving a legacy</b></h4></div>
-                <div class="parag"><p>Many people also
-                    want to leave money to make things easier for their partners and children. Things like college
-                    tuition or a down payment on a child’s first home. Or, you might want to set aside money to
-                    support your favorite charitable causes after you’re gone like many of the wealthy people prefer to
-                    do.</p></div>
-
-            </div>
-        </div>
-    </div>
-</div>
-<div class="not covered container">
-    <div class="title"><h3><b>What's not covered</b></h3></div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/hangman.png">
-                </div>
-                <div class="header"><h4><b>Suicide</b></h4></div>
-                <div class="parag"><p>Beneficiaries of policyholders that die by suicide, usually within the first two
-                    years of taking out a policy, won’t receive a payout.</p></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/risk.png">
-                </div>
-                <div class="header"><h4><b>High-Risk or Illegal Activities
-                </b></h4></div>
-                <div class="parag"><p>If the policyholder passes away due to participating in a high-risk lifestyle or
-                    activity like skydiving, bungee jumping, rock climbing, etc. your beneficiaries may not be eligible
-                    for a death benefit.</p></div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/war.png">
-                </div>
-                <div class="header"><h4><b>Act of War or Death in a Restricted Country
-                </b></h4></div>
-                <div class="parag"><p>
-                    Death benefits are often denied if the policyholder passed away while engaged in an act of war.
-                    Needless to say, going to war is risky. Similarly, if you die while abroad, especially to countries
-                    deemed dangerous, your policy can be considered invalid.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/regulation.png">
-                </div>
-                <div class="header"><h4><b>Death Within Contestability Period
-                </b></h4></div>
-                <div class="parag"><p>If you pass away with two years of taking out an insurance policy, the insurance
-                    company usually has the right to contest eligibility. This is to give the provider time to analyze
-                    the policy, ensuring there were no misrepresentations during the application process.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% else %}{% if lang == "fr" %}
-
-<div class="covered container">
-    <div class="title"><h3><b>Ce qui est couvert</b></h3></div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/rip.png">
-                </div>
-                <div class="header"><h4><b>Frais de funérailles</b></h4></div>
-                <div class="parag"><p>Une utilisation évidente d'un contrat d'assurance-vie est de couvrir les frais de
-                    décès, y compris les frais funéraires et d'inhumation. Si vous n’avez jamais réfléchi
-                    à ce que cela coûte, vous serez peut-être surpris de savoir que les funérailles moyennes peuvent
-                    coûter un salaire.</p></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/lease.png">
-                </div>
-                <div class="header"><h4><b>Prêt immobilier</b></h4></div>
-                <div class="parag"><p>Pour tout le monde, une maison est l’un de leurs investissement les plus
-                    importants et leur clé de stabilité financière. Si vous
-                    décédez et que votre partenaire a dû faire face aux paiements sans votre revenu, un contrat
-                    d’assurance-vie pourrait aider à protéger la capacité de votre partenaire à payer l’emprunt
-                    bancaire.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/pharmacy.png">
-                </div>
-                <div class="header"><h4><b>Frais médicaux ou soins de longue durée
-                </b></h4></div>
-                <div class="parag"><p>La plupart des contrats d'assurance-vie offrent une prestation en cas d'un futur
-                    décès
-                    qui permet au titulaire du contrat d'accéder à une partie de son indémnité de décès
-                    avant que cela arrive si il est diagnostiqué d'une maladie terminale. Cela pourrait aider à
-                    payer les frais de soins médicaux.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/inheritance.png">
-                </div>
-                <div class="header"><h4><b>Héritage</b></h4></div>
-                <div class="parag"><p>Tout le monde souhaite laisser de l'argent pour faciliter
-                    les choses pour leurs partenaires et leurs enfants. Des dépenses comme les frais de scolarité à
-                    l’université ou un acompte sur le premier logement d’un enfant. Ou, vous voudrez peut-être mettre de
-                    côté de l'argent pour soutenir vos causes caritatives préférées après votre départ.</p></div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="not covered container">
-    <div class="title"><h3><b>Ce qui n'est pas couvert</b></h3></div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/hangman.png">
-                </div>
-                <div class="header"><h4><b>Suicide </b></h4></div>
-                <div class="parag"><p>La couverture du suicide, n’est pas incluse dans notre politique de base car il
-                    s'agit d'un acte volontaire de termination du contrat.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/risk.png">
-                </div>
-                <div class="header"><h4><b>Activités illégales et risquées</b></h4></div>
-                <div class="parag"><p> Si vous êtes impliqué dans des activités illégales ou même des activités légales
-                    mais très risquées, il faut savoir que notre assurance ne couvra pas ceci.</p></div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/war.png">
-                </div>
-                <div class="header"><h4><b>La guerre ou la mort dans une zone rouge</b></h4></div>
-                <div class="parag"><p>Si vous perdez votre vie dans l'un des pays interdits à visiter par le ministère
-                    des affaires extérieures ou pendant votre participation à la guerre, vous n'aurez pas
-                    d'indémnités..</p></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/regulation.png">
-                </div>
-                <div class="header"><h4><b>Décès pendant la période de contestation</b></h4></div>
-                <div class="parag"><p>Il s'agit de donner à l'assureur le temps d'analyser la politique, en s'assurant
-                    qu'il n'y a pas eu de fausses déclarations pendant le processus de demande.</p></div>
-            </div>
-        </div>
-    </div>
-</div>
-{% else %}{% if lang == "ar" %}
-
-<div class="covered container">
-    <div class="title"><h3><b>ما يشمله التأمين</b></h3></div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/rip.png">
-                </div>
-                <div class="header"><h4><b>تكاليف الجنازة</b></h4></div>
-                <div class="parag"><p> تغطية تكاليف الوفاة ، بما في ذلك تكاليف الجنازة والدفن. إذا لم تفكر مطلقًا في
-                    التكلفة ، فقد تفاجأ بمعرفة أن متوسط تكلفة الجنازة يمكن أن يكلفك راتباً</p></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/lease.png">
-                </div>
-                <div class="header"><h4><b>القرض السكني
-                </b></h4></div>
-                <div class="parag"><p>يساهم التأمين على الحياة في حماية قدرة شريكك على سداد القرض المصرفي.</p></div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/pharmacy.png">
-                </div>
-                <div class="header"><h4><b>نفقات الرعاية الطبية طويلة الأجل</b></h4></div>
-                <div class="parag"><p>يوفر التأمين على الحياة ميزة الوفاة المستقبلية التي تسمح لمالك الوثيقة بالوصول إلى
-                    جزء من مخصصات الوفاة قبل حدوثها إذا تم تشخيصهم بمرض. هذا يمكن أن يساعد في دفع تكلفة العلاج الطبي.
-
-                </p></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/inheritance.png">
-                </div>
-                <div class="header"><h4><b>الميراث</b></h4></div>
-                <div class="parag"><p>يريد الجميع ترك المال لتسهيل الأمور على شركائهم وأطفالهم. المصاريف مثل الرسوم
-                    الجامعية أو دفعة أولى على قرض السكن. أو قد ترغب في تخصيص بعض المال لدعم القضايا الخيرية المفضلة لديك
-                    بعد مغادرتك.</p></div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="not covered container">
-    <div class="title"><h3><b>ما لا يشمله التأمين</b></h3></div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/hangman.png">
-                </div>
-                <div class="header"><h4><b>الانتحار </b></h4></div>
-                <div class="parag"><p>هذا العقد لا يتضمن تغطية الوفاة الطوعية و الإنتحار.</p></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/risk.png">
-                </div>
-                <div class="header"><h4><b>الأنشطة غير القانونية والمحفوفة بالمخاطر</b></h4></div>
-                <div class="parag"><p>إذا كنت متورطًا في أنشطة غير قانونية أو حتى أنشطة قانونية ولكنها شديدة الخطورة ،
-                    فتأميننا لن يغطي ذلك.</p></div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/war.png">
-                </div>
-                <div class="header"><h4><b>الحرب أو الموت في منطقة حمراء
-                </b></h4></div>
-                <div class="parag"><p>إذا فقدت حياتك في إحدى الدول الممنوعة زيارتها من قبل وزارة الخارجية أو أثناء
-                    مشاركتك في الحرب ، فلن تحصل على تعويض.</p></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="etiquette">
-                <div class="image-container">
-                    <img alt="" src="/static/images/regulation.png">
-                </div>
-                <div class="header"><h4><b>الوفاة خلال فترة الطعن
-                </b></h4></div>
-                <div class="parag"><p>هذا لإعطاء شركة التأمين الوقت لتحليل السياسة ، وضمان عدم وجود مغالطات أثناء عملية
-                    المطالبة.
-                </p></div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endif %}
-{% endif %}
-{% endif %}
-<a class="topnav" data-target="#payment" data-toggle="modal" href="" style="display: none">
     {% if lang == "en" %}
-    <tag>PAY</tag>
-    {% else %}{% if lang == "fr" %}
-    <tag>PAYEZ</tag>
-    {% else %}{% if lang == "ar" %}
-    <tag>إدفع</tag>
-    {% endif %}
-    {% endif %}
-    {% endif %}
-    <div class="otherpreloader" style="display: none">
-        <img alt="" src="/static/images/black-hole-pink.gif" style="width: 30px">
-    </div>
-</a>
-<a class="myBtn" onclick="topFunction()">&#9651;</a>
-<!-- Modal -->
-{% if lang == "en" %}
-<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="jewelrymodal" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-body bbbb">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <img alt="" src="/static/images/jewelry.png">
-                <div class="corps">
-                    <h4>TOTAL JEWELRY VALUE</h4>
-                    <p>This is the maximum we can pay for stolen, lost or hangman jewelry items</p>
-                </div>
-            </div>
 
-            <form action="" style="width: 100%">
-                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
-                    <button class="btn btn-outline-secondary minus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
-                            style="left: 35px;top: 3px; padding: 3px 14px;"
-                            type="button"><h4>-</h4></button>
-                    <div class="value text-center" style="width: 100%"><input
-                            class="quantity modal-input"
-                            min="200"
-                            type="number" value="200"></div>
-                    <button class="btn btn-outline-secondary plus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
-                            style="right: 35px;top: 3px;"
-                            type="button"><h4>+</h4></button>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn" data-dismiss="modal" type="submit">add 10dt/yr</button>
-            </form>
-
-        </div>
-    </div>
-</div>
-</div>
-{% else %}{% if lang == "french" %}
-<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="jewelrymodal" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-body bbbb">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <img alt="" src="/static/images/jewelry.png">
-                <div class="corps">
-                    <h4>VALEUR TOTALE DES BIJOUX</h4>
-                    <p>C’est le maximum que nous pouvons payer pour les bijoux volés, perdus ou endommagés</p>
-                </div>
-            </div>
-
-            <form action="" style="width: 100%">
-                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
-                    <button class="btn btn-outline-secondary minus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
-                            style="left: 35px;top: 3px; padding: 3px 14px;"
-                            type="button"><h4>-</h4></button>
-                    <div class="value text-center" style="width: 100%"><input
-                            class="quantity modal-input"
-                            min="200"
-                            type="number" value="200"></div>
-                    <button class="btn btn-outline-secondary plus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
-                            style="right: 35px;top: 3px;"
-                            type="button"><h4>+</h4></button>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn" data-dismiss="modal" type="submit">ajouter 10dt/an</button>
-            </form>
-
-        </div>
-    </div>
-</div>
-</div>
-{% else %}{% if lang == "ar" %}
-<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="jewelrymodal" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-body bbbb">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <img alt="" src="/static/images/jewelry.png">
-                <div class="corps">
-                    <h4>قيمة المجوهرات الجملية</h4>
-                    <p>هذا هو الحد الأقصى الذي يمكن أن ندفعه مقابل سلع المجوهرات المسروقة أو المفقودة أو التالفة</p>
-                </div>
-            </div>
-
-            <form action="" style="width: 100%">
-                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
-                    <button class="btn btn-outline-secondary minus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
-                            style="left: 35px;top: 3px; padding: 3px 14px;"
-                            type="button"><h4>-</h4></button>
-                    <div class="value text-center" style="width: 100%"><input
-                            class="quantity modal-input"
-                            min="200"
-                            type="number" value="200"></div>
-                    <button class="btn btn-outline-secondary plus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
-                            style="right: 35px;top: 3px;"
-                            type="button"><h4>+</h4></button>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn" data-dismiss="modal" type="submit">زيد 10دت/سنة</button>
-            </form>
-
-        </div>
-    </div>
-</div>
-</div>
-{% endif %}
-{% endif %}
-{% endif %}
-{% if lang == "en" %}
-<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="fineartmodal" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-body bbbb">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <img alt="" src="/static/images/art.png">
-                <div class="corps">
-                    <h4>TOTAL FINE ART VALUE</h4>
-                    <p>The maximum we can pay for lost, stolen or hangman fine art items (excluding public
-                        exhibitions).</p>
-                </div>
-            </div>
-
-            <form action="" style="width: 100%">
-                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
-                    <button class="btn btn-outline-secondary minus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
-                            style="left: 35px;top: 3px; padding: 3px 14px;"
-                            type="button"><h4>-</h4></button>
-                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
-                                                                              min="200"
-                                                                              type="number" value="200"></div>
-                    <button class="btn btn-outline-secondary plus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
-                            style="right: 35px;top: 3px;"
-                            type="button"><h4>+</h4></button>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn" data-dismiss="modal" type="submit">add 10dt/yr</button>
-            </form>
-
-        </div>
-    </div>
-</div>
-</div>
-{% else %}{% if lang == "french" %}
-<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="fineartmodal" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-body bbbb">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <img alt="" src="/static/images/art.png">
-                <div class="corps">
-                    <h4>VALEUR TOTALE DES BEAUX-ARTS</h4>
-                    <p>Le maximum que nous pouvons payer pour les objets d’art perdus, volés ou endommagés (à
-                        l’exclusion des expositions publiques).</p>
-                </div>
-            </div>
-
-            <form action="" style="width: 100%">
-                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
-                    <button class="btn btn-outline-secondary minus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
-                            style="left: 35px;top: 3px; padding: 3px 14px;"
-                            type="button"><h4>-</h4></button>
-                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
-                                                                              min="200"
-                                                                              type="number" value="200"></div>
-                    <button class="btn btn-outline-secondary plus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
-                            style="right: 35px;top: 3px;"
-                            type="button"><h4>+</h4></button>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn" data-dismiss="modal" type="submit">ajouter 10dt/an</button>
-            </form>
-
-        </div>
-    </div>
-</div>
-</div>
-{% else %}{% if lang == "ar" %}
-<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="fineartmodal" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-body bbbb">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <img alt="" src="/static/images/art.png">
-                <div class="corps">
-                    <h4>قيمة الفنون الجميلة الكلية</h4>
-                    <p>الحد الأقصى الذي يمكننا دفعه مقابل البنود المفقودة أو المسروقة أو التالفة من الفنون الجميلة
-                        (باستثناء المعارض العامّة).</p>
-                </div>
-            </div>
-
-            <form action="" style="width: 100%">
-                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
-                    <button class="btn btn-outline-secondary minus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
-                            style="left: 35px;top: 3px; padding: 3px 14px;"
-                            type="button"><h4>-</h4></button>
-                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
-                                                                              min="200"
-                                                                              type="number" value="200"></div>
-                    <button class="btn btn-outline-secondary plus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
-                            style="right: 35px;top: 3px;"
-                            type="button"><h4>+</h4></button>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn" data-dismiss="modal" type="submit">زيد 10دت/سنة</button>
-            </form>
-
-        </div>
-    </div>
-</div>
-</div>
-{% endif %}
-{% endif %}
-{% endif %}
-{% if lang == "en" %}
-<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="bikesmodal" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-body bbbb">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <img alt="" src="/static/images/bike.png">
-                <div class="corps">
-                    <h4>TOTAL VALUE OF BIKES</h4>
-                    <p>This is the maximum we can pay for your lost, stolen, or crash-related hangman bikes.</p>
-                </div>
-            </div>
-
-            <form action="" style="width: 100%">
-                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
-                    <button class="btn btn-outline-secondary minus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
-                            style="left: 35px;top: 3px; padding: 3px 14px;"
-                            type="button"><h4>-</h4></button>
-                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
-                                                                              min="200"
-                                                                              type="number" value="200"></div>
-                    <button class="btn btn-outline-secondary plus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
-                            style="right: 35px;top: 3px;"
-                            type="button"><h4>+</h4></button>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn" data-dismiss="modal" type="submit">add 10dt/yr</button>
-            </form>
-
-        </div>
-    </div>
-</div>
-</div>
-{% else %}{% if lang == "french" %}
-<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="bikesmodal" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-body bbbb">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <img alt="" src="/static/images/bike.png">
-                <div class="corps">
-                    <h4>VALEUR TOTALE DES VÉLOS</h4>
-                    <p>C’est le maximum que nous pouvons payer pour vos vélos endommagés, perdus, volés ou
-                        accidentés.</p>
-                </div>
-            </div>
-
-            <form action="" style="width: 100%">
-                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
-                    <button class="btn btn-outline-secondary minus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
-                            style="left: 35px;top: 3px; padding: 3px 14px;"
-                            type="button"><h4>-</h4></button>
-                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
-                                                                              min="200"
-                                                                              type="number" value="200"></div>
-                    <button class="btn btn-outline-secondary plus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
-                            style="right: 35px;top: 3px;"
-                            type="button"><h4>+</h4></button>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn" data-dismiss="modal" type="submit">ajouter 10dt/an</button>
-            </form>
-
-        </div>
-    </div>
-</div>
-</div>
-{% else %}{% if lang == "ar" %}
-<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="bikesmodal" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-body bbbb">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <img alt="" src="/static/images/bike.png">
-                <div class="corps">
-                    <h4>القيمة الإجمالية للدراجات</h4>
-                    <p>هذا هو الحد الأقصى الذي يمكننا دفعه مقابل الدراجات التالفة المفقودة أو المسروقة أو المعطلة.</p>
-                </div>
-            </div>
-
-            <form action="" style="width: 100%">
-                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
-                    <button class="btn btn-outline-secondary minus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
-                            style="left: 35px;top: 3px; padding: 3px 14px;"
-                            type="button"><h4>-</h4></button>
-                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
-                                                                              min="200"
-                                                                              type="number" value="200"></div>
-                    <button class="btn btn-outline-secondary plus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
-                            style="right: 35px;top: 3px;"
-                            type="button"><h4>+</h4></button>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn" data-dismiss="modal" type="submit">زيد 10دت/سنة</button>
-            </form>
-
-        </div>
-    </div>
-</div>
-</div>
-{% endif %}
-{% endif %}
-{% endif %}
-{% if lang == "en" %}
-<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="camerasmodal" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-body bbbb">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <img alt="" src="/static/images/camera.png">
-                <div class="corps">
-                    <h4>TOTAL VALUE OF CAMERAS</h4>
-                    <p>This is the maximum we can pay for lost, stolen, or broken cameras, lenses and related hobby
-                        equipment.</p>
-                </div>
-            </div>
-
-            <form action="" style="width: 100%">
-                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
-                    <button class="btn btn-outline-secondary minus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
-                            style="left: 35px;top: 3px; padding: 3px 14px;"
-                            type="button"><h4>-</h4></button>
-                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
-                                                                              min="200"
-                                                                              type="number" value="200"></div>
-                    <button class="btn btn-outline-secondary plus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
-                            style="right: 35px;top: 3px;"
-                            type="button"><h4>+</h4></button>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn" data-dismiss="modal" type="submit">add 10dt/yr</button>
-            </form>
-
-        </div>
-    </div>
-</div>
-</div>
-{% else %}{% if lang == "french" %}
-<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="camerasmodal" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-body bbbb">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <img alt="" src="/static/images/camera.png">
-                <div class="corps">
-                    <h4>VALEUR TOTALE DES CAMERAS</h4>
-                    <p>C’est le maximum que nous pouvons payer pour les caméras perdues, volées ou cassées, les
-                        lentilles et les équipements des passe-temps connexes .</p>
-                </div>
-            </div>
-
-            <form action="" style="width: 100%">
-                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
-                    <button class="btn btn-outline-secondary minus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
-                            style="left: 35px;top: 3px; padding: 3px 14px;"
-                            type="button"><h4>-</h4></button>
-                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
-                                                                              min="200"
-                                                                              type="number" value="200"></div>
-                    <button class="btn btn-outline-secondary plus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
-                            style="right: 35px;top: 3px;"
-                            type="button"><h4>+</h4></button>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn" data-dismiss="modal" type="submit">ajouter 10dt/an</button>
-            </form>
-
-        </div>
-    </div>
-</div>
-</div>
-{% else %}{% if lang == "ar" %}
-<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="camerasmodal" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-body bbbb">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <img alt="" src="/static/images/camera.png">
-                <div class="corps">
-                    <h4>القيمة الإجمالية للكاميرات</h4>
-                    <p>هذا هو الحد الأقصى الذي يمكن أن ندفعه مقابل الكاميرات المفقودة أو المسروقة أو المكسورة والعدسات
-                        والهوايات ذات الصلة</p>
-                </div>
-            </div>
-
-            <form action="" style="width: 100%">
-                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
-                    <button class="btn btn-outline-secondary minus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
-                            style="left: 35px;top: 3px; padding: 3px 14px;"
-                            type="button"><h4>-</h4></button>
-                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
-                                                                              min="200"
-                                                                              type="number" value="200"></div>
-                    <button class="btn btn-outline-secondary plus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
-                            style="right: 35px;top: 3px;"
-                            type="button"><h4>+</h4></button>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn" data-dismiss="modal" type="submit">زيد 10دت/سنة</button>
-            </form>
-
-        </div>
-    </div>
-</div>
-</div>
-{% endif %}
-{% endif %}
-{% endif %}
-{% if lang == "en" %}
-<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="instrumentsmodal" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-body bbbb">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <img alt="" src="/static/images/instruments.png">
-                <div class="corps">
-                    <h4>TOTAL VALUE OF MUSICAL INSTRUMENTS</h4>
-                    <p>The maximum we can pay for lost, stolen or hangman musical instruments</p>
-                </div>
-            </div>
-
-            <form action="" style="width: 100%">
-                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
-                    <button class="btn btn-outline-secondary minus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
-                            style="left: 35px;top: 3px; padding: 3px 14px;"
-                            type="button"><h4>-</h4></button>
-                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
-                                                                              min="200"
-                                                                              type="number" value="200"></div>
-                    <button class="btn btn-outline-secondary plus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
-                            style="right: 35px;top: 3px;"
-                            type="button"><h4>+</h4></button>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btnfooter" data-dismiss="modal" type="submit">add 10dt/yr</button>
-            </form>
-
-        </div>
-    </div>
-</div>
-</div>
-{% else %}{% if lang == "french" %}
-<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="instrumentsmodal" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-body bbbb">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <img alt="" src="/static/images/instruments.png">
-                <div class="corps">
-                    <h4>VALEUR TOTALE DES INSTRUMENTS DE MUSIQUE</h4>
-                    <p>Le maximum que nous pouvons payer pour les instruments de musique perdus, volés ou endommagés</p>
-                </div>
-            </div>
-
-            <form action="" style="width: 100%">
-                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
-                    <button class="btn btn-outline-secondary minus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
-                            style="left: 35px;top: 3px; padding: 3px 14px;"
-                            type="button"><h4>-</h4></button>
-                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
-                                                                              min="200"
-                                                                              type="number" value="200"></div>
-                    <button class="btn btn-outline-secondary plus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
-                            style="right: 35px;top: 3px;"
-                            type="button"><h4>+</h4></button>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btnfooter" data-dismiss="modal" type="submit">ajouter 10dt/an</button>
-            </form>
-
-        </div>
-    </div>
-</div>
-</div>
-{% else %}{% if lang == "ar" %}
-<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="instrumentsmodal" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-body bbbb">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <img alt="" src="/static/images/instruments.png">
-                <div class="corps">
-                    <h4>القيمة الإجمالية للآلات الموسيقية</h4>
-                    <p>الحد الأقصى الذي يمكننا دفعه مقابل الآلات الموسيقية المفقودة أو المسروقة أو التالفة</p>
-                </div>
-            </div>
-
-            <form action="" style="width: 100%">
-                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
-                    <button class="btn btn-outline-secondary minus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
-                            style="left: 35px;top: 3px; padding: 3px 14px;"
-                            type="button"><h4>-</h4></button>
-                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
-                                                                              min="200"
-                                                                              type="number" value="200"></div>
-                    <button class="btn btn-outline-secondary plus"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
-                            style="right: 35px;top: 3px;"
-                            type="button"><h4>+</h4></button>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btnfooter" data-dismiss="modal" type="submit">زيد 10دت/سنة</button>
-            </form>
-
-        </div>
-    </div>
-</div>
-</div>
-{% endif %}
-{% endif %}
-{% endif %}
-
-<!-- Payment Modal -->
-{% if lang == "en" %}
-<div aria-hidden="true" aria-labelledby="paymentModal" class="modal fade" id="payment" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-body bbbb">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="corps container">
-                    <h4>PAYMENT DETAILS</h4>
-                    <form action="/pay/{{lang}}" method="post">
-                        <div class="form-group">
-                            <select class="form-control" id="sel2">
-                                <option value="month">MONTHLY</option>
-                                <option value="annual">ANNUAL</option>
-                            </select>
+        <div class="covered container">
+            <div class="title"><h3><b>What's covered</b></h3></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="etiquette">
+                        <div class="image-container">
+                            <img alt="" src="/static/images/rip.png">
                         </div>
-                        <div class="form-group">
-                            <input class="form-control" name="card_num" placeholder="Enter Card Number"
-                                   style="background-image: url(/static/images/card.png);
+                        <div class="header"><h4><b>END OF LIFE EXPENSES</b></h4></div>
+                        <div class="parag"><p>An obvious use for a life insurance policy is to cover end-of-life costs,
+                            including funeral and burial expenses. If you’ve never given much thought to what that costs, it
+                            might surprise you to know that the average funeral can have a 1 month's revenue price tag.
+
+                        </p></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="etiquette">
+                        <div class="image-container">
+                            <img alt="" src="/static/images/lease.png">
+                        </div>
+                        <div class="header"><h4><b>The mortgage</b></h4></div>
+                        <div class="parag"><p>For many people, a house is one of their most significant assets and a key to
+                            their family’s financial stability for years to come. If you died and your partner faced the
+                            payments without your income, a life insurance policy could help protect your partner’s ability to
+                            pay the mortgage.y.</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="etiquette">
+                        <div class="image-container">
+                            <img alt="" src="/static/images/pharmacy.png">
+                        </div>
+                        <div class="header"><h4><b>Medical expenses or long-term care, while you’re still living.</b></h4></div>
+                        <div class="parag"><p>Most life insurance policies offer an accelerated death benefit rider that allows
+                            the policy owner to access a portion of your death benefit before you die if you are diagnosed with
+                            a terminal illness. That could help you pay your medical care expenses during a time when you can’t
+                            work.</p></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="etiquette">
+                        <div class="image-container">
+                            <img alt="" src="/static/images/inheritance.png">
+                        </div>
+                        <div class="header"><h4><b>Leaving a legacy</b></h4></div>
+                        <div class="parag"><p>Many people also
+                            want to leave money to make things easier for their partners and children. Things like college
+                            tuition or a down payment on a child’s first home. Or, you might want to set aside money to
+                            support your favorite charitable causes after you’re gone like many of the wealthy people prefer to
+                            do.</p></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="not covered container">
+            <div class="title"><h3><b>What's not covered</b></h3></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="etiquette">
+                        <div class="image-container">
+                            <img alt="" src="/static/images/hangman.png">
+                        </div>
+                        <div class="header"><h4><b>Suicide</b></h4></div>
+                        <div class="parag"><p>Beneficiaries of policyholders that die by suicide, usually within the first two
+                            years of taking out a policy, won’t receive a payout.</p></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="etiquette">
+                        <div class="image-container">
+                            <img alt="" src="/static/images/risk.png">
+                        </div>
+                        <div class="header"><h4><b>High-Risk or Illegal Activities
+                        </b></h4></div>
+                        <div class="parag"><p>If the policyholder passes away due to participating in a high-risk lifestyle or
+                            activity like skydiving, bungee jumping, rock climbing, etc. your beneficiaries may not be eligible
+                            for a death benefit.</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="etiquette">
+                        <div class="image-container">
+                            <img alt="" src="/static/images/war.png">
+                        </div>
+                        <div class="header"><h4><b>Act of War or Death in a Restricted Country
+                        </b></h4></div>
+                        <div class="parag"><p>
+                            Death benefits are often denied if the policyholder passed away while engaged in an act of war.
+                            Needless to say, going to war is risky. Similarly, if you die while abroad, especially to countries
+                            deemed dangerous, your policy can be considered invalid.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="etiquette">
+                        <div class="image-container">
+                            <img alt="" src="/static/images/regulation.png">
+                        </div>
+                        <div class="header"><h4><b>Death Within Contestability Period
+                        </b></h4></div>
+                        <div class="parag"><p>If you pass away with two years of taking out an insurance policy, the insurance
+                            company usually has the right to contest eligibility. This is to give the provider time to analyze
+                            the policy, ensuring there were no misrepresentations during the application process.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}{% if lang == "fr" %}
+
+            <div class="covered container">
+                <div class="title"><h3><b>Ce qui est couvert</b></h3></div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="etiquette">
+                            <div class="image-container">
+                                <img alt="" src="/static/images/rip.png">
+                            </div>
+                            <div class="header"><h4><b>Frais de funérailles</b></h4></div>
+                            <div class="parag"><p>Une utilisation évidente d'un contrat d'assurance-vie est de couvrir les frais de
+                                décès, y compris les frais funéraires et d'inhumation. Si vous n’avez jamais réfléchi
+                                à ce que cela coûte, vous serez peut-être surpris de savoir que les funérailles moyennes peuvent
+                                coûter un salaire.</p></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="etiquette">
+                            <div class="image-container">
+                                <img alt="" src="/static/images/lease.png">
+                            </div>
+                            <div class="header"><h4><b>Prêt immobilier</b></h4></div>
+                            <div class="parag"><p>Pour tout le monde, une maison est l’un de leurs investissement les plus
+                                importants et leur clé de stabilité financière. Si vous
+                                décédez et que votre partenaire a dû faire face aux paiements sans votre revenu, un contrat
+                                d’assurance-vie pourrait aider à protéger la capacité de votre partenaire à payer l’emprunt
+                                bancaire.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="etiquette">
+                            <div class="image-container">
+                                <img alt="" src="/static/images/pharmacy.png">
+                            </div>
+                            <div class="header"><h4><b>Frais médicaux ou soins de longue durée
+                            </b></h4></div>
+                            <div class="parag"><p>La plupart des contrats d'assurance-vie offrent une prestation en cas d'un futur
+                                décès
+                                qui permet au titulaire du contrat d'accéder à une partie de son indémnité de décès
+                                avant que cela arrive si il est diagnostiqué d'une maladie terminale. Cela pourrait aider à
+                                payer les frais de soins médicaux.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="etiquette">
+                            <div class="image-container">
+                                <img alt="" src="/static/images/inheritance.png">
+                            </div>
+                            <div class="header"><h4><b>Héritage</b></h4></div>
+                            <div class="parag"><p>Tout le monde souhaite laisser de l'argent pour faciliter
+                                les choses pour leurs partenaires et leurs enfants. Des dépenses comme les frais de scolarité à
+                                l’université ou un acompte sur le premier logement d’un enfant. Ou, vous voudrez peut-être mettre de
+                                côté de l'argent pour soutenir vos causes caritatives préférées après votre départ.</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="not covered container">
+                <div class="title"><h3><b>Ce qui n'est pas couvert</b></h3></div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="etiquette">
+                            <div class="image-container">
+                                <img alt="" src="/static/images/hangman.png">
+                            </div>
+                            <div class="header"><h4><b>Suicide </b></h4></div>
+                            <div class="parag"><p>La couverture du suicide, n’est pas incluse dans notre politique de base car il
+                                s'agit d'un acte volontaire de termination du contrat.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="etiquette">
+                            <div class="image-container">
+                                <img alt="" src="/static/images/risk.png">
+                            </div>
+                            <div class="header"><h4><b>Activités illégales et risquées</b></h4></div>
+                            <div class="parag"><p> Si vous êtes impliqué dans des activités illégales ou même des activités légales
+                                mais très risquées, il faut savoir que notre assurance ne couvra pas ceci.</p></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="etiquette">
+                            <div class="image-container">
+                                <img alt="" src="/static/images/war.png">
+                            </div>
+                            <div class="header"><h4><b>La guerre ou la mort dans une zone rouge</b></h4></div>
+                            <div class="parag"><p>Si vous perdez votre vie dans l'un des pays interdits à visiter par le ministère
+                                des affaires extérieures ou pendant votre participation à la guerre, vous n'aurez pas
+                                d'indémnités..</p></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="etiquette">
+                            <div class="image-container">
+                                <img alt="" src="/static/images/regulation.png">
+                            </div>
+                            <div class="header"><h4><b>Décès pendant la période de contestation</b></h4></div>
+                            <div class="parag"><p>Il s'agit de donner à l'assureur le temps d'analyser la politique, en s'assurant
+                                qu'il n'y a pas eu de fausses déclarations pendant le processus de demande.</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}{% if lang == "ar" %}
+
+                <div class="covered container">
+                    <div class="title"><h3><b>ما يشمله التأمين</b></h3></div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="etiquette">
+                                <div class="image-container">
+                                    <img alt="" src="/static/images/rip.png">
+                                </div>
+                                <div class="header"><h4><b>تكاليف الجنازة</b></h4></div>
+                                <div class="parag"><p> تغطية تكاليف الوفاة ، بما في ذلك تكاليف الجنازة والدفن. إذا لم تفكر مطلقًا في
+                                    التكلفة ، فقد تفاجأ بمعرفة أن متوسط تكلفة الجنازة يمكن أن يكلفك راتباً</p></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="etiquette">
+                                <div class="image-container">
+                                    <img alt="" src="/static/images/lease.png">
+                                </div>
+                                <div class="header"><h4><b>القرض السكني
+                                </b></h4></div>
+                                <div class="parag"><p>يساهم التأمين على الحياة في حماية قدرة شريكك على سداد القرض المصرفي.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="etiquette">
+                                <div class="image-container">
+                                    <img alt="" src="/static/images/pharmacy.png">
+                                </div>
+                                <div class="header"><h4><b>نفقات الرعاية الطبية طويلة الأجل</b></h4></div>
+                                <div class="parag"><p>يوفر التأمين على الحياة ميزة الوفاة المستقبلية التي تسمح لمالك الوثيقة بالوصول إلى
+                                    جزء من مخصصات الوفاة قبل حدوثها إذا تم تشخيصهم بمرض. هذا يمكن أن يساعد في دفع تكلفة العلاج الطبي.
+
+                                </p></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="etiquette">
+                                <div class="image-container">
+                                    <img alt="" src="/static/images/inheritance.png">
+                                </div>
+                                <div class="header"><h4><b>الميراث</b></h4></div>
+                                <div class="parag"><p>يريد الجميع ترك المال لتسهيل الأمور على شركائهم وأطفالهم. المصاريف مثل الرسوم
+                                    الجامعية أو دفعة أولى على قرض السكن. أو قد ترغب في تخصيص بعض المال لدعم القضايا الخيرية المفضلة لديك
+                                    بعد مغادرتك.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="not covered container">
+                    <div class="title"><h3><b>ما لا يشمله التأمين</b></h3></div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="etiquette">
+                                <div class="image-container">
+                                    <img alt="" src="/static/images/hangman.png">
+                                </div>
+                                <div class="header"><h4><b>الانتحار </b></h4></div>
+                                <div class="parag"><p>هذا العقد لا يتضمن تغطية الوفاة الطوعية و الإنتحار.</p></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="etiquette">
+                                <div class="image-container">
+                                    <img alt="" src="/static/images/risk.png">
+                                </div>
+                                <div class="header"><h4><b>الأنشطة غير القانونية والمحفوفة بالمخاطر</b></h4></div>
+                                <div class="parag"><p>إذا كنت متورطًا في أنشطة غير قانونية أو حتى أنشطة قانونية ولكنها شديدة الخطورة ،
+                                    فتأميننا لن يغطي ذلك.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="etiquette">
+                                <div class="image-container">
+                                    <img alt="" src="/static/images/war.png">
+                                </div>
+                                <div class="header"><h4><b>الحرب أو الموت في منطقة حمراء
+                                </b></h4></div>
+                                <div class="parag"><p>إذا فقدت حياتك في إحدى الدول الممنوعة زيارتها من قبل وزارة الخارجية أو أثناء
+                                    مشاركتك في الحرب ، فلن تحصل على تعويض.</p></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="etiquette">
+                                <div class="image-container">
+                                    <img alt="" src="/static/images/regulation.png">
+                                </div>
+                                <div class="header"><h4><b>الوفاة خلال فترة الطعن
+                                </b></h4></div>
+                                <div class="parag"><p>هذا لإعطاء شركة التأمين الوقت لتحليل السياسة ، وضمان عدم وجود مغالطات أثناء عملية
+                                    المطالبة.
+                                </p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    <a class="topnav" data-target="#payment" data-toggle="modal" href="" style="display: none">
+        {% if lang == "en" %}
+            <tag>PAY</tag>
+            {% else %}{% if lang == "fr" %}
+                <tag>PAYEZ</tag>
+                {% else %}{% if lang == "ar" %}
+                    <tag>إدفع</tag>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        <div class="otherpreloader" style="display: none">
+            <img alt="" src="/static/images/black-hole-pink.gif" style="width: 30px">
+        </div>
+    </a>
+    <a class="myBtn" onclick="topFunction()">&#9651;</a>
+    <!-- Modal -->
+    {% if lang == "en" %}
+        <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="jewelrymodal" role="dialog"
+             tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
+                <div class="modal-content">
+                    <div class="modal-body bbbb">
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <img alt="" src="/static/images/jewelry.png">
+                        <div class="corps">
+                            <h4>TOTAL JEWELRY VALUE</h4>
+                            <p>This is the maximum we can pay for stolen, lost or hangman jewelry items</p>
+                        </div>
+                    </div>
+
+                    <form action="" style="width: 100%">
+                        <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                            <button class="btn btn-outline-secondary minus"
+                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                                    style="left: 35px;top: 3px; padding: 3px 14px;"
+                                    type="button"><h4>-</h4></button>
+                            <div class="value text-center" style="width: 100%"><input
+                                    class="quantity modal-input"
+                                    min="200"
+                                    type="number" value="200"></div>
+                            <button class="btn btn-outline-secondary plus"
+                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                                    style="right: 35px;top: 3px;"
+                                    type="button"><h4>+</h4></button>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" data-dismiss="modal" type="submit">add 10dt/yr</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        </div>
+        {% else %}{% if lang == "fr" %}
+            <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="jewelrymodal" role="dialog"
+                 tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
+                    <div class="modal-content">
+                        <div class="modal-body bbbb">
+                            <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <img alt="" src="/static/images/jewelry.png">
+                            <div class="corps">
+                                <h4>VALEUR TOTALE DES BIJOUX</h4>
+                                <p>C’est le maximum que nous pouvons payer pour les bijoux volés, perdus ou endommagés</p>
+                            </div>
+                        </div>
+
+                        <form action="" style="width: 100%">
+                            <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                                <button class="btn btn-outline-secondary minus"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                                        style="left: 35px;top: 3px; padding: 3px 14px;"
+                                        type="button"><h4>-</h4></button>
+                                <div class="value text-center" style="width: 100%"><input
+                                        class="quantity modal-input"
+                                        min="200"
+                                        type="number" value="200"></div>
+                                <button class="btn btn-outline-secondary plus"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                                        style="right: 35px;top: 3px;"
+                                        type="button"><h4>+</h4></button>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn" data-dismiss="modal" type="submit">ajouter 10dt/an</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            </div>
+            {% else %}{% if lang == "ar" %}
+                <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="jewelrymodal" role="dialog"
+                     tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
+                        <div class="modal-content">
+                            <div class="modal-body bbbb">
+                                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <img alt="" src="/static/images/jewelry.png">
+                                <div class="corps">
+                                    <h4>قيمة المجوهرات الجملية</h4>
+                                    <p>هذا هو الحد الأقصى الذي يمكن أن ندفعه مقابل سلع المجوهرات المسروقة أو المفقودة أو التالفة</p>
+                                </div>
+                            </div>
+
+                            <form action="" style="width: 100%">
+                                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                                    <button class="btn btn-outline-secondary minus"
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                                            style="left: 35px;top: 3px; padding: 3px 14px;"
+                                            type="button"><h4>-</h4></button>
+                                    <div class="value text-center" style="width: 100%"><input
+                                            class="quantity modal-input"
+                                            min="200"
+                                            type="number" value="200"></div>
+                                    <button class="btn btn-outline-secondary plus"
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                                            style="right: 35px;top: 3px;"
+                                            type="button"><h4>+</h4></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn" data-dismiss="modal" type="submit">زيد 10دت/سنة</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    {% if lang == "en" %}
+        <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="fineartmodal" role="dialog"
+             tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
+                <div class="modal-content">
+                    <div class="modal-body bbbb">
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <img alt="" src="/static/images/art.png">
+                        <div class="corps">
+                            <h4>TOTAL FINE ART VALUE</h4>
+                            <p>The maximum we can pay for lost, stolen or hangman fine art items (excluding public
+                                exhibitions).</p>
+                        </div>
+                    </div>
+
+                    <form action="" style="width: 100%">
+                        <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                            <button class="btn btn-outline-secondary minus"
+                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                                    style="left: 35px;top: 3px; padding: 3px 14px;"
+                                    type="button"><h4>-</h4></button>
+                            <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                                      min="200"
+                                                                                      type="number" value="200"></div>
+                            <button class="btn btn-outline-secondary plus"
+                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                                    style="right: 35px;top: 3px;"
+                                    type="button"><h4>+</h4></button>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" data-dismiss="modal" type="submit">add 10dt/yr</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        </div>
+        {% else %}{% if lang == "fr" %}
+            <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="fineartmodal" role="dialog"
+                 tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
+                    <div class="modal-content">
+                        <div class="modal-body bbbb">
+                            <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <img alt="" src="/static/images/art.png">
+                            <div class="corps">
+                                <h4>VALEUR TOTALE DES BEAUX-ARTS</h4>
+                                <p>Le maximum que nous pouvons payer pour les objets d’art perdus, volés ou endommagés (à
+                                    l’exclusion des expositions publiques).</p>
+                            </div>
+                        </div>
+
+                        <form action="" style="width: 100%">
+                            <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                                <button class="btn btn-outline-secondary minus"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                                        style="left: 35px;top: 3px; padding: 3px 14px;"
+                                        type="button"><h4>-</h4></button>
+                                <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                                          min="200"
+                                                                                          type="number" value="200"></div>
+                                <button class="btn btn-outline-secondary plus"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                                        style="right: 35px;top: 3px;"
+                                        type="button"><h4>+</h4></button>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn" data-dismiss="modal" type="submit">ajouter 10dt/an</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            </div>
+            {% else %}{% if lang == "ar" %}
+                <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="fineartmodal" role="dialog"
+                     tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
+                        <div class="modal-content">
+                            <div class="modal-body bbbb">
+                                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <img alt="" src="/static/images/art.png">
+                                <div class="corps">
+                                    <h4>قيمة الفنون الجميلة الكلية</h4>
+                                    <p>الحد الأقصى الذي يمكننا دفعه مقابل البنود المفقودة أو المسروقة أو التالفة من الفنون الجميلة
+                                        (باستثناء المعارض العامّة).</p>
+                                </div>
+                            </div>
+
+                            <form action="" style="width: 100%">
+                                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                                    <button class="btn btn-outline-secondary minus"
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                                            style="left: 35px;top: 3px; padding: 3px 14px;"
+                                            type="button"><h4>-</h4></button>
+                                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                                              min="200"
+                                                                                              type="number" value="200"></div>
+                                    <button class="btn btn-outline-secondary plus"
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                                            style="right: 35px;top: 3px;"
+                                            type="button"><h4>+</h4></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn" data-dismiss="modal" type="submit">زيد 10دت/سنة</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    {% if lang == "en" %}
+        <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="bikesmodal" role="dialog"
+             tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
+                <div class="modal-content">
+                    <div class="modal-body bbbb">
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <img alt="" src="/static/images/bike.png">
+                        <div class="corps">
+                            <h4>TOTAL VALUE OF BIKES</h4>
+                            <p>This is the maximum we can pay for your lost, stolen, or crash-related hangman bikes.</p>
+                        </div>
+                    </div>
+
+                    <form action="" style="width: 100%">
+                        <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                            <button class="btn btn-outline-secondary minus"
+                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                                    style="left: 35px;top: 3px; padding: 3px 14px;"
+                                    type="button"><h4>-</h4></button>
+                            <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                                      min="200"
+                                                                                      type="number" value="200"></div>
+                            <button class="btn btn-outline-secondary plus"
+                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                                    style="right: 35px;top: 3px;"
+                                    type="button"><h4>+</h4></button>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" data-dismiss="modal" type="submit">add 10dt/yr</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        </div>
+        {% else %}{% if lang == "fr" %}
+            <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="bikesmodal" role="dialog"
+                 tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
+                    <div class="modal-content">
+                        <div class="modal-body bbbb">
+                            <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <img alt="" src="/static/images/bike.png">
+                            <div class="corps">
+                                <h4>VALEUR TOTALE DES VÉLOS</h4>
+                                <p>C’est le maximum que nous pouvons payer pour vos vélos endommagés, perdus, volés ou
+                                    accidentés.</p>
+                            </div>
+                        </div>
+
+                        <form action="" style="width: 100%">
+                            <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                                <button class="btn btn-outline-secondary minus"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                                        style="left: 35px;top: 3px; padding: 3px 14px;"
+                                        type="button"><h4>-</h4></button>
+                                <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                                          min="200"
+                                                                                          type="number" value="200"></div>
+                                <button class="btn btn-outline-secondary plus"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                                        style="right: 35px;top: 3px;"
+                                        type="button"><h4>+</h4></button>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn" data-dismiss="modal" type="submit">ajouter 10dt/an</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            </div>
+            {% else %}{% if lang == "ar" %}
+                <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="bikesmodal" role="dialog"
+                     tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
+                        <div class="modal-content">
+                            <div class="modal-body bbbb">
+                                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <img alt="" src="/static/images/bike.png">
+                                <div class="corps">
+                                    <h4>القيمة الإجمالية للدراجات</h4>
+                                    <p>هذا هو الحد الأقصى الذي يمكننا دفعه مقابل الدراجات التالفة المفقودة أو المسروقة أو المعطلة.</p>
+                                </div>
+                            </div>
+
+                            <form action="" style="width: 100%">
+                                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                                    <button class="btn btn-outline-secondary minus"
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                                            style="left: 35px;top: 3px; padding: 3px 14px;"
+                                            type="button"><h4>-</h4></button>
+                                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                                              min="200"
+                                                                                              type="number" value="200"></div>
+                                    <button class="btn btn-outline-secondary plus"
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                                            style="right: 35px;top: 3px;"
+                                            type="button"><h4>+</h4></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn" data-dismiss="modal" type="submit">زيد 10دت/سنة</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    {% if lang == "en" %}
+        <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="camerasmodal" role="dialog"
+             tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
+                <div class="modal-content">
+                    <div class="modal-body bbbb">
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <img alt="" src="/static/images/camera.png">
+                        <div class="corps">
+                            <h4>TOTAL VALUE OF CAMERAS</h4>
+                            <p>This is the maximum we can pay for lost, stolen, or broken cameras, lenses and related hobby
+                                equipment.</p>
+                        </div>
+                    </div>
+
+                    <form action="" style="width: 100%">
+                        <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                            <button class="btn btn-outline-secondary minus"
+                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                                    style="left: 35px;top: 3px; padding: 3px 14px;"
+                                    type="button"><h4>-</h4></button>
+                            <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                                      min="200"
+                                                                                      type="number" value="200"></div>
+                            <button class="btn btn-outline-secondary plus"
+                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                                    style="right: 35px;top: 3px;"
+                                    type="button"><h4>+</h4></button>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" data-dismiss="modal" type="submit">add 10dt/yr</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        </div>
+        {% else %}{% if lang == "fr" %}
+            <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="camerasmodal" role="dialog"
+                 tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
+                    <div class="modal-content">
+                        <div class="modal-body bbbb">
+                            <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <img alt="" src="/static/images/camera.png">
+                            <div class="corps">
+                                <h4>VALEUR TOTALE DES CAMERAS</h4>
+                                <p>C’est le maximum que nous pouvons payer pour les caméras perdues, volées ou cassées, les
+                                    lentilles et les équipements des passe-temps connexes .</p>
+                            </div>
+                        </div>
+
+                        <form action="" style="width: 100%">
+                            <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                                <button class="btn btn-outline-secondary minus"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                                        style="left: 35px;top: 3px; padding: 3px 14px;"
+                                        type="button"><h4>-</h4></button>
+                                <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                                          min="200"
+                                                                                          type="number" value="200"></div>
+                                <button class="btn btn-outline-secondary plus"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                                        style="right: 35px;top: 3px;"
+                                        type="button"><h4>+</h4></button>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn" data-dismiss="modal" type="submit">ajouter 10dt/an</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            </div>
+            {% else %}{% if lang == "ar" %}
+                <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="camerasmodal" role="dialog"
+                     tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
+                        <div class="modal-content">
+                            <div class="modal-body bbbb">
+                                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <img alt="" src="/static/images/camera.png">
+                                <div class="corps">
+                                    <h4>القيمة الإجمالية للكاميرات</h4>
+                                    <p>هذا هو الحد الأقصى الذي يمكن أن ندفعه مقابل الكاميرات المفقودة أو المسروقة أو المكسورة والعدسات
+                                        والهوايات ذات الصلة</p>
+                                </div>
+                            </div>
+
+                            <form action="" style="width: 100%">
+                                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                                    <button class="btn btn-outline-secondary minus"
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                                            style="left: 35px;top: 3px; padding: 3px 14px;"
+                                            type="button"><h4>-</h4></button>
+                                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                                              min="200"
+                                                                                              type="number" value="200"></div>
+                                    <button class="btn btn-outline-secondary plus"
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                                            style="right: 35px;top: 3px;"
+                                            type="button"><h4>+</h4></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn" data-dismiss="modal" type="submit">زيد 10دت/سنة</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    {% if lang == "en" %}
+        <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="instrumentsmodal" role="dialog"
+             tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
+                <div class="modal-content">
+                    <div class="modal-body bbbb">
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <img alt="" src="/static/images/instruments.png">
+                        <div class="corps">
+                            <h4>TOTAL VALUE OF MUSICAL INSTRUMENTS</h4>
+                            <p>The maximum we can pay for lost, stolen or hangman musical instruments</p>
+                        </div>
+                    </div>
+
+                    <form action="" style="width: 100%">
+                        <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                            <button class="btn btn-outline-secondary minus"
+                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                                    style="left: 35px;top: 3px; padding: 3px 14px;"
+                                    type="button"><h4>-</h4></button>
+                            <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                                      min="200"
+                                                                                      type="number" value="200"></div>
+                            <button class="btn btn-outline-secondary plus"
+                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                                    style="right: 35px;top: 3px;"
+                                    type="button"><h4>+</h4></button>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btnfooter" data-dismiss="modal" type="submit">add 10dt/yr</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        </div>
+        {% else %}{% if lang == "fr" %}
+            <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="instrumentsmodal" role="dialog"
+                 tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
+                    <div class="modal-content">
+                        <div class="modal-body bbbb">
+                            <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <img alt="" src="/static/images/instruments.png">
+                            <div class="corps">
+                                <h4>VALEUR TOTALE DES INSTRUMENTS DE MUSIQUE</h4>
+                                <p>Le maximum que nous pouvons payer pour les instruments de musique perdus, volés ou endommagés</p>
+                            </div>
+                        </div>
+
+                        <form action="" style="width: 100%">
+                            <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                                <button class="btn btn-outline-secondary minus"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                                        style="left: 35px;top: 3px; padding: 3px 14px;"
+                                        type="button"><h4>-</h4></button>
+                                <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                                          min="200"
+                                                                                          type="number" value="200"></div>
+                                <button class="btn btn-outline-secondary plus"
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                                        style="right: 35px;top: 3px;"
+                                        type="button"><h4>+</h4></button>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btnfooter" data-dismiss="modal" type="submit">ajouter 10dt/an</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            </div>
+            {% else %}{% if lang == "ar" %}
+                <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="instrumentsmodal" role="dialog"
+                     tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
+                        <div class="modal-content">
+                            <div class="modal-body bbbb">
+                                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <img alt="" src="/static/images/instruments.png">
+                                <div class="corps">
+                                    <h4>القيمة الإجمالية للآلات الموسيقية</h4>
+                                    <p>الحد الأقصى الذي يمكننا دفعه مقابل الآلات الموسيقية المفقودة أو المسروقة أو التالفة</p>
+                                </div>
+                            </div>
+
+                            <form action="" style="width: 100%">
+                                <div class="plusminus" style="position: relative;margin: 0 auto 30px auto;">
+                                    <button class="btn btn-outline-secondary minus"
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown(50)"
+                                            style="left: 35px;top: 3px; padding: 3px 14px;"
+                                            type="button"><h4>-</h4></button>
+                                    <div class="value text-center" style="width: 100%"><input class="quantity modal-input"
+                                                                                              min="200"
+                                                                                              type="number" value="200"></div>
+                                    <button class="btn btn-outline-secondary plus"
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp(50)"
+                                            style="right: 35px;top: 3px;"
+                                            type="button"><h4>+</h4></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btnfooter" data-dismiss="modal" type="submit">زيد 10دت/سنة</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
+    <!-- Payment Modal -->
+    {% if lang == "en" %}
+
+        <div aria-hidden="true" aria-labelledby="paymentModal" class="modal fade" id="payment" role="dialog"
+             tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
+                <div class="modal-content">
+                    <div class="modal-body bbbb">
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="corps container">
+                            <h4>PAYMENT DETAILS</h4>
+                            <form action="" method="post">
+                                <div class="form-group">
+                                    <select class="form-control" id="sel2">
+                                        <option value="month">MONTHLY</option>
+                                        <option value="annual">ANNUAL</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name="card_num" placeholder="Enter Card Number"
+                                           style="background-image: url(/static/images/card.png);
                                         padding-left: 38px;
                                         background-position: 5px;
                                         background-size: 28px;
                                         background-repeat: no-repeat;" type="text">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" name="date_carte" placeholder="Date" style="background-image: url(/static/images/calendar.png);
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" name="date_carte" placeholder="Date" style="background-image: url(/static/images/calendar.png);
                                         padding-left: 38px;
                                         background-position: 5px;
                                         background-size: 28px;
                                         background-repeat: no-repeat;"
-                                   type="text">
-                        </div>
-                        <div class="form-group ">
-                            <input class="form-control" name="cvc" placeholder="CVC" style="background-image: url(/static/images/lock.png);
+                                           type="text">
+                                </div>
+                                <div class="form-group ">
+                                    <input class="form-control" name="cvc" placeholder="CVC" style="background-image: url(/static/images/lock.png);
                                         padding-left: 38px;
                                         background-position: 5px;
                                         background-size: 28px;
                                         background-repeat: no-repeat;"
-                                   type="text">
-                        </div>
-                        <div class="row">
-                            <button class="btn btn-primary" id="pay_button" type="submit">Pay
+                                           type="text">
+                                </div>
+                                <div class="row">
+                                    <button class="btn btn-primary" id="pay_button" type="submit">Pay
 
-                            </button>
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-{% else %}{% if lang == "french" %}
-<div aria-hidden="true" aria-labelledby="paymentModal" class="modal fade" id="payment" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-body bbbb">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="corps container">
-                    <h4>DETAILS DE PAIEMENT</h4>
-                    <form action="/pay/{{lang}}" method="post">
-                        <div class="form-group">
-                            <select class="form-control" id="sel2">
-                                <option value="month">PAR MOIS</option>
-                                <option value="annual">ANNUEL</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" name="card_num" placeholder="Numero de la carte"
-                                   style="background-image: url(/static/images/card.png);
+        {% else %}{% if lang == "fr" %}
+            <div aria-hidden="true" aria-labelledby="paymentModal" class="modal fade" id="payment" role="dialog"
+                 tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
+                    <div class="modal-content">
+                        <div class="modal-body bbbb">
+                            <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <div class="corps container">
+                                <h4>DETAILS DE PAIEMENT</h4>
+                                <form action="" method="POST">
+                                    <div class="form-group">
+                                        <select class="form-control" id="sel2">
+                                            <option value="month">PAR MOIS</option>
+                                            <option value="annual">ANNUEL</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" name="card_num" placeholder="Numero de la carte"
+                                               style="background-image: url(/static/images/card.png);
                                         padding-left: 38px;
                                         background-position: 5px;
                                         background-size: 28px;
                                         background-repeat: no-repeat;" type="text">
-                        </div>
-                        <div class="form-group ">
-                            <input class="form-control" name="date_carte" placeholder="Date d'expiration" style="background-image: url(/static/images/calendar.png);
+                                    </div>
+                                    <div class="form-group ">
+                                        <input class="form-control" name="date_carte" placeholder="Date d'expiration" style="background-image: url(/static/images/calendar.png);
                                         padding-left: 38px;
                                         background-position: 5px;
                                         background-size: 28px;
                                         background-repeat: no-repeat;"
-                                   type="text">
-                        </div>
-                        <div class="form-group ">
-                            <input class="form-control" name="cvc" placeholder="CVC" style="background-image: url(/static/images/lock.png);
+                                               type="text">
+                                    </div>
+                                    <div class="form-group ">
+                                        <input class="form-control" name="cvc" placeholder="CVC" style="background-image: url(/static/images/lock.png);
                                         padding-left: 38px;
                                         background-position: 5px;
                                         background-size: 28px;
                                         background-repeat: no-repeat;"
-                                   type="text">
-                        </div>
-                        <div class="row">
-                            <button class="btn btn-primary" id="pay_button" type="submit">Payez
+                                               type="text">
+                                    </div>
+                                    <div class="row">
+                                        <button class="btn btn-primary" id="pay_button" type="submit">Payez
 
-                            </button>
-                    </form>
+                                        </button>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-{% else %}{% if lang == "ar" %}
-<div aria-hidden="true" aria-labelledby="paymentModal" class="modal fade" id="payment" role="dialog"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
-        <div class="modal-content">
-            <div class="modal-body bbbb">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="corps container">
-                    <h4>تفاصيل الدفع</h4>
-                    <form action="/pay/{{lang}}" method="post">
-                        <div class="form-group">
-                            <select class="form-control" id="sel2">
-                                <option value="month">شهريا</option>
-                                <option value="annual">سنويا</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" name="card_num" placeholder="أدخل رقم البطاقة"
-                                   style="background-image: url(/static/images/card.png);
+            {% else %}{% if lang == "ar" %}
+                <div aria-hidden="true" aria-labelledby="paymentModal" class="modal fade" id="payment" role="dialog"
+                     tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px">
+                        <div class="modal-content">
+                            <div class="modal-body bbbb">
+                                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <div class="corps container">
+                                    <h4>تفاصيل الدفع</h4>
+                                    <form action="" method="post">
+                                        <div class="form-group">
+                                            <select class="form-control" id="sel2">
+                                                <option value="month">شهريا</option>
+                                                <option value="annual">سنويا</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control" name="card_num" placeholder="أدخل رقم البطاقة"
+                                                   style="background-image: url(/static/images/card.png);
                                         padding-left: 38px;
                                         background-position: 5px;
                                         background-size: 28px;
                                         background-repeat: no-repeat;" type="text">
-                        </div>
-                        <div class="form-group ">
-                            <input class="form-control" name="date_carte" placeholder="تاريخ انتهاء الصلاحية" style="background-image: url(/static/images/calendar.png);
+                                        </div>
+                                        <div class="form-group ">
+                                            <input class="form-control" name="date_carte" placeholder="تاريخ انتهاء الصلاحية" style="background-image: url(/static/images/calendar.png);
                                         padding-left: 38px;
                                         background-position: 5px;
                                         background-size: 28px;
                                         background-repeat: no-repeat;"
-                                   type="text">
-                        </div>
-                        <div class="form-group ">
-                            <input class="form-control" name="cvc" placeholder="CVC" style="background-image: url(/static/images/lock.png);
+                                                   type="text">
+                                        </div>
+                                        <div class="form-group ">
+                                            <input class="form-control" name="cvc" placeholder="CVC" style="background-image: url(/static/images/lock.png);
                                         padding-left: 38px;
                                         background-position: 5px;
                                         background-size: 28px;
                                         background-repeat: no-repeat;"
-                                   type="text">
-                        </div>
-                        <div class="row">
-                            <button class="btn btn-primary" id="pay_button" type="submit">إدفع
+                                                   type="text">
+                                        </div>
+                                        <div class="row">
+                                            <button class="btn btn-primary" id="pay_button" type="submit">إدفع
 
-                            </button>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endif %}
-{% endif %}
-{% endif %}
+            {% endif %}
+        {% endif %}
+    {% endif %}
 {% endblock %}
 
 {% block scripts %}
-<script charset="utf-8" type="text/javascript">
-    var fullDate = new Date()
-    var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
-    var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
-    if (fullDate.getDate() < 10) {
-        currentDate = "0" + currentDate;
-    }
-    $('#sandbox-container input').datepicker({
-        format: "dd/mm/yyyy",
-        startDate: currentDate,
-        orientation: "bottom right"
-    });
-    var annual = "annual";
-    {% if lang == "french" %}
-    annual = "annuel";
-    {% endif %}
-    {% if lang == "ar" %}
-    annual = "السنوي";
-    {% endif %}
-    var permonth = "per month";
-    var monthly = "monthly";
-    {% if lang == "french" %}
-    permonth = "par mois";
-    monthly = "par mois";
-    {% endif %}
-    {% if lang == "ar" %}
-    permonth = "شهريا";
-    monthly = "شهريا";
-    {% endif %}
-    var year = "yr"
-    {% if lang == "french" %}
-    year = "an";
-    {% endif %}
-    {% if lang == "ar" %}
-    year = "سنة";
-    {% endif %}
-    var add = "add"
-    {% if lang == "french" %}
-    add = "ajouter";
-    {% endif %}
-    {% if lang == "ar" %}
-    add = "زيد";
-    {% endif %}
-    var dt = "dt"
-    {% if lang == "ar" %}
-    dt = "دت";
-    {% endif %}
-
-    $('#sandbox-container input').val(currentDate)
-    var month = document.querySelector(".monthan .month");
-    var an = document.querySelector(".monthan .an");
-
-    var show = document.querySelector(".monthan .show");
-    var price = document.querySelector("#backgroung-merged2 > div > div.shape > price");
-    console.log(price);
-    month.addEventListener('click', function () {
-        month.style.width = "0";
-        month.style.visibility = "hidden";
-        month.style.padding = "0";
-        an.style.width = "145px";
-        an.style.visibility = "visible";
-        an.style.padding = "10px 15px";
-        show.innerHTML = monthly.toUpperCase();
-        show.style.boxShadow = "7px 0 8px -4px #733838";
-        price.textContent = {{(price/12)|int}};
-    });
-    an.addEventListener('click', function () {
-        an.style.width = "0";
-        an.style.visibility = "hidden";
-        an.style.padding = "0";
-        month.style.width = "100px";
-        month.style.visibility = "visible";
-        month.style.padding = "10px 15px";
-        show.innerHTML = annual.toUpperCase();
-        show.style.boxShadow = "-7px 0 8px -4px #733838";
-        price.textContent = {{price|int}};
-
-    });
-
-    // mybutton = document.querySelector(".myBtn");
-    mybutton = $('.myBtn');
-    otherbutton = $('.topnav');
-    console.log(mybutton)
-
-    function scrollFunction() {
-        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-            mybutton.css('display', 'unset');
-            otherbutton.css('display', 'unset');
-            if ($(window).width() < 768) {
-                otherbutton.css('transform', 'translate(0px, 54px) scale(0.8)')
-            } else {
-                otherbutton.css('transform', 'translate(0px, 54px)')
-            }
-        } else {
-            mybutton.css('display', 'none');
-            otherbutton.css('display', 'none');
-            if ($(window).width() < 768) {
-                otherbutton.css('transform', 'translate(0,-54px) scale(0.8)')
-            } else {
-                otherbutton.css('transform', 'translate(0,-54px)')
-            }
-
+    <script charset="utf-8" type="text/javascript">
+        var fullDate = new Date()
+        var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+        var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+        if (fullDate.getDate() < 10) {
+            currentDate = "0" + currentDate;
         }
-    }
+        $('#sandbox-container input').datepicker({
+            format: "dd/mm/yyyy",
+            startDate: currentDate,
+            orientation: "bottom right"
+        });
+        var pp = 'PAY';
+        var annual = "annual";
+        {% if lang == "fr" %}
+            annual = "annuel";
+            pp = 'PAYEZ';
+        {% endif %}
+        {% if lang == "ar" %}
+            annual = "سنويا";
+        {% endif %}
+        var permonth = "per month";
+        var monthly = "monthly";
+        {% if lang == "fr" %}
+            permonth = "par mois";
+            monthly = "par mois";
+        {% endif %}
+        {% if lang == "ar" %}
+            permonth = "شهريا";
+            monthly = "شهريا";
+        {% endif %}
+        var year = "yr"
+        {% if lang == "fr" %}
+            year = "an";
+        {% endif %}
+        {% if lang == "ar" %}
+            year = "سنة";
+        {% endif %}
+        var add = "add"
+        {% if lang == "fr" %}
+            add = "ajouter";
+        {% endif %}
+        {% if lang == "ar" %}
+            add = "زيد";
+        {% endif %}
+        var dt = "dt"
+        {% if lang == "ar" %}
+            dt = "دت";
+            pp = 'إدفع';
+        {% endif %}
 
-    function topFunction() {
-        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-    }
+        $('#sandbox-container input').val(currentDate)
+        var month = document.querySelector(".monthan .month");
+        var an = document.querySelector(".monthan .an");
 
-    // normalement fi app.js
+        var show = document.querySelector(".monthan .show");
+        var price = document.querySelector("#backgroung-merged2 > div > div.shape > price");
+        var pr = document.querySelector("#sandbox-container > button > tag");
+        pr.textContent = pp +' '+document.querySelector("#backgroung-merged2 > div > div.shape > price").textContent +' '+ document.querySelector("#backgroung-merged2 > div > div.shape > small").textContent;
 
 
-</script>
+        console.log(price);
+        month.addEventListener('click', function () {
+            month.style.width = "0";
+            month.style.visibility = "hidden";
+            month.style.padding = "0";
+            an.style.width = "145px";
+            an.style.visibility = "visible";
+            an.style.padding = "10px 15px";
+            show.innerHTML = monthly.toUpperCase();
+            show.style.boxShadow = "7px 0 8px -4px #733838";
+            price.textContent = {{(price/12)|int}} +dt ;
+            var p = {{(price/12)|int}} ;
+            pr.textContent = pp+' '+ p +' '+ dt +' '+ monthly ;
+
+        });
+        an.addEventListener('click', function () {
+            an.style.width = "0";
+            an.style.visibility = "hidden";
+            an.style.padding = "0";
+            month.style.width = "100px";
+            month.style.visibility = "visible";
+            month.style.padding = "10px 15px";
+            show.innerHTML = annual.toUpperCase();
+            show.style.boxShadow = "-7px 0 8px -4px #733838";
+            price.textContent = {{price|int}} + dt;
+            var p = {{price|int}} ;
+            pr.textContent = pp+' '+p +' '+ dt +' '+ annual ;
+
+        });
+
+        // mybutton = document.querySelector(".myBtn");
+        mybutton = $('.myBtn');
+        otherbutton = $('.topnav');
+        console.log(mybutton)
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                mybutton.css('display', 'unset');
+                otherbutton.css('display', 'unset');
+                if ($(window).width() < 768) {
+                    otherbutton.css('transform', 'translate(0px, 54px) scale(0.8)')
+                } else {
+                    otherbutton.css('transform', 'translate(0px, 54px)')
+                }
+            } else {
+                mybutton.css('display', 'none');
+                otherbutton.css('display', 'none');
+                if ($(window).width() < 768) {
+                    otherbutton.css('transform', 'translate(0,-54px) scale(0.8)')
+                } else {
+                    otherbutton.css('transform', 'translate(0,-54px)')
+                }
+
+            }
+        }
+
+        function topFunction() {
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+
+        // normalement fi app.js
+
+
+    </script>
 {% endblock %}

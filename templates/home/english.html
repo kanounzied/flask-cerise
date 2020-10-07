@@ -3,10 +3,10 @@
 {% block sidenav %}
     <a href="/home/english">Home</a>
     <a href="/about/english">About Us</a>
-<!--    <a href="#">Claims</a>-->
+    <a href="/addreport/1/english">Car Report</a>
     <a href="/login/english">My account</a>
     <a href="/voiture/1/english" class="insurence-btn">Auto Insurance</a>
-    <a href="/vie" class="insurence-btn">Life Insurance</a>
+    <a href="/vie/?lang=fr" class="insurence-btn">Life Insurance</a>
 {% endblock %}
 {% block style %}
 <style>
@@ -53,7 +53,7 @@
         <a href="/voiture/1/english" onclick="callimg(this.innerHTML.replace('Insurance', ''),event)" class="insurence-btn">Auto Insurance</a>
     </li>
     <li class="pull-right">
-        <a href="/vie" onclick="callimg(this.innerHTML.replace('Insurance', ''),event)" class="insurence-btn">Life Insurance</a>
+        <a href="/vie/?lang=en" onclick="callimg(this.innerHTML.replace('Insurance', ''),event)" class="insurence-btn">Life Insurance</a>
     </li>
 
 {% endblock %}

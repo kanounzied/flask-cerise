@@ -50,7 +50,7 @@
 {% block sidenav %}
 {% if lang == 'english' %}
 <a href="/home/english">Home</a>
-<a href="#">About Us</a>
+<a href="/about/{{lang}}">About Us</a>
 <!--    <a href="#">Claims</a>-->
 <a href="/clear">Logout</a>
 {% else %}{% if lang == 'arabe' %}
@@ -80,7 +80,7 @@
     <a href="#">Claims</a>
 </li>
 <li class="pull-right">
-    <a href="#">My account</a>
+    <a href="/login/{{lang}}">My account</a>
 </li>
 <li class="pull-right">
     <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
@@ -102,7 +102,7 @@
     <a href="/home/french">Accueil</a>
 </li>
 <li>
-    <a href="#">Informations</a>
+    <a href="about/{{lang}}">Informations</a>
 </li>
 <li>
     <a href="#">Réclamations</a>

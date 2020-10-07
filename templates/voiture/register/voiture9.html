@@ -3,19 +3,19 @@
 {% block sidenav %}
 {% if lang == "english" %}
 <a href="/home/english">Home</a>
-<a href="#">About Us</a>
+<a href="/about/{{lang}}">About Us</a>
 <!--    <a href="#">Claims</a>-->
-<a href="#">My account</a>
+<a href="/login/{{lang}}">My account</a>
 {% else %}{%if lang =="arabe" %}
 <a href="/home/arabe">الرئيسية</a>
-<a href="#">معلومات</a>
+<a href="/about/{{lang}}">معلومات</a>
 <!--    <a href="#">مطالب</a>-->
-<a href="#">حسابي</a>
+<a href="/login/{{lang}}">حسابي</a>
 {% else %}{%if lang=="french" %}
 <a href="/home/french">Acceuil</a>
-<a href="#">Informations</a>
+<a href="about/{{lang}}">Informations</a>
 <!--    <a href="#">Réclamations</a>-->
-<a href="#">Mon compte</a>
+<a href="/login/{{lang}}">Mon compte</a>
 {% endif %}
 {% endif %}
 {% endif %}
@@ -47,8 +47,7 @@
             </div>
         </div>
         <div class="row">
-            <button type="submit" name="vform9" class="btn btn-primary col-2">Go!</button>
-            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+            <button type="submit" name="vform9" class="btn btn-primary col-2">Go</button>
         </div>
     </form>
     <div class="back"><a href="/voiture/8/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a>
@@ -61,7 +60,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
         <div class="content">
-            <h4 style="margin-top: 30px;font-size: 1rem">Already have an account ?</h4>
+            <h4 style="margin-top: 30px;font-size: 1rem">Connect or close this window and Create your Account</h4>
         </div>
         <div class="row">
             <div class="form-group col-12 ">
@@ -101,8 +100,7 @@
             </div>
         </div>
         <div class="row">
-            <button type="submit" name="vform9" class="btn btn-primary col-2">Go!</button>
-            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+            <button type="submit" name="vform9" class="btn btn-primary col-2">التالي</button>
         </div>
     </form>
     <div class="back"><a href="/voiture/8/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a>
@@ -115,7 +113,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
         <div class="content">
-            <h4 style="margin-top: 30px;font-size: 1rem">عندك كونت قديم ؟</h4>
+            <h4 style="margin-top: 30px;font-size: 1rem">كونكتي كان عندك كونت ولا سكر النافذة وتبع المراحل </h4>
         </div>
         <div class="row">
             <div class="form-group col-12 ">
@@ -155,8 +153,7 @@
             </div>
         </div>
         <div class="row">
-            <button type="submit" name="vform9" class="btn btn-primary col-2">Go!</button>
-            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+            <button type="submit" name="vform9" class="btn btn-primary col-2">Suivant</button>
         </div>
     </form>
     <div class="back"><a href="/voiture/8/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a>
@@ -170,7 +167,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
         <div class="content">
-            <h4 style="margin-top: 30px;font-size: 1rem">Vous avez déja un compte ?</h4>
+            <h4 style="margin-top: 30px;font-size: 1rem">Connectez-vous ou fermer la fenêtre et créez un compte ?</h4>
         </div>
         <div class="row">
             <div class="form-group col-12 ">

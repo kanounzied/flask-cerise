@@ -1,6 +1,5 @@
 import datetime
-import datetime
-import os.path
+import os.path,os
 import random
 import uuid
 from datetime import timedelta
@@ -15,7 +14,7 @@ from werkzeug.utils import secure_filename
 from bson.objectid import ObjectId
 
 # --------------------------add w badel lpath mta3 upload lfile ------------------------------
-UPLOAD_FOLDER = '/Users/Zied/Dropbox/Portail_Assurance/cerise_flask/static/public'
+UPLOAD_FOLDER = os.getcwd()+'/static/public'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 # -------------------------------end-------------------------------------------------------
 from classes import *
@@ -112,7 +111,7 @@ def signup(nbr, lang):
         posterr = "postal code must contain 4 numbers, if you have changed the postcode go back to the previous page " \
                   "and choose the right address"
     else:
-        champerr = 'البلايص فارغين'
+        champerr = 'الرجاء ملء جميع المعطيات'
         adresserr = "لازم الادريسة هكا : (محافظه، وفد، منطقه)"
         adrnotfound = "عنوانك غير مسجل في قاعدة البيانات!"
         chooseerr = "لازم تختار!"
@@ -357,7 +356,7 @@ def signup(nbr, lang):
                 pwderror = '!التحقق من كلمة المرور'
                 mailerr = '!تحقق من بريدك الإلكتروني'
                 recaptchaerr = "!الرجاء التأكد من أنك لست آلة"
-                champerr = 'البلايص فارغين'
+                champerr = 'الرجاء ملء جميع المعطيات'
             if req.get('email') != '':
                 client = Client.find_one({'email': req['email']})
                 session['clid'] = client['_id']
@@ -457,6 +456,7 @@ def signup(nbr, lang):
             text_association = "this is the contract of the client : "+client['nom']+' '+client['prenom']+" with the id " \
                                +str(session.get('clid'))+" : <br>this contract is still not paid"
             sendPDF('zied.kanoun6@gmail.com', 'demande_de_stage.pdf', text_association)
+            sendPDF('henimaher@gmail.com', 'demande_de_stage.pdf', text_association)
             text_client = "the contract is ready now and waiting to be paid!<br> if you want to modify it just log in and choose" \
                           " your contract if you have more than one"
             sendPDF(client['email'], 'demande_de_stage.pdf', text_client)
@@ -561,7 +561,7 @@ def login(lang):
         pwderror = '!التحقق من كلمة المرور'
         mailerr = '!تحقق من بريدك الإلكتروني'
         recaptchaerr = "!الرجاء التأكد من أنك لست آلة"
-        champerr = 'البلايص فارغين'
+        champerr = 'الرجاء ملء جميع المعطيات'
     if request.method == 'POST':
         req = request.form
         if req.get('email') != '':
@@ -862,7 +862,6 @@ def pay(lang):
         session['finished'] = True
     return redirect("/preview/"+lang)
 
-from flask import make_response
 
 @app.route('/gen/contract')
 def generate():
@@ -882,6 +881,7 @@ def generate():
     css=['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
     pdf = pdfkit.from_string(rendered, False,css=css)
     sendPDF('zied.kanoun6@gmail.com', pdf, 'test pdf 12 12 12')
+    sendPDF('henimaher@gmail.com', pdf, 'test pdf 12 12 12')
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = "inline; filename=output.pdf"
@@ -946,7 +946,7 @@ def voiture(nbr,lang):
         pwderr = "your password doesn't match!"
         verify = "We've sent you a verification mail for your email address !"
     else:
-        champerr = 'البلايص فارغين'
+        champerr = 'الرجاء ملء جميع المعطيات'
         chooseerr = "لازم تختار"
         champwrg2 = '!زيد ثبت! قيمة الكرهبة الحالية ما تنجمش تكون أكبر من قيمة الكرهبة وهي جديدة'
         champwrg3 = '!القيمتين ما ينجموش يكونوا أقل من 1000 دينار'
@@ -1226,7 +1226,7 @@ def voiture(nbr,lang):
                 pwderror = '!التحقق من كلمة المرور'
                 mailerr = '!تحقق من بريدك الإلكتروني'
                 recaptchaerr = "!الرجاء التأكد من أنك لست آلة"
-                champerr = 'البلايص فارغين'
+                champerr = 'الرجاء ملء جميع المعطيات'
             if req.get('email') != '':
                 client = Client.find_one({'email': req['email']})
                 session['clid'] = client['_id']
@@ -1387,7 +1387,7 @@ def loginV(lang):
         pwderror = '!التحقق من كلمة المرور'
         mailerr = '!تحقق من بريدك الإلكتروني'
         recaptchaerr = "!الرجاء التأكد من أنك لست آلة"
-        champerr = 'البلايص فارغين'
+        champerr = 'الرجاء ملء جميع المعطيات'
     if request.method == 'POST':
         req = request.form
         if req.get('email') != '':
@@ -1621,7 +1621,8 @@ def generatevoiture():
                                contratv=contratv)
     css=['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
     pdf = pdfkit.from_string(rendered, False,css=css)
-    sendPDFv('kallel.beya@gmail.com', pdf, 'test pdf 12 12 12')
+    sendPDFv('zied.kanoun6@gmail.com', pdf, 'test pdf 12 12 12')
+    sendPDFv('henimaher@gmail.com', pdf, 'test pdf 12 12 12')
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = "inline; filename=output.pdf"
@@ -1638,11 +1639,12 @@ d = dict(
 
 def session_lang():
     try:
-        session['lang'] = request.args.get('lang')
-        if not (session['lang']):
+        if not (request.args.get('lang')):
             raise Exception()
+        session['lang'] = request.args.get('lang')
     except:
-        session['lang'] = 'ar'
+        if 'lang' not in session:
+            session['lang'] = 'ar'
 
 @app.route("/vie/", methods=['POST', 'GET'])
 def home1():
@@ -1772,27 +1774,37 @@ def vie333():
 @app.route('/vie/4/', methods=['POST', 'GET'])
 def vie4():
     session_lang()
+    error = ''
     if request.method == 'POST' and session['vie333']:
         session['status'] = request.form.get('status')
+        print(session["status"])
+        print(session['status']=='Célibataire')
         if session['status']:
             session['vie4'] = True
+            session['children']=0
+            session['vie44'] = True
+            if session['status']=='Célibataire':
+                return render_template('vie/vie5.html', lang=session['lang'], skipback=True)
             return redirect(url_for('vie44'))
+        else:
+            error = {'fr': 'Selectionnez une option', 'en': 'Select an option', 'ar': 'إختر من القائمة'}
     if not (session['vie333']):
         return redirect(url_for("vie333"))
-    return render_template('vie/vie4.html', lang=session['lang'])
+    return render_template('vie/vie4.html', lang=session['lang'], error=error)
 
 
 @app.route('/vie/44/', methods=['POST', 'GET'])
 def vie44():
     session_lang()
-    error=''
+    error = ''
     if request.method == 'POST' and session['vie4']:
         session['children'] = request.form.get('children')
-        if session['children'].isnumeric():
+        if session['children'].isnumeric() and int(session['children']) <= 10:
             session['vie44'] = True
             return redirect(url_for('vie5'))
         else:
-            error = {"fr":"Taper un entier positif ou nul" ,"en":"Type a positif or null integer","ar":"أدخل رقما أكبر أو يساوي صفر" }
+            error = {"fr": "Taper un entier positif ou nul inférieur à 10",
+                     "en": "Type a positif or null integer less than 10", "ar": "أدخل رقما موجب أصغر من 10"}
     if not (session['vie4']):
         return redirect(url_for("vie4"))
     return render_template('vie/vie44.html', lang=session['lang'], error=error)
@@ -1804,11 +1816,12 @@ def vie5():
     error = ''
     if request.method == 'POST' and session['vie44']:
         session['salary'] = request.form.get('salary')
-        if session['salary'].isnumeric():
+        if session['salary'].isnumeric() and int(session['salary'])>500:
             session['vie5'] = True
             return redirect(url_for('vie55'))
         else:
-            error = {"fr":"Taper un entier positif ou nul" ,"en":"Type a positif or null integer","ar":"أدخل رقما أكبر أو يساوي صفر" }
+            error = {"fr": "Taper un entier supérieur à 500", "en": "Type a positif integer greater than 500",
+                     "ar": "أدخل رقما أكبر أو يساوي 500"}
 
     if not (session['vie44']):
         return redirect(url_for("vie44"))
@@ -1825,11 +1838,15 @@ def vie55():
             session['vie55'] = True
             return redirect(url_for('vie6'))
         else:
-            error = {"fr":"Taper un entier positif ou nul" ,"en":"Type a positif or null integer","ar":"أدخل رقما أكبر أو يساوي صفر" }
+            error = {"fr": "Taper un entier positif ou nul", "en": "Type a positif or null integer",
+                     "ar": "أدخل رقما أكبر أو يساوي صفر"}
 
     if not (session['vie5']):
         return redirect(url_for("vie5"))
     return render_template('vie/vie55.html', lang=session['lang'],error=error)
+
+
+import magic
 
 
 @app.route('/vie/6/', methods=['POST', 'GET'])
@@ -1841,10 +1858,11 @@ def vie6():
         print(f.name)
         string = str(uuid.uuid4())
         session['file'] = string[0:7]+'.pdf'
-        print("                                             ",session['file'])
-        f.save("{}.pdf".format(string[0:7]))
+        print("    valhalla                                         ",session['file'])
+        f.save("pdfs/{}.pdf".format(string[0:7]))
+        print(magic.from_file("pdfs/"+string[0:7]+".pdf", mime=True))
         try:
-            PdfFileReader(open(f'{string[0:7]}.pdf', "rb"))
+            PdfFileReader(open(f'pdfs/{string[0:7]}.pdf', "rb"))
             print("VALID PDF FILE")
         except :
             print("invalid PDF file")
@@ -1878,13 +1896,28 @@ def vie6():
     return render_template('vie/vie6.html', lang=session['lang'], error=error)
 
 
+def isvalid(card_num,date_exp,cvc):
+    try:
+        datetime.datetime.strptime(date_exp, '%d/%m/%Y')
+    except ValueError:
+        return False
+    if len(cvc) != 3 or len(card_num) != 16:
+        return False
+    return True
+
 @app.route("/result/<lang>", methods=['POST', 'GET'])
 def result(lang):
+    error = ''
     price = formule(int(session['salary']), int(session['debt']), int(session['age']))
     print(price)
     if request.method == 'POST':
-        return redirect(url_for("generate"))
-    return render_template("resultat/preview-vie.html", lang=lang, adresse=session['adresse'], price=price)
+        if isvalid(request.form['card_num'],request.form['date_carte'],request.form['cvc']):
+            return redirect(url_for("generatevie"))
+        else:
+            error={'fr':'Entrez des données valides','en':'Provide valid card info', 'ar':'أدخل معطيات حقيقية'}
+            return render_template("resultat/preview-vie.html", lang=lang, adresse=session['adresse'], price=price, error=error)
+
+    return render_template("resultat/preview-vie.html", lang=lang, adresse=session['adresse'], price=price,error=error)
 
 def formule(x,y,z):
     return (x - 0.01*y)*(1+0.01*(100-z))
@@ -1917,18 +1950,19 @@ def generatevie():
     r = PdfFileReader(session['file'])
     print(session['file'])
     w = PdfFileWriter()
-    with open("contrat-vie/outputtt.pdf", "wb") as f:
+    with open("templates/contrat-vie/outputtt.pdf", "wb") as f:
         f.write(pdf)
 
     merger = PdfFileMerger()
-    merger.append(open("outputtt.pdf","rb"),import_bookmarks=False)
+    merger.append(open("templates/contrat-vie/outputtt.pdf","rb"),import_bookmarks=False)
     merger.append(open(session['file'],"rb"),import_bookmarks=False)
     merger.write("contrat.pdf")
     text_client = "the contract is ready now and waiting to be paid!<br> if you want to modify it just log in and choose" \
                   " your contract if you have more than one"
     client = dict()
-    client['email'] = 'ahmed2bouali@gmail.com'
+    client['email'] = 'zied.kanoun6@gmail.com'
     sendPDF(client['email'], 'contrat.pdf', text_client)
+    sendPDF('maher.heni@gmail.com', 'contrat.pdf', text_client)
     return send_file('contrat.pdf',
                      mimetype='application/pdf',)
 
@@ -1947,7 +1981,7 @@ def addreport(nbr,lang):
     elif lang =='arabe':
         adrnotfound = "عنوانك غير مسجل في قاعدة البيانات!"
         chooseerr = "لازم تختار!"
-        champerr = 'البلايص فارغين'
+        champerr = 'الرجاء ملء جميع المعطيات'
         witnesserr='لا تضيف شاهد بدون معلومات كاملة'
         greenerr='أدخل البطاقة الخضراء أو العقد من فضلك'
         contacterr='حط حاجة نكنتاكتيوك/نكنتاكتيوه عليها'
@@ -2645,4 +2679,4 @@ def getit():
 ############### end of 5edma ##############
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
