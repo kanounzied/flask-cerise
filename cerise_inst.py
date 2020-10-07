@@ -62,6 +62,7 @@ def arab():
 
 @app.route("/home/<lang>")
 def home(lang):
+    session.clear()
     return render_template("/home/" + lang + ".html", lang=lang)
 
 
@@ -1649,15 +1650,15 @@ def generatevoiture():
     print('fgr')
     client = session.get('client')
     garantie = session.get('garantie')
-
+    contratv = Contrat_voiture({'_id': session.get('contv_id')})
     rendered = render_template('contrat_voiture/contrat_voiture.html',
                                client=client,
                                garantie=garantie,
-                               contratv=Contrat.find_one({'_id': garantie['contract']}))
+                               contratv=contratv)
     css=['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
     pdf = pdfkit.from_string(rendered, False,css=css)
-    sendPDFv('zied.kanoun6@gmail.com', pdf, 'test pdf 12 12 12')
-    sendPDFv('henimaher@gmail.com', pdf, 'test pdf 12 12 12')
+    sendPDF('zied.kanoun6@gmail.com', pdf, 'test pdf 12 12 12', 'voiture')
+    sendPDF('henimaher@gmail.com', pdf, 'test pdf 12 12 12', 'voiture')
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = "inline; filename=output.pdf"
