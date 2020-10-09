@@ -12,6 +12,7 @@ from flask_session import Session
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
 from werkzeug.utils import secure_filename
 from bson.objectid import ObjectId
+import base64
 
 # --------------------------add w badel lpath mta3 upload lfile ------------------------------
 UPLOAD_FOLDER = os.getcwd()+'/static/public'
@@ -1981,7 +1982,7 @@ def addreport(nbr,lang):
     elif lang =='arabe':
         adrnotfound = "عنوانك غير مسجل في قاعدة البيانات!"
         chooseerr = "لازم تختار!"
-        champerr = 'الرجاء ملء جميع المعطيات'
+        champerr = 'البلايص فارغين'
         witnesserr='لا تضيف شاهد بدون معلومات كاملة'
         greenerr='أدخل البطاقة الخضراء أو العقد من فضلك'
         contacterr='حط حاجة نكنتاكتيوك/نكنتاكتيوه عليها'
@@ -2102,7 +2103,7 @@ def addreport(nbr,lang):
                                            vehicles=vehicles,error=champerr)
                 session["matriculev_a"]= nserie+typeim+matriculev_a
             else:
-                session["matriculev_a"] =typeim+':'+matriculev_a 
+                session["matriculev_a"] =typeim+':'+matriculev_a      
             session["countryv_a"] = countryv_a
             session["typev_a"] = typev_a
             session["brandv_a"] = brandv_a
@@ -2257,7 +2258,7 @@ def addreport(nbr,lang):
             session["categoryp_a"]=categoryp_a
             session["validp_a"]=validp_a
             session['form111']='submitted'
-        if 'form112' in req:
+        if 'form112' in req: 
             chocpt_a = req.get('type')
             if chocpt_a == None:
                 return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
@@ -2664,17 +2665,29 @@ def getit():
     insured_A_adr= adrins_A['adresse']+','+prop_A['apt_unit']+','+prop_A['rue']
     insured_A_pos=adrins_A['code_postal']
     nbcurc_a = getthat['circumstances_A'].count(";")
+    with open('static/public/'+session["accident_sketch"], 'rb') as image_file:
+            sketch = base64.b64encode(image_file.read())
+            skett = str(sketch)
+            ske = skett[2:-1]
+    client = session.get('client')
     if session['acctype']=="one":
+        #path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+        #config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+        rendered = render_template("constat/constat1pdf.html",report=getthat,nba=nbcurc_a,
+                               insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos,sketch=ske)
+        css = ['./templates/constat/constat.css']
+        pdf = pdfkit.from_string(rendered, False,css=css)
+        sendPDFc(client['email'], pdf, 'Here is your report')
         return render_template("/constat_form/constatvoitureone.html",report=getthat,nba=nbcurc_a,
                                insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos)
     nbcurc_b = getthat['circumstances_B'].count(";")
-    # with open("/Users/ahmed/Desktop/flaskone/public/"+getthat['accident_sketch'], "rb") as image_file:
-    #     encoded_string = base64.b64encode(image_file.read())
-    # return json.dumps(getthat, default=json_util.default)
+    rendered = render_template("constat/constat2pdf.html",report=getthat,nba=nbcurc_a,nbb=nbcurc_b,
+                           insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos)
+    css = ['./templates/constat/constat.css']
+    pdf = pdfkit.from_string(rendered, False,css=css)
+    sendPDFc(client['email'], pdf, 'Here is your report')
     return render_template("/constat_form/constat_voiture.html",report=getthat,nba=nbcurc_a,nbb=nbcurc_b,
-                           insured_A=insured_A)
-    #  allcars = list(collection.find({}))
-    #  return json.dumps(allcars, default=json_util.default)
+                           insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos)
 #------------------------------------------------------------------end---------------------------------------------------
 ############### end of 5edma ##############
 
