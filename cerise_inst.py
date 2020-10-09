@@ -1982,7 +1982,7 @@ def addreport(nbr,lang):
     elif lang =='arabe':
         adrnotfound = "عنوانك غير مسجل في قاعدة البيانات!"
         chooseerr = "لازم تختار!"
-        champerr = 'البلايص فارغين'
+        champerr = 'الرجاء ملء جميع المعطيات'
         witnesserr='لا تضيف شاهد بدون معلومات كاملة'
         greenerr='أدخل البطاقة الخضراء أو العقد من فضلك'
         contacterr='حط حاجة نكنتاكتيوك/نكنتاكتيوه عليها'
