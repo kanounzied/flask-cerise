@@ -1,0 +1,15 @@
+body {margin-top: 0px;margin-left: 0px;}
+
+#page_1 {position:relative; overflow: hidden;margin: 0px 0px 0px 0px;padding: 0px;border: none;width: 793px;height: 1139px;}
+
+#page_1 #p1dimg1 {position:absolute;top:0px;left:0px;z-index:-1;width:793px;height:1139px;}
+#page_1 #p1dimg1 #p1img1 {width:793px;height:1139px;}
+
+
+
+
+.dclr {clear:both;float:none;height:1px;margin:0px;padding:0px;overflow:hidden;}
+
+.ft0{font: 8px 'Calibri';line-height: 10px;}
+
+.p0{text-align: left;padding-left: 260px;margin-top: 1117px;margin-bottom: 0px;}
