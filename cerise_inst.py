@@ -1846,9 +1846,6 @@ def vie55():
     return render_template('vie/vie55.html', lang=session['lang'],error=error)
 
 
-import magic
-
-
 @app.route('/vie/6/', methods=['POST', 'GET'])
 def vie6():
     session_lang()
@@ -2679,4 +2676,4 @@ def getit():
 ############### end of 5edma ##############
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run()
