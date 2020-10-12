@@ -13,7 +13,7 @@
 <a href="/login/{{lang}}">حسابي</a>
 {% else %}{%if lang=="french" %}
 <a href="/home/french">Acceuil</a>
-<a href="about/{{lang}}">Informations</a>
+<a href="/about/{{lang}}">Informations</a>
 <!--    <a href="#">Réclamations</a>-->
 <a href="/login/{{lang}}">Mon compte</a>
 {% endif %}
@@ -25,7 +25,6 @@
     <a class="btn btn-secondary dropdown-toggle" href="#" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {% block lang %}{{lang}}{% endblock %}
     </a>
-
     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
         <a class="dropdown-item" href="/preview/arabe">Ar</a>
         <a class="dropdown-item" href="/preview/french">Fr</a>
@@ -73,72 +72,72 @@
 
 </div>
 {% else %}{% if lang=="french" %}
-<div class="french container-fluid">
-    <div style="text-align: center">
-        <h3 style="margin-bottom: 50px">Choose one of your properties :</h3>
-        <dl class="contract-list anyClass" style="max-height: 400px">
-            {% for contrat in contrats %}
-            {% if contrat.paid is sameas false %}
-            {% set x = loop.index %}
-            <dt ><a href="/preview/french/{{loop.index}}">{{contrat.adresse}}</a><span id="{{x}}" class="deladd pull-right">Supprimer</span></dt>
-            {% else %}
-            <dt class="paid"><p>{{contrat.adresse}}</p></dt>
-            {% endif %}
-            {% endfor %}
-        </dl>
+{#<div class="french container-fluid">#}
+{#    <div style="text-align: center">#}
+{#        <h3 style="margin-bottom: 50px">Choose one of your properties :</h3>#}
+{#        <dl class="contract-list anyClass" style="max-height: 400px">#}
+{#            {% for contrat in contrats %}#}
+{#            {% if contrat.paid is sameas false %}#}
+{#            {% set x = loop.index %}#}
+{#            <dt ><a href="/preview/french/{{loop.index}}">{{contrat.adresse}}</a><span id="{{x}}" class="deladd pull-right">Supprimer</span></dt>#}
+{#            {% else %}#}
+{#            <dt class="paid"><p>{{contrat.adresse}}</p></dt>#}
+{#            {% endif %}#}
+{#            {% endfor %}#}
+{#        </dl>#}
+{#    </div>#}
+{##}
+{#</div>#}
+    <div class="french container-fluid">
+        <div class="row">
+            <div class="col-md-4 houseins">
+                <div style="text-align: center">
+                    <h3 style="margin-bottom: 50px">Choose one of your properties:</h3>
+                    <dl class="contract-list anyClass" style="max-height: 400px">
+                        {% for contrat in contrats %}
+                            {% if contrat.paid is sameas false %}
+                                {% set x = loop.index %}
+                                <dt ><a href="/preview/french/{{loop.index}}">{{contrat.adresse}}</a><span id="{{x}}" class="deladd pull-right houseins">Supprimer</span></dt>
+                            {% else %}
+                                <dt class="paid"><p>{{contrat.adresse}}</p></dt>
+                            {% endif %}
+                        {% endfor %}
+                    </dl>
+                </div>
+            </div>
+            <div class="col-md-4 carins">
+                <div style="text-align: center">
+                    <h3 style="margin-bottom: 50px">Choose one of your vehicule:</h3>
+                    <dl class="contract-list anyClass" style="max-height: 400px">
+                        {% for contrat in voitures %}
+                            {% if contrat.paid is sameas false %}
+                                {% set x = loop.index %}
+                                <dt ><a href="/previewvoiture/french/{{loop.index}}">{{contrat.car}}</a><span id="{{x}}" class="deladd pull-right carins">Supprimer</span></dt>
+                            {% else %}
+                                <dt class="paid"><p>{{contrat.car}}</p></dt>
+                            {% endif %}
+                        {% endfor %}
+                    </dl>
+                </div>
+            </div>
+            <div class="col-md-4 lifeins">
+                <div style="text-align: center">
+                    <h3 style="margin-bottom: 50px">Access your life insurance:</h3>
+                    <dl class="contract-list anyClass" style="max-height: 400px">
+                        {% for contrat in contrats %}
+                            {% if contrat.paid is sameas false %}
+                                {% set x = loop.index %}
+                                <dt ><a href="/preview/french/{{loop.index}}">{{contrat.adresse}}</a><span id="{{x}}" class="deladd pull-right lifeins">Supprimer</span></dt>
+                            {% else %}
+                                <dt class="paid"><p>{{contrat.adresse}}</p></dt>
+                            {% endif %}
+                        {% endfor %}
+                    </dl>
+                </div>
+            </div>
+        </div>
+
     </div>
-
-</div>
-<!--<div class="french container-fluid">-->
-<!--    <div class="row">-->
-<!--        <div class="col-md-4">-->
-<!--            <div style="text-align: center">-->
-<!--                <h3 style="margin-bottom: 50px">Choose one of your properties :</h3>-->
-<!--                <dl class="contract-list anyClass" style="max-height: 400px">-->
-<!--                    {% for contrat in contrats %}-->
-<!--                    {% if contrat.paid is sameas false %}-->
-<!--                    {% set x = loop.index %}-->
-<!--                    <dt ><a href="/preview/french/{{loop.index}}">{{contrat.adresse}}</a><span id="{{x}}" class="deladd pull-right">Supprimer</span></dt>-->
-<!--                    {% else %}-->
-<!--                    <dt class="paid"><p>{{contrat.adresse}}</p></dt>-->
-<!--                    {% endif %}-->
-<!--                    {% endfor %}-->
-<!--                </dl>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="col-md-4">-->
-<!--            <div style="text-align: center">-->
-<!--                <h3 style="margin-bottom: 50px">Choose one of your properties :</h3>-->
-<!--                <dl class="contract-list anyClass" style="max-height: 400px">-->
-<!--                    {% for contrat in contrats %}-->
-<!--                    {% if contrat.paid is sameas false %}-->
-<!--                    {% set x = loop.index %}-->
-<!--                    <dt ><a href="/preview/french/{{loop.index}}">{{contrat.adresse}}</a><span id="{{x}}" class="deladd pull-right">Supprimer</span></dt>-->
-<!--                    {% else %}-->
-<!--                    <dt class="paid"><p>{{contrat.adresse}}</p></dt>-->
-<!--                    {% endif %}-->
-<!--                    {% endfor %}-->
-<!--                </dl>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="col-md-4">-->
-<!--            <div style="text-align: center">-->
-<!--                <h3 style="margin-bottom: 50px">Choose one of your properties :</h3>-->
-<!--                <dl class="contract-list anyClass" style="max-height: 400px">-->
-<!--                    {% for contrat in contrats %}-->
-<!--                    {% if contrat.paid is sameas false %}-->
-<!--                    {% set x = loop.index %}-->
-<!--                    <dt ><a href="/preview/french/{{loop.index}}">{{contrat.adresse}}</a><span id="{{x}}" class="deladd pull-right">Supprimer</span></dt>-->
-<!--                    {% else %}-->
-<!--                    <dt class="paid"><p>{{contrat.adresse}}</p></dt>-->
-<!--                    {% endif %}-->
-<!--                    {% endfor %}-->
-<!--                </dl>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-
-<!--</div>-->
 {% endif %}
 {% endif %}
 {% endif %}
@@ -147,32 +146,19 @@
 <script>
     $(function () {
         $('dt .deladd').on('click', function () {
-            x = parseInt($(this).attr('id'))
+            x = parseInt($(this).attr('id'));
+            type = $(this).attr('class');
+            type = type.split(' ')[2];
             console.log(x)
+            console.log(type)
             req = $.ajax({
-                url: '/delete/contract/'+x,
+                url: '/delete/'+type+'/'+x,
                 type: 'POST',
             })
             req.done(function () {
-                $('dl dt')[x-1].style.display = 'none';
+                $(type+' dl dt')[x-1].style.display = 'none';
             })
         });
-        // $('dt .deladd').on('click', function () {
-        //     console.log(parseInt($(this).attr('id')))
-        // });
-        console.log('la2aa!')
-        function deladd(){
-            x = parseInt($(this).attr('id'))
-            console.log(x)
-            req = $.ajax({
-                url: '/delete/contract/'+x,
-                type: 'POST',
-            })
-            req.done(function (data) {
-                console.log(data.cont_id)
-                $('dl dt')[x-1].css('background-color','red');
-            })
-        }
     })
 </script>
 {% endblock %}

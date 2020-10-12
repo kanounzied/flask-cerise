@@ -13,7 +13,7 @@
 <a href="/login/{{lang}}">حسابي</a>
 {% else %}{%if lang=="french" %}
 <a href="/home/french">Acceuil</a>
-<a href="about/{{lang}}">Informations</a>
+<a href="/about/{{lang}}">Informations</a>
 <!--    <a href="#">Réclamations</a>-->
 <a href="/login/{{lang}}">Mon compte</a>
 {% endif %}
@@ -86,8 +86,11 @@
             <div class="g-recaptcha" data-sitekey="6LfBg8MZAAAAANGW1yEb9v12b-qbpmMvgSmOd_Tj" data-action='submit'></div>
         </div>
         <div class="row">
+            {%  if carreport is defined %}
+            <button type="submit" name="carreport" class="btn btn-primary col-2">Connect</button>
+                {%  else %}
             <button type="submit" name="login" class="btn btn-primary col-2">Connect</button>
-            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go</a>-->
+                {% endif %}
         </div>
     </form>
 </div>
@@ -158,9 +161,11 @@
             <div class="g-recaptcha" data-sitekey="6LfBg8MZAAAAANGW1yEb9v12b-qbpmMvgSmOd_Tj" data-action='submit'></div>
         </div>
         <div class="row">
-            <button type="submit" name="login" class="btn btn-primary col-2">Connect</button>
-            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go</a>-->
-        </div>
+            {%  if carreport is defined %}
+                <button type="submit" name="carreport" class="btn btn-primary col-2">Connect</button>
+            {%  else %}
+                <button type="submit" name="login" class="btn btn-primary col-2">Connect</button>
+            {% endif %}        </div>
     </form>
 </div>
 <div class="modal fade" id="fill_email" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -230,8 +235,11 @@
             <div class="g-recaptcha" data-sitekey="6LfBg8MZAAAAANGW1yEb9v12b-qbpmMvgSmOd_Tj" data-action='submit'></div>
         </div>
         <div class="row">
-            <button type="submit" name="login" class="btn btn-primary col-2">Connect</button>
-            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go</a>-->
+            {%  if carreport is defined %}
+                <button type="submit" name="carreport" class="btn btn-primary col-2">Connect</button>
+            {%  else %}
+                <button type="submit" name="login" class="btn btn-primary col-2">Connect</button>
+            {% endif %}
         </div>
     </form>
 </div>

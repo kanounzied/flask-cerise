@@ -9,11 +9,11 @@
     }
     .pop_pres button[type='submit']{
      position:none !important;
-     bottom:none !important;
-     right:none !important;
-     width:none !important;
-     padding:none !important;
-     background-color:none!important;
+     bottom:none !important; 
+     right:none !important; 
+     width:none !important; 
+     padding:none !important; 
+     background-color:none!important; 
      color:none!important;
 }
 </style>
@@ -21,19 +21,19 @@
 {% block sidenav %}
 {% if lang == "english" %}
 <a href="/home/english">Home</a>
-<a href="/about/{{lang}}">About Us</a>
+<a href="/about/{{ lang }}">About Us</a>
 <!-- <a href="#">Claims</a> -->
-<a href="/login/{{lang}}">My account</a>
+<a href="/login/{{ lang }}">My account</a>
 {% else %}{% if lang =="arabe" %}
 <a href="/home/arabe">الرئيسية</a>
-<a href="/about/{{lang}}">معلومات</a>
+<a href="/about/{{ lang }}">معلومات</a>
 <!-- <a href="#">مطالب</a> -->
-<a href="/login/{{lang}}">حسابي</a>
+<a href="/login/{{ lang }}">حسابي</a>
 {% else %}{% if lang=="french" %}
 <a href="/home/french">Acceuil</a>
-<a href="about/{{lang}}">Informations</a>
+<a href="/about/{{ lang }}">Informations</a>
 <!-- <a href="#">Réclamations</a> -->
-<a href="/login/{{lang}}">Mon compte</a>
+<a href="/login/{{lang }}">Mon compte</a>
 {% endif %}
 {% endif %}
 {% endif %}
@@ -105,7 +105,7 @@
         </div>
         <div class="row">
             <button type="submit" name="form108" class="btn btn-primary col-2">Next!</button>
-            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go</a>-->
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
         </div>
     </form>
     <div class="back"><a href="/addreport/7/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
@@ -146,6 +146,7 @@
         
     </div>
 
+<!--        <button type="submit" name="code_form" class="btn">Send</button>-->
 </div>
 {% else %}{% if lang =="arabe" %}
 <div class="arab container-fluid">
@@ -205,7 +206,8 @@
             </div>
         </div>
         <div class="row">
-            <button type="submit" name="form108" class="btn btn-primary col-2">التالي</button>
+            <button type="submit" name="form108" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
         </div>
     </form>
     <div class="back"><a href="/addreport/7/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
@@ -301,7 +303,8 @@
             </div>
         </div>
         <div class="row">
-            <button type="submit" name="form108" class="btn btn-primary col-2">Suivant</button>
+            <button type="submit" name="form108" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
         </div>
     </form>
     <div class="back"><a href="/addreport/7/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
@@ -377,7 +380,7 @@
 $('#typeim').change(function(){
     if((this.value)=="NT"){
         $('#countryv').hide();
-        $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s'    placeholder='series number'></div><div class='form-group col-2' style='text-align: center;'>NT</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='Registration number'></div>");
+        $('#mat').html("<div class='form-group col-12'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='Registration number'> </div>");
     }
     else if((this.value)=="tunis"){
         $('#countryv').hide();
@@ -396,7 +399,7 @@ $('#typeim').change(function(){
 $('#typeim').change(function(){
     if((this.value)=="NT"){
         $('#countryv').hide();
-        $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s'    placeholder='رقم '></div><div class='form-group col-2' style='text-align: center;'>نت</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='رقم التسجيل'></div>");
+        $('#mat').html("<div class='form-group col-12'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='رقم التسجيل'> </div>");
     }
     else if((this.value)=="tunis"){
         $('#countryv').hide();
@@ -415,7 +418,7 @@ $('#typeim').change(function(){
     $('#typeim').change(function(){
         if((this.value)=="NT"){
             $('#countryv').hide();
-            $('#mat').html("<div class='form-group col-5'><input type='text' class='form-control' name='matricule_s' id='matricule_s'    placeholder='numéro de série'></div><div class='form-group col-2' style='text-align: center;'>NT</div><div class='form-group col-5'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='Numéro d&#39enregistrement'></div>");
+            $('#mat').html("<div class='form-group col-12'><input type='text' class='form-control' name='matricule' id='matricule' placeholder='n° d&#39immatriculation'> </div>");
         }
         else if((this.value)=="tunis"){
             $('#countryv').hide();

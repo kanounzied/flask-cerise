@@ -12,6 +12,7 @@ from flask_session import Session
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
 from werkzeug.utils import secure_filename
 from bson.objectid import ObjectId
+import base64
 
 # --------------------------add w badel lpath mta3 upload lfile ------------------------------
 UPLOAD_FOLDER = os.getcwd()+'/static/public'
@@ -62,6 +63,7 @@ def arab():
 
 @app.route("/home/<lang>")
 def home(lang):
+    session.clear()
     return render_template("/home/" + lang + ".html", lang=lang)
 
 
@@ -453,13 +455,25 @@ def signup(nbr, lang):
             session['done'] = True
             session['finished'] = True  # finished is for when the client submits the last form (passwords) and from
             # then he shouldn't be allowed to return to signups
-            text_association = "this is the contract of the client : "+client['nom']+' '+client['prenom']+" with the id " \
+            autre = []
+            # print(apt)
+            for one in apt['autres_biens']:
+                autre.append(AutresBiens.find_one({'_id': one}))
+            rendered = render_template('contrat/contrat.html',
+                                        client=client,
+                                        adresse=adresse,
+                                        valuables=apt['valuables'],
+                                        autres_biens=autre,
+                                        contrat=Contrat.find_one({'_id': apt['contrat']}))
+            css = ['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
+            pdf = pdfkit.from_string(rendered, False, css=css)
+            text_societe = "this is the contract of the client : "+client['nom']+' '+client['prenom']+" with the id " \
                                +str(session.get('clid'))+" : <br>this contract is still not paid"
-            sendPDF('zied.kanoun6@gmail.com', 'demande_de_stage.pdf', text_association)
-            sendPDF('henimaher@gmail.com', 'demande_de_stage.pdf', text_association)
+            sendPDF('zied.kanoun6@gmail.com', pdf, text_societe, 'immobiliere')
+            sendPDF('henimaher@gmail.com', pdf, text_societe, 'immobiliere')
             text_client = "the contract is ready now and waiting to be paid!<br> if you want to modify it just log in and choose" \
                           " your contract if you have more than one"
-            sendPDF(client['email'], 'demande_de_stage.pdf', text_client)
+            sendPDF(client['email'], pdf, text_client, 'immobiliere')
             return redirect("/preview/" + lang)
     elif nbr == "15" and request.method == 'GET':
         abort(403)
@@ -521,24 +535,42 @@ def preview(lang, index):
     else:
         client = session.get('client')
         proprietes = list([])
-        # print('contrats', client['contrats'])
-        for cont in client['contrats']:
-            try:
-                cnt = Contrat.find_one({'_id': cont})
-                print('cnt', cont)
-                if 'paid' in cnt:
-                    paid = True
-                else:paid = False
-                apt = Propriete.find_one({'_id': cnt['prop_id']})
-                adresse = Adresse.find_one({'_id': apt['adr_id']})['adresse']
-                prop = {
-                    'adresse': apt['apt_unit'] + ", " + apt['rue'] + "  " + adresse,
-                    'paid': paid
-                }
-                proprietes.append(prop)
-            except:
-                print(cont,' not found in Contrat')
-        return render_template("resultat/multiple.html", contrats=proprietes, lang=lang)
+        voitures = list([])
+        if 'contrats' in client:
+            for cont in client['contrats']:
+                try:
+                    cnt = Contrat.find_one({'_id': cont})
+                    if 'paid' in cnt:
+                        paid = True
+                    else:paid = False
+                    apt = Propriete.find_one({'_id': cnt['prop_id']})
+                    adresse = Adresse.find_one({'_id': apt['adr_id']})['adresse']
+                    print('cnt', cont)
+                    prop = {
+                        'adresse': apt['apt_unit'] + ", " + apt['rue'] + "  " + adresse,
+                        'paid': paid
+                    }
+                    proprietes.append(prop)
+                except:
+                    print(cont,' not found in Contrat')
+        if 'contratsV' in client:
+            for cont in client['contratsV']:
+                try:
+                    cnt = Contrat_voiture.find_one({'_id': cont})
+                    if 'paid' in cnt:
+                        paid = True
+                    else:paid = False
+                    garid = cnt['garantie_id']
+                    carid = Garantie.find_one({'_id': garid})['voiture_id']
+                    car = Voiture.find_one({'_id': carid})
+                    voit = {
+                        'car': car['marq_model']+', '+car['matricule'],
+                        'paid': paid
+                    }
+                    voitures.append(voit)
+                except:
+                    print('car not found')
+        return render_template("resultat/multiple.html", contrats=proprietes,voitures=voitures, lang=lang)
 
 
 @app.route("/login/<lang>", methods=['POST', 'GET'])
@@ -573,12 +605,30 @@ def login(lang):
                     if recaptcha.verify():
                         session['done'] = True
                         session['client'] = client
-                        if len(client['contrats']) == 1 and 'paid' not in Contrat.find_one({'_id': client['contrats'][0]}):
-                            contrat = Contrat.find_one({'_id': client['contrats'][0]})
-                            apartement = Propriete.find_one({'_id': contrat['prop_id']})
-                            session['apt'] = apartement
-                            session['adr_id'] = apartement['adr_id']
-                            session['contrat'] = contrat
+                        if 'carreport' in req :
+                            return redirect('/addreport/8/'+lang)
+                        nbr_conts = 0
+                        if 'contrats' in client and len(client['contrats'])>0: nbr_conts += len(client['contrats'])
+                        if 'contratsV' in client and len(client['contratsV'])>0: nbr_conts += len(client['contratsV'])
+                        # if 'contrats_vie' in client and len(client['contrats_vie'])>0: nbr_conts += len(client['contrats_vie'])
+                        if nbr_conts == 1:
+                            if 'contrats' in client and len(client['contrats']) == 1 and 'paid' not in Contrat.find_one({'_id': client['contrats'][0]}):
+                                contrat = Contrat.find_one({'_id': client['contrats'][0]})
+                                apartement = Propriete.find_one({'_id': contrat['prop_id']})
+                                session['apt'] = apartement
+                                session['adr_id'] = apartement['adr_id']
+                                session['contrat'] = contrat
+                                session['finished'] = True
+                                return redirect('/preview/' + lang)
+                            if 'contratsV' in client and len(client['contratsV']) == 1 and 'paid' not in Contrat_voiture.find_one({'_id': client['contratsV'][0]}):
+                                contrat = Contrat.find_one({'_id': client['contrats'][0]})
+                                apartement = Propriete.find_one({'_id': contrat['prop_id']})
+                                session['apt'] = apartement
+                                session['adr_id'] = apartement['adr_id']
+                                session['contrat'] = contrat
+                                session['finished'] = True
+                                return redirect('/previewvoiture/' + lang)
+                            error = 'all of your contracts are paid'
                         else:
                             session['apt_id'] = 'multiple'
                             session['apt'] = 'multiple'
@@ -594,6 +644,21 @@ def login(lang):
                 error = mailerr
         else:
             error = champerr
+    elif 'clid' in session:
+        client = session['client']
+        if len(client['contrats']) == 1 and 'paid' not in Contrat.find_one({'_id': client['contrats'][0]}):
+            contrat = Contrat.find_one({'_id': client['contrats'][0]})
+            apartement = Propriete.find_one({'_id': contrat['prop_id']})
+            session['apt'] = apartement
+            session['adr_id'] = apartement['adr_id']
+            session['contrat'] = contrat
+        else:
+            session['apt_id'] = 'multiple'
+            session['apt'] = 'multiple'
+            session['contrat'] = 'multiple'
+            session['adr_id'] = 'multiple'
+        session['finished'] = True
+        return redirect('/preview/' + lang)
     return render_template("confirm/login.html", lang=lang, error=error)
 
 
@@ -641,9 +706,9 @@ def variables():
     if apt['under_construction'] is True: construction = 3
     score = Adresse.find_one({'_id': session.get('adr_id')})['score']
     deductible = int(request.form['deductible'])
-    deductible1 = Contrat.find_one({'_id': session.get('cont_id')})['deductible']
+    deductible1 = Contrat.find_one({'_id': apt['contrat']})['deductible']
     if deductible != deductible1:
-        Contrat.update_one({'_id': session.get('cont_id')}, {'$set': {'deductible': deductible}})
+        Contrat.update_one({'_id': apt['contrat']}, {'$set': {'deductible': deductible}})
     coveragetab = [  # prendre les information de la requete ajax
         int(request.form['properties']),
         int(request.form['liability']),
@@ -651,25 +716,25 @@ def variables():
         int(request.form['house_loss']),
     ]
     if coveragetab[0] > 500: Contrat.update_one(
-        {'_id': session.get('cont_id')},
+        {'_id': apt['contrat']},
         {'$set': {
             'coverage.0.valeurEstimee': coveragetab[0]
         }}
     )
     if coveragetab[1] > 200: Contrat.update_one(
-        {'_id': session.get('cont_id')},
+        {'_id': apt['contrat']},
         {'$set': {
             'coverage.1.valeurEstimee': coveragetab[1]
         }}
     )
     if coveragetab[2] > 100: Contrat.update_one(
-        {'_id': session.get('cont_id')},
+        {'_id': apt['contrat']},
         {'$set': {
             'coverage.2.valeurEstimee': coveragetab[2]
         }}
     )
     if coveragetab[3] > 500: Contrat.update_one(
-        {'_id': session.get('cont_id')},
+        {'_id': apt['contrat']},
         {'$set': {
             'coverage.3.valeurEstimee': coveragetab[3]
         }}
@@ -718,6 +783,10 @@ def variables():
     year_sans = formule / 1000
     month_prince = year_price / 12
     year_discount = year_price * 10 / 100
+    session['price_house'] = {
+        'month_prince': month_prince,
+        'year_price': year_price - year_discount
+    }
     return jsonify({
         'month_price': month_prince,
         'year_price': year_price,
@@ -832,8 +901,9 @@ def pay(lang):
         if len(cvc) != 3 or len(card_num) != 16 :
             return redirect('/preview/'+lang)
         client = session.get('client')
-        text_association = "this is the contract of the client : "+client['nom']+' '+client['prenom']+" with the id " \
+        text_societe = "this is the contract of the client : "+client['nom']+' '+client['prenom']+" with the id " \
                            +str(session.get('clid'))+" : <br>this contract is paid"
+        text_client = "you have just paid your contract for"+str(session.get('price_house')['year_price'])+"dt"
         apt = session.get('apt')
         adresse = apt['apt_unit'] + ', ' + apt['rue'] + ', ' + Adresse.find_one({'_id': session.get('adr_id')})[
             'adresse']
@@ -849,9 +919,9 @@ def pay(lang):
                                    contrat=Contrat.find_one({'_id': apt['contrat']}))
         css = ['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
         pdf = pdfkit.from_string(rendered, False, css=css)
-        sendPDF(client['email'], pdf, text_association)
-        sendPDF('zied.kanoun6@gmail.com', pdf, text_association)
-        sendPDF('henimaher@gmail.com',pdf, text_association)
+        sendPDF(client['email'], pdf, text_client, 'immobiliere')
+        sendPDF('zied.kanoun6@gmail.com', pdf, text_societe, 'immobiliere')
+        sendPDF('henimaher@gmail.com',pdf, text_societe, 'immobiliere')
         Contrat.update_one({'prop_id': apt['_id']},{"$set": {'paid': True}})
         session['done'] = True
         session['client'] = client
@@ -880,40 +950,48 @@ def generate():
                                contrat=Contrat.find_one({'_id': apt['contrat']}))
     css=['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
     pdf = pdfkit.from_string(rendered, False,css=css)
-    sendPDF('zied.kanoun6@gmail.com', pdf, 'test pdf 12 12 12')
-    sendPDF('henimaher@gmail.com', pdf, 'test pdf 12 12 12')
+    sendPDF('zied.kanoun6@gmail.com', pdf, 'test pdf 12 12 12', 'test')
+    sendPDF('henimaher@gmail.com', pdf, 'test pdf 12 12 12', 'test')
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = "inline; filename=output.pdf"
     return response
 
-@app.route('/delete/contract/<pos>', methods=['POST'])
-def delete(pos):
+@app.route('/delete/<ins>/<pos>', methods=['POST'])
+def delete(ins, pos):
     client = session.get('client')
-    cont_id = client['contrats'][int(pos) - 1]
-    # print(cont_id)
-    prop = Propriete.find_one({'contrat': cont_id})
-    prop_id = prop['_id']
-    adr_id = prop['adr_id']
-    autres = list(prop['autres_biens'])
-    Propriete.delete_one({'contrat': cont_id})
-    Contrat.delete_one({'_id': cont_id})
-
-    liste = list(Client.find_one({'_id': client['_id']})['contrats'])
-    liste.remove(cont_id)
-    Client.update_one({'_id': client['_id']},{'$set': {'contrats': liste}})
-
-    liste = list(Adresse.find_one({'_id': adr_id})['proprietes'])
-    liste.remove(prop_id)
-    Adresse.update_one({'_id': adr_id}, {'$set': {'proprietes': liste}})
-
-    for autre in autres:
-        # print(autre)
-        AutresBiens.delete_one({'_id': autre})
-
-    session['client'] = Client.find_one({'_id': client['_id']})
-    # print('tekhdem')
-    # print(len(client['contrats']))
+    if ins == "houseins":
+        cont_id = client['contrats'][int(pos) - 1]
+        # print(cont_id)
+        prop = Propriete.find_one({'contrat': cont_id})
+        prop_id = prop['_id']
+        adr_id = prop['adr_id']
+        autres = list(prop['autres_biens'])
+        Propriete.delete_one({'contrat': cont_id})
+        Contrat.delete_one({'_id': cont_id})
+        liste = list(Client.find_one({'_id': client['_id']})['contrats'])
+        liste.remove(cont_id)
+        Client.update_one({'_id': client['_id']},{'$set': {'contrats': liste}})
+        liste = list(Adresse.find_one({'_id': adr_id})['proprietes'])
+        liste.remove(prop_id)
+        Adresse.update_one({'_id': adr_id}, {'$set': {'proprietes': liste}})
+        for autre in autres:
+            # print(autre)
+            AutresBiens.delete_one({'_id': autre})
+        session['client'] = Client.find_one({'_id': client['_id']})
+    elif ins == 'carins':
+        cont_id = client['contratsV'][int(pos)-1]
+        liste = list(Client.find_one({'_id': client['_id']})['contratsV'])
+        liste.remove(cont_id)
+        Client.update_one({'_id': client['_id']},{'$set': {'contratsV': liste}})
+        garid = Contrat_voiture.find_one({'_id': cont_id})['garantie_id']
+        Contrat_voiture.delete_one({'_id': cont_id})
+        voitid = Garantie.find_one({'_id': garid})['voiture_id']
+        Garantie.delete_one({'_id':garid})
+        Voiture.delete_one({'_id': voitid})
+        session['client'] = Client.find_one({'_id': client['_id']})
+    elif ins == 'lifeins':
+        print('mazel')
     return 'nothing'
 
 ########### 5edmet beya ##############
@@ -1301,12 +1379,19 @@ def voiture(nbr,lang):
             session['done'] = True
             session['finished'] = True  # finished is for when the client submits the last form (passwords) and from
             # then he shouldn't be allowed to return to signups
-            text_association = "This is the contract of the client : "+client['prenom']+' '+client['nom']+" with the id " \
+            garantie = Garantie.find_one({'_id': session.get('garid')})
+            rendered = render_template('contrat_voiture/contrat_voiture.html',
+                                       client=client,
+                                       garantie=garantie,
+                                       contratv=Contrat_voiture.find_one({'_id': garantie['contract']}))
+            css = ['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
+            pdf = pdfkit.from_string(rendered, False, css=css)
+            text_societe = "This is the contract of the client : "+client['prenom']+' '+client['nom']+" with the id " \
                                +str(session.get('client_id'))+" : <br>this contract is still not paid"
-            sendPDFv('henimaher@gmail.com', 'contrat_voiture.pdf', text_association)
+            sendPDF('henimaher@gmail.com', pdf, text_societe, 'voiture')
             text_client = "The contract is ready now and waiting to be paid!<br> If you want to modify it just log in and choose" \
                           " your contract if you have more than one"
-            sendPDFv(client['email'], 'contrat_voiture.pdf', text_client)
+            sendPDF(client['email'], pdf, text_client, 'voiture')
             #return redirect(url_for('gen/contract/voiture')
             return redirect("/previewvoiture/" + lang)
     elif nbr == "12" and request.method == 'GET':
@@ -1420,7 +1505,7 @@ def loginV(lang):
                 error = mailerr
         else:
             error = champerr
-    return render_template("confirmv/login.html", lang=lang, error=error)
+    return render_template("confirm/login.html", lang=lang, error=error)
 
 @app.route('/confirm_email_v/<token>/<lang>')
 def confirm_email_v(token, lang):
@@ -1506,7 +1591,6 @@ def variableV():
     #    {'$set': {'frais_medicaux': medical}}
     #)
     
-    print('dkfj')
     tab = list([])
 
     Contrat_voiture.update_one(
@@ -1540,12 +1624,10 @@ def variableV():
         elif val[0] == 'Frais Med':
             price = medical*0.024
         year_price += round(price, 1)
-        print(year_price)
-        print('lkjf')
         tab.append({
-            'libelle': val[0],
-            'valeur': val[1],
-            'valeurEstimee': price
+            'libelle': round(val[0], 1),
+            'valeur': round(val[1], 1),
+            'valeurEstimee': round(price, 1)
         })
         Contrat_voiture.update_one(
                 {'_id': conid},
@@ -1557,7 +1639,10 @@ def variableV():
     print(year_price)
     print(month_price)
     print(year_discount)
-
+    session['price_voiture'] = {
+        'year_price': round(year_price - year_discount, 1),
+        'month_price': round(month_price, 1)
+    }
     if 'year_price' not in Contrat_voiture.find_one({'_id': conid}):
         Contrat_voiture.update_one({'_id': conid}, {'$set': {'year_price': year_price}})
     if 'year_discount' not in Contrat_voiture.find_one({'_id': conid}):
@@ -1584,20 +1669,19 @@ def payV(lang):
         if len(cvc) != 3 or len(card_num) != 16 :
             return redirect('/previewvoiture/'+lang)
         client = session.get('client')
-        text_association = "this is the contract of the client : "+client['prenom']+' '+client['nom']+" with the id " \
+        text_societe = "this is the contract of the client : "+client['prenom']+' '+client['nom']+" with the id " \
                            +str(session.get('client_id'))+" : <br>this contract is paid"
-
+        text_client = "you have just paid your contract for"#+str(session.get('price_voiture')['year_price'])
         garantie = Garantie.find_one({'_id': session.get('garid')})
-        contratv = Contrat_voiture.find_one({'_id': session.get('contv_id')})
         rendered = render_template('contrat_voiture/contrat_voiture.html',
                                    client=client,
                                    garantie=garantie,
-                                   contratv=contratv)
-    
+                                   contratv=Contrat_voiture.find_one({'_id': garantie['contract']}))
         css = ['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
         pdf = pdfkit.from_string(rendered, False, css=css)
-        sendPDFv(client['email'], pdf, text_association)
-        sendPDFv('kallel.beya@gmail.com', pdf, text_association)
+        sendPDF(client['email'], pdf, text_client,'voiture')
+        sendPDF('henimaher@gmail.com', pdf, text_societe, 'voiture')
+        sendPDF('kallel.beya@gmail.com', pdf, text_societe, 'voiture')
         Contrat_voiture.update_one({'garantie_id': garantie['_id']},{"$set": {'paid': True}})
         session['done'] = True
         session['client'] = client
@@ -1621,8 +1705,8 @@ def generatevoiture():
                                contratv=contratv)
     css=['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
     pdf = pdfkit.from_string(rendered, False,css=css)
-    sendPDFv('zied.kanoun6@gmail.com', pdf, 'test pdf 12 12 12')
-    sendPDFv('henimaher@gmail.com', pdf, 'test pdf 12 12 12')
+    sendPDF('zied.kanoun6@gmail.com', pdf, 'test pdf 12 12 12', 'voiture')
+    sendPDF('henimaher@gmail.com', pdf, 'test pdf 12 12 12', 'voiture')
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = "inline; filename=output.pdf"
@@ -1825,6 +1909,8 @@ def vie5():
 
     if not (session['vie44']):
         return redirect(url_for("vie44"))
+    if session['status']=='Célibataire':
+        return render_template('vie/vie5.html', lang=session['lang'], error=error, skipback=True)
     return render_template('vie/vie5.html', lang=session['lang'], error=error)
 
 
@@ -1854,7 +1940,7 @@ def vie6():
         f = request.files['file']
         print(f.name)
         string = str(uuid.uuid4())
-        session['file'] = string[0:7]+'.pdf'
+        session['file'] = 'pdfs/'+string[0:7]+'.pdf'
         print("    valhalla                                         ",session['file'])
         f.save("pdfs/{}.pdf".format(string[0:7]))
         print(magic.from_file("pdfs/"+string[0:7]+".pdf", mime=True))
@@ -1869,10 +1955,10 @@ def vie6():
         if f:
             session['vie6'] = True
             print('aaaaaaaaaaaaaaaaaaaaaa')
-            mongo.db.clients.insert(
+            mongo.db.clients.insert_one(
                 {'nom': session['fn'], 'prenom': session['ln']}
             )
-            mongo.db.sante.insert(
+            mongo.db.sante.insert_one(
                 {'adresse': session['adresse'],
                  'code': session['code'],
                  'sex': session['sex'],
@@ -1954,12 +2040,17 @@ def generatevie():
     merger.append(open("templates/contrat-vie/outputtt.pdf","rb"),import_bookmarks=False)
     merger.append(open(session['file'],"rb"),import_bookmarks=False)
     merger.write("contrat.pdf")
+    merger.close()
     text_client = "the contract is ready now and waiting to be paid!<br> if you want to modify it just log in and choose" \
                   " your contract if you have more than one"
+    client = session.get('client')
+    text_societe = "this is the contract of the client : "+client['prenom']+' '+client['nom']+" with the id " \
+                   +str(client['_id'])+" : <br>this contract is paid"
     client = dict()
     client['email'] = 'zied.kanoun6@gmail.com'
-    sendPDF(client['email'], 'contrat.pdf', text_client)
-    sendPDF('maher.heni@gmail.com', 'contrat.pdf', text_client)
+    with open('contrat.pdf', "rb") as attachment:
+        sendPDF(client['email'], attachment.read(), text_client, 'vie')
+        sendPDF('maher.heni@gmail.com', attachment.read(),text_societe, 'vie')
     return send_file('contrat.pdf',
                      mimetype='application/pdf',)
 
@@ -2076,6 +2167,8 @@ def addreport(nbr,lang):
                                        error=witnesserr)
             session['form107'] = 'submitted'
         if 'form108' in req:
+            if 'clid' not in session:
+                return render_template('confirm/login.html', lang=lang, carreport=True)
             vehicles = Voiture.find({
                 "client_id":session["clid"]
             })
@@ -2092,14 +2185,14 @@ def addreport(nbr,lang):
                 if matriculev_a=="" or countryv_a=="":
                     return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                            vehicles=vehicles,error=champerr)
-            if typeim=="other":
-                session["matriculev_a"] = matriculev_a
-            else:
+            if typeim=="tunis":
                 nserie = req.get('matricule_s')
                 if nserie=="":
                     return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                            vehicles=vehicles,error=champerr)
                 session["matriculev_a"]= nserie+typeim+matriculev_a
+            else:
+                session["matriculev_a"] =typeim+':'+matriculev_a      
             session["countryv_a"] = countryv_a
             session["typev_a"] = typev_a
             session["brandv_a"] = brandv_a
@@ -2254,7 +2347,7 @@ def addreport(nbr,lang):
             session["categoryp_a"]=categoryp_a
             session["validp_a"]=validp_a
             session['form111']='submitted'
-        if 'form112' in req:
+        if 'form112' in req: 
             chocpt_a = req.get('type')
             if chocpt_a == None:
                 return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
@@ -2309,14 +2402,14 @@ def addreport(nbr,lang):
                 if matriculev_b=="" or countryv_b=="":
                     return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                            error=champerr)
-            if typeim=="other":
-                session["matriculev_b"] = matriculev_b
-            else:
+            if typeim=="tunis":
                 nserie = req.get('matricule_s')
                 if nserie=="":
                     return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                            error=champerr)
                 session["matriculev_b"]= nserie+typeim+matriculev_b
+            else:
+                session["matriculev_b"] = typeim+':'+matriculev_b
             session["countryv_b"] = countryv_b
             session["typev_b"] = typev_b
             session["brandv_b"] = brandv_b
@@ -2643,6 +2736,8 @@ def addreport(nbr,lang):
         session['reportid'] = report.inserted_id
         return redirect(url_for("getit"))
     if nbr=="8":
+        if 'clid' not in session:
+            return render_template('confirm/login.html', lang=lang, carreport=True)
         vehicles = Voiture.find({
             "client_id":session["clid"]
         })
@@ -2661,17 +2756,29 @@ def getit():
     insured_A_adr= adrins_A['adresse']+','+prop_A['apt_unit']+','+prop_A['rue']
     insured_A_pos=adrins_A['code_postal']
     nbcurc_a = getthat['circumstances_A'].count(";")
+    with open('static/public/'+session["accident_sketch"], 'rb') as image_file:
+            sketch = base64.b64encode(image_file.read())
+            skett = str(sketch)
+            ske = skett[2:-1]
+    client = session.get('client')
     if session['acctype']=="one":
+        #path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+        #config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+        rendered = render_template("constat/constat1pdf.html",report=getthat,nba=nbcurc_a,
+                               insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos,sketch=ske)
+        css = ['./templates/constat/constat.css']
+        pdf = pdfkit.from_string(rendered, False,css=css)
+        sendPDFc(client['email'], pdf, 'Here is your report')
         return render_template("/constat_form/constatvoitureone.html",report=getthat,nba=nbcurc_a,
                                insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos)
     nbcurc_b = getthat['circumstances_B'].count(";")
-    # with open("/Users/ahmed/Desktop/flaskone/public/"+getthat['accident_sketch'], "rb") as image_file:
-    #     encoded_string = base64.b64encode(image_file.read())
-    # return json.dumps(getthat, default=json_util.default)
+    rendered = render_template("constat/constat2pdf.html",report=getthat,nba=nbcurc_a,nbb=nbcurc_b,
+                           insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos)
+    css = ['./templates/constat/constat.css']
+    pdf = pdfkit.from_string(rendered, False,css=css)
+    sendPDFc(client['email'], pdf, 'Here is your report')
     return render_template("/constat_form/constat_voiture.html",report=getthat,nba=nbcurc_a,nbb=nbcurc_b,
-                           insured_A=insured_A)
-    #  allcars = list(collection.find({}))
-    #  return json.dumps(allcars, default=json_util.default)
+                           insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos)
 #------------------------------------------------------------------end---------------------------------------------------
 ############### end of 5edma ##############
 
