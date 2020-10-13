@@ -151,7 +151,6 @@ def load(client, propriete, adresse):
         Contrat.update_one({'_id': contrat.inserted_id}, {'$set': {'deductible': 250}})
 
 
-
 def loadAuto(client, voiture, garantie):
     dbclient = Client.find_one({
         'email': client['email'],
@@ -217,7 +216,6 @@ def loadAuto(client, voiture, garantie):
          'garantie_id': garid,
          'date_de_debut_du_contrat': x.strftime("%d" + "/" + "%m" + "/" + "%Y") }
     )
-
     session['contv_id'] = contratv.inserted_id
     Garantie.update_one({'_id': garid}, {'$set': {'contract': contratv.inserted_id}})
     session.get('garantie')['contract'] = contratv.inserted_id
@@ -233,4 +231,4 @@ def loadAuto(client, voiture, garantie):
         voitab.append(garid)
     else:
         voitab = list([garid])
-    Voiture.update_one({'_id': void}, {'$set': {'garanties': voitab}})    
+    Voiture.update_one({'_id': void}, {'$set': {'garanties': voitab}})
