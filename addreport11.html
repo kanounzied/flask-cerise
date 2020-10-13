@@ -1,0 +1,548 @@
+{% extends '/constat_form/sign.html' %}
+{% block nbr %}{{ nbr }}{% endblock %}
+{% block style %}
+<!-- <style>
+    @media screen and (max-width: 768px){
+        input{
+            display: inline-block!important;
+        }
+    }
+</style> -->
+{% endblock %}
+{% block sidenav %}
+{% if lang == "english" %}
+<a href="/home/english">Home</a>
+<a href="/about/{{lang}}">About Us</a>
+<!-- <a href="#">Claims</a> -->
+<a href="/login/{{lang}}">My account</a>
+{% else %}{% if lang =="arabe" %}
+<a href="/home/arabe">الرئيسية</a>
+<a href="/about/{{lang}}">معلومات</a>
+<!-- <a href="#">مطالب</a> -->
+<a href="/login/{{lang}}">حسابي</a>
+{% else %}{% if lang=="french" %}
+<a href="/home/french">Acceuil</a>
+<a href="/about/{{lang}}">Informations</a>
+<!-- <a href="#">Réclamations</a> -->
+<a href="/login/{{lang}}">Mon compte</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}
+{% block lang %}
+{{lang}}
+{% endblock %}
+{% block body %}
+{% if error %}
+<div class="alert alert-dark">{{error}}</div>
+{% endif %}
+{% if lang == "english" %}
+<div class="english container-fluid">
+    <div class="content">
+            <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">Driver of vehicle A</h1>
+            <img id="driverimg"  src="/static/images/driver.png" alt="driver">               
+    </div>
+
+    <form class="first_form" method="post" action="/addreport/12/{{lang}}">
+        <div class="row">
+            <div class="form-group col-6 ">
+                <input type="text" class="form-control" name="full_namedr" id="full_namedr"
+                       placeholder="First Name">
+            </div>
+            <div class="form-group col-6 ">
+                <input type="text" class="form-control" name="last_namedr" id="last_namedr"
+                       placeholder="Last Name">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="birthdaydr" id="birthdaydr"
+                       placeholder="Birthday" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="adressdr" id="adressdr"
+                placeholder="neighborhood ,City ,State">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="countrydr" id="countrydr"
+                       placeholder="adress">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="email" class="form-control" name="emaildr" id="emaildr"
+                       placeholder="E-mail">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="number" class="form-control" name="teldr" id="teldr"
+                       placeholder="Phone number">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="number" class="form-control" name="permis" id="permis"
+                        placeholder="driver's license number">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="categoryp" id="categoryp"
+                        placeholder="driver's license Categoty">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <h6>Valid until</h6>
+                <input type="text" class="form-control" name="validp" id="validp">
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form111" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/addreport/10/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+<div class="pop_pres" style="display: block;height: 160%;">
+    <form action="/addreport/12/{{lang}}" method="post">
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="content">
+            <h4 style="margin-top: 30px;font-size: 1rem">Are you the driver of vehicle A ?</h4>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="number" class="form-control" name="permis" id="permis"
+                        placeholder="driver's license number">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="categoryp" id="categoryp"
+                        placeholder="driver's license Categoty">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <h6>Valid until</h6>
+                <input type="text" class="form-control" name="validp" id="validpp">
+            </div>
+        </div>
+        <div class="row">
+        <div class="form-group col-6">
+            <button type="button" id="closer"  class="btn btn-danger">No</button>
+        </div>
+        <div class="form-group col-6">
+            <button type="submit" name="form111b" class="btn" style="
+                position:unset;
+                bottom:auto;
+                right:auto;
+                width:auto;
+                padding: .375rem .75rem;
+                background-color: green;
+                color: white;
+                " >Yes</button>
+            </div>
+        </div> 
+    </div>
+</div>
+{% else %}{% if lang =="arabe" %}
+<div class="arab container-fluid">
+    <div class="content">
+            <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">سائق الكرهبة أ</h1>
+            <img id="driverimg"  src="/static/images/driver.png" alt="driver">             
+    </div>
+
+    <form class="first_form" method="post" action="/addreport/12/{{lang}}">
+        <div class="row">
+            <div class="form-group col-6 ">
+                <input type="text" class="form-control" name="full_namedr" id="full_namedr"
+                       placeholder="الاسم ">
+            </div>
+            <div class="form-group col-6 ">
+                <input type="text" class="form-control" name="last_namedr" id="last_namedr"
+                       placeholder="اللقب">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="birthdaydr" id="birthdaydr"
+                       placeholder="تاريخ الميلاد" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="adressdr" id="adressdr"
+                placeholder="منطقه ، المدينة ،الولاية">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="countrydr" id="countrydr"
+                placeholder="العنوان">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="email" class="form-control" name="emaildr" id="emaildr"
+                       placeholder="البريد الإلكتروني">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="number" class="form-control" name="teldr" id="teldr"
+                       placeholder="رقم الهاتف">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="number" class="form-control" name="permis" id="permis"
+                        placeholder="رقم رخصة القيادة">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="categoryp" id="categoryp"
+                        placeholder="فئة رخصة القيادة">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <h6>صالح حتى</h6>
+                <input type="text" class="form-control" name="validp" id="validp">
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form111" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/addreport/10/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+<div class="pop_pres" style="display: block;height: 160%;">
+    <form action="/addreport/12/{{lang}}" method="post">
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="content">
+            <h4 style="margin-top: 30px;font-size: 1rem">هل أنت سائق السيارة أ؟</h4>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="number" class="form-control" name="permis" id="permis"
+                        placeholder="رقم رخصة القيادة">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="categoryp" id="categoryp"
+                        placeholder="فئة رخصة القيادة">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <h6>صالح حتى</h6>
+                <input type="text" class="form-control" name="validp" id="validpp">
+            </div>
+        </div>
+        <div class="row">
+        <div class="form-group col-6">
+            <button type="button" id="closer"  class="btn btn-danger">لا</button>
+        </div>
+        <div class="form-group col-6">
+            <button type="submit" name="form111b" class="btn" style="
+                position:unset;
+                bottom:auto;
+                right:auto;
+                width:auto;
+                padding: .375rem .75rem;
+                background-color: green;
+                color: white;
+                " >نعم</button>
+            </div>
+        </div> 
+    </div>
+</div>
+{% else %}{% if lang=="french" %}
+<div class="french container-fluid">
+    <div class="content">
+            <h1 class="center-text" style="margin-bottom: 0cm;margin-top: 0cm;">Conducteur du véhicule A</h1>
+            <img id="driverimg"  src="/static/images/driver.png" alt="driver">           
+    </div>
+
+    <form class="first_form" method="post" action="/addreport/12/{{lang}}">
+        <div class="row">
+            <div class="form-group col-6 ">
+                <input type="text" class="form-control" name="full_namedr" id="full_namedr"
+                       placeholder="prénom">
+            </div>
+            <div class="form-group col-6 ">
+                <input type="text" class="form-control" name="last_namedr" id="last_namedr"
+                       placeholder="nom">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="birthdaydr" id="birthdaydr"
+                       placeholder="date de naissance" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="adressdr" id="adressdr"
+                placeholder="Quartier ,Ville ,Gouvernorat">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="text" class="form-control" name="countrydr" id="countrydr"
+                placeholder="adresse">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 ">
+                <input type="email" class="form-control" name="emaildr" id="emaildr"
+                       placeholder="Email">
+            </div>
+            <div class="form-group col-md-6 ">
+                <input type="number" class="form-control" name="teldr" id="teldr"
+                       placeholder="Numéro de téléphone">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="number" class="form-control" name="permis" id="permis"
+                        placeholder="Numéro de permis de conduire">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="categoryp" id="categoryp"
+                        placeholder="Catégorie de permis de conduire">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <h6>Valable jusqu'au</h6>
+                <input type="text" class="form-control" name="validp" id="validp">
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" name="form111" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
+        </div>
+    </form>
+    <div class="back"><a href="/addreport/10/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
+</div>
+<div class="pop_pres" style="display: block;height: 160%;">
+    <form action="/addreport/12/{{lang}}" method="post">
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="content">
+            <h4 style="margin-top: 30px;font-size: 1rem">Êtes-vous le conducteur du véhicule A?</h4>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="number" class="form-control" name="permis" id="permis"
+                        placeholder="Numéro de permis de conduire">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <input type="text" class="form-control" name="categoryp" id="categoryp"
+                        placeholder="Catégorie de permis de conduire">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12 ">
+                <h6>Valable jusqu'au</h6>
+                <input type="text" class="form-control" name="validp" id="validpp">
+            </div>
+        </div>
+        <div class="row">
+        <div class="form-group col-6">
+            <button type="button" id="closer"  class="btn btn-danger">Non</button>
+        </div>
+        <div class="form-group col-6">
+            <button type="submit" name="form111b" class="btn" style="
+                position:unset;
+                bottom:auto;
+                right:auto;
+                width:auto;
+                padding: .375rem .75rem;
+                background-color: green;
+                color: white;
+                " >oui</button>
+            </div>
+        </div> 
+    </div>
+</div>
+{% endif %}
+{% endif %}
+{%endif%}
+{%endblock%}
+{% block scripts %}
+<script>
+    $('.pop_pres .close').on('click', function () {
+        $('.pop_pres').css('display', 'none')
+    })
+    $('#closer').on('click', function () {
+        $('.pop_pres').css('display', 'none')
+    })
+</script>
+<script>
+    $(document).ready(function(){
+        $("input").change(function(){
+            // Change src attribute of image
+            $( "img[alt='driver']" ).attr("src", "/static/images/driver-colored.png");
+        });    
+    });
+    </script>
+    <script>
+     var fullDate = new Date()
+     var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+     var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+     var legalage = fullDate.getDate() + "/" + twoDigitMonth + "/" + (fullDate.getFullYear()-18);
+     if (fullDate.getDate() < 10) {
+         currentDate = "0" + currentDate;
+     }
+     $('#birthdaydr').datepicker({
+         format: "dd/mm/yyyy",
+         endDate: legalage,
+         orientation: "bottom right"
+     });
+     $('#validp').datepicker({
+         format: "dd/mm/yyyy",
+         startDate: currentDate ,
+         orientation: "top right"
+     });
+     $('#validpp').datepicker({
+         format: "dd/mm/yyyy",
+         startDate: currentDate ,
+         orientation: "bottom right"
+     });
+    </script>
+<!-- adresse script -------------------------------------------------------------------------------------------------------->
+<script type="text/javascript">
+    function myFunc(vars) {
+        return vars
+    }
+
+    function autocomplete(inp, arr) {
+        /*the autocomplete function takes two arguments,
+        the text field element and an array of possible autocompleted values:*/
+        var currentFocus;
+        /*execute a function when someone writes in the text field:*/
+        inp.addEventListener("input", function (e) {
+            var a, b, i, val = this.value;
+            /*close any already open lists of autocompleted values*/
+            closeAllLists();
+            if (!val) {
+                return false;
+            }
+            currentFocus = -1;
+            /*create a DIV element that will contain the items (values):*/
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items anyClass");
+            /*append the DIV element as a child of the autocomplete container:*/
+            this.parentNode.appendChild(a);
+            /*for each item in the array...*/
+            for (i = 0; i < arr.length; i++) {
+                /*check if the item starts with the same letters as the text field value:*/
+                // if (arr[i].substr(0, val.length).toUpperCase() === val.toUpperCase()) {
+                ind = arr[i].toUpperCase().indexOf(val.toUpperCase())
+                if (ind >= 0) {
+                    /*create a DIV element for each matching element:*/
+                    b = document.createElement("DIV");
+                    /*make the matching letters bold:*/
+                    if (ind === 0) {
+                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                        b.innerHTML += arr[i].substr(val.length);
+                        /*insert a input field that will hold the current array item's value:*/
+                    }
+                    else {
+                        b.innerHTML =arr[i].substr(0,ind);
+                        b.innerHTML += "<strong>" + arr[i].substr(ind, val.length) + "</strong>";
+                        b.innerHTML += arr[i].substr(ind+val.length);
+                        /*insert a input field that will hold the current array item's value:*/
+                    }
+                    b.innerHTML += "<input type='hidden' value='" + arr[i].replace("'", "&apos;") + "'>";
+                    /*execute a function when someone clicks on the item value (DIV element):*/
+                    b.addEventListener("click", function (e) {
+                        /*insert the value for the autocomplete text field:*/
+                        inp.value = this.getElementsByTagName("input")[0].value;
+                        /*close the list of autocompleted values,
+                        (or any other open lists of autocompleted values:*/
+                        closeAllLists();
+                    });
+                    a.appendChild(b);
+                }
+            }
+        });
+        /*execute a function presses a key on the keyboard:*/
+        inp.addEventListener("keydown", function (e) {
+            var x = document.getElementById(this.id + "autocomplete-list");
+            if (x) x = x.getElementsByTagName("div");
+            if (e.keyCode === 40) {
+                /*If the arrow DOWN key is pressed,
+                increase the currentFocus variable:*/
+                currentFocus++;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode === 38) { //up
+                /*If the arrow UP key is pressed,
+                decrease the currentFocus variable:*/
+                currentFocus--;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode === 13) {
+                /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                e.preventDefault();
+                if (currentFocus > -1) {
+                    /*and simulate a click on the "active" item:*/
+                    if (x) x[currentFocus].click();
+                }
+            }
+        });
+
+        function addActive(x) {
+            /*a function to classify an item as "active":*/
+            if (!x) return false;
+            /*start by removing the "active" class on all items:*/
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            /*add class "autocomplete-active":*/
+            x[currentFocus].classList.add("autocomplete-active");
+        }
+
+        function removeActive(x) {
+            /*a function to remove the "active" class from all autocomplete items:*/
+            for (var i = 0; i < x.length; i++) {
+                x[i].classList.remove("autocomplete-active");
+            }
+        }
+
+        function closeAllLists(elmnt) {
+            /*close all autocomplete lists in the document,
+            except the one passed as an argument:*/
+            var x = document.getElementsByClassName("autocomplete-items");
+            for (var i = 0; i < x.length; i++) {
+                if (elmnt !== x[i] && elmnt !== inp) {
+                    x[i].parentNode.removeChild(x[i]);
+                }
+            }
+        }
+
+        /*execute a function when someone clicks in the document:*/
+        document.addEventListener("click", function (e) {
+            closeAllLists(e.target);
+        });
+    }
+</script>
+    {% if data is defined %}
+    <script>
+    var countries = myFunc({{data|tojson}})
+    autocomplete(document.getElementById("adressdr"), countries);
+</script>
+    {% endif %}
+{% endblock %}
