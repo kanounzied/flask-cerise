@@ -2247,29 +2247,29 @@ def generatevie():
 ############### end of 5edma ##############
 ############### 5edmet jaabiri ##############
 # ------------------------------------------el route mta3 constat add ahbet lel e5er ---------------------------------------------------
-@app.route("/addreport/<nbr>/<lang>", methods=["POST", "GET"])
-def addreport(nbr, lang):
+@app.route("/addreport/<nbr>/<lang>",methods=["POST","GET"])
+def addreport(nbr,lang):
     if lang == 'english':
         adrnotfound = "Your address is not registered in the database!"
-        chooseerr = "choose an option please !"
+        chooseerr="choose an option please !"
         champerr = 'fields are empty!'
-        witnesserr = 'do not add witness without full informations'
-        greenerr = 'enter green card or contract please'
-        contacterr = 'enter atleast one contact information'
-    elif lang == 'arabe':
+        witnesserr='do not add witness without full informations'
+        greenerr='enter green card or contract please'
+        contacterr='enter atleast one contact information'
+    elif lang =='arabe':
         adrnotfound = "عنوانك غير مسجل في قاعدة البيانات!"
         chooseerr = "لازم تختار!"
-        champerr = 'الرجاء ملء جميع المعطيات'
-        witnesserr = 'لا تضيف شاهد بدون معلومات كاملة'
-        greenerr = 'أدخل البطاقة الخضراء أو العقد من فضلك'
-        contacterr = 'حط حاجة نكنتاكتيوك/نكنتاكتيوه عليها'
+        champerr = 'البلايص فارغين'
+        witnesserr='لا تضيف شاهد بدون معلومات كاملة'
+        greenerr='أدخل البطاقة الخضراء أو العقد من فضلك'
+        contacterr='حط حاجة نكنتاكتيوك/نكنتاكتيوه عليها'
     else:
         adrnotfound = u"Votre adresse n'est pas enregistrée dans la base de données!"
-        chooseerr = "choisissez une option s'il vous plaît!"
+        chooseerr="choisissez une option s'il vous plaît!"
         champerr = 'les champs sont vides!'
-        witnesserr = u'ne pas ajouter de témoin sans informations complètes'
-        greenerr = "entrez LaCarteVerte Ou Le Contrat S'il Vous Plaît"
-        contacterr = 'entrez au moins une information de contact '
+        witnesserr=u'ne pas ajouter de témoin sans informations complètes'
+        greenerr="entrez LaCarteVerte Ou Le Contrat S'il Vous Plaît"
+        contacterr='entrez au moins une information de contact '
     completed = False
     req = request.form
     data = list([])
@@ -2279,137 +2279,122 @@ def addreport(nbr, lang):
     if request.method == "POST":
         if 'form101' in req:
             acctype = req.get('type')
-            if acctype == "":
-                return render_template("addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
-                                       error='enter a time please')
+            if acctype==None:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=chooseerr)
             if acctype not in ['one', 'two', None]:
-                return render_template("addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error="don't change values please!")
-            session["acctype"] = acctype
+            session["acctype"]= acctype
             session['form101'] = 'submitted'
         if 'form102' in req:
             date = req.get('date')
             time = req.get('time')
-            if time == "" or date == "":
-                return render_template("addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
-                                       error='enter a time please')
-            session["date"] = date
-            session["time"] = time
+            if time=="" or date=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr)
+            session["date"]= date
+            session["time"]= time
             session['form102'] = 'submitted'
         if 'form103' in req:
-            adresse = req.get('adresse')
-            street = req.get('street')
-            if adresse == "" or street == "":
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
-                                       error=champerr, data=data)
+            adresse=req.get('adresse')
+            street=req.get('street')
+            if adresse=="" or street=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr,data=data)
             adresseObj = Adresse.find_one(
                 {
                     'adresse': adresse
                 }
             )
             if adresseObj is None:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        data=data,
                                        error=adrnotfound)
-            session["adress_a"] = adresse + ',' + street
+            session["adress_a"] = adresse+','+street
             session['form103'] = 'submitted'
         if 'form104' in req:
             injury = req.get('injury')
             if injury not in ['yes', 'no', None]:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error="don't change values please!")
             if injury == None:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=chooseerr)
             session["injury"] = injury
             session['form104'] = 'submitted'
         if 'form105' in req:
             damageov = req.get('damageov')
             if damageov not in ['yes', 'no', None]:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error="don't change values please!")
             if damageov == None:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=chooseerr)
             session["damageov"] = damageov
             session['form105'] = 'submitted'
         if 'form106' in req:
             damageob = req.get('damageob')
             if damageob not in ['yes', 'no', None]:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error="don't change values please!")
             if damageob == None:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=chooseerr)
             session["damageob"] = damageob
             session['form106'] = 'submitted'
         if 'form107' in req:
             i = 1
-            while req.get('namew' + str(int(i))):
-                if (req.get('namew' + str(int(i)))) == "" or (req.get('telw' + str(int(i)))) == "":
+            while req.get('namew'+str(int(i))):
+                if (req.get('namew'+str(int(i))))=="" or (req.get('telw'+str(int(i))))=="":
                     break
-                iv = str(int(i))
-                session["namew" + iv] = req.get('namew' + iv)
-                session["telw" + iv] = req.get('telw' + iv)
+                iv =str(int(i))
+                session["namew"+iv]=req.get('namew'+iv)
+                session["telw"+iv]=req.get('telw'+iv)
                 i += 1
-            if (req.get('namew' + str(int(i)))) == "" or (req.get('telw' + str(int(i)))) == "":
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+            if (req.get('namew'+str(int(i))))=="" or (req.get('telw'+str(int(i))))=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=witnesserr)
             session['form107'] = 'submitted'
         if 'form108' in req:
-            if 'clid' not in session:
-                return render_template('confirm/login.html', lang=lang, carreport=True)
             vehicles = Voiture.find({
-                "client_id": session["clid"]
+                "client_id":session["clid"]
             })
             typev_a = req.get('typev')
             brandv_a = req.get('brand')
             typeim = req.get('typeim')
             matriculev_a = req.get('matricule')
             countryv_a = req.get('countryv')
-            if typev_a == "normalv":
-                if brandv_a == "" or matriculev_a == "" or countryv_a == "":
-                    return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                           lang=lang,
-                                           vehicles=vehicles, error=champerr)
+            if typev_a =="normalv":
+                if brandv_a=="" or matriculev_a=="" or countryv_a=="":
+                    return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                           vehicles=vehicles,error=champerr)
             else:
-                if matriculev_a == "" or countryv_a == "":
-                    return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                           lang=lang,
-                                           vehicles=vehicles, error=champerr)
-            if typeim == "tunis":
+                if matriculev_a=="" or countryv_a=="":
+                    return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                           vehicles=vehicles,error=champerr)
+            if typeim=="tunis":
                 nserie = req.get('matricule_s')
-                if nserie == "":
-                    return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                           lang=lang,
-                                           vehicles=vehicles, error=champerr)
-                session["matriculev_a"] = nserie + typeim + matriculev_a
+                if nserie=="":
+                    return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                           vehicles=vehicles,error=champerr)
+                session["matriculev_a"]= nserie+typeim+matriculev_a
             else:
-                session["matriculev_a"] = typeim + ':' + matriculev_a
+                session["matriculev_a"] =typeim+':'+matriculev_a      
             session["countryv_a"] = countryv_a
             session["typev_a"] = typev_a
             session["brandv_a"] = brandv_a
             session['form108'] = 'submitted'
         if 'form108b' in req:
-            vehicle_id = req.get('cars')
+            vehicle_id=req.get('cars')
             vehicles = Voiture.find({
-                "client_id": session["clid"]
+                "client_id":session["clid"]
             })
-            if vehicle_id == None:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
-                                       vehicles=vehicles, error=champerr)
-            vehicle = Voiture.find_one({"_id": ObjectId(vehicle_id)})
-            session["vehicle_id"] = ObjectId(vehicle_id)
+            if vehicle_id==None:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       vehicles=vehicles,error=champerr)
+            vehicle=Voiture.find_one({"_id":ObjectId(vehicle_id)})
+            session["vehicle_id"]=ObjectId(vehicle_id)
             session["matriculev_a"] = vehicle['matricule']
             session["countryv_a"] = "tunisia"
             session["typev_a"] = "normalv"
@@ -2428,26 +2413,22 @@ def addreport(nbr, lang):
             adrag_a = req.get('adrag')
             emailag_a = req.get('emailag')
             phoneag_a = req.get('telag')
-            if names_a == "" or date_b_a == "" or date_e_a == "" or nameag_a == "" or adressag_a == "" or adrag_a == "":
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
-                                       error=champerr, data=data)
-            if nb_contract_a == "" and nb_greencard_a == "":
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
-                                       error=greenerr, data=data)
-            if emailag_a == "" and phoneag_a == "":
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
-                                       error=contacterr, data=data)
+            if names_a=="" or date_b_a=="" or date_e_a=="" or nameag_a=="" or adressag_a=="" or adrag_a=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr,data=data)
+            if nb_contract_a=="" and nb_greencard_a=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=greenerr,data=data)
+            if emailag_a=="" and phoneag_a=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=contacterr,data=data)
             adresseObj = Adresse.find_one(
                 {
                     'adresse': adressag_a
                 }
             )
             if adresseObj is None:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        data=data,
                                        error=adrnotfound)
             session["names_a"] = names_a
@@ -2464,39 +2445,37 @@ def addreport(nbr, lang):
             session['form109'] = 'submitted'
         if 'form109b' in req:
             if "vehicle_id" in session:
-                garantie = Garantie.find_one({"voiture_id": session["vehicle_id"]})
-                contrat = Contrat_voiture.find_one({"_id": garantie['contract']})
+                garantie = Garantie.find_one({"voiture_id":session["vehicle_id"]})
+                contrat = Contrat_voiture.find_one({"_id":garantie['contract']})
                 session["nb_contract_a"] = garantie['contract']
-                session["date_b_a"] = contrat['date_de_debut_du_contrat']
+                session["date_b_a"] =contrat['date_de_debut_du_contrat']
             else:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
-                                       error="you didnt choose a vehicle", data=data)
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error="you didnt choose a vehicle",data=data)
             # insurance_soc_A from database----------------------------------------------------------------------------------
-            session["names_a"] = "constante"
-            session["nb_greencard_a"] = ""
-            session["date_e_a"] = ""
+            session["names_a"] ="constante"
+            session["nb_greencard_a"] =""
+            session["date_e_a"] =""
             session["typeinsurance_a"] = "agency"
             session["nameag_a"] = "constante"
-            session["adressag_a"] = "constante"
-            session["adrag_a"] = "constante"
-            session["emailag_a"] = "constante"
-            session["phoneag_a"] = "constante"
+            session["adressag_a"] ="constante"
+            session["adrag_a"] ="constante"
+            session["emailag_a"] ="constante"
+            session["phoneag_a"] ="constante"
             session['form109'] = 'submitted'
         if 'form110' in req:
             damageins_a = req.get('damageins')
             if damageins_a not in ['yes', 'no', None]:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error="don't change values please!")
             if damageins_a == None:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=chooseerr)
-            session["damageins_a"] = damageins_a
+            session["damageins_a"]= damageins_a
             session['form110'] = 'submitted'
         if 'form111' in req:
             namedr_a = req.get('full_namedr')
+            lnamedr_a = req.get('last_namedr')
             birthdaydr_a = req.get('birthdaydr')
             adressdr_a = req.get('adressdr')
             countrydr_a = req.get('countrydr')
@@ -2505,25 +2484,23 @@ def addreport(nbr, lang):
             permis_a = req.get('permis')
             categoryp_a = req.get('categoryp')
             validp_a = req.get('validp')
-            if namedr_a == "" or birthdaydr_a == "" or adressdr_a == "" or countrydr_a == "" or permis_a == "" or categoryp_a == "" or validp_a == "":
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
-                                       error=champerr, data=data)
-            if emaildr_a == "" and teldr_a == "":
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
-                                       error=contacterr, data=data)
+            if namedr_a==""or lnamedr_a=="" or birthdaydr_a=="" or adressdr_a=="" or countrydr_a=="" or permis_a=="" or categoryp_a=="" or validp_a=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr,data=data)
+            if emaildr_a=="" and teldr_a=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=contacterr,data=data)
             adresseObj = Adresse.find_one(
                 {
                     'adresse': adressdr_a
                 }
             )
             if adresseObj is None:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        data=data,
                                        error=adrnotfound)
             session["namedr_a"] = namedr_a
+            session["lnamedr_a"] = lnamedr_a
             session["birthdaydr_a"] = birthdaydr_a
             session["adressdr_a"] = adressdr_a
             session["countrydr_a"] = countrydr_a
@@ -2535,78 +2512,84 @@ def addreport(nbr, lang):
             session['form111'] = 'submitted'
         if 'form111b' in req:
             if "clid" in session:
-                driver = Client.find_one({"_id": session["clid"]})
-                contrat_cl = Contrat.find_one({"client_id": session['clid']})
-                prop_A = Propriete.find_one({"_id": contrat_cl['prop_id']})
-                adrins_A = Adresse.find_one({"_id": prop_A['adr_id']})
-                insured_A_adr = adrins_A['adresse'] + ',' + prop_A['apt_unit'] + ',' + prop_A['rue']
+                driver= Client.find_one({"_id":session["clid"]})
+                contrat_cl = Contrat.find_one({"client_id":session['clid']})
+                prop_A = Propriete.find_one({"_id":contrat_cl['prop_id']})
+                adrins_A = Adresse.find_one({"_id":prop_A['adr_id']})
+                insured_A_adr= adrins_A['adresse']+','+prop_A['apt_unit']+','+prop_A['rue']
             else:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        data=data,
                                        error="you're not connected")
             permis_a = req.get('permis')
             categoryp_a = req.get('categoryp')
             validp_a = req.get('validp')
-            if permis_a == "" or categoryp_a == "" or validp_a == "":
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
-                                       error=champerr, data=data)
-            session["namedr_a"] = driver['prenom'] + ' ' + driver['nom']
-            session["birthdaydr_a"] = driver['date_de_naissance']
-            session["adressdr_a"] = insured_A_adr
-            session["countrydr_a"] = "tunisia"
-            session["emaildr_a"] = driver['email']
-            session["teldr_a"] = driver['tel_num']
-            session["permis_a"] = permis_a
-            session["categoryp_a"] = categoryp_a
-            session["validp_a"] = validp_a
-            session['form111'] = 'submitted'
-        if 'form112' in req:
+            if permis_a=="" or categoryp_a=="" or validp_a=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr,data=data)
+            session["namedr_a"]= driver['nom']
+            session["lnamedr_a"]=driver['prenom']
+            session["birthdaydr_a"]= driver['date_de_naissance']
+            session["adressdr_a"]=insured_A_adr
+            session["countrydr_a"]= "tunisia"
+            session["emaildr_a"]= driver['email']
+            session["teldr_a"]= driver['tel_num']
+            session["permis_a"]=permis_a
+            session["categoryp_a"]=categoryp_a
+            session["validp_a"]=validp_a
+            session['form111']='submitted'
+        if 'form112' in req: 
             chocpt_a = req.get('type')
             if chocpt_a == None:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=chooseerr)
-            if chocpt_a not in ['right, left', 'right, middle', 'right, right', 'left, right', 'left, middle',
-                                'left, left'
-                , 'front, left', 'front, middle', 'front, right', 'back, left', 'back, middle', 'back, right']:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+            if chocpt_a not in ['right, left', 'right, middle', 'right, right','left, right','left, middle','left, left'
+            ,'front, left','front, middle','front, right','back, left','back, middle','back, right']:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error="don't change values please!")
             session["chocpt_a"] = chocpt_a
             session['form112'] = 'submitted'
         if 'form113' in req:
-            appdamage_a = req.get('appdamage')
-            session["appdamage_a"] = appdamage_a
+            appdamage_a=req.get('appdamage')
+            session["appdamage_a"]=appdamage_a
             session['form113'] = 'submitted'
         if 'form114' in req:
-            obs_a = req.get('obs')
-            session["obs_a"] = obs_a
+            obs_a=req.get('obs')
+            session["obs_a"]=obs_a
             session['form114'] = 'submitted'
-            if session['acctype'] == "one":
+            if session['acctype'] =="one":
                 return redirect("/addreport/23/" + lang)
         if 'form115' in req:
-            name_b = req.get('name')
-            adress_b = req.get('adress')
-            codep_b = req.get('codep')
-            country_b = req.get('country')
-            email_b = req.get('email')
-            tel_b = req.get('tel')
-            if name_b == "" or adress_b == "" or codep_b == "" or country_b == "":
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
-                                       error=champerr)
-            if email_b == "" and tel_b == "":
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
-                                       error=contacterr)
-            session["name_b"] = name_b
-            session["adress_b"] = adress_b
-            session["codep_b"] = codep_b
-            session["country_b"] = country_b
-            session["email_b"] = email_b
-            session["tel_b"] = tel_b
+            name_b =req.get('name')
+            lname_b=req.get('lname')
+            adress_b=req.get('adress')
+            rue_b=req.get('rue')
+            country_b=req.get('country')
+            email_b=req.get('email')
+            tel_b=req.get('tel')
+            if name_b=="" or adress_b=="" or country_b=="" or rue_b=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr,data=data)
+            if email_b=="" and tel_b=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=contacterr,data=data)
+            adresseObj = Adresse.find_one(
+                {
+                    'adresse': adress_b
+                }
+            )
+            if adresseObj is None:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       data=data,
+                                       error=adrnotfound)
+            adresse = Adresse.find_one({'_id': adresseObj['_id']})
+            session["name_b"]=name_b
+            session["lname_b"]=lname_b
+            session["adress_b"]=adress_b+','+rue_b
+            session["codep_b"]=adresse['code_postal']
+            session["country_b"]=country_b
+            session["email_b"]=email_b
+            session["tel_b"]=tel_b
             session['form115'] = 'submitted'
         if 'form116' in req:
             typev_b = req.get('typev')
@@ -2614,25 +2597,22 @@ def addreport(nbr, lang):
             typeim = req.get('typeim')
             matriculev_b = req.get('matricule')
             countryv_b = req.get('countryv')
-            if typev_b == "normalv":
-                if brandv_b == "" or matriculev_b == "" or countryv_b == "":
-                    return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                           lang=lang,
+            if typev_b =="normalv":
+                if brandv_b=="" or matriculev_b=="" or countryv_b=="":
+                    return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                            error=champerr)
             else:
-                if matriculev_b == "" or countryv_b == "":
-                    return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                           lang=lang,
+                if matriculev_b=="" or countryv_b=="":
+                    return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                            error=champerr)
-            if typeim == "tunis":
+            if typeim=="tunis":
                 nserie = req.get('matricule_s')
-                if nserie == "":
-                    return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                           lang=lang,
+                if nserie=="":
+                    return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                            error=champerr)
-                session["matriculev_b"] = nserie + typeim + matriculev_b
+                session["matriculev_b"]= nserie+typeim+matriculev_b
             else:
-                session["matriculev_b"] = typeim + ':' + matriculev_b
+                session["matriculev_b"] = typeim+':'+matriculev_b
             session["countryv_b"] = countryv_b
             session["typev_b"] = typev_b
             session["brandv_b"] = brandv_b
@@ -2649,26 +2629,22 @@ def addreport(nbr, lang):
             adrag_b = req.get('adrag')
             emailag_b = req.get('emailag')
             phoneag_b = req.get('telag')
-            if names_b == "" or date_b_b == "" or date_e_b == "" or nameag_b == "" or adressag_b == "" or adrag_b == "":
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
-                                       error=champerr, data=data)
-            if nb_contract_b == "" and nb_greencard_b == "":
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
-                                       error=greenerr, data=data)
-            if emailag_b == "" and phoneag_b == "":
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
-                                       error=contacterr, data=data)
+            if names_b=="" or date_b_b=="" or date_e_b=="" or nameag_b=="" or adressag_b=="" or adrag_b=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr,data=data)
+            if nb_contract_b=="" and nb_greencard_b=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=greenerr,data=data)
+            if emailag_b=="" and phoneag_b=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=contacterr,data=data)
             adresseObj = Adresse.find_one(
                 {
                     'adresse': adressag_b
                 }
             )
             if adresseObj is None:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        data=data,
                                        error=adrnotfound)
             session["names_b"] = names_b
@@ -2686,17 +2662,16 @@ def addreport(nbr, lang):
         if 'form118' in req:
             damageins_b = req.get('damageins')
             if damageins_b not in ['yes', 'no', None]:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error="don't change values please!")
             if damageins_b == None:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=chooseerr)
-            session["damageins_b"] = damageins_b
+            session["damageins_b"]= damageins_b
             session['form118'] = 'submitted'
         if 'form119' in req:
             namedr_b = req.get('full_namedr')
+            lnamedr_b = req.get('last_namedr')
             birthdaydr_b = req.get('birthdaydr')
             adressdr_b = req.get('adressdr')
             countrydr_b = req.get('countrydr')
@@ -2705,25 +2680,23 @@ def addreport(nbr, lang):
             permis_b = req.get('permis')
             categoryp_b = req.get('categoryp')
             validp_b = req.get('validp')
-            if namedr_b == "" or birthdaydr_b == "" or adressdr_b == "" or countrydr_b == "" or permis_b == "" or categoryp_b == "" or validp_b == "":
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
-                                       error=champerr, data=data)
-            if emaildr_b == "" and teldr_b == "":
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
-                                       error=contacterr, data=data)
+            if namedr_b=="" or lnamedr_b=="" or birthdaydr_b=="" or adressdr_b=="" or countrydr_b=="" or permis_b=="" or categoryp_b=="" or validp_b=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr,data=data)
+            if emaildr_b=="" and teldr_b=="":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=contacterr,data=data)
             adresseObj = Adresse.find_one(
                 {
                     'adresse': adressdr_b
                 }
             )
             if adresseObj is None:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        data=data,
                                        error=adrnotfound)
             session["namedr_b"] = namedr_b
+            session["lnamedr_b"] = lnamedr_b
             session["birthdaydr_b"] = birthdaydr_b
             session["adressdr_b"] = adressdr_b
             session["countrydr_b"] = countrydr_b
@@ -2736,38 +2709,33 @@ def addreport(nbr, lang):
         if 'form120' in req:
             chocpt_b = req.get('type')
             if chocpt_b == None:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=chooseerr)
-            if chocpt_b not in ['right, left', 'right, middle', 'right, right', 'left, right', 'left, middle',
-                                'left, left'
-                , 'front, left', 'front, middle', 'front, right', 'back, left', 'back, middle', 'back, right']:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
+            if chocpt_b not in ['right, left', 'right, middle', 'right, right','left, right','left, middle','left, left'
+            ,'front, left','front, middle','front, right','back, left','back, middle','back, right']:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error="don't change values please!")
             session["chocpt_b"] = chocpt_b
             session['form120'] = 'submitted'
         if 'form121' in req:
-            appdamage_b = req.get('appdamage')
-            session["appdamage_b"] = appdamage_b
+            appdamage_b=req.get('appdamage')
+            session["appdamage_b"]=appdamage_b
             session['form121'] = 'submitted'
         if 'form122' in req:
-            obs_b = req.get('obs')
-            session["obs_b"] = obs_b
+            obs_b=req.get('obs')
+            session["obs_b"]=obs_b
             session['form122'] = 'submitted'
         if 'form123' in req:
-            circumstances_a = req.getlist('circumstances_a')
-            circumstances_b = req.getlist('circumstances_b')
-            if len(circumstances_a) == 0:
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
-                                       error=champerr, acctype=session.get('acctype'))
-            if len(circumstances_b) == 0 and session.get('acctype') == "two":
-                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                       lang=lang,
-                                       error=champerr, acctype=session.get('acctype'))
-            session["circumstances_a"] = circumstances_a
-            session["circumstances_b"] = circumstances_b
+            circumstances_a=req.getlist('circumstances_a')
+            circumstances_b=req.getlist('circumstances_b')
+            if len(circumstances_a)==0:
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr,acctype=session.get('acctype'))
+            if len(circumstances_b)==0 and session.get('acctype')=="two":
+                return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       error=champerr,acctype=session.get('acctype'))
+            session["circumstances_a"]=circumstances_a
+            session["circumstances_b"]=circumstances_b
             session['form123'] = 'submitted'
         if 'form124' in req:
             # check if the post request has the file part
@@ -2783,248 +2751,241 @@ def addreport(nbr, lang):
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                session["accident_sketch"] = filename
+                session["accident_sketch"]=filename
                 session['form115'] = 'submitted'
-                completed = True
-    # ----------------------------control of access to reports pages----------------------------------------------
-    if session.get('acctype') == "one":
-        if (int(nbr) in range(2, 15) or (int(nbr) == 24)) and ('form' + str(int(nbr) + 99) not in session):
+                completed=True
+    #----------------------------control of access to reports pages----------------------------------------------
+    if session.get('acctype')=="one":
+        if (int(nbr) in range(2, 15)or(int(nbr)==24)) and ('form' + str(int(nbr)+99) not in session):
             form = "1"
             for k in range(1, 14):
-                v = k + 100
+                v=k+100
                 if ('form' + str(v)) in session:
-                    form = str(k + 1)
+                    form = str(k+1)
             for k in range(23, 24):
-                v = k + 100
+                v=k+100
                 if ('form' + str(v)) in session:
-                    form = str(k + 1)
+                    form = str(k+1)
             return redirect("/addreport/" + form + "/" + lang)
         if int(nbr) in range(15, 23):
             return redirect("/addreport/1/" + lang)
-        if int(nbr) == 23 and ('form114' not in session):
+        if int(nbr)==23 and ('form114' not in session):
             form = "1"
             for k in range(1, 14):
-                v = k + 100
+                v=k+100
                 if ('form' + str(v)) in session:
-                    form = str(k + 1)
+                    form = str(k+1)
             return redirect("/addreport/" + form + "/" + lang)
     else:
-        if int(nbr) in range(2, 25) and ('form' + str(int(nbr) + 99) not in session):
+        if int(nbr) in range(2, 25) and ('form' + str(int(nbr)+99) not in session):
             form = "1"
             for k in range(2, 24):
-                v = k + 100
+                v=k+100
                 if ('form' + str(v)) in session:
-                    form = str(k + 1)
+                    form = str(k+1)
             return redirect("/addreport/" + form + "/" + lang)
-    # ----------------------------end control----------------------------------------------
+    #----------------------------end control----------------------------------------------
     if completed:
         j = 1
         # wnames=""
         # wphones=""
-        wits = ""
-        while session.get('namew' + str(int(j))):
-            jv = str(int(j))
+        wits=""
+        while session.get('namew'+str(int(j))):
+            jv=str(int(j))
             # wnames+=session["namew"+jv]+";"
             # wphones+=session["telw"+jv]+";"
-            if session.get('namew' + str(int(j + 1))):
-                wits += session["namew" + jv] + ":" + session["telw" + jv] + ";"
+            if session.get('namew'+str(int(j+1))):
+                wits+=session["namew"+jv]+":"+session["telw"+jv]+";"
             else:
-                wits += session["namew" + jv] + ":" + session["telw" + jv]
+                wits+=session["namew"+jv]+":"+session["telw"+jv]
             j += 1
-        curc_a = ""
-        curc_b = ""
+        curc_a=""
+        curc_b=""
         for value in session["circumstances_a"]:
-            curc_a += value + ";"
+            curc_a+=value+";"
         for value in session["circumstances_b"]:
-            curc_b += value + ";"
+            curc_b+=value+";"
 
-        if session['acctype'] == "one":
+        if session['acctype']=="one":
             exp = {
-                "date": session["date"],
-                "time": session["time"],
-                "adress": session["adress_a"],
-                "injuries": session["injury"],
-                "damage_to_other_vehicles": session["damageov"],
-                "damage_to_other_objects": session["damageob"],
-                "witnesses": wits,
-                "insured_A": session["clid"],
-                "vehicle_A": {
-                    "type": session["typev_a"],
-                    "brand": session["brandv_a"],
-                    "registration_number": session["matriculev_a"],
-                    "country": session["countryv_a"]
+                "date":session["date"],
+                "time":session["time"],
+                "adress":session["adress_a"],
+                "injuries":session["injury"],
+                "damage_to_other_vehicles":session["damageov"],
+                "damage_to_other_objects":session["damageob"],
+                "witnesses":wits,
+                "insured_A":session["clid"],
+                "vehicle_A":{
+                    "type":session["typev_a"],
+                    "brand":session["brandv_a"],
+                    "registration_number":session["matriculev_a"],
+                    "country":session["countryv_a"]
                 },
-                "insurance_society_A": {
-                    "name": session["names_a"],
-                    "number_of_contract": session["nb_contract_a"],
-                    "number_of_greencard": session["nb_greencard_a"],
-                    "starting_date": session["date_b_a"],
-                    "ending_date": session["date_e_a"],
-                    "type_insurance": session["typeinsurance_a"],
-                    "name_of_type": session["nameag_a"],
-                    "adress": session["adressag_a"] + ', ' + session["adrag_a"],
-                    "email": session["emailag_a"],
-                    "phone": session["phoneag_a"],
-                    "material_damage_insured": session["damageins_a"]
+                "insurance_society_A":{
+                    "name":session["names_a"],
+                    "number_of_contract":session["nb_contract_a"],
+                    "number_of_greencard":session["nb_greencard_a"],
+                    "starting_date":session["date_b_a"],
+                    "ending_date":session["date_e_a"],
+                    "type_insurance":session["typeinsurance_a"],
+                    "name_of_type":session["nameag_a"],
+                    "adress":session["adressag_a"]+', '+session["adrag_a"],
+                    "email":session["emailag_a"],
+                    "phone":session["phoneag_a"],
+                    "material_damage_insured":session["damageins_a"]
                 },
-                "driver_A": {
-                    "name": session["namedr_a"],
-                    "birthday": session["birthdaydr_a"],
-                    "adress": session["adressdr_a"] + ', ' + session["countrydr_a"],
-                    "email": session["emaildr_a"],
-                    "phone": session["teldr_a"],
-                    "permis": session["permis_a"],
-                    "category": session["categoryp_a"],
-                    "available_until": session["validp_a"]
-                },
-                "shock_point_car_A": session["chocpt_a"],
-                "damage_apparent_A": session["appdamage_a"],
-                "observations_A": session["obs_a"],
-                "circumstances_A": curc_a,
-                "accident_sketch": session["accident_sketch"]
+                "driver_A":{
+                    "name":session["namedr_a"],
+                    "last_name":session["lnamedr_a"],
+                    "birthday":session["birthdaydr_a"],
+                    "adress":session["adressdr_a"]+', '+session["countrydr_a"],
+                    "email":session["emaildr_a"],
+                    "phone":session["teldr_a"],
+                    "permis":session["permis_a"],
+                    "category":session["categoryp_a"],
+                    "available_until":session["validp_a"]
+                } ,
+                "shock_point_car_A":session["chocpt_a"],
+                "damage_apparent_A":session["appdamage_a"],
+                "observations_A":session["obs_a"],
+                "circumstances_A":curc_a,
+                "accident_sketch":session["accident_sketch"]
             }
         else:
             exp = {
-                "date": session["date"],
-                "time": session["time"],
-                "adress": session["adress_a"],
-                "injuries": session["injury"],
-                "damage_to_other_vehicles": session["damageov"],
-                "damage_to_other_objects": session["damageob"],
-                "witnesses": wits,
-                "insured_A": session["clid"],
-                "vehicle_A": {
-                    "type": session["typev_a"],
-                    "brand": session["brandv_a"],
-                    "registration_number": session["matriculev_a"],
-                    "country": session["countryv_a"]
+                "date":session["date"],
+                "time":session["time"],
+                "adress":session["adress_a"],
+                "injuries":session["injury"],
+                "damage_to_other_vehicles":session["damageov"],
+                "damage_to_other_objects":session["damageob"],
+                "witnesses":wits,
+                "insured_A":session["clid"],
+                "vehicle_A":{
+                    "type":session["typev_a"],
+                    "brand":session["brandv_a"],
+                    "registration_number":session["matriculev_a"],
+                    "country":session["countryv_a"]
                 },
-                "insurance_society_A": {
-                    "name": session["names_a"],
-                    "number_of_contract": session["nb_contract_a"],
-                    "number_of_greencard": session["nb_greencard_a"],
-                    "starting_date": session["date_b_a"],
-                    "ending_date": session["date_e_a"],
-                    "type_insurance": session["typeinsurance_a"],
-                    "name_of_type": session["nameag_a"],
-                    "adress": session["adressag_a"] + ', ' + session["adrag_a"],
-                    "email": session["emailag_a"],
-                    "phone": session["phoneag_a"],
-                    "material_damage_insured": session["damageins_a"]
+                "insurance_society_A":{
+                    "name":session["names_a"],
+                    "number_of_contract":session["nb_contract_a"],
+                    "number_of_greencard":session["nb_greencard_a"],
+                    "starting_date":session["date_b_a"],
+                    "ending_date":session["date_e_a"],
+                    "type_insurance":session["typeinsurance_a"],
+                    "name_of_type":session["nameag_a"],
+                    "adress":session["adressag_a"]+', '+session["adrag_a"],
+                    "email":session["emailag_a"],
+                    "phone":session["phoneag_a"],
+                    "material_damage_insured":session["damageins_a"]
                 },
-                "driver_A": {
-                    "name": session["namedr_a"],
-                    "birthday": session["birthdaydr_a"],
-                    "adress": session["adressdr_a"] + ', ' + session["countrydr_a"],
-                    "email": session["emaildr_a"],
-                    "phone": session["teldr_a"],
-                    "permis": session["permis_a"],
-                    "category": session["categoryp_a"],
-                    "available_until": session["validp_a"]
+                "driver_A":{
+                    "name":session["namedr_a"],
+                    "last_name":session["lnamedr_a"],
+                    "birthday":session["birthdaydr_a"],
+                    "adress":session["adressdr_a"]+', '+session["countrydr_a"],
+                    "email":session["emaildr_a"],
+                    "phone":session["teldr_a"],
+                    "permis":session["permis_a"],
+                    "category":session["categoryp_a"],
+                    "available_until":session["validp_a"]
+                } ,
+                "shock_point_car_A":session["chocpt_a"],
+                "damage_apparent_A":session["appdamage_a"],
+                "observations_A":session["obs_a"],
+                "insured_B":{
+                    "name":session["name_b"],
+                    "last_name":session["lname_b"],
+                    "adress":session["adress_b"]+', '+session["country_b"],
+                    "postal_code":session["codep_b"],
+                    "email":session["email_b"],
+                    "phone":session["tel_b"],
                 },
-                "shock_point_car_A": session["chocpt_a"],
-                "damage_apparent_A": session["appdamage_a"],
-                "observations_A": session["obs_a"],
-                "insured_B": {
-                    "name": session["name_b"],
-                    "adress": session["adress_b"] + ', ' + session["country_b"],
-                    "postal_code": session["codep_b"],
-                    "email": session["email_b"],
-                    "phone": session["tel_b"],
+                "vehicle_B":{
+                    "type":session["typev_b"],
+                    "brand":session["brandv_b"],
+                    "registration_number":session["matriculev_b"],
+                    "country":session["countryv_b"]
                 },
-                "vehicle_B": {
-                    "type": session["typev_b"],
-                    "brand": session["brandv_b"],
-                    "registration_number": session["matriculev_b"],
-                    "country": session["countryv_b"]
+                "insurance_society_B":{
+                    "name":session["names_b"],
+                    "number_of_contract":session["nb_contract_b"],
+                    "number_of_greencard":session["nb_greencard_b"],
+                    "starting_date":session["date_b_b"],
+                    "ending_date":session["date_e_b"],
+                    "type_insurance":session["typeinsurance_b"],
+                    "name_of_type":session["nameag_b"],
+                    "adress":session["adressag_b"]+', '+session["adrag_b"],
+                    "email":session["emailag_b"],
+                    "phone":session["phoneag_b"],
+                    "material_damage_insured":session["damageins_b"]
                 },
-                "insurance_society_B": {
-                    "name": session["names_b"],
-                    "number_of_contract": session["nb_contract_b"],
-                    "number_of_greencard": session["nb_greencard_b"],
-                    "starting_date": session["date_b_b"],
-                    "ending_date": session["date_e_b"],
-                    "type_insurance": session["typeinsurance_b"],
-                    "name_of_type": session["nameag_b"],
-                    "adress": session["adressag_b"] + ', ' + session["adrag_b"],
-                    "email": session["emailag_b"],
-                    "phone": session["phoneag_b"],
-                    "material_damage_insured": session["damageins_b"]
+                "driver_B":{
+                    "name":session["namedr_b"],
+                    "last_name":session["lnamedr_b"],
+                    "birthday":session["birthdaydr_b"],
+                    "adress":session["adressdr_b"]+', '+session["countrydr_b"],
+                    "email":session["emaildr_b"],
+                    "phone":session["teldr_b"],
+                    "permis":session["permis_b"],
+                    "category":session["categoryp_b"],
+                    "available_until":session["validp_b"]
                 },
-                "driver_B": {
-                    "name": session["namedr_b"],
-                    "birthday": session["birthdaydr_b"],
-                    "adress": session["adressdr_b"] + ', ' + session["countrydr_b"],
-                    "email": session["emaildr_b"],
-                    "phone": session["teldr_b"],
-                    "permis": session["permis_b"],
-                    "category": session["categoryp_b"],
-                    "available_until": session["validp_b"]
-                },
-                "shock_point_car_B": session["chocpt_b"],
-                "damage_apparent_B": session["appdamage_b"],
-                "observations_B": session["obs_b"],
-                "circumstances_A": curc_a,
-                "circumstances_B": curc_b,
-                "accident_sketch": session["accident_sketch"]
+                "shock_point_car_B":session["chocpt_b"],
+                "damage_apparent_B":session["appdamage_b"],
+                "observations_B":session["obs_b"],
+                "circumstances_A":curc_a,
+                "circumstances_B":curc_b,
+                "accident_sketch":session["accident_sketch"]
             }
-        # ----------------badel el collection bech 7atit--------------------------------------------------------
+        #----------------badel el collection bech 7atit--------------------------------------------------------
         report = collection.insert_one(exp)
         session['reportid'] = report.inserted_id
         return redirect(url_for("getit"))
-    if nbr == "8":
-        if 'clid' not in session:
-            return render_template('confirm/login.html', lang=lang, carreport=True)
+    if nbr=="8":
         vehicles = Voiture.find({
-            "client_id": session["clid"]
+            "client_id":session["clid"]
         })
-        return render_template("/constat_form/addreport" + nbr + ".html", lang=lang,
-                               nbr=nbr, acctype=session.get('acctype'), data=data, vehicles=vehicles)
-    return render_template("/constat_form/addreport" + nbr + ".html", lang=lang,
-                           nbr=nbr, acctype=session.get('acctype'), data=data)
-
-
-# ----------------end-----------------------------------------------------------------------------------
+        return render_template("/constat_form/addreport"+nbr+".html",lang=lang,
+                               nbr=nbr,acctype=session.get('acctype'),data=data,vehicles=vehicles)
+    return render_template("/constat_form/addreport"+nbr+".html",lang=lang,
+                           nbr=nbr,acctype=session.get('acctype'),data=data)
+#----------------end-----------------------------------------------------------------------------------
 @app.route("/getit/", methods=["GET"])
 def getit():
-    getthat = collection.find_one({"_id": session['reportid']})
-    insured_A = Client.find_one({"_id": getthat['insured_A']})
-    contrat_cl = Contrat.find_one({"client_id": getthat['insured_A']})
-    prop_A = Propriete.find_one({"_id": contrat_cl['prop_id']})
-    adrins_A = Adresse.find_one({"_id": prop_A['adr_id']})
-    insured_A_adr = adrins_A['adresse'] + ',' + prop_A['apt_unit'] + ',' + prop_A['rue']
-    insured_A_pos = adrins_A['code_postal']
+    path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+    getthat = collection.find_one({"_id":session['reportid']})
+    insured_A = Client.find_one({"_id":getthat['insured_A']})
+    contrat_cl = Contrat.find_one({"client_id":getthat['insured_A']})
+    prop_A = Propriete.find_one({"_id":contrat_cl['prop_id']})
+    adrins_A = Adresse.find_one({"_id":prop_A['adr_id']})
+    insured_A_adr= adrins_A['adresse']+','+prop_A['apt_unit']+','+prop_A['rue']
+    insured_A_pos=adrins_A['code_postal']
     nbcurc_a = getthat['circumstances_A'].count(";")
-    with open('static/public/' + session["accident_sketch"], 'rb') as image_file:
-        sketch = base64.b64encode(image_file.read())
-        skett = str(sketch)
-        ske = skett[2:-1]
+    with open('static/public/'+session["accident_sketch"], 'rb') as image_file:
+            sketch = base64.b64encode(image_file.read())
+            skett = str(sketch)
+            ske = skett[2:-1]
     client = session.get('client')
-    if session['acctype'] == "one":
-        # path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-        # config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
-        rendered = render_template("constat/constat1pdf.html",
-                                   report=getthat,
-                                   nba=nbcurc_a,
-                                   insured_A=insured_A,
-                                   ins_A_adr=insured_A_adr,
-                                   ins_A_pos=insured_A_pos,
-                                   sketch=ske)
+    if session['acctype']=="one":
+        rendered = render_template("constat/constat1pdf.html",report=getthat,nba=nbcurc_a,
+                               insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos,sketch=ske)
         css = ['./templates/constat/constat.css']
-        pdf = pdfkit.from_string(rendered, False, css=css)
-        sendPDF(client['email'], pdf, 'Here is your car report', 'car report')
-        sendPDF('henimaher@gmail.com', pdf, 'Here is your car report', 'car report')
-        return render_template("/constat_form/constatvoitureone.html", report=getthat, nba=nbcurc_a,
-                               insured_A=insured_A, ins_A_adr=insured_A_adr, ins_A_pos=insured_A_pos)
+        pdf = pdfkit.from_string(rendered, False,css=css,configuration=config)
+        sendPDFc(client['email'], pdf, 'Here is your report')
+        return render_template("/constat_form/constatvoitureone.html",report=getthat,nba=nbcurc_a,
+                               insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos)
     nbcurc_b = getthat['circumstances_B'].count(";")
-    rendered = render_template("constat/constat2pdf.html", report=getthat, nba=nbcurc_a, nbb=nbcurc_b,
-                               insured_A=insured_A, ins_A_adr=insured_A_adr, ins_A_pos=insured_A_pos)
+    rendered = render_template("constat/constat2pdf.html",report=getthat,nba=nbcurc_a,nbb=nbcurc_b,
+                           insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos)
     css = ['./templates/constat/constat.css']
-    pdf = pdfkit.from_string(rendered, False, css=css)
-    sendPDF(client['email'], pdf, 'Here is your car report', 'car report')
-    sendPDF('henimaher@gmail.com', pdf, 'Here is your car report', 'car report')
-    return render_template("/constat_form/constat_voiture.html", report=getthat, nba=nbcurc_a, nbb=nbcurc_b,
-                           insured_A=insured_A, ins_A_adr=insured_A_adr, ins_A_pos=insured_A_pos)
+    pdf = pdfkit.from_string(rendered, False,css=css,configuration=config)
+    # sendPDFc(client['email'], pdf, 'Here is your report')
+    return render_template("/constat_form/constat_voiture.html",report=getthat,nba=nbcurc_a,nbb=nbcurc_b,
+                           insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos)
 
 
 # ------------------------------------------------------------------end---------------------------------------------------
