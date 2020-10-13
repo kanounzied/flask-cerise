@@ -2955,8 +2955,8 @@ def addreport(nbr,lang):
 #----------------end-----------------------------------------------------------------------------------
 @app.route("/getit/", methods=["GET"])
 def getit():
-    path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+    #path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+    #config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
     getthat = collection.find_one({"_id":session['reportid']})
     insured_A = Client.find_one({"_id":getthat['insured_A']})
     contrat_cl = Contrat.find_one({"client_id":getthat['insured_A']})
@@ -2974,7 +2974,7 @@ def getit():
         rendered = render_template("constat/constat1pdf.html",report=getthat,nba=nbcurc_a,
                                insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos,sketch=ske)
         css = ['./templates/constat/constat.css']
-        pdf = pdfkit.from_string(rendered, False,css=css,configuration=config)
+        pdf = pdfkit.from_string(rendered, False,css=css)
         sendPDFc(client['email'], pdf, 'Here is your report')
         return render_template("/constat_form/constatvoitureone.html",report=getthat,nba=nbcurc_a,
                                insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos)
@@ -2982,8 +2982,8 @@ def getit():
     rendered = render_template("constat/constat2pdf.html",report=getthat,nba=nbcurc_a,nbb=nbcurc_b,
                            insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos)
     css = ['./templates/constat/constat.css']
-    pdf = pdfkit.from_string(rendered, False,css=css,configuration=config)
-    # sendPDFc(client['email'], pdf, 'Here is your report')
+    pdf = pdfkit.from_string(rendered, False,css=css)
+    sendPDFc(client['email'], pdf, 'Here is your report')
     return render_template("/constat_form/constat_voiture.html",report=getthat,nba=nbcurc_a,nbb=nbcurc_b,
                            insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos)
 
