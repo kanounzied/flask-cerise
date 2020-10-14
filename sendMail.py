@@ -316,7 +316,8 @@ def sendPDFv(receiver_mail,pdf, text):
         # print('connected!')
         server.sendmail(sender_mail, receiver_mail, message.as_string())
         # print('message sent!')
-  def sendPDFc(receiver_mail,pdf, text):
+        
+def sendPDFc(receiver_mail,pdf, text):
     port = 465  # For SSL
     password = "Ds3X8afA"  # getpass.getpass("Type your password : ")
     sender_mail = "artzy.proj@gmail.com"

@@ -1375,6 +1375,8 @@ def voiture(nbr,lang):
             client = session.get('client')
             garantie = session.get('garantie')
             loadAuto(client, voiture, garantie)
+            contratv = Contrat_voiture.find_one({'_id': session.get('contv_id')})
+            print(contratv)
             session['loaded'] = True
             session['done'] = True
             session['finished'] = True  # finished is for when the client submits the last form (passwords) and from
@@ -1383,7 +1385,7 @@ def voiture(nbr,lang):
             rendered = render_template('contrat_voiture/contrat_voiture.html',
                                        client=client,
                                        garantie=garantie,
-                                       contratv=Contrat_voiture.find_one({'_id': garantie['contract']}))
+                                       contratv=contratv)
             css = ['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
             pdf = pdfkit.from_string(rendered, False, css=css)
             text_societe = "This is the contract of the client : "+client['prenom']+' '+client['nom']+" with the id " \
@@ -1550,8 +1552,8 @@ def variableV():
     #contratv = Contrat_voiture.find({'client_id': client_id})
     #print(contratv)
     contratv = Contrat_voiture.find_one({'_id': session.get('contv_id')})
-    conid = contratv['_id']
-    print(conid)
+    conid = session.get('contv_id')
+
     garid = Contrat_voiture.find_one({'_id': conid})['garantie_id']
     Garantie.update_one(
         {'_id': garid},
@@ -1561,6 +1563,23 @@ def variableV():
         {'_id':garid},
         {'$set': {'frais_medicaux': medical}}
     )
+    Contrat_voiture.update_one(
+        {'_id': conid},
+        {'$unset': {'coveragev': ""}}
+    )
+    Contrat_voiture.update_one(
+        {'_id': conid},
+        {'$unset': {'year_price': ""}}
+    )
+    Contrat_voiture.update_one(
+        {'_id': conid},
+        {'$unset': {'year_discount': ""}}
+    )
+    Contrat_voiture.update_one(
+        {'_id': conid},
+        {'$unset': {'month_price': ""}}
+    )
+
     list_garantie = [['Incendie/Vol' , Garantie.find_one({'_id': garid})['incendie-vol']],
         ['Dommage Collision', Garantie.find_one({'_id': garid})['dommage_collision']],
         ['Dommage Tous Risques', Garantie.find_one({'_id': garid})['dommage_tous_risques']],
@@ -1575,22 +1594,7 @@ def variableV():
         ['Dommage suite aux C.N' , car_damaged],
         ['Frais Med', medical]]
 
-    #clmail = session.get('client')['email'] 
-    #client_id = Client.find_one({'email': clmail})['_id']
-    #contratv = Contrat_voiture.find_one({'client_id': client_id})
-    #print (contratv)
-    #conid = contratv['_id']
-    #print(conid)
-    #garid = Contrat_voiture.find_one({'_id': conid})['garantie_id']
-    #Garantie.update_one(
-    #    {'_id': garid},
-    #    {'$set': {'dommage_suite_aux_cn': car_damaged}}
-    #)
-    #Garantie.update_one(
-    #    {'_id':garid},
-    #    {'$set': {'frais_medicaux': medical}}
-    #)
-    
+
     tab = list([])
 
     Contrat_voiture.update_one(
@@ -1625,8 +1629,8 @@ def variableV():
             price = medical*0.024
         year_price += round(price, 1)
         tab.append({
-            'libelle': round(val[0], 1),
-            'valeur': round(val[1], 1),
+            'libelle': val[0],
+            'valeur': val[1],
             'valeurEstimee': round(price, 1)
         })
         Contrat_voiture.update_one(
@@ -1636,9 +1640,7 @@ def variableV():
     
     month_price = round(year_price/12, 1)
     year_discount = round((year_price*5)/100, 1)
-    print(year_price)
-    print(month_price)
-    print(year_discount)
+   
     session['price_voiture'] = {
         'year_price': round(year_price - year_discount, 1),
         'month_price': round(month_price, 1)
@@ -1657,6 +1659,7 @@ def variableV():
 
 @app.route('/pay_voiture/<lang>', methods=['POST'])
 def payV(lang):
+    print('fsjgnsdfgndljkfhglksjdbgjkldsbgslkjdf')
     if request.method == 'POST':
         req = request.form
         card_num = req.get('card_num')
@@ -1666,23 +1669,28 @@ def payV(lang):
             datetime.datetime.strptime(date_exp, '%d/%m/%Y')
         except ValueError:
             return redirect('/previewvoiture/'+lang)
+        print('haja')
         if len(cvc) != 3 or len(card_num) != 16 :
             return redirect('/previewvoiture/'+lang)
+        print('kallleeeellll')
         client = session.get('client')
         text_societe = "this is the contract of the client : "+client['prenom']+' '+client['nom']+" with the id " \
                            +str(session.get('client_id'))+" : <br>this contract is paid"
         text_client = "you have just paid your contract for"#+str(session.get('price_voiture')['year_price'])
         garantie = Garantie.find_one({'_id': session.get('garid')})
+        contratv = Contrat_voiture.find_one({'_id': session.get('contv_id')})
+        print('beyaaaaaaa')
+        print(contratv)
         rendered = render_template('contrat_voiture/contrat_voiture.html',
                                    client=client,
                                    garantie=garantie,
-                                   contratv=Contrat_voiture.find_one({'_id': garantie['contract']}))
+                                   contratv=contratv)
         css = ['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
         pdf = pdfkit.from_string(rendered, False, css=css)
         sendPDF(client['email'], pdf, text_client,'voiture')
         sendPDF('henimaher@gmail.com', pdf, text_societe, 'voiture')
         sendPDF('kallel.beya@gmail.com', pdf, text_societe, 'voiture')
-        Contrat_voiture.update_one({'garantie_id': garantie['_id']},{"$set": {'paid': True}})
+        Contrat_voiture.update_one({'_id': session.get('contv_id') },{"$set": {'paid': True}})
         session['done'] = True
         session['client'] = client
         session['void'] = 'multiple'
