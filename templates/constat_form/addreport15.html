@@ -45,27 +45,25 @@
     </div>
     <form class="first_form" method="post" action="/addreport/16/{{lang}}">
         <div class="row">
-            <div class="form-group col-12 ">
+            <div class="form-group col-6 ">
                 <input type="text" class="form-control" name="name" id="name"
-                       placeholder="Full name">
+                       placeholder="first name">
+            </div>
+            <div class="form-group col-6 ">
+                <input type="text" class="form-control" name="lname" id="lname"
+                       placeholder="last name">
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-12 ">
+            <div class="form-group col-6 ">
                 <input type="text" class="form-control" name="adress" id="adress"
-                placeholder="Adress">
+                placeholder="neighborhood ,City ,State">
+            </div>
+            <div class="form-group col-6 ">
+                <input type="text" class="form-control" name="rue" id="rue"
+                       placeholder="street,house number">
             </div>
         </div>  
-        <div class="row">
-            <div class="form-group col-md-6 ">
-                <input type="number" class="form-control" name="codep" id="codep"
-                       placeholder="Postal code">
-            </div>
-            <div class="form-group col-md-6 ">
-                <input type="text" class="form-control" name="country" id="country"
-                       placeholder="Country">
-            </div>
-        </div>
         <div class="row">
             <div class="form-group col-md-6 ">
                 <input type="email" class="form-control" name="email" id="email"
@@ -78,7 +76,7 @@
         </div>
         <div class="row">
             <button type="submit" name="form115" class="btn btn-primary col-2">Next!</button>
-            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go</a>-->
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
         </div>
     </form>
     <div class="back"><a href="/addreport/14/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
@@ -92,27 +90,25 @@
     </div>
     <form class="first_form" method="post" action="/addreport/16/{{lang}}">
         <div class="row">
-            <div class="form-group col-12 ">
+            <div class="form-group col-6 ">
                 <input type="text" class="form-control" name="name" id="name"
-                       placeholder="الاسم الكامل">
+                       placeholder="الاسم ">
+            </div>
+            <div class="form-group col-6 ">
+                <input type="text" class="form-control" name="lname" id="lname"
+                       placeholder="اللقب">
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-12 ">
+            <div class="form-group col-6 ">
                 <input type="text" class="form-control" name="adress" id="adress"
-                placeholder="العنوان">
+                placeholder="الحي ، المدينة ، الولاية">
             </div>
-        </div>  
-        <div class="row">
-            <div class="form-group col-md-6 ">
-                <input type="number" class="form-control" name="codep" id="codep"
-                       placeholder="الرقم البريدي">
+            <div class="form-group col-6 ">
+                <input type="text" class="form-control" name="rue" id="rue"
+                       placeholder="شارع,رقم الدار">
             </div>
-            <div class="form-group col-md-6 ">
-                <input type="text" class="form-control" name="country" id="country"
-                       placeholder="البلد">
-            </div>
-        </div>
+        </div>    
         <div class="row">
             <div class="form-group col-md-6 ">
                 <input type="email" class="form-control" name="email" id="email"
@@ -124,7 +120,8 @@
             </div>
         </div>
         <div class="row">
-            <button type="submit" name="form115" class="btn btn-primary col-2">التالي</button>
+            <button type="submit" name="form115" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
         </div>
     </form>
     <div class="back"><a href="/addreport/14/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
@@ -138,39 +135,38 @@
     </div>
     <form class="first_form" method="post" action="/addreport/16/{{lang}}">
         <div class="row">
-            <div class="form-group col-12 ">
+            <div class="form-group col-6 ">
                 <input type="text" class="form-control" name="name" id="name"
-                       placeholder="Nom complet">
+                       placeholder="prénom ">
+            </div>
+            <div class="form-group col-6 ">
+                <input type="text" class="form-control" name="lname" id="lname"
+                       placeholder="nom">
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-12 ">
+            <div class="form-group col-6 ">
                 <input type="text" class="form-control" name="adress" id="adress"
-                placeholder="Adresse">
+                placeholder="quartier, ville, état">
             </div>
-        </div>  
-        <div class="row">
-            <div class="form-group col-md-6 ">
-                <input type="number" class="form-control" name="codep" id="codep"
-                       placeholder="Code postal">
+            <div class="form-group col-6 ">
+                <input type="text" class="form-control" name="rue" id="rue"
+                       placeholder="rue,numéro de maison">
             </div>
-            <div class="form-group col-md-6 ">
-                <input type="text" class="form-control" name="country" id="country"
-                       placeholder="Pays">
-            </div>
-        </div>
+        </div>    
         <div class="row">
             <div class="form-group col-md-6 ">
                 <input type="email" class="form-control" name="email" id="email"
                        placeholder="Email">
             </div>
             <div class="form-group col-md-6 ">
-                <input type="number" class="form-control" name="tel" id="tel"
+                <input type="text" class="form-control" name="tel" id="tel"
                        placeholder="Numéro de téléphone">
             </div>
         </div>
         <div class="row">
-            <button type="submit" name="form115" class="btn btn-primary col-2">Suivant</button>
+            <button type="submit" name="form115" class="btn btn-primary col-2">Next!</button>
+            <!--                    <a href="/signup/2/{{lang}}" class="btn btn-primary form-btn col-2">Go!</a>-->
         </div>
     </form>
     <div class="back"><a href="/addreport/14/{{lang}}"><img id="back-arrow" src="/static/images/back.png" alt=""></a></div>
@@ -188,4 +184,128 @@
         });    
     });
 </script>
+<script type="text/javascript">
+    function myFunc(vars) {
+        return vars
+    }
+
+    function autocomplete(inp, arr) {
+        /*the autocomplete function takes two arguments,
+        the text field element and an array of possible autocompleted values:*/
+        var currentFocus;
+        /*execute a function when someone writes in the text field:*/
+        inp.addEventListener("input", function (e) {
+            var a, b, i, val = this.value;
+            /*close any already open lists of autocompleted values*/
+            closeAllLists();
+            if (!val) {
+                return false;
+            }
+            currentFocus = -1;
+            /*create a DIV element that will contain the items (values):*/
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items anyClass");
+            /*append the DIV element as a child of the autocomplete container:*/
+            this.parentNode.appendChild(a);
+            /*for each item in the array...*/
+            for (i = 0; i < arr.length; i++) {
+                /*check if the item starts with the same letters as the text field value:*/
+                // if (arr[i].substr(0, val.length).toUpperCase() === val.toUpperCase()) {
+                ind = arr[i].toUpperCase().indexOf(val.toUpperCase())
+                if (ind >= 0) {
+                    /*create a DIV element for each matching element:*/
+                    b = document.createElement("DIV");
+                    /*make the matching letters bold:*/
+                    if (ind === 0) {
+                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                        b.innerHTML += arr[i].substr(val.length);
+                        /*insert a input field that will hold the current array item's value:*/
+                    }
+                    else {
+                        b.innerHTML =arr[i].substr(0,ind);
+                        b.innerHTML += "<strong>" + arr[i].substr(ind, val.length) + "</strong>";
+                        b.innerHTML += arr[i].substr(ind+val.length);
+                        /*insert a input field that will hold the current array item's value:*/
+                    }
+                    b.innerHTML += "<input type='hidden' value='" + arr[i].replace("'", "&apos;") + "'>";
+                    /*execute a function when someone clicks on the item value (DIV element):*/
+                    b.addEventListener("click", function (e) {
+                        /*insert the value for the autocomplete text field:*/
+                        inp.value = this.getElementsByTagName("input")[0].value;
+                        /*close the list of autocompleted values,
+                        (or any other open lists of autocompleted values:*/
+                        closeAllLists();
+                    });
+                    a.appendChild(b);
+                }
+            }
+        });
+        /*execute a function presses a key on the keyboard:*/
+        inp.addEventListener("keydown", function (e) {
+            var x = document.getElementById(this.id + "autocomplete-list");
+            if (x) x = x.getElementsByTagName("div");
+            if (e.keyCode === 40) {
+                /*If the arrow DOWN key is pressed,
+                increase the currentFocus variable:*/
+                currentFocus++;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode === 38) { //up
+                /*If the arrow UP key is pressed,
+                decrease the currentFocus variable:*/
+                currentFocus--;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode === 13) {
+                /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                e.preventDefault();
+                if (currentFocus > -1) {
+                    /*and simulate a click on the "active" item:*/
+                    if (x) x[currentFocus].click();
+                }
+            }
+        });
+
+        function addActive(x) {
+            /*a function to classify an item as "active":*/
+            if (!x) return false;
+            /*start by removing the "active" class on all items:*/
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            /*add class "autocomplete-active":*/
+            x[currentFocus].classList.add("autocomplete-active");
+        }
+
+        function removeActive(x) {
+            /*a function to remove the "active" class from all autocomplete items:*/
+            for (var i = 0; i < x.length; i++) {
+                x[i].classList.remove("autocomplete-active");
+            }
+        }
+
+        function closeAllLists(elmnt) {
+            /*close all autocomplete lists in the document,
+            except the one passed as an argument:*/
+            var x = document.getElementsByClassName("autocomplete-items");
+            for (var i = 0; i < x.length; i++) {
+                if (elmnt !== x[i] && elmnt !== inp) {
+                    x[i].parentNode.removeChild(x[i]);
+                }
+            }
+        }
+
+        /*execute a function when someone clicks in the document:*/
+        document.addEventListener("click", function (e) {
+            closeAllLists(e.target);
+        });
+    }
+</script>
+    {% if data is defined %}
+    <script>
+    var countries = myFunc({{data|tojson}})
+    autocomplete(document.getElementById("adress"), countries);
+</script>
+    {% endif %}
 {% endblock %}

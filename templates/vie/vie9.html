@@ -1,0 +1,154 @@
+{% extends 'sign.html' %}
+{% block nbr %}{{ nbr }}{% endblock %}
+{% block sidenav %}
+    {% if lang == "en" %}
+        <a href="/home/english">Home</a>
+        <a href="/about/{{lang}}">About Us</a>
+        <!--    <a href="#">Claims</a>-->
+        <a href="/login/{{lang}}">My account</a>
+        {% else %}{%if lang =="ar" %}
+            <a href="/home/arabe">الرئيسية</a>
+            <a href="/about/{{lang}}">معلومات</a>
+            <!--    <a href="#">مطالب</a>-->
+            <a href="/login/{{lang}}">حسابي</a>
+            {% else %}{%if lang=="fr" %}
+                <a href="/home/french">Acceuil</a>
+                <a href="/about/{{lang}}">Informations</a>
+                <!--    <a href="#">Réclamations</a>-->
+                <a href="/login/{{lang}}">Mon compte</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endblock %}
+{% block lang %}
+    {{lang}}
+{% endblock %}
+
+{% block body %}
+    {% if error %}
+        <div class="alert alert-dark">{{error}}</div>
+    {% endif %}
+    {% if lang == "en" %}
+        <div class="english container-fluid">
+            <div class="content">
+                <h1 class="center-text">Some more information!</h1>
+            </div>
+            <form class="first_form" method="post" action="#">
+                <div class="row">
+                    <div class="form-group col-12 ">
+                        <input type="text" class="form-control" name="birth" id="birth"
+                               placeholder="birthdate">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6 ">
+                        <input type="text" onkeypress="return phoneNumber(event)" class="form-control" name="tel" id="tel"
+                               placeholder="phone number">
+                    </div>
+                    <div class="form-group col-md-6 ">
+                        <input type="text" onkeypress="return cinNumber(event)" class="form-control" name="cin" id="cin"
+                               placeholder="CIN">
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="submit" name="form9" class="btn btn-primary col-2">Go</button>
+                </div>
+            </form>
+            <div class="back"><a href="/vie/7/8"><img id="back-arrow" src="/static/images/back.png" alt=""></a>
+            </div>
+        </div>
+        {% else %}{% if lang =="ar" %}
+            <div class="arab container-fluid">
+                <div class="content">
+                    <h1 class="center-text">!المزيد من المعلومات </h1>
+                </div>
+                <form class="first_form" method="post" action="#">
+                    <div class="row">
+                        <div class="form-group col-12 ">
+                            <input type="text" class="form-control" name="birth" id="birth"
+                                   placeholder="تاريخ الميلاد">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6 ">
+                            <input type="text" onkeypress="return phoneNumber(event)" class="form-control" name="tel" id="tel"
+                                   placeholder="رقم الهاتف">
+                        </div>
+                        <div class="form-group col-md-6 ">
+                            <input type="text" onkeypress="return cinNumber(event)" class="form-control" name="cin" id="cin"
+                                   placeholder="CIN">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button type="submit" name="vie9" class="btn btn-primary col-2">التالي</button>
+                    </div>
+                </form>
+                <div class="back"><a href="/vie/7/8"><img id="back-arrow" src="/static/images/back.png" alt=""></a>
+                </div>
+            </div>
+            {% else %}{% if lang=="fr" %}
+                <div class="french container-fluid">
+                    <div class="content">
+                        <h1 class="center-text">Un peut plus d'informations!</h1>
+                    </div>
+                    <form class="first_form" method="post" action="#">
+                        <div class="row">
+                            <div class="form-group col-12 ">
+                                <input type="text" class="form-control" name="birth" id="birth"
+                                       placeholder="date de naissance">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6 ">
+                                <input type="text" onkeypress="return phoneNumber(event)" class="form-control" name="tel" id="tel"
+                                       placeholder="numero de telephone">
+                            </div>
+                            <div class="form-group col-md-6 ">
+                                <input type="text" onkeypress="return cinNumber(event)" class="form-control" name="cin" id="cin"
+                                       placeholder="CIN">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button type="submit" name="vie9" class="btn btn-primary col-2">Suivant</button>
+                        </div>
+                    </form>
+                    <div class="back"><a href="/vie/7/8"><img id="back-arrow" src="/static/images/back.png" alt=""></a>
+                    </div>
+
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endblock %}
+{% block scripts %}
+    <script>
+        var fullDate = new Date()
+        var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+        var max = fullDate.getDate() + "/" + twoDigitMonth + "/" +(parseInt(fullDate.getFullYear())-18).toString();
+        if (fullDate.getDate() < 10) {
+            max = "0" + max;
+        }
+        console.log(max)
+        $('#birth').datepicker({
+            format: "dd/mm/yyyy",
+            endDate: max,
+            orientation: "bottom right"
+        });
+        function phoneNumber(evt) {
+            // Only ASCII charactar in that range allowed
+            var ASCIICode = evt.which
+            console.log(ASCIICode);
+            if ((ASCIICode !== 43) && (ASCIICode !== 32) && (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)))
+                return false;
+            return true;
+        }
+        function cinNumber(evt) {
+            // Only ASCII charactar in that range allowed
+            var ASCIICode = evt.which
+            console.log(ASCIICode);
+            if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+                return false;
+            return true;
+        }
+    </script>
+{% endblock %}

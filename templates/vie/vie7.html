@@ -1,0 +1,190 @@
+{% extends 'sign.html' %}
+{% block nbr %}{{ nbr }}{% endblock %}
+{% block sidenav %}
+    {% if lang == "en" %}
+        <a href="/home/english">Home</a>
+        <a href="/about/{{lang}}">About Us</a>
+        <!--    <a href="#">Claims</a>-->
+        <a href="/login/{{lang}}">My account</a>
+        {% else %}{%if lang =="ar" %}
+            <a href="/home/arabe">الرئيسية</a>
+            <a href="/about/{{lang}}">معلومات</a>
+            <!--    <a href="#">مطالب</a>-->
+            <a href="/login/{{lang}}">حسابي</a>
+            {% else %}{%if lang=="fr" %}
+                <a href="/home/french">Acceuil</a>
+                <a href="/about/{{lang}}">Informations</a>
+                <!--    <a href="#">Réclamations</a>-->
+                <a href="/login/{{lang}}">Mon compte</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endblock %}
+{% block lang %}
+    {{lang}}
+{% endblock %}
+{% block style %}
+    <style>
+        .content{
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    {% if error %}
+        <div class="alert alert-dark">{{error}}</div>
+    {% endif %}
+    {% if lang == "en" %}
+        <div class="english container-fluid">
+            <div class="content">
+                <h1 class="center-text">Enter your e-mail!</h1>
+            </div>
+            <form class="first_form" method="post" action="#">
+                <div class="row">
+                    <div class="form-group col-12 ">
+                        <input type="email" class="form-control" name="email" id="email" value="{{email|string}}"
+                               placeholder="Email">
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="submit" name="vie7" class="btn btn-primary col-2">Go</button>
+                </div>
+            </form>
+            <div class="back"><a href="/vie/6/"><img id="back-arrow" src="/static/images/back.png" alt=""></a>
+            </div>
+        </div>
+        <div class="pop_pres" style="display: flex">
+
+            <form action="#" method="post">
+                <button type="button" class="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="content">
+                    <h4 style="margin-top: 30px;font-size: 1rem">Already have an account ?</h4>
+                </div>
+                <div class="row">
+                    <div class="form-group col-12 ">
+                        <input type="email" class="form-control" name="email" id="e-mail"
+                               placeholder="Email">
+                    </div>
+                </div>
+                <div class="row" style="position: relative">
+                    <div class="form-group col-12 ">
+                        <input type="password" class="form-control" name="password" id="password"
+                               placeholder="Password">
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 15px">
+                    <div class="g-recaptcha" data-sitekey="6LfBg8MZAAAAANGW1yEb9v12b-qbpmMvgSmOd_Tj" data-action='submit'></div>
+                </div>
+                <button type="submit" name="vie7b" class="btn">Connect</button>
+
+                <!--        <button type="submit" name="code_form" class="btn">Send</button>-->
+            </form>
+        </div>
+        {% else %}{% if lang =="ar" %}
+            <div class="arab container-fluid">
+                <div class="content">
+                    <h1 class="center-text">أدخل بريدك الإلكتروني</h1>
+                </div>
+                <form class="first_form" method="post" action="#">
+                    <div class="row">
+                        <div class="form-group col-12 ">
+                            <input type="email" class="form-control" name="email" id="email" value="{{email|string}}"
+                                   placeholder="البريد الإلكتروني">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button type="submit" name="vie7" class="btn btn-primary col-2">التالي</button>
+                    </div>
+                </form>
+                <div class="back"><a href="/vie/6/"><img id="back-arrow" src="/static/images/back.png" alt=""></a>
+                </div>
+            </div>
+            <div class="pop_pres" style="display: flex">
+
+                <form action="#" method="post">
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="content">
+                        <h4 style="margin-top: 30px;font-size: 1rem">عندك كونت قديم ؟</h4>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-12 ">
+                            <input type="email" class="form-control" name="email" id="e-mail"
+                                   placeholder="بريدك الالكتروني">
+                        </div>
+                    </div>
+                    <div class="row" style="position: relative">
+                        <div class="form-group col-12 ">
+                            <input type="password" class="form-control" name="password" id="password"
+                                   placeholder="كلمة السّر">
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top: 15px">
+                        <div class="g-recaptcha" data-sitekey="6LfBg8MZAAAAANGW1yEb9v12b-qbpmMvgSmOd_Tj" data-action='submit'></div>
+                    </div>
+                    <button type="submit" name="vie7b" class="btn">دخول</button>
+                </form>
+            </div>
+            {% else %}{% if lang=="fr" %}
+                <div class="french container-fluid">
+                    <div class="content">
+                        <h1 class="center-text">Entrez votre e-mail</h1>
+                    </div>
+                    <form class="first_form" method="post" action="#">
+                        <div class="row">
+                            <div class="form-group col-12 ">
+                                <input type="email" class="form-control" name="email" id="email" value="{{email|string}}"
+                                       placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button type="submit" name="vie7" class="btn btn-primary col-2">Suivant</button>
+                        </div>
+                    </form>
+                    <div class="back"><a href="/vie/6/"><img id="back-arrow" src="/static/images/back.png" alt=""></a>
+                    </div>
+
+                </div>
+                <div class="pop_pres" style="display: flex">
+
+                    <form action="#" method="post">
+                        <button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="content">
+                            <h4 style="margin-top: 30px;font-size: 1rem">Vous avez déja un compte ?</h4>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-12 ">
+                                <input type="email" class="form-control" name="email" id="e-mail"
+                                       placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="row" style="position: relative">
+                            <div class="form-group col-12 ">
+                                <input type="password" class="form-control" name="password" id="password"
+                                       placeholder="Mot de passe">
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top: 15px">
+                            <div class="g-recaptcha" data-sitekey="6LfBg8MZAAAAANGW1yEb9v12b-qbpmMvgSmOd_Tj" data-action='submit'></div>
+                        </div>
+                        <button type="submit" name="vie7b" class="btn">Connecter</button>
+
+                        <!--        <button type="submit" name="code_form" class="btn">Send</button>-->
+                    </form>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endblock %}
+{% block scripts %}
+    <script>
+        $('.pop_pres .close').on('click', function () {
+            $('.pop_pres').css('display', 'none');
+        })
+    </script>
+{% endblock %}

@@ -699,6 +699,15 @@
                     y.appendChild(option);
                 }
             }
+            if (op == "ssangyong") {
+                y.innerHTML = ''
+                for (var i = 0; i < ssangyong_array.length; i++) {
+                    var option = document.createElement("OPTION");
+                    text = document.createTextNode(ssangyong_array[i]);
+                    option.appendChild(text);
+                    y.appendChild(option);
+                }
+            }
             if (op == "bm") {
                 y.innerHTML = ''
                 for (var i = 0; i < bm_array.length; i++) {

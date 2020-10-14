@@ -38,29 +38,6 @@
         .card-footer {
             border-top: 3px solid rgb(232 27 46);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </style>
 {% endblock %}
 {% block dropdown %}
@@ -74,15 +51,15 @@
     {% if lang == "en" %}
         <a href="/home/english">Home</a>
         <a href="/aboutus">About Us</a>
-        <a href="/login/{{ lang }}">My account</a>
+        <a href="/home/english">Logout</a>
         {% else %}{% if lang =="ar" %}
             <a href="/home/arabe">الرئيسية</a>
             <a href="/aboutus">معلومات</a>
-            <a href="/login/{{ lang }}">حسابي</a>
+            <a href="/clear">خروج</a>
             {% else %}{% if lang=="fr" %}
                 <a href="/home/french">Acceuil</a>
                 <a href="/aboutus">Informations</a>
-                <a href="/login/{{ lang }}">Mon compte</a>
+                <a href="/home/french">Deconnexion</a>
             {% endif %}
         {% endif %}
     {% endif %}
@@ -97,7 +74,7 @@
             <a href="/aboutus">About Us </a>
         </li>
         <li class="pull-right">
-            <a href="/login/english">My account</a>
+            <a href="/home/english">Logout</a>
         </li>
         <li class="pull-right">
             <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
@@ -122,7 +99,7 @@
                 <a href="/aboutus">Informations</a>
             </li>
             <li class="pull-right">
-                <a href="/login/french">Mon compte</a>
+                <a href="/home/french">Deconnexion</a>
             </li>
             <li class="pull-right">
                 <div class="dropdown show">
@@ -147,7 +124,7 @@
                     <a class="arab" href="/about/arabe">معلومات </a>
                 </li>
                 <li class="pull-right">
-                    <a href="/login/{{lang}}">حسابي</a>
+                    <a href="/clear">خروج</a>
                 </li>
                 <li class="pull-right">
                     <!--            <a href="#">Ar <i class="tunisia flag"></i></a>-->
