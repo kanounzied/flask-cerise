@@ -313,7 +313,6 @@ def sendPDFv(receiver_mail,pdf, text):
 
     with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
         server.login("artzy.proj@gmail.com", password)
-<<<<<<< HEAD
         # print('connected!')
         server.sendmail(sender_mail, receiver_mail, message.as_string())
         # print('message sent!')
@@ -394,8 +393,6 @@ def sendPDFc(receiver_mail,pdf, text):
     with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
         server.login("artzy.proj@gmail.com", password)
         # print('connected!')
-=======
         print('connected!')
->>>>>>> 2576d99ed20d65c20b1c88b868c36e52059dbe99
         server.sendmail(sender_mail, receiver_mail, message.as_string())
         print('message sent!')

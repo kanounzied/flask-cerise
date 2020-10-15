@@ -434,6 +434,7 @@ def signup(nbr, lang):
             session.get('client')['tel_num'] = tel
             session.get('client')['cin'] = cin
             session.get('client')['adresse'] = aptunit + ' ' + rue + ', ' + adresse
+            session.get('client')['code-postal'] = Adresse.find_one({'adresse': adresse})['code_postal']
             session['form14'] = 'submitted'
     if session == {'_permanent': True} and int(nbr) > 1:  # if session vide wenti moch fel page 1
         return redirect("/signup/1/" + lang)
@@ -1461,6 +1462,7 @@ def voiture(nbr, lang):
             session.get('client')['tel_num'] = tel
             session.get('client')['cin'] = cin
             session.get('client')['adresse'] = aptunit + ' ' + rue + ', ' + adresse
+            session.get('client')['code-postal'] = Adresse.find_one({'adresse': adresse})['code_postal']
             session['vform11'] = 'submitted'
 
     if session == {'_permanent': True} and int(nbr) > 1:  # if session vide wenti moch fel page 1
@@ -2229,6 +2231,7 @@ def vie7(nbr):
         session.get('client')['tel_num'] = tel
         session.get('client')['cin'] = cin
         session.get('client')['adresse'] = aptunit + ' ' + rue + ', ' + adresse
+        session.get('client')['code-postal'] = Adresse.find_one({'adresse': adresse})['code_postal']
         session['vie9form'] = 'submitted'
         return redirect('/vie/7/10/', code=307)
     data = list([])
