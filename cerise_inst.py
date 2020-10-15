@@ -3039,11 +3039,8 @@ def getit():
     # config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
     getthat = collection.find_one({"_id": session['reportid']})
     insured_A = Client.find_one({"_id": getthat['insured_A']})
-    contrat_cl = Contrat.find_one({"client_id": getthat['insured_A']})
-    prop_A = Propriete.find_one({"_id": contrat_cl['prop_id']})
-    adrins_A = Adresse.find_one({"_id": prop_A['adr_id']})
-    insured_A_adr = adrins_A['adresse'] + ',' + prop_A['apt_unit'] + ',' + prop_A['rue']
-    insured_A_pos=adrins_A['code_postal']
+    insured_A_adr = insured_A['adresse']
+    insured_A_pos=insured_A['code-postal']
     nbcurc_a = getthat['circumstances_A'].count(";")
     with open('static/public/'+session["accident_sketch"], 'rb') as image_file:
             sketch = base64.b64encode(image_file.read())
