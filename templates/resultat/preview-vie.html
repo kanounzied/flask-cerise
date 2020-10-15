@@ -1498,6 +1498,7 @@
 
         var show = document.querySelector(".monthan .show");
         var price = document.querySelector("#backgroung-merged2 > div > div.shape > price");
+        var smallprice = document.querySelector("#backgroung-merged2 > div > div.shape > small");
         var pr = document.querySelector("#sandbox-container > button > tag");
         pr.textContent = pp +' '+document.querySelector("#backgroung-merged2 > div > div.shape > price").textContent +' '+ document.querySelector("#backgroung-merged2 > div > div.shape > small").textContent;
 
@@ -1513,6 +1514,7 @@
             show.innerHTML = monthly.toUpperCase();
             show.style.boxShadow = "7px 0 8px -4px #733838";
             price.textContent = {{(price/12)|int}} +dt ;
+            smallprice.textContent = permonth ;
             var p = {{(price/12)|int}} ;
             pr.textContent = pp+' '+ p +' '+ dt +' '+ monthly ;
 
@@ -1527,6 +1529,7 @@
             show.innerHTML = annual.toUpperCase();
             show.style.boxShadow = "-7px 0 8px -4px #733838";
             price.textContent = {{price|int}} + dt;
+            smallprice.textContent = annual;
             var p = {{price|int}} ;
             pr.textContent = pp+' '+p +' '+ dt +' '+ annual ;
 

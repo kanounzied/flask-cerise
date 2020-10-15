@@ -38,6 +38,7 @@ def load(client, propriete, adresse):
             'cin': client['cin'],
             'tel_num': client['tel_num'],
             'date_de_naissance': client['date_de_naissance'],
+            'adresse': client['adresse'],
             'type_famille': client['type_famille'],
             'password': client['password'],
             'confirmed': client['confirmed']
@@ -164,6 +165,7 @@ def loadAuto(client, voiture, garantie):
                 'cin': session.get('client')['cin'],
                 'tel': session.get('client')['tel_num'],
                 'date_de_naissance': session.get('client')['date_de_naissance'],
+                'adresse': session.get('client')['adresse'],
                 'password': session.get('client')['password'],
                 'confirmed': session.get('client')['confirmed']
                  

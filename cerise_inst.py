@@ -159,14 +159,10 @@ def signup(nbr, lang):
                                        error=champerr)
 
             tab = adresse.split(',')
-            alladdres = Adresse.find({})
             if len(tab) != 3:
                 return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        data=data,
                                        error=adresserr)
-            # rue = tab[0].strip()
-            # ville = tab[1].strip()
-            # gouv = tab[2].strip()
             adresseObj = Adresse.find_one(
                 {
                     'adresse': adresse
@@ -369,8 +365,8 @@ def signup(nbr, lang):
                 champerr = 'الرجاء ملء جميع المعطيات'
             if req.get('email') != '':
                 client = Client.find_one({'email': req['email']})
-                session['clid'] = client['_id']
                 if client:
+                    session['clid'] = client['_id']
                     a = verify_password(client['password'], req.get('password'))
                     if a:
                         pwd = req.get('password')
@@ -409,12 +405,35 @@ def signup(nbr, lang):
             tel = req.get('tel')
             cin = req.get('cin')
             birth = req.get('birth')
-            if birth == "" or tel == "" or cin == "":
+            adresse = req.get('adresse')
+            rue = req.get('rue')
+            aptunit = req.get('apt-unit')
+            data = list([])
+            cursor = Adresse.find({})
+            for doc in cursor:  # préparer les adresses de la bd pour la template
+                data.append(doc['adresse'])
+            if birth == "" or tel == "" or cin == "" or adresse == "" or aptunit == "" or rue == "":
                 return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       data=data,
                                        error=champerr)
+            tab = adresse.split(',')
+            if len(tab) != 3:
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       data=data,
+                                       error=adresserr)
+            adresseObj = Adresse.find_one(
+                {
+                    'adresse': adresse
+                }
+            )
+            if adresseObj is None:
+                return render_template("signups/signUp" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
+                                       data=data,
+                                       error=adrnotfound)
             session.get('client')['date_de_naissance'] = birth
             session.get('client')['tel_num'] = tel
             session.get('client')['cin'] = cin
+            session.get('client')['adresse'] = aptunit + ' ' + rue + ', ' + adresse
             session['form14'] = 'submitted'
     if session == {'_permanent': True} and int(nbr) > 1:  # if session vide wenti moch fel page 1
         return redirect("/signup/1/" + lang)
@@ -610,8 +629,8 @@ def login(lang):
         req = request.form
         if req.get('email') != '':
             client = Client.find_one({'email': req['email']})
-            session['clid'] = client['_id']
             if client:
+                session['clid'] = client['_id']
                 a = verify_password(client['password'], req['password'])
                 if a:
                     if recaptcha.verify():
@@ -622,7 +641,7 @@ def login(lang):
                         nbr_conts = 0
                         if 'contrats' in client and len(client['contrats']) > 0: nbr_conts += len(client['contrats'])
                         if 'contratsV' in client and len(client['contratsV']) > 0: nbr_conts += len(client['contratsV'])
-                        # if 'contrats_vie' in client and len(client['contrats_vie'])>0: nbr_conts += len(client['contrats_vie'])
+                        if 'contrats_vie' in client and len(client['contrats_vie'])>0: nbr_conts += len(client['contrats_vie'])
                         if nbr_conts == 1:
                             if 'contrats' in client and len(client['contrats']) == 1 and 'paid' not in Contrat.find_one(
                                     {'_id': client['contrats'][0]}):
@@ -1366,8 +1385,8 @@ def voiture(nbr, lang):
                 champerr = 'الرجاء ملء جميع المعطيات'
             if req.get('email') != '':
                 client = Client.find_one({'email': req['email']})
-                session['clid'] = client['_id']
                 if client:
+                    session['clid'] = client['_id']
                     a = verify_password(client['password'], req.get('password'))
                     if a:
                         pwd = req.get('password')
@@ -1410,13 +1429,38 @@ def voiture(nbr, lang):
             tel = req.get('tel')
             cin = req.get('cin')
             birth = req.get('birth')
-            if birth == "" or tel == "" or cin == "":
+            adresse = req.get('adresse')
+            rue = req.get('rue')
+            aptunit = req.get('apt-unit')
+            data = list([])
+            cursor = Adresse.find({})
+            for doc in cursor:  # préparer les adresses de la bd pour la template
+                data.append(doc['adresse'])
+            if birth == "" or tel == "" or cin == "" or adresse == '' or rue == "" or aptunit == "":
                 return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
                                        lang=lang,
+                                       data=data,
                                        error=champerr)
+            tab = adresse.split(',')
+            if len(tab) != 3:
+                return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
+                                       lang=lang,
+                                       data=data,
+                                       error='address not in data base!')
+            adresseObj = Adresse.find_one(
+                {
+                    'adresse': adresse
+                }
+            )
+            if adresseObj is None:
+                return render_template("voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
+                                       lang=lang,
+                                       data=data,
+                                       error='address not in data base!')
             session.get('client')['date_de_naissance'] = birth
             session.get('client')['tel_num'] = tel
             session.get('client')['cin'] = cin
+            session.get('client')['adresse'] = aptunit + ' ' + rue + ', ' + adresse
             session['vform11'] = 'submitted'
 
     if session == {'_permanent': True} and int(nbr) > 1:  # if session vide wenti moch fel page 1
@@ -1700,7 +1744,7 @@ def payV(lang):
         pdf = pdfkit.from_string(rendered, False, css=css)
         sendPDF(client['email'], pdf, text_client, 'voiture')
         sendPDF('henimaher@gmail.com', pdf, text_societe, 'voiture')
-        sendPDF('kallel.beya@gmail.com', pdf, text_societe, 'voiture')
+        # sendPDF('kallel.beya@gmail.com', pdf, text_societe, 'voiture')
         Contrat_voiture.update_one({'garantie_id': garantie['_id']}, {"$set": {'paid': True}})
         session['done'] = True
         session['client'] = client
@@ -1726,6 +1770,7 @@ def generatevoiture():
                                contratv=contratv)
     css = ['./templates/contrat/contrat.css', './templates/contrat/bootstrap.min.css']
     pdf = pdfkit.from_string(rendered, False, css=css)
+
     sendPDF('zied.kanoun6@gmail.com', pdf, 'test pdf 12 12 12', 'voiture')
     sendPDF('henimaher@gmail.com', pdf, 'test pdf 12 12 12', 'voiture')
     response = make_response(pdf)
@@ -1960,9 +2005,6 @@ def vie55():
     return render_template('vie/vie55.html', lang=session['lang'], error=error)
 
 
-import magic
-
-
 @app.route('/vie/6/', methods=['POST', 'GET'])
 def vie6():
     session_lang()
@@ -2024,9 +2066,9 @@ def vie7(nbr):
                 'email': session.get('client')['email'],
             })
             if dbclient is None:
-                client = Client.insert_one({
+                client = Client.insert_one(
                     session['client']
-                })
+                )
                 client_id = client.inserted_id
             else:
                 client = dbclient
@@ -2104,8 +2146,8 @@ def vie7(nbr):
             champerr = 'الرجاء ملء جميع المعطيات'
         if req.get('email') != '':
             client = Client.find_one({'email': req['email']})
-            session['clid'] = client['_id']
             if client:
+                session['clid'] = client['_id']
                 a = verify_password(client['password'], req.get('password'))
                 if a:
                     pwd = req.get('password')
@@ -2143,24 +2185,55 @@ def vie7(nbr):
                                    error=pwdregex)
         session.get('client')['password'] = hash_password(pwd)
         session['vie8form'] = 'submitted'
-        return render_template('vie/vie9.html', lang=lang)
+        data = list([])
+        cursor = Adresse.find({})
+        for doc in cursor:  # préparer les adresses de la bd pour la template
+            data.append(doc['adresse'])
+        return render_template('vie/vie9.html', lang=lang, data=data)
     if 'vie9' in req:
         if 'vie8form' not in session:
             return render_template('vie/vie8.html', lang=lang)
         tel = req.get('tel')
         cin = req.get('cin')
         birth = req.get('birth')
-        if birth == "" or tel == "" or cin == "":
+        adresse = req.get('adresse')
+        rue = req.get('rue')
+        aptunit = req.get('apt-unit')
+        data = list([])
+        cursor = Adresse.find({})
+        for doc in cursor:  # préparer les adresses de la bd pour la template
+            data.append(doc['adresse'])
+        if birth == "" or tel == "" or cin == "" or adresse == "" or rue == "" or aptunit == "":
             return render_template("vie/vie9.html", nbr=9, lang=lang,
+                                   data=data,
                                    error=champerr)
+        tab = adresse.split(',')
+        if len(tab) != 3:
+            return render_template("vie/vie9.html", nbr=9, lang=lang,
+                                   data=data,
+                                   error='address not in data base!')
+        adresseObj = Adresse.find_one(
+            {
+                'adresse': adresse
+            }
+        )
+        if adresseObj is None:
+            return render_template("vie/vie9.html", nbr=9, lang=lang,
+                                   data=data,
+                                   error='address not in data base!')
         session.get('client')['date_de_naissance'] = birth
         session.get('client')['tel_num'] = tel
         session.get('client')['cin'] = cin
+        session.get('client')['adresse'] = aptunit + ' ' + rue + ', ' + adresse
         session['vie9form'] = 'submitted'
         return redirect('/vie/7/10/', code=307)
+    data = list([])
+    cursor = Adresse.find({})
+    for doc in cursor:  # préparer les adresses de la bd pour la template
+        data.append(doc['adresse'])
     if int(nbr) == 7: return render_template('vie/vie7.html', lang=lang, error=error)
     if int(nbr) == 8: return render_template('vie/vie8.html', lang=lang, error=error)
-    if int(nbr) == 9: return render_template('vie/vie9.html', lang=lang, error=error)
+    if int(nbr) == 9: return render_template('vie/vie9.html', lang=lang, data=data, error=error)
     return render_template('vie/vie6.html', lang=session['lang'], error=error)
 
 
@@ -2235,11 +2308,10 @@ def generatevie():
     text_societe = "this is the contract of the client : " + session['client']['prenom'] + ' ' + session['client']['nom'] + " with the id " \
                    + str(session['client_id_vie']) + " : <br>this contract is paid"
     client = dict()
-    client['email'] = 'zied.kanoun6@gmail.com'
-
+    client = session.get('client')
     with open('contrat.pdf', "rb") as attachment:
         sendPDF(client['email'], attachment.read(), text_client, 'vie')
-        sendPDF('maher.heni@gmail.com', attachment.read(), text_societe, 'vie')
+        sendPDF('henimaher@gmail.com', attachment.read(), text_societe, 'vie')
     return send_file('contrat.pdf',
                      mimetype='application/pdf', )
 
@@ -2512,11 +2584,8 @@ def addreport(nbr,lang):
             session['form111'] = 'submitted'
         if 'form111b' in req:
             if "clid" in session:
-                driver= Client.find_one({"_id":session["clid"]})
-                contrat_cl = Contrat.find_one({"client_id":session['clid']})
-                prop_A = Propriete.find_one({"_id":contrat_cl['prop_id']})
-                adrins_A = Adresse.find_one({"_id":prop_A['adr_id']})
-                insured_A_adr= adrins_A['adresse']+','+prop_A['apt_unit']+','+prop_A['rue']
+                driver = Client.find_one({"_id": session["clid"]})
+                insured_A_adr = driver['adresse']
             else:
                 return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        data=data,
@@ -2934,35 +3003,39 @@ def addreport(nbr,lang):
                     "available_until":session["validp_b"]
                 },
                 "shock_point_car_B":session["chocpt_b"],
-                "damage_apparent_B":session["appdamage_b"],
-                "observations_B":session["obs_b"],
-                "circumstances_A":curc_a,
-                "circumstances_B":curc_b,
-                "accident_sketch":session["accident_sketch"]
+                "damage_apparent_B": session["appdamage_b"],
+                "observations_B": session["obs_b"],
+                "circumstances_A": curc_a,
+                "circumstances_B": curc_b,
+                "accident_sketch": session["accident_sketch"]
             }
-        #----------------badel el collection bech 7atit--------------------------------------------------------
+        # ----------------badel el collection bech 7atit--------------------------------------------------------
         report = collection.insert_one(exp)
         session['reportid'] = report.inserted_id
         return redirect(url_for("getit"))
-    if nbr=="8":
+    if nbr == "8":
+        if 'clid' not in session:
+            return render_template('confirm/login.html', lang=lang, carreport=True)
         vehicles = Voiture.find({
-            "client_id":session["clid"]
+            "client_id": session["clid"]
         })
-        return render_template("/constat_form/addreport"+nbr+".html",lang=lang,
-                               nbr=nbr,acctype=session.get('acctype'),data=data,vehicles=vehicles)
-    return render_template("/constat_form/addreport"+nbr+".html",lang=lang,
-                           nbr=nbr,acctype=session.get('acctype'),data=data)
-#----------------end-----------------------------------------------------------------------------------
+        return render_template("/constat_form/addreport" + nbr + ".html", lang=lang,
+                               nbr=nbr, acctype=session.get('acctype'), data=data, vehicles=vehicles)
+    return render_template("/constat_form/addreport" + nbr + ".html", lang=lang,
+                           nbr=nbr, acctype=session.get('acctype'), data=data)
+
+
+# ----------------end-----------------------------------------------------------------------------------
 @app.route("/getit/", methods=["GET"])
 def getit():
-    #path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-    #config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
-    getthat = collection.find_one({"_id":session['reportid']})
-    insured_A = Client.find_one({"_id":getthat['insured_A']})
-    contrat_cl = Contrat.find_one({"client_id":getthat['insured_A']})
-    prop_A = Propriete.find_one({"_id":contrat_cl['prop_id']})
-    adrins_A = Adresse.find_one({"_id":prop_A['adr_id']})
-    insured_A_adr= adrins_A['adresse']+','+prop_A['apt_unit']+','+prop_A['rue']
+    # path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+    # config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+    getthat = collection.find_one({"_id": session['reportid']})
+    insured_A = Client.find_one({"_id": getthat['insured_A']})
+    contrat_cl = Contrat.find_one({"client_id": getthat['insured_A']})
+    prop_A = Propriete.find_one({"_id": contrat_cl['prop_id']})
+    adrins_A = Adresse.find_one({"_id": prop_A['adr_id']})
+    insured_A_adr = adrins_A['adresse'] + ',' + prop_A['apt_unit'] + ',' + prop_A['rue']
     insured_A_pos=adrins_A['code_postal']
     nbcurc_a = getthat['circumstances_A'].count(";")
     with open('static/public/'+session["accident_sketch"], 'rb') as image_file:
@@ -2971,21 +3044,23 @@ def getit():
             ske = skett[2:-1]
     client = session.get('client')
     if session['acctype']=="one":
-        rendered = render_template("constat/constat1pdf.html",report=getthat,nba=nbcurc_a,
-                               insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos,sketch=ske)
+        rendered = render_template("constat/constat1pdf.html", report=getthat, nba=nbcurc_a,
+                                   insured_A=insured_A, ins_A_adr=insured_A_adr, ins_A_pos=insured_A_pos, sketch=ske)
         css = ['./templates/constat/constat.css']
-        pdf = pdfkit.from_string(rendered, False,css=css)
-        sendPDFc(client['email'], pdf, 'Here is your report')
-        return render_template("/constat_form/constatvoitureone.html",report=getthat,nba=nbcurc_a,
-                               insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos)
+        pdf = pdfkit.from_string(rendered, False, css=css)
+        sendPDF(client['email'], pdf, 'Here is your car report', 'car report')
+        sendPDF('henimaher@gmail.com', pdf, 'Here is your car report', 'car report')
+        return render_template("/constat_form/constatvoitureone.html", report=getthat, nba=nbcurc_a,
+                               insured_A=insured_A, ins_A_adr=insured_A_adr, ins_A_pos=insured_A_pos)
     nbcurc_b = getthat['circumstances_B'].count(";")
-    rendered = render_template("constat/constat2pdf.html",report=getthat,nba=nbcurc_a,nbb=nbcurc_b,
-                           insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos)
+    rendered = render_template("constat/constat2pdf.html", report=getthat, nba=nbcurc_a, nbb=nbcurc_b,
+                               insured_A=insured_A, ins_A_adr=insured_A_adr, ins_A_pos=insured_A_pos)
     css = ['./templates/constat/constat.css']
-    pdf = pdfkit.from_string(rendered, False,css=css)
-    sendPDFc(client['email'], pdf, 'Here is your report')
-    return render_template("/constat_form/constat_voiture.html",report=getthat,nba=nbcurc_a,nbb=nbcurc_b,
-                           insured_A=insured_A,ins_A_adr=insured_A_adr,ins_A_pos=insured_A_pos)
+    pdf = pdfkit.from_string(rendered, False, css=css)
+    sendPDF(client['email'], pdf, 'Here is your car report', 'car report')
+    sendPDF('henimaher@gmail.com', pdf, 'Here is your car report', 'car report')
+    return render_template("/constat_form/constat_voiture.html", report=getthat, nba=nbcurc_a, nbb=nbcurc_b,
+                           insured_A=insured_A, ins_A_adr=insured_A_adr, ins_A_pos=insured_A_pos)
 
 
 # ------------------------------------------------------------------end---------------------------------------------------

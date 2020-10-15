@@ -5,6 +5,7 @@ class Client_:
         self.cin = 0
         self.tel_num = 00000000
         self.e_mail = ""
+        self.adresse = ""
         self.password = ""
         self.cin = 00000000
         self.date_de_naissance = ""
