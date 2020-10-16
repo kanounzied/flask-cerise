@@ -2640,10 +2640,9 @@ def addreport(nbr,lang):
             lname_b=req.get('lname')
             adress_b=req.get('adress')
             rue_b=req.get('rue')
-            country_b=req.get('country')
             email_b=req.get('email')
             tel_b=req.get('tel')
-            if name_b=="" or adress_b=="" or country_b=="" or rue_b=="":
+            if name_b=="" or lname_b=="" or adress_b=="" or rue_b=="":
                 return render_template("/constat_form/addreport" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1, lang=lang,
                                        error=champerr,data=data)
             if email_b=="" and tel_b=="":
@@ -2663,7 +2662,7 @@ def addreport(nbr,lang):
             session["lname_b"]=lname_b
             session["adress_b"]=adress_b+','+rue_b
             session["codep_b"]=adresse['code_postal']
-            session["country_b"]=country_b
+            session["country_b"]='tunisia'
             session["email_b"]=email_b
             session["tel_b"]=tel_b
             session['form115'] = 'submitted'
