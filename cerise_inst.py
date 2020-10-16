@@ -1148,15 +1148,7 @@ def voiture(nbr, lang):
                                        error=champerr)
             if lang == 'arabe':
                 word = matricule.split(" ")
-                if word[0] == matricule:
-                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                           lang=lang,
-                                           error=champwrg5)
-                if len(word[0]) > 3:
-                    return render_template("/voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
-                                           lang=lang,
-                                           error=champwrg6)
-                if len(word[0]) < 2:
+                if len(word[0]) > 3 or len(word[0]) < 2:
                     return render_template("/voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
                                            lang=lang,
                                            error=champwrg6)
@@ -1202,7 +1194,7 @@ def voiture(nbr, lang):
                         return render_template("/voiture/register/voiture" + str(int(nbr) - 1) + ".html",
                                                nbr=int(nbr) - 1, lang=lang,
                                                error=champwrg5)
-                if word[1] != 'TUN':
+                if word[1] not in ['تونس', 'tun', 'TUN']:
                     print('bbb')
                     return render_template("/voiture/register/voiture" + str(int(nbr) - 1) + ".html", nbr=int(nbr) - 1,
                                            lang=lang,
@@ -1511,8 +1503,11 @@ def voiture(nbr, lang):
 
     if int(nbr) > 9 and session.get('client')['confirmed'] == False:
         return render_template('confirm/confirm.html', confirmed=False, error=verify, lang=lang)
-
-    return render_template("voiture/register/voiture" + nbr + ".html", nbr=nbr, lang=lang)
+    data = list([])
+    cursor = Adresse.find({})
+    for doc in cursor:  # préparer les adresses de la bd pour la template
+        data.append(doc['adresse'])
+    return render_template("voiture/register/voiture" + nbr + ".html", nbr=nbr,data=data, lang=lang)
 
 
 @app.route("/previewvoiture/<lang>", defaults={'index': '0'})
@@ -1546,7 +1541,7 @@ def previewV(lang, index):
                                voiture=voiture
                                )
     else:
-        client = Client.find_one({'_id': session.get('client')['_id']})
+        client = Client.find_one({'_id': session.get('clid')})
         info = list([])
         # print('contrats', client['contrats'])
         for cont in client['contratsV']:
@@ -3071,4 +3066,4 @@ def getit():
 ############### end of 5edma ##############
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host ='0.0.0.0')

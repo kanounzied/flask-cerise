@@ -163,12 +163,11 @@ def loadAuto(client, voiture, garantie):
                 'nom': session.get('client')['nom'],
                 'email': session.get('client')['email'],
                 'cin': session.get('client')['cin'],
-                'tel': session.get('client')['tel_num'],
+                'tel_num': session.get('client')['tel_num'],
                 'date_de_naissance': session.get('client')['date_de_naissance'],
                 'adresse': session.get('client')['adresse'],
                 'password': session.get('client')['password'],
                 'confirmed': session.get('client')['confirmed']
-                 
             })
         client_id = client.inserted_id
     else: 

@@ -1062,16 +1062,8 @@
             url: '/vars_voiture',
             type: 'POST',
             data: {
-        //        deductible: parseInt($('#sel1').val().replace('dt', '')),
-        //        properties: parseInt($('#properties').children('.value').children().text().replace('dt', '')),
                 car_damaged: parseInt($('#car_damaged').children('.value').children().text().replace('dt', '')),
                 medical: parseInt($('#medical').children('.value').children().text().replace('dt', '')),
-        //        house_loss: parseInt($('#house_loss').children('.value').children().text().replace('dt', '')),
-        //        jewelry: jewelry,
-        //        fineart: fineart,
-        //        bikes: bikes,
-        //        cameras: cameras,
-        //        instruments: instruments,
             },
             beforeSend: function () {
                 $('#preloader').show();

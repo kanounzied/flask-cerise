@@ -180,7 +180,6 @@
     function phoneNumber(evt) {
         // Only ASCII charactar in that range allowed
         var ASCIICode = evt.which
-        console.log(ASCIICode);
         if ((ASCIICode !== 43) && (ASCIICode !== 32) && (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)))
             return false;
         return true;
@@ -188,7 +187,6 @@
     function cinNumber(evt) {
         // Only ASCII charactar in that range allowed
         var ASCIICode = evt.which
-        console.log(ASCIICode);
         if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
             return false;
         return true;
