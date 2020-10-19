@@ -676,6 +676,13 @@ def login(lang):
                                                        done=done,
                                                        voiture=voiture
                                                        )
+                            if 'contrats_vie' in client and len(
+                                    client['contrats_vie']) == 1 and 'paid' not in Contrat_vie.find_one(
+                                {'_id': client['contrats_vie'][0]}):
+                                print('salem')
+                                done = False  # pour afficher la page de preload
+                                if 'done' in session:
+                                    done = True
                             error = 'all of your contracts are paid'
                         else:
                             session['apt_id'] = 'multiple'
@@ -1750,7 +1757,10 @@ def payV(lang):
                        + str(session.get('client_id')) + " : <br>this contract is paid"
         text_client = "you have just paid your contract for"  # +str(session.get('price_voiture')['year_price'])
         garantie = Garantie.find_one({'_id': session.get('garid')})
-        contratv = Contrat_voiture.find_one({'_id': session.get('contv_id')})
+        if 'contv_id' in session:
+            contratv = Contrat_voiture.find_one({'_id': session.get('contv_id')})
+        else:
+            contratv = session.get('contratv')
         print('beyaaaaaaa')
         print(contratv)
         rendered = render_template('contrat_voiture/contrat_voiture.html',
@@ -1762,14 +1772,15 @@ def payV(lang):
         sendPDF(client['email'], pdf, text_client, 'voiture')
         sendPDF('henimaher@gmail.com', pdf, text_societe, 'voiture')
         sendPDF('kallel.beya@gmail.com', pdf, text_societe, 'voiture')
-        Contrat_voiture.update_one({'_id': session.get('contv_id') },{"$set": {'paid': True}})
+        Contrat_voiture.update_one({'_id': contratv['_id'] },{"$set": {'paid': True}})
         session['done'] = True
         session['client'] = client
         session['void'] = 'multiple'
         session['voiture'] = 'multiple'
         session['contrat'] = 'multiple'
         session['finished'] = True
-    return redirect("/previewvoiture/" + lang)
+    # return redirect("/previewvoiture/" + lang)
+    return redirect("/preview/" + lang)
 
 
 from flask import make_response
@@ -2092,7 +2103,7 @@ def vie7(nbr):
                 client_id = client['_id']
             client = Client.find_one({'_id': client_id})
             sant = Sante.insert_one({
-                'adresse': session['adresse'],
+                 'adresse': session['adresse'],
                  'code': session['code'],
                  'sex': session['sex'],
                  'age': session['age'],
@@ -2113,12 +2124,12 @@ def vie7(nbr):
                     'prix': formule(int(session['salary']), int(session['debt']), int(session['age']))
                 })
             Sante.update_one({'_id': sant.inserted_id},{'$set': {'contrat_id': cnt_v.inserted_id}})
-            if 'contratsVie' in client:
-                contab = client['contratsVie']
+            if 'contrats_vie' in client:
+                contab = client['contrats_vie']
                 contab.append(cnt_v.inserted_id)
             else :
                 contab = list([cnt_v.inserted_id])
-            Client.update_one({'_id': client_id}, {'$set': {'contratsVie': contab}})
+            Client.update_one({'_id': client_id}, {'$set': {'contrats_vie': contab}})
             session['client_id_vie'] = client_id
             print(session['adresse'])
             return redirect(url_for('result', lang=session['lang']))
