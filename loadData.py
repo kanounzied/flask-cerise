@@ -1,6 +1,5 @@
 import binascii, hashlib, os
 import datetime
-import math
 from db_maker import *
 
 
@@ -39,6 +38,7 @@ def load(client, propriete, adresse):
             'tel_num': client['tel_num'],
             'date_de_naissance': client['date_de_naissance'],
             'adresse': client['adresse'],
+            'code-postal': client['code-postal'],
             'type_famille': client['type_famille'],
             'password': client['password'],
             'confirmed': client['confirmed']
@@ -166,6 +166,7 @@ def loadAuto(client, voiture, garantie):
                 'tel_num': session.get('client')['tel_num'],
                 'date_de_naissance': session.get('client')['date_de_naissance'],
                 'adresse': session.get('client')['adresse'],
+                'code-postal': session.get('client')['code-postal'],
                 'password': session.get('client')['password'],
                 'confirmed': session.get('client')['confirmed']
             })
