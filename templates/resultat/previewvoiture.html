@@ -1079,9 +1079,9 @@
         
         req.done(function (data) {
             //console.log(data.month_price)
-            var month_price = data.month_price
-            var year_price = data.year_price
-            var year_discount = data.year_discount
+            var month_price = Math.round(parseInt(data.month_price) *100) / 100
+            var year_price = Math.round(parseInt(data.year_price)*100)/100
+            var year_discount = Math.round(parseInt(data.year_discount)*100)/100
             if (($('.month').css('width') === '0px')) {
                 $(".shape price").text( month_price + dt);
                 $(".shape small").text(permonth);
@@ -1124,7 +1124,7 @@
                     $('#pay_button number').text( month_price  )
                     $('#pay_button tag').text(permonth)
                 } else {
-                    $('#pay_button number').text( (year_price - year_discount)   + dt)
+                    $('#pay_button number').text( (Math.round((year_price - year_discount)*100)/100)   + dt)
                     $('#pay_button tag').text(year)
                 }
             })
@@ -1152,15 +1152,15 @@
                         $(".shape small").text(annual + '(-' +  year_discount   + 'dt)');
                         $(".an").text(annual.toUpperCase() + '(-' +  year_discount   + 'dt)');
                         $('.monthan .show').text(annual.toUpperCase() + "(-" +  year_discount   + 'dt)');
-                        $('.pay_button').children('number').text( (year_price - year_discount)   + "dt").parent().children('tag').last().text('');
-                        $('.topnav').children('number').text( (year_price - year_discount)   + "dt").parent().children('tag').last().text('');
+                        $('.pay_button').children('number').text( (Math.round((year_price - year_discount)*100)/100)   + "dt").parent().children('tag').last().text('');
+                        $('.topnav').children('number').text( (Math.round((year_price - year_discount)*100)/100)   + "dt").parent().children('tag').last().text('');
                         {% else %}
                         $(".shape price").text( year_price   + ' دت');
                         $(".shape small").text(annual + '(' +  year_discount   + '- دت)');
                         $(".an").text(annual.toUpperCase() + '(' +  year_discount   + '- دت)');
                         $('.monthan .show').text(annual.toUpperCase() + "(" +  year_discount   + '- دت)');
-                        $('.pay_button').children('number').text( (year_price - year_discount)   + " دت").parent().children('tag').last().text('');
-                        $('.topnav').children('number').text( (year_price - year_discount)   + " دت").parent().children('tag').last().text('');
+                        $('.pay_button').children('number').text( (Math.round((year_price - year_discount)*100)/100)   + " دت").parent().children('tag').last().text('');
+                        $('.topnav').children('number').text( (Math.round((year_price - year_discount)*100)/100)   + " دت").parent().children('tag').last().text('');
                         {% endif %}
                     }
                 })
@@ -1205,22 +1205,22 @@
                     $(".shape small").text(annual + '(-' +  year_discount   + 'dt)');
                     $(".an").text(annual.toUpperCase() + '(-' +  year_discount   + 'dt)');
                     $('.monthan .show').text(annual + "(-" +  year_discount   + 'dt)');
-                    $('.pay_button').children('number').text( (year_price - year_discount)   + "dt");
-                    $('.topnav').children('number').text( (year_price - year_discount)   + "dt");
+                    $('.pay_button').children('number').text( (Math.round((year_price - year_discount)*100)/100)   + "dt");
+                    $('.topnav').children('number').text( (Math.round((year_price - year_discount)*100)/100)   + "dt");
                     $('select discount').text(annual + "(-" +  year_discount   + 'dt)');
                     {% else %}
                     $(".shape price").text( year_price   + ' دت');
                     $(".shape small").text(annual + '(' +  year_discount   + '- دت)');
                     $(".an").text(annual.toUpperCase() + '(' +  year_discount   + '- دت)');
                     $('.monthan .show').text(annual + "(" +  year_discount   + '- دت)');
-                    $('.pay_button').children('number').text( (year_price - year_discount)   + " دت");
-                    $('.topnav').children('number').text( (year_price - year_discount)   + " دت");
+                    $('.pay_button').children('number').text( (Math.round((year_price - year_discount)*100)/100)   + " دت");
+                    $('.topnav').children('number').text( (Math.round((year_price - year_discount)*100)/100)   + " دت");
                     $('select discount').text(annual + "(" +  year_discount   + '- دت)');
                     {% endif %}
                 }
-            
+
             })
-            
+
             //req = $.ajax({
             //    url: '/vars_voiture', // a revenir
             //    type: 'POST',

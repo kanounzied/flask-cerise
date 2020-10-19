@@ -657,12 +657,25 @@ def login(lang):
                                     client['contratsV']) == 1 and 'paid' not in Contrat_voiture.find_one(
                                     {'_id': client['contratsV'][0]}):
                                 contrat = Contrat_voiture.find_one({'_id': client['contratsV'][0]})
-                                apartement = Propriete.find_one({'_id': contrat['prop_id']})
-                                session['apt'] = apartement
-                                session['adr_id'] = apartement['adr_id']
-                                session['contrat'] = contrat
+                                garantie = Garantie.find_one({'_id': contrat['garantie_id']})
+                                session['contratv'] = contrat
+                                session['contv_id'] = contrat['_id']
+                                client_id = client['_id']
+                                voit = Voiture.find_one({'client_id': client_id})
+                                void = voit['_id']
+                                session['garid'] = garantie['_id']
+                                session['garantie'] = garantie
+                                session['void'] = void
                                 session['finished'] = True
-                                return redirect('/previewvoiture/' + lang)
+                                voiture = voit['marq_model'] + " " + voit['matricule']
+                                done = False  # pour afficher la page de preload
+                                if 'done' in session:
+                                    done = True
+                                return render_template("resultat/previewvoiture.html",
+                                                       lang=lang,
+                                                       done=done,
+                                                       voiture=voiture
+                                                       )
                             error = 'all of your contracts are paid'
                         else:
                             session['apt_id'] = 'multiple'
@@ -1607,9 +1620,12 @@ def variableV():
     # client_id = Client.find_one({'email': clmail})['_id']
     # contratv = Contrat_voiture.find({'client_id': client_id})
     # print(contratv)
-    contratv = Contrat_voiture.find_one({'_id': session.get('contv_id')})
-    conid = session.get('contv_id')
-
+    if 'contv_id' in session:
+        contratv = Contrat_voiture.find_one({'_id': session.get('contv_id')})
+    else:
+        contratv = session.get('contratv')
+    conid = contratv['_id']
+    print(conid)
     garid = Contrat_voiture.find_one({'_id': conid})['garantie_id']
     Garantie.update_one(
         {'_id': garid},
