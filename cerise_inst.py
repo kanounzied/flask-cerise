@@ -3062,6 +3062,8 @@ def getit():
     pdf = pdfkit.from_string(rendered, False, css=css)
     sendPDF(client['email'], pdf, 'Here is your car report', 'car report')
     sendPDF('henimaher@gmail.com', pdf, 'Here is your car report', 'car report')
+    if getthat['driver_B']['email']!="":
+        sendPDF(getthat['driver_B']['email'], pdf, 'you have a new car report', 'car report')
     return render_template("/constat_form/constat_voiture.html", report=getthat, nba=nbcurc_a, nbb=nbcurc_b,
                            insured_A=insured_A, ins_A_adr=insured_A_adr, ins_A_pos=insured_A_pos)
 
